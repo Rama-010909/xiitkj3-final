@@ -490,7 +490,9 @@ document.getElementById("uploadGallery").onclick=async()=>{
   for(let i=0;i<valid.length;i++){
    const file=valid[i];
    msg.textContent=`⏳ Mengunggah ${i+1}/${valid.length}: ${file.name}`;
-   const blob=await upload(`gallery/${Date.now()}-${file.name}`,file,{
+   const uniqueName = (globalThis.crypto?.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+   const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+   const blob=await upload(`gallery/${uniqueName}-${safeFileName}`,file,{
     access:"public",
     handleUploadUrl:"/api/gallery-upload",
     multipart:true

@@ -37,3 +37,7 @@ Gallery mutations use query actions on `/api/gallery` because Vercel serverless 
 
 ## Gallery API routing fix
 Gallery mutations use query actions on `/api/gallery` because Vercel serverless file `api/gallery.js` does not automatically handle nested paths such as `/api/gallery/complete`.
+
+
+## v40 fix
+Upload galeri memakai nama file unik untuk mencegah error `This blob already exists`. Manifest galeri menggunakan `allowOverwrite: true`.

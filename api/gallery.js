@@ -40,7 +40,8 @@ async function writeGallery(rows) {
     access: 'public',
     addRandomSuffix: false,
     contentType: 'application/json',
-    cacheControlMaxAge: 0
+    cacheControlMaxAge: 0,
+    allowOverwrite: true
   });
 }
 
@@ -67,7 +68,8 @@ module.exports = async function handler(req, res) {
         request: req,
         onBeforeGenerateToken: async () => ({
           allowedContentTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/avif'],
-          maximumSizeInBytes: 8 * 1024 * 1024
+          maximumSizeInBytes: 8 * 1024 * 1024,
+          addRandomSuffix: true
         }),
         onUploadCompleted: async ({ blob }) => {
           console.log('Gallery upload completed:', blob.pathname);
