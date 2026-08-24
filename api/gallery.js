@@ -1,4 +1,5 @@
-const { put, del, list, handleUpload } = require('@vercel/blob');
+const { put, del, list } = require('@vercel/blob');
+const { handleUpload } = require('@vercel/blob/client');
 
 const DEFAULTS = [1,2,3,4,5,6,7].map(n => ({
   id: `local-${n}`,
@@ -58,13 +59,9 @@ module.exports = async function handler(req, res) {
       // Client-side Vercel Blob upload uses this endpoint only to obtain a short-lived upload token.
       // The actual image bytes go directly from the browser to Blob, so large photos do not pass through the Function.
       const body = req.body || {};
-      const requestForBlob = new Request(`https://${req.headers.host || 'localhost'}${req.url || '/api/gallery/upload'}`, {
-        method: req.method,
-        headers: req.headers
-      });
       const jsonResponse = await handleUpload({
         body,
-        request: requestForBlob,
+        request: req,
         onBeforeGenerateToken: async () => ({
           allowedContentTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/avif'],
           maximumSizeInBytes: 8 * 1024 * 1024

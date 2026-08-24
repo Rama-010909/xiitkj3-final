@@ -485,7 +485,7 @@ document.getElementById("uploadGallery").onclick=async()=>{
  const btn=document.getElementById("uploadGallery");btn.disabled=true;
  try{
   msg.textContent=`⏳ Mengunggah ${valid.length} foto ke Vercel Blob...`;
-  const { upload } = await import("https://esm.sh/@vercel/blob@2.0.0/client");
+  const { upload } = await import("https://esm.sh/@vercel/blob@2.6.1/client");
   const uploaded=[];
   for(let i=0;i<valid.length;i++){
    const file=valid[i];
