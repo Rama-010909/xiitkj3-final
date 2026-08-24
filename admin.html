@@ -100,7 +100,7 @@
 </head><body>
 <header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#data-absensi">Data Absensi</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><button class="logout" id="logout">Keluar</button></header>
 <div id="adminToast" class="admin-toast" role="status"></div><main id="content" class="hidden">
-<section id="dashboard" class="hero"><div class="container"><div class="kicker">ADMINISTRATOR</div><h1>Dashboard <span class="gradient">XII TKJ 3</span></h1><p class="desc">Tampilan admin tetap mengikuti halaman siswa. Perbedaannya: bagian absensi siswa diganti menjadi <b>Data Absensi</b> agar admin bisa memantau kehadiran.</p></div></section>
+<section id="dashboard" class="hero"><div class="container"><div class="kicker">ADMINISTRATOR</div><h1>Dashboard <span class="gradient">XII TKJ 3</span></h1><p class="desc">Selamat Datang Admin. Akses penuh untuk kelola <b>Data Absensi,</b> <b>Struktur,</b> <b>Jadwal,</b> <b>& Galeri Kelas</b></p></div></section>
 <section id="data-absensi"><div class="container">
 <div class="daily-cards">
 <div class="daily-card glass"><div class="date-label" id="dailyLabel">TANGGAL TERPILIH</div><span class="number" id="hadir">0</span><span class="label">Hadir</span></div>
@@ -492,7 +492,7 @@ document.getElementById("uploadGallery").onclick=async()=>{
    msg.textContent=`⏳ Mengunggah ${i+1}/${valid.length}: ${file.name}`;
    const blob=await upload(`gallery/${Date.now()}-${file.name}`,file,{
     access:"public",
-    handleUploadUrl:"/api/gallery/upload",
+    handleUploadUrl:"/api/gallery-upload",
     multipart:true
    });
    uploaded.push(blob);
