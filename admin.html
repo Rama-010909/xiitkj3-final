@@ -459,7 +459,7 @@ async function moveGallery(id,dir){
  [galleryData[i],galleryData[j]]=[galleryData[j],galleryData[i]];
  renderGalleryManager();
  try{
-  await galleryRequest("/api/gallery/reorder",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ids:galleryData.map(x=>x.id)})});
+  await galleryRequest("/api/gallery?action=reorder",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ids:galleryData.map(x=>x.id)})});
   showManagerToast("Urutan galeri diperbarui","Urutan disimpan di Vercel Blob.");
  }catch(e){
   console.error(e);showManagerToast("Gagal mengubah urutan",e.message||"Periksa koneksi Vercel Blob.");loadGallery();
@@ -470,7 +470,7 @@ async function removeGallery(id){
  const x=galleryData.find(v=>v.id===id); if(!x)return;
  if(!confirm(`Hapus foto "${x.name||"Foto"}" dari galeri?`))return;
  try{
-  await galleryRequest(`/api/gallery/${encodeURIComponent(id)}`,{method:"DELETE"});
+  await galleryRequest(`/api/gallery?action=delete&id=${encodeURIComponent(id)}`,{method:"DELETE"});
   await loadGallery();
   showManagerToast("Foto dihapus","File foto sudah dihapus dari folder Vercel Blob.");
  }catch(e){console.error(e);showManagerToast("Gagal menghapus foto",e.message||"Periksa koneksi Vercel Blob.");}
@@ -497,7 +497,7 @@ document.getElementById("uploadGallery").onclick=async()=>{
    });
    uploaded.push(blob);
   }
-  const complete=await galleryRequest("/api/gallery/complete",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({blobs:uploaded})});
+  const complete=await galleryRequest("/api/gallery?action=complete",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({blobs:uploaded})});
   galleryData=(complete.gallery||[]).sort((a,b)=>(a.urutan||999)-(b.urutan||999));
   renderGalleryManager();input.value="";msg.textContent="✅ Foto berhasil disimpan di Vercel Blob dan tampil di halaman siswa.";
  }catch(e){console.error("Gallery upload error:",e);msg.textContent=`❌ ${e.message||"Gagal mengunggah foto."}`;}

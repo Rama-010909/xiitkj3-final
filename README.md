@@ -29,3 +29,11 @@ Firebase Storage tidak diperlukan untuk galeri.
 ## Catatan
 
 Vercel Blob memiliki batas dan ketentuan pemakaian sesuai paket/akun Vercel. Periksa halaman Billing/Storage akun sebelum penggunaan besar.
+
+
+## Gallery API routing fix
+Gallery mutations use query actions on `/api/gallery` because Vercel serverless file `api/gallery.js` does not automatically handle nested paths such as `/api/gallery/complete`.
+
+
+## Gallery API routing fix
+Gallery mutations use query actions on `/api/gallery` because Vercel serverless file `api/gallery.js` does not automatically handle nested paths such as `/api/gallery/complete`.

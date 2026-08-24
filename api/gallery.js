@@ -55,7 +55,10 @@ module.exports = async function handler(req, res) {
       return json(res, 200, { ok: true, items: await readGallery() });
     }
 
-    if (req.method === 'POST' && req.url?.split('?')[0] === '/api/gallery/upload') {
+    const urlObj = new URL(req.url || '/api/gallery', `https://${req.headers.host || 'localhost'}`);
+    const action = urlObj.searchParams.get('action') || '';
+
+    if (req.method === 'POST' && action === 'upload') {
       // Client-side Vercel Blob upload uses this endpoint only to obtain a short-lived upload token.
       // The actual image bytes go directly from the browser to Blob, so large photos do not pass through the Function.
       const body = req.body || {};
@@ -73,7 +76,7 @@ module.exports = async function handler(req, res) {
       return res.status(200).json(jsonResponse);
     }
 
-    if (req.method === 'POST' && req.url?.split('?')[0] === '/api/gallery/complete') {
+    if (req.method === 'POST' && action === 'complete') {
       const body = req.body || {};
       const blobs = Array.isArray(body.blobs) ? body.blobs : [];
       if (!blobs.length) return json(res, 400, { ok: false, error: 'Upload foto belum diterima.' });
@@ -94,8 +97,9 @@ module.exports = async function handler(req, res) {
 
     const path = (req.url || '').split('?')[0];
 
-    if (req.method === 'DELETE' && path.startsWith('/api/gallery/')) {
-      const id = decodeURIComponent(path.slice('/api/gallery/'.length));
+    if (req.method === 'DELETE' && action === 'delete') {
+      const id = urlObj.searchParams.get('id');
+      if (!id) return json(res, 400, { ok: false, error: 'ID foto tidak valid.' });
       const gallery = await readGallery();
       const item = gallery.find(x => x.id === id);
       if (!item) return json(res, 404, { ok: false, error: 'Foto tidak ditemukan.' });
@@ -109,7 +113,7 @@ module.exports = async function handler(req, res) {
       return json(res, 200, { ok: true, gallery: next });
     }
 
-    if (req.method === 'POST' && path === '/api/gallery/reorder') {
+    if (req.method === 'POST' && action === 'reorder') {
       const body = typeof req.body === 'object' && req.body ? req.body : {};
       const ids = Array.isArray(body.ids) ? body.ids : [];
       if (!ids.length) return json(res, 400, { ok: false, error: 'Data urutan tidak valid.' });
