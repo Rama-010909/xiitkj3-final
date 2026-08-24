@@ -1,0 +1,511 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin • XII TKJ 3</title>
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:#101827;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;background:#edf3f8}body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(65px)}body:before{width:400px;height:400px;left:-150px;top:80px;background:#74e4a6}body:after{width:450px;height:450px;right:-170px;bottom:-60px;background:linear-gradient(135deg,#78a9ff,#d68cff,#ff9bc7)}a{text-decoration:none;color:inherit}.glass{background:#ffffff73;border:1px solid #ffffffc9;box-shadow:0 20px 55px #1923321c;backdrop-filter:blur(28px) saturate(150%);-webkit-backdrop-filter:blur(28px) saturate(150%)}.container{width:min(1050px,calc(100% - 28px));margin:auto}.nav{position:sticky;top:12px;z-index:10;width:min(1050px,calc(100% - 20px));margin:12px auto;padding:10px 12px;border-radius:24px;display:flex;justify-content:space-between;align-items:center}.brand{display:flex;align-items:center;gap:10px;font-weight:900}.mark{width:40px;height:40px;border-radius:14px;background:#111827;color:#fff;display:grid;place-items:center}.v9-brand-logo{width:42px;height:42px;border-radius:12px;object-fit:contain;background:#000;display:block;box-shadow:0 8px 22px rgba(0,0,0,.22)}.links{display:flex;gap:4px}.links a,.logout{padding:10px 12px;border-radius:15px;color:#687386;font-size:13px;font-weight:850;transition:.3s;border:0;background:transparent;cursor:pointer}.links a:hover,.logout:hover{transform:scale(1.08);background:#ffffffb8;color:#11834a}.hero{padding:55px 0 35px}.hero h1{font-size:clamp(45px,7vw,75px);letter-spacing:-.06em;margin:10px 0}.gradient{background:linear-gradient(110deg,#111827,#16a35a,#5b8cff,#a56bff);-webkit-background-clip:text;background-clip:text;color:transparent}.kicker{font-size:11px;letter-spacing:.15em;color:#11834a;font-weight:950}.desc{color:#687386;line-height:1.7}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:22px;border-radius:25px}.stat b{font-size:32px}.stat span{display:block;color:#687386;font-size:13px}.panel{border-radius:30px;padding:22px;margin-top:15px}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}.btn{border:1px solid #ffffffc9;border-radius:17px;padding:12px 15px;background:#ffffff85;font-weight:850;cursor:pointer;transition:.3s}.btn:hover{transform:scale(1.07) translateY(-2px);box-shadow:0 15px 30px #1f29371c}.date{border:1px solid #ffffffd9;border-radius:15px;padding:11px;background:#ffffff90}.table-wrap{overflow:auto;border-radius:20px}.table{width:100%;min-width:700px;border-collapse:collapse;background:#ffffff58}.table th,.table td{padding:14px;text-align:left;border-bottom:1px solid #11182710;font-size:13px}.table th{background:#16b86618}.badge{display:inline-block;padding:6px 10px;border-radius:99px;background:#ffffffa0;font-weight:850;font-size:11px}.empty{text-align:center;padding:35px;color:#687386}.section{padding:60px 0}.head{margin-bottom:20px}.head h2{font-size:clamp(32px,5vw,50px);letter-spacing:-.055em;margin:5px 0}.people{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.person{padding:20px;border-radius:25px;transition:.3s}.person:hover{transform:scale(1.05) translateY(-4px)}.avatar{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:#ffffff75;border:1px solid #fff;font-weight:900}.role{margin-top:13px;font-size:11px;color:#11834a;font-weight:900}.schedule{overflow:auto;border-radius:28px}.schedule table{width:100%;min-width:620px;border-collapse:collapse;background:#ffffff70}th,td{padding:14px;text-align:left;border-bottom:1px solid #11182710;font-size:13px}th{background:#16b86618}.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.gallery-item{aspect-ratio:4/3;border-radius:25px;display:grid;place-items:center;color:#687386;transition:.3s}.gallery-item:hover{transform:scale(1.05)}.footer{text-align:center;color:#687386;padding:45px 0 80px;font-size:12px}.hidden{display:none}@media(max-width:800px){.links{display:none}.people{grid-template-columns:1fr 1fr}.gallery{grid-template-columns:1fr 1fr}}@media(max-width:430px){.people{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}}
+
+/* v8: floating gallery items */
+.v8-admin-gallery figure{animation:v8AdminGalleryFloat 4.5s ease-in-out infinite;cursor:zoom-in;transition:transform .35s ease,box-shadow .35s ease}
+.v8-admin-gallery figure:nth-child(2n){animation-delay:-2s}
+.v8-admin-gallery figure:hover{transform:translateY(-8px) scale(1.03)}
+@keyframes v8AdminGalleryFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+</style>
+<style>
+/* v7 admin gallery and lightbox */
+.v7-admin-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.v7-admin-gallery figure{margin:0;aspect-ratio:16/10;border-radius:22px;overflow:hidden;border:1px solid #ffffffc9;background:#ffffff58;box-shadow:0 18px 45px #19233218;cursor:zoom-in;transition:.35s;animation:v7AdminFloat 5s ease-in-out infinite}
+.v7-admin-gallery figure:nth-child(2){animation-delay:-.6s}.v7-admin-gallery figure:nth-child(3){animation-delay:-1.2s}.v7-admin-gallery figure:nth-child(4){animation-delay:-1.8s}.v7-admin-gallery figure:nth-child(5){animation-delay:-2.4s}.v7-admin-gallery figure:nth-child(6){animation-delay:-3s}.v7-admin-gallery figure:nth-child(7){animation-delay:-3.6s}.v7-admin-gallery figure:nth-child(8){animation-delay:-4.2s}.v7-admin-gallery figure:nth-child(9){animation-delay:-4.8s}
+.v7-admin-gallery figure:hover{transform:scale(1.04) translateY(-4px);box-shadow:0 28px 60px #19233226}.v7-admin-gallery img{width:100%;height:100%;display:block;object-fit:cover}.v7-admin-gallery .logo-thumb{object-fit:contain;background:#fff;padding:14px}
+.v7-lightbox{position:fixed;inset:0;background:rgba(5,10,16,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}.v7-lightbox.open{display:flex}.v7-lightbox img{max-width:min(94vw,1250px);max-height:88vh;object-fit:contain;border-radius:20px;box-shadow:0 30px 100px rgba(0,0,0,.5);cursor:default}.v7-close{position:fixed;right:22px;top:18px;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;font-size:27px;cursor:pointer}
+@keyframes v7AdminFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media(max-width:800px){.v7-admin-gallery{grid-template-columns:1fr 1fr}}@media(max-width:500px){.v7-admin-gallery{grid-template-columns:1fr}}
+</style>
+
+<style>
+/* v10: galeri admin disamakan dengan galeri siswa */
+.admin-gallery-match{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.admin-gallery-match figure{margin:0;border-radius:18px;overflow:hidden;border:1px solid rgba(0,255,200,.3);box-shadow:0 10px 35px rgba(0,0,0,.28);animation:adminMatchFloat 5s ease-in-out infinite;cursor:zoom-in}
+.admin-gallery-match figure:nth-child(2){animation-delay:-1s}
+.admin-gallery-match figure:nth-child(3){animation-delay:-2s}
+.admin-gallery-match figure:nth-child(4){animation-delay:-3s}
+.admin-gallery-match figure:nth-child(5){animation-delay:-4s}
+.admin-gallery-match figure:nth-child(6){animation-delay:-5s}
+.admin-gallery-match figure:nth-child(7){animation-delay:-6s}
+.admin-gallery-match figure img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;transition:transform .45s ease,filter .45s ease}
+.admin-gallery-match figure:hover img{transform:scale(1.045);filter:brightness(1.08)}
+@keyframes adminMatchFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media(max-width:800px){.admin-gallery-match{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.admin-gallery-match{grid-template-columns:1fr}}
+</style>
+
+<style>
+/* v12: admin attendance management, realtime notification, daily cards, schedule editor */
+.attendance-date-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.selected-date{font-weight:900;font-size:14px}
+.daily-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.daily-card{padding:18px;border-radius:22px;background:#ffffff80;border:1px solid #ffffffc9}
+.daily-card .number{font-size:30px;font-weight:950;display:block}
+.daily-card .label{font-size:12px;color:#687386;font-weight:800}
+.daily-card .date-label{font-size:11px;color:#11834a;font-weight:900;margin-bottom:7px}
+.delete-btn{border:0;border-radius:12px;padding:8px 10px;background:#111827;color:#fff;font-weight:850;cursor:pointer;transition:.25s}
+.delete-btn:hover{transform:scale(1.05);opacity:.9}
+.admin-toast{position:fixed;right:20px;top:85px;z-index:10000;max-width:360px;padding:15px 17px;border-radius:18px;background:#111827;color:#fff;box-shadow:0 18px 45px rgba(0,0,0,.22);display:none;animation:toastIn .3s ease}
+.admin-toast.show{display:block}
+.admin-toast b{display:block;margin-bottom:4px}
+.admin-toast small{opacity:.75}
+@keyframes toastIn{from{transform:translateY(-12px);opacity:0}to{transform:translateY(0);opacity:1}}
+.schedule-editor{display:grid;gap:10px}
+.schedule-row{display:grid;grid-template-columns:110px 1fr 1.5fr;gap:10px;align-items:center;padding:12px;border-radius:18px;background:#ffffff70}
+.schedule-day{font-weight:900}
+.schedule-input{width:100%;padding:12px;border-radius:14px;border:1px solid #ffffffd9;background:#ffffffa6;font:inherit;outline:none}
+.schedule-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+.schedule-message{font-size:13px;color:#11834a;font-weight:800}
+@media(max-width:800px){.daily-cards{grid-template-columns:1fr 1fr}.schedule-row{grid-template-columns:1fr}.schedule-day{padding-bottom:2px}}
+.schedule-day-block{padding:16px;border-radius:22px;background:#ffffff55;border:1px solid #ffffffa8}
+.schedule-day-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;font-weight:950}
+.schedule-items{display:grid;gap:9px}
+.schedule-row{display:grid;grid-template-columns:1fr 1.6fr auto;gap:10px;align-items:center;padding:10px;border-radius:16px;background:#ffffff70}
+.schedule-remove{border:0;width:38px;height:38px;border-radius:12px;background:#fff;color:#b42318;font-size:18px;font-weight:900;cursor:pointer}
+.schedule-add{border:1px dashed #11834a99;border-radius:14px;padding:10px 12px;background:#ffffff55;color:#11834a;font-weight:850;cursor:pointer}
+.schedule-add:hover,.schedule-remove:hover{transform:scale(1.04)}
+@media(max-width:800px){.schedule-row{grid-template-columns:1fr}.schedule-remove{width:100%;height:40px}}
+@media(max-width:500px){.daily-cards{grid-template-columns:1fr 1fr}.admin-toast{left:14px;right:14px;top:75px}}
+</style>
+
+<style>
+/* v20: admin gallery manager + editable class structure */
+.manager-grid{display:grid;gap:12px}
+.manager-form{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+.manager-input{width:100%;padding:13px 14px;border-radius:15px;border:1px solid #ffffffd9;background:#ffffffa6;font:inherit;outline:none}
+.manager-actions{display:flex;gap:8px;flex-wrap:wrap}
+.gallery-manager-list{display:grid;gap:12px;margin-top:15px}
+.gallery-manager-item{display:grid;grid-template-columns:110px 1fr auto;gap:14px;align-items:center;padding:12px;border-radius:20px;background:#ffffff70;border:1px solid #ffffffa8}
+.gallery-manager-thumb{width:110px;height:78px;border-radius:14px;overflow:hidden;background:#fff}
+.gallery-manager-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-manager-name{font-weight:900;font-size:14px}
+.gallery-manager-meta{font-size:11px;color:#687386;margin-top:4px}
+.gallery-manager-buttons{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.small-btn{border:1px solid #ffffffc9;border-radius:12px;padding:9px 11px;background:#ffffff95;font-weight:850;cursor:pointer}
+.small-btn:hover{transform:translateY(-1px)}
+.small-btn.danger{background:#111827;color:#fff}
+.admin-structure-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:20px}
+.admin-structure-card{padding:22px;border-radius:24px;background:#ffffffb8;border:1px solid #ffffffd0;box-shadow:0 12px 30px rgba(17,24,39,.07)}
+.admin-structure-top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.admin-structure-avatar{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:#eef2ff;font-size:22px;font-weight:950;color:#111827;flex:0 0 52px}
+.admin-structure-role{font-size:11px;color:#11834a;font-weight:950;letter-spacing:.08em;text-transform:uppercase}
+.admin-structure-label{display:block;font-size:12px;font-weight:800;color:#687386;margin-bottom:7px}
+.structure-save-panel{margin-top:18px}
+@media(max-width:700px){.manager-form{grid-template-columns:1fr}.gallery-manager-item{grid-template-columns:82px 1fr}.gallery-manager-thumb{width:82px;height:64px}.gallery-manager-buttons{grid-column:1/-1;justify-content:flex-start}.admin-structure-grid{grid-template-columns:1fr}}
+.manager-note{font-size:12px;color:#687386;line-height:1.6;margin-top:8px}
+
+</style>
+</head><body>
+<header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#data-absensi">Data Absensi</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><button class="logout" id="logout">Keluar</button></header>
+<div id="adminToast" class="admin-toast" role="status"></div><main id="content" class="hidden">
+<section id="dashboard" class="hero"><div class="container"><div class="kicker">ADMINISTRATOR</div><h1>Dashboard <span class="gradient">XII TKJ 3</span></h1><p class="desc">Tampilan admin tetap mengikuti halaman siswa. Perbedaannya: bagian absensi siswa diganti menjadi <b>Data Absensi</b> agar admin bisa memantau kehadiran.</p></div></section>
+<section id="data-absensi"><div class="container">
+<div class="daily-cards">
+<div class="daily-card glass"><div class="date-label" id="dailyLabel">TANGGAL TERPILIH</div><span class="number" id="hadir">0</span><span class="label">Hadir</span></div>
+<div class="daily-card glass"><div class="date-label" id="dailyLabel2">TANGGAL TERPILIH</div><span class="number" id="izin">0</span><span class="label">Izin</span></div>
+<div class="daily-card glass"><div class="date-label" id="dailyLabel3">TANGGAL TERPILIH</div><span class="number" id="sakit">0</span><span class="label">Sakit</span></div>
+<div class="daily-card glass"><div class="date-label" id="dailyLabel4">TANGGAL TERPILIH</div><span class="number" id="libur">0</span><span class="label">Libur</span></div>
+</div>
+<div class="panel glass">
+<div class="toolbar">
+<strong>Data Absensi Siswa</strong>
+<div><input class="date" type="date" id="filterDate"><button class="btn" id="todayDate">Hari Ini</button><button class="btn" id="refresh">↻ Refresh</button></div>
+</div>
+<div class="attendance-date-head"><span class="selected-date" id="selectedDateText"></span><span class="desc" style="font-size:12px">Data diperbarui otomatis saat ada siswa yang absen.</span></div>
+<div id="tableBox"></div>
+</div></div></section>
+<section id="struktur" class="section"><div class="container"><div class="head"><div class="kicker">KELAS</div><h2>Struktur Kelas</h2><p class="desc">Isi struktur dibuat sama seperti halaman siswa. Kamu bisa mengganti nama setiap orang langsung dari kartu di bawah, lalu simpan.</p></div><div id="structureEditor" class="admin-structure-grid"></div><div class="panel glass structure-save-panel"><div class="schedule-actions"><button class="btn" id="saveStructure">💾 Simpan Struktur</button><span id="structureMessage" class="schedule-message"></span></div></div></div></section>
+<section id="jadwal" class="section"><div class="container">
+<div class="head"><div><div class="kicker">PELAJARAN</div><h2>Kelola Jadwal Kelas</h2><p class="desc">Edit jam dan mata pelajaran di sini. Setelah disimpan, jadwal akan langsung tampil di halaman siswa.</p></div></div>
+<div class="panel glass">
+<div id="scheduleEditor" class="schedule-editor"></div>
+<div class="schedule-actions"><button class="btn" id="saveSchedule">💾 Simpan Semua Jadwal</button><span id="scheduleMessage" class="schedule-message"></span></div>
+</div></div></section>
+<section id="galeri" class="section v6-gallery"><div class="container"><div class="head v6-gallery-head"><div><div class="kicker">GALERI KELAS</div><h2>Kelola Galeri</h2><p class="desc">Tambahkan foto. Foto otomatis masuk ke folder penyimpanan Vercel Blob dan muncul di halaman siswa. Urutan bisa diubah dengan tombol naik/turun.</p></div></div><div class="panel glass"><div class="manager-form"><input id="galleryFile" type="file" accept="image/*" multiple class="manager-input"><button type="button" class="btn" id="uploadGallery">＋ Tambah Foto</button></div><div id="galleryMessage" class="schedule-message" style="margin-top:10px"></div><div id="galleryManagerList" class="gallery-manager-list"></div></div></div></section>
+</main><div class="v7-lightbox" id="lightbox" aria-hidden="true"><button class="v7-close" id="lightboxClose" aria-label="Tutup">×</button><img id="lightboxImage" src="" alt="Foto diperbesar"></div>
+<footer class="footer">XII TKJ 3 · Admin</footer>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import{getFirestore,collection,getDocs,getDoc,query,orderBy,onSnapshot,deleteDoc,doc,setDoc,updateDoc}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+const app=initializeApp({apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"}),db=getFirestore(app);
+
+const content=document.getElementById("content");
+const filterDate=document.getElementById("filterDate");
+const box=document.getElementById("tableBox");
+const toast=document.getElementById("adminToast");
+const dayOrder=["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+const dayIds={Senin:"senin",Selasa:"selasa",Rabu:"rabu",Kamis:"kamis",Jumat:"jumat",Sabtu:"sabtu"};
+const defaultSchedule={Senin:[],Selasa:[],Rabu:[],Kamis:[],Jumat:[],Sabtu:[]};
+
+if(sessionStorage.admin!=="1"){location.href="index.html#admin-login"}
+else{
+ content.classList.remove("hidden");
+ const today=new Date();
+ filterDate.value=today.getFullYear()+"-"+String(today.getMonth()+1).padStart(2,"0")+"-"+String(today.getDate()).padStart(2,"0");
+ loadAttendance();
+}
+
+document.getElementById("logout").onclick=()=>{sessionStorage.removeItem("admin");location.href="index.html#admin-login"};
+document.getElementById("refresh").onclick=loadAttendance;
+filterDate.onchange=loadAttendance;
+document.getElementById("todayDate").onclick=()=>{const d=new Date();filterDate.value=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");loadAttendance()};
+
+function selectedDateLabel(){
+ const v=filterDate.value;
+ if(!v)return "SEMUA TANGGAL";
+ const [y,m,d]=v.split("-");
+ return `${d}/${m}/${y}`;
+}
+function updateDateLabels(){
+ const label=selectedDateLabel();
+ document.getElementById("selectedDateText").textContent="📅 "+label;
+ ["dailyLabel","dailyLabel2","dailyLabel3","dailyLabel4"].forEach(id=>document.getElementById(id).textContent=label);
+}
+updateDateLabels();
+
+function showToast(title,detail){
+ toast.innerHTML=`<b>🔔 ${safe(title)}</b><small>${safe(detail)}</small>`;
+ toast.classList.add("show");
+ clearTimeout(window.__toastTimer);
+ window.__toastTimer=setTimeout(()=>toast.classList.remove("show"),5000);
+}
+if("Notification" in window && Notification.permission==="default"){ Notification.requestPermission().catch(()=>{}); }
+
+let firstSnapshot=true;
+onSnapshot(collection(db,"absensi"),snap=>{
+ const rows=[];
+ snap.forEach(d=>rows.push({id:d.id,...d.data()}));
+ rows.sort((a,b)=>{const ta=a.timestamp?.toMillis?a.timestamp.toMillis():new Date(`${a.tanggal||""}T${a.waktu||"00:00"}`).getTime()||0;const tb=b.timestamp?.toMillis?b.timestamp.toMillis():new Date(`${b.tanggal||""}T${b.waktu||"00:00"}`).getTime()||0;return tb-ta;});
+ window.__attendanceRows=rows;
+ renderAttendance(rows);
+ if(!firstSnapshot){
+   const changes=snap.docChanges().filter(c=>c.type==="added");
+   if(changes.length){
+     const x=changes[0].doc.data();
+     showToast("Ada yang baru absen!",`${x.nama||"Siswa"} • ${x.status||"HADIR"} • ${x.tanggal||"Hari ini"} ${x.waktu||""}`); document.title="🔔 Absen baru • Admin XII TKJ 3"; setTimeout(()=>{document.title="Admin • XII TKJ 3"},5000); if("Notification" in window && Notification.permission==="granted"){new Notification("Absensi baru - XII TKJ 3",{body:`${x.nama||"Siswa"} baru saja mengirim absensi.`});}
+   }
+ }
+ firstSnapshot=false;
+},err=>{
+ console.error(err);
+ box.innerHTML='<div class="empty">❌ Gagal membaca Firestore. Pastikan Firestore Rules mengizinkan pembacaan data.</div>';
+});
+
+function loadAttendance(){updateDateLabels();renderAttendance(window.__attendanceRows||[])}
+function renderAttendance(allRows){
+ const filter=filterDate.value;
+ let rows=allRows.filter(x=>!filter||x.tanggal===filter);
+ let h=0,i=0,s=0,l=0;
+ rows.forEach(x=>{if(x.status==="HADIR")h++;if(x.status==="IZIN")i++;if(x.status==="SAKIT")s++;if(x.status==="LIBUR")l++});
+ document.getElementById("hadir").textContent=h;
+ document.getElementById("izin").textContent=i;
+ document.getElementById("sakit").textContent=s;
+ document.getElementById("libur").textContent=l;
+ updateDateLabels();
+ if(!rows.length){box.innerHTML='<div class="empty">Belum ada data absensi untuk tanggal ini.</div>';return}
+ box.innerHTML='<div class="table-wrap"><table class="table"><thead><tr><th>Nama</th><th>Status</th><th>Keterangan</th><th>Tanggal</th><th>Waktu</th><th>Aksi</th></tr></thead><tbody>'+
+ rows.map(x=>`<tr><td><b>${safe(x.nama)}</b></td><td><span class="badge">${safe(x.status)}</span></td><td>${safe(x.keterangan||"-")}</td><td>${safe(x.tanggal||"-")}</td><td>${safe(x.waktu||"-")}</td><td><button class="delete-btn" data-delete="${safe(x.id)}">Hapus</button></td></tr>`).join("")+
+ '</tbody></table></div>';
+ box.querySelectorAll("[data-delete]").forEach(btn=>btn.addEventListener("click",()=>removeAttendance(btn.dataset.delete)));
+}
+async function removeAttendance(id){
+ const row=(window.__attendanceRows||[]).find(x=>x.id===id);
+ if(!row)return;
+ if(!confirm(`Hapus data absensi ${row.nama||"siswa"} pada ${row.tanggal||"-"}?`))return;
+ try{
+  await deleteDoc(doc(db,"absensi",id));
+  showToast("Data dihapus",`${row.nama||"Siswa"} pada ${row.tanggal||"-"} berhasil dihapus.`);
+ }catch(e){
+  console.error(e);
+  showToast("Gagal menghapus","Periksa Firestore Rules untuk izin delete.");
+ }
+}
+
+function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+
+/* ---------- Jadwal ---------- */
+let scheduleData={};
+const emptySchedule=()=>Object.fromEntries(dayOrder.map(day=>[day,[]]));
+function renderScheduleEditor(data){
+ const editor=document.getElementById("scheduleEditor");
+ if(!editor)return;
+ editor.innerHTML=dayOrder.map(day=>{
+   const items=Array.isArray(data[day])?data[day]:[];
+   return `<div class="schedule-day-block">
+     <div class="schedule-day-title"><span>${day}</span><span style="font-size:12px;color:#687386">${items.length} jam</span></div>
+     <div class="schedule-items" data-items="${day}">
+       ${items.map((x,i)=>`<div class="schedule-row" data-index="${i}">
+         <input class="schedule-input schedule-time" value="${safe(x.jam||"")}" placeholder="Contoh: 07.00-08.45">
+         <input class="schedule-input schedule-subject" value="${safe(x.mapel||"")}" placeholder="Contoh: Bahasa Indonesia">
+         <button type="button" class="schedule-remove" title="Hapus jadwal" data-day="${day}" data-index="${i}">×</button>
+       </div>`).join("")}
+     </div>
+     <button type="button" class="schedule-add" data-add-day="${day}">＋ Tambah Jam Pelajaran</button>
+   </div>`;
+ }).join("");
+ editor.querySelectorAll("[data-add-day]").forEach(btn=>btn.addEventListener("click",()=>{
+   readScheduleEditor();
+   const day=btn.dataset.addDay;
+   scheduleData[day].push({jam:"",mapel:""});
+   renderScheduleEditor(scheduleData);
+   const rows=editor.querySelectorAll(`[data-items="${day}"] .schedule-row`);
+   rows[rows.length-1]?.querySelector(".schedule-time")?.focus();
+ }));
+ editor.querySelectorAll(".schedule-remove").forEach(btn=>btn.addEventListener("click",()=>{
+   readScheduleEditor();
+   const day=btn.dataset.day;
+   scheduleData[day].splice(Number(btn.dataset.index),1);
+   renderScheduleEditor(scheduleData);
+ }));
+}
+function readScheduleEditor(){
+ const next={};
+ dayOrder.forEach(day=>{
+   next[day]=[...document.querySelectorAll(`[data-items="${day}"] .schedule-row`)].map(row=>({
+     jam:row.querySelector(".schedule-time")?.value.trim()||"",
+     mapel:row.querySelector(".schedule-subject")?.value.trim()||""
+   })).filter(x=>x.jam||x.mapel);
+ });
+ scheduleData=next;
+}
+function normalizeScheduleDay(value){
+ const key=String(value??"").trim().toLowerCase();
+ return dayOrder.find(day=>day.toLowerCase()===key || dayIds[day]===key)||null;
+}
+function normalizeScheduleEntry(v){
+ return {
+   jam:String(v?.jam??v?.time??v?.waktu??v?.timeRange??"").trim(),
+   mapel:String(v?.mapel??v?.mataPelajaran??v?.pelajaran??v?.subject??v?.name??"").trim()
+ };
+}
+function cleanScheduleEntries(arr){
+ return Array.isArray(arr)?arr.map(normalizeScheduleEntry).filter(x=>x.jam||x.mapel):[];
+}
+function parseScheduleSnapshot(snap){
+ const loaded=emptySchedule();
+ let found=0;
+ snap.forEach(ds=>{
+   const x=ds.data()||{};
+   const day=normalizeScheduleDay(ds.id)||normalizeScheduleDay(x.hari??x.day??x.hariNama);
+   if(day){
+     let entries=[];
+     if(Array.isArray(x.entries))entries=x.entries;
+     else if(Array.isArray(x.jadwal))entries=x.jadwal;
+     else if(Array.isArray(x.schedule))entries=x.schedule;
+     else if(Array.isArray(x.items))entries=x.items;
+     else if(x.jam||x.time||x.waktu||x.mapel||x.mataPelajaran||x.pelajaran||x.subject)entries=[x];
+     loaded[day]=cleanScheduleEntries(entries);
+     if(loaded[day].length)found++;
+   }
+   for(const candidate of dayOrder){
+     const raw=x[candidate]??x[dayIds[candidate]];
+     if(Array.isArray(raw))loaded[candidate]=cleanScheduleEntries(raw);
+     else if(raw&&typeof raw==='object')loaded[candidate]=cleanScheduleEntries(raw.entries??raw.jadwal??raw.schedule??raw.items);
+   }
+ });
+ return {loaded,found};
+}
+async function loadSchedule(){
+ const editor=document.getElementById("scheduleEditor");
+ const msg=document.getElementById("scheduleMessage");
+ // Always render an editable form first. Firestore must never block the Save button.
+ scheduleData=emptySchedule();
+ renderScheduleEditor(scheduleData);
+ if(msg)msg.textContent="⏳ Mengecek jadwal Senin–Sabtu di Firestore...";
+ try{
+   const readPromise=getDocs(collection(db,"jadwal"));
+   const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error("timeout")),8000));
+   const snap=await Promise.race([readPromise,timeout]);
+   const parsed=parseScheduleSnapshot(snap);
+   scheduleData=parsed.loaded;
+   renderScheduleEditor(scheduleData);
+   if(msg)msg.textContent=parsed.found?`✅ ${parsed.found} hari memiliki jadwal tersimpan. Jadwal siap diedit.` : "ℹ️ Belum ada jadwal tersimpan. Tambahkan jadwal di bawah.";
+ }catch(e){
+   console.error("Schedule load:",e);
+   // Keep the editor usable even when Firestore read fails.
+   if(msg)msg.textContent=e.message==="timeout"?"⚠️ Firestore belum merespons. Jadwal tetap bisa dibuat dan disimpan." : "⚠️ Jadwal belum bisa dibaca dari Firestore. Kamu tetap bisa membuat jadwal baru.";
+ }
+}
+
+document.getElementById("saveSchedule").onclick=async()=>{
+ const btn=document.getElementById("saveSchedule"),msg=document.getElementById("scheduleMessage");
+ readScheduleEditor();
+ btn.disabled=true;
+ msg.textContent="⏳ Menyimpan jadwal Senin–Sabtu...";
+ try{
+   for(const day of dayOrder){
+     const entries=(scheduleData[day]||[]).map((x,i)=>({jam:String(x.jam||"").trim(),mapel:String(x.mapel||"").trim(),urutan:i+1})).filter(x=>x.jam||x.mapel);
+     await setDoc(doc(db,"jadwal",dayIds[day]),{hari:day,entries,updatedAt:Date.now()});
+   }
+   msg.textContent="✅ Semua jadwal Senin–Sabtu berhasil disimpan ke Firestore.";
+   showToast("Jadwal diperbarui","Jadwal Senin–Sabtu sudah tersimpan.");
+ }catch(e){
+   console.error("Schedule save:",e);
+   msg.textContent="❌ Gagal menyimpan jadwal. Cek Firestore Rules untuk collection jadwal.";
+ }finally{
+   btn.disabled=false;
+ }
+};
+
+// Load after the editor and Save handler are ready.
+loadSchedule();
+</script><script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import{getFirestore,collection,getDocs,getDoc,doc,setDoc,updateDoc,deleteDoc}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+const managerApp=initializeApp({apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"},"adminManager");
+const managerDb=getFirestore(managerApp);
+function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function showManagerToast(title,detail){const t=document.getElementById("adminToast");t.innerHTML=`<b>🔔 ${safe(title)}</b><small>${safe(detail)}</small>`;t.classList.add("show");clearTimeout(window.__managerToast);window.__managerToast=setTimeout(()=>t.classList.remove("show"),4500)}
+/* ---------- Struktur Kelas ---------- */
+const structureDefaults=[
+ {id:"wali",role:"Wali Kelas",name:"Andi Prasetyo, S.Kom.",urutan:1},
+ {id:"ketua",role:"Ketua Kelas",name:"Virnaji Rizky Ramadhan",urutan:2},
+ {id:"wakil",role:"Wakil Ketua",name:"Alvin",urutan:3},
+ {id:"sekretaris",role:"Sekretaris",name:"Anggun Khoiru Syifa",urutan:4},
+ {id:"bendahara",role:"Bendahara",name:"Suci Listiana",urutan:5}
+];
+let structureData=structureDefaults.map(x=>({...x}));
+async function loadStructure(){
+ try{
+  const snap=await getDocs(collection(managerDb,"struktur"));
+  const existing=new Map(snap.docs.map(d=>[d.id,{id:d.id,...d.data()}]));
+  // Pastikan semua posisi yang tampil di halaman siswa juga selalu tersedia di Admin.
+  for(const x of structureDefaults){
+   if(!existing.has(x.id)){
+    await setDoc(doc(managerDb,"struktur",x.id),x);
+    existing.set(x.id,{...x});
+   }
+  }
+  structureData=structureDefaults.map(def=>({
+   ...def,
+   ...(existing.get(def.id)||{})
+  })).sort((a,b)=>(a.urutan||99)-(b.urutan||99));
+ }catch(e){
+  console.error("Structure load:",e);
+  // Tetap tampilkan form edit walaupun Firestore sedang gagal dibaca.
+  structureData=structureDefaults.map(x=>({...x}));
+ }
+ renderStructureEditor();
+}
+function renderStructureEditor(){
+ const el=document.getElementById("structureEditor");
+ el.innerHTML=structureData.map((x,i)=>{
+   const initial=safe(String(x.name||x.role||"?").trim().charAt(0).toUpperCase());
+   return `<article class="admin-structure-card">
+     <div class="admin-structure-top">
+       <div class="admin-structure-avatar">${initial}</div>
+       <div><div class="admin-structure-role">${safe(x.role)}</div><div style="font-size:12px;color:#687386;margin-top:3px">Pengurus kelas</div></div>
+     </div>
+     <label class="admin-structure-label" for="structure-${safe(x.id)}">Nama</label>
+     <input id="structure-${safe(x.id)}" class="manager-input structure-name" data-id="${safe(x.id)}" value="${safe(x.name||"")}" placeholder="Masukkan nama orang">
+   </article>`;
+ }).join("");
+}
+// Muat isi Struktur Kelas saat halaman Admin dibuka.
+loadStructure();
+
+document.getElementById("saveStructure").onclick=async()=>{
+ const btn=document.getElementById("saveStructure"),msg=document.getElementById("structureMessage");
+ const inputs=[...document.querySelectorAll(".structure-name")];
+ btn.disabled=true;msg.textContent="⏳ Menyimpan...";
+ try{
+  for(const input of inputs){const x=structureData.find(v=>v.id===input.dataset.id); if(x){x.name=input.value.trim(); await setDoc(doc(managerDb,"struktur",x.id),{role:x.role,name:x.name,urutan:x.urutan});}}
+  msg.textContent="✅ Struktur tersimpan. Halaman siswa akan berubah otomatis.";
+  showManagerToast("Struktur diperbarui","Nama pengurus sudah tersimpan.");
+ }catch(e){console.error(e);msg.textContent="❌ Gagal menyimpan struktur. Periksa Firestore Rules.";}
+ finally{btn.disabled=false}
+};
+
+/* ---------- Galeri Foto Lokal ---------- */
+const GALLERY_API="/api/gallery";
+let galleryData=[];
+
+async function galleryRequest(url, options={}){
+ const res=await fetch(url,options);
+ let data={};
+ try{data=await res.json();}catch(_){ }
+ if(!res.ok || data.ok===false) throw new Error(data.error||`Server galeri error (${res.status})`);
+ return data;
+}
+
+async function loadGallery(){
+ try{
+  const data=await galleryRequest(GALLERY_API);
+  galleryData=(data.items||[]).sort((a,b)=>(a.urutan||999)-(b.urutan||999));
+  renderGalleryManager();
+ }catch(e){
+  console.error("Gallery load:",e);
+  galleryData=[];
+  renderGalleryManager();
+  document.getElementById("galleryMessage").textContent="❌ API galeri Vercel belum siap. Pastikan Vercel Blob sudah terhubung ke project.";
+ }
+}
+
+function renderGalleryManager(){
+ const el=document.getElementById("galleryManagerList");
+ if(!galleryData.length){el.innerHTML='<div class="empty">Belum ada foto di galeri atau server belum berjalan.</div>';return;}
+ el.innerHTML=galleryData.map((x,i)=>`<div class="gallery-manager-item"><div class="gallery-manager-thumb"><img src="${safe(x.src)}" alt="${safe(x.name||"Foto")}"></div><div><div class="gallery-manager-name">${safe(x.name||"Foto")}</div><div class="gallery-manager-meta">Urutan ${i+1}${x.local?" • Foto bawaan":" • Foto di folder Vercel Blob"}</div></div><div class="gallery-manager-buttons"><button class="small-btn" data-up="${safe(x.id)}" ${i===0?"disabled":""}>↑</button><button class="small-btn" data-down="${safe(x.id)}" ${i===galleryData.length-1?"disabled":""}>↓</button><button class="small-btn danger" data-gallery-delete="${safe(x.id)}">Hapus</button></div></div>`).join("");
+ el.querySelectorAll("[data-up]").forEach(b=>b.onclick=()=>moveGallery(b.dataset.up,-1));
+ el.querySelectorAll("[data-down]").forEach(b=>b.onclick=()=>moveGallery(b.dataset.down,1));
+ el.querySelectorAll("[data-gallery-delete]").forEach(b=>b.onclick=()=>removeGallery(b.dataset.galleryDelete));
+}
+
+async function moveGallery(id,dir){
+ const i=galleryData.findIndex(x=>x.id===id),j=i+dir;
+ if(i<0||j<0||j>=galleryData.length)return;
+ [galleryData[i],galleryData[j]]=[galleryData[j],galleryData[i]];
+ renderGalleryManager();
+ try{
+  await galleryRequest("/api/gallery/reorder",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ids:galleryData.map(x=>x.id)})});
+  showManagerToast("Urutan galeri diperbarui","Urutan disimpan di Vercel Blob.");
+ }catch(e){
+  console.error(e);showManagerToast("Gagal mengubah urutan",e.message||"Periksa koneksi Vercel Blob.");loadGallery();
+ }
+}
+
+async function removeGallery(id){
+ const x=galleryData.find(v=>v.id===id); if(!x)return;
+ if(!confirm(`Hapus foto "${x.name||"Foto"}" dari galeri?`))return;
+ try{
+  await galleryRequest(`/api/gallery/${encodeURIComponent(id)}`,{method:"DELETE"});
+  await loadGallery();
+  showManagerToast("Foto dihapus","File foto sudah dihapus dari folder Vercel Blob.");
+ }catch(e){console.error(e);showManagerToast("Gagal menghapus foto",e.message||"Periksa koneksi Vercel Blob.");}
+}
+
+document.getElementById("uploadGallery").onclick=async()=>{
+ const input=document.getElementById("galleryFile"),msg=document.getElementById("galleryMessage"),files=[...input.files||[]];
+ if(!files.length){msg.textContent="Pilih minimal satu foto terlebih dahulu.";return;}
+ const valid=files.filter(f=>f.type.startsWith("image/"));
+ if(!valid.length){msg.textContent="❌ File yang dipilih bukan gambar.";return;}
+ for(const file of valid){if(file.size>8*1024*1024){msg.textContent=`❌ ${file.name} lebih dari 8 MB.`;return;}}
+ const btn=document.getElementById("uploadGallery");btn.disabled=true;
+ try{
+  msg.textContent=`⏳ Mengunggah ${valid.length} foto ke Vercel Blob...`;
+  const { upload } = await import("https://esm.sh/@vercel/blob@2.0.0/client");
+  const uploaded=[];
+  for(let i=0;i<valid.length;i++){
+   const file=valid[i];
+   msg.textContent=`⏳ Mengunggah ${i+1}/${valid.length}: ${file.name}`;
+   const blob=await upload(`gallery/${Date.now()}-${file.name}`,file,{
+    access:"public",
+    handleUploadUrl:"/api/gallery/upload",
+    multipart:true
+   });
+   uploaded.push(blob);
+  }
+  const complete=await galleryRequest("/api/gallery/complete",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({blobs:uploaded})});
+  galleryData=(complete.gallery||[]).sort((a,b)=>(a.urutan||999)-(b.urutan||999));
+  renderGalleryManager();input.value="";msg.textContent="✅ Foto berhasil disimpan di Vercel Blob dan tampil di halaman siswa.";
+ }catch(e){console.error("Gallery upload error:",e);msg.textContent=`❌ ${e.message||"Gagal mengunggah foto."}`;}
+ finally{btn.disabled=false}
+};
+
+loadGallery();
+</script><script>
+(()=>{const lb=document.getElementById('lightbox'),im=document.getElementById('lightboxImage'),close=document.getElementById('lightboxClose');function open(src){im.src=src;lb.classList.add('open');lb.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}function shut(){lb.classList.remove('open');lb.setAttribute('aria-hidden','true');im.src='';document.body.style.overflow=''}document.querySelectorAll('[data-lightbox]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();open(el.dataset.lightbox)}));close.addEventListener('click',e=>{e.stopPropagation();shut()});lb.addEventListener('click',e=>{if(e.target===lb)shut()});document.addEventListener('keydown',e=>{if(e.key==='Escape')shut()})})();
+</script>
+</body></html>
