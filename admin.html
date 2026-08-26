@@ -9,11 +9,6 @@
 @keyframes v8AdminGalleryFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 </style>
 <style>
-/* Data Siswa manager */
-.student-manager{display:grid;gap:10px}.student-row{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center;padding:12px;border-radius:18px;background:#ffffff58;border:1px solid #ffffffb8}.student-number{font-weight:900;color:#11834a;text-align:center}.student-name-input{width:100%;padding:12px 14px;border:1px solid #ffffffd9;border-radius:15px;background:#ffffff94;outline:0;font:inherit}.student-actions{display:flex;gap:7px}.student-actions button{border:0;border-radius:13px;padding:10px 12px;cursor:pointer;font-weight:800;background:#111827;color:#fff}.student-actions .danger{background:#fff;color:#b42318;border:1px solid #ffd0cb}.student-count-note{font-size:12px;color:#687386;margin-top:8px}
-@media(max-width:600px){.student-row{grid-template-columns:38px 1fr}.student-actions{grid-column:2}.student-actions button{flex:1}}
-</style>
-<style>
 /* v7 admin gallery and lightbox */
 .v7-admin-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .v7-admin-gallery figure{margin:0;aspect-ratio:16/10;border-radius:22px;overflow:hidden;border:1px solid #ffffffc9;background:#ffffff58;box-shadow:0 18px 45px #19233218;cursor:zoom-in;transition:.35s;animation:v7AdminFloat 5s ease-in-out infinite}
@@ -137,14 +132,14 @@ body.admin-authenticated #content{display:block}
 @media(max-width:800px){
   body.admin-authenticated{padding-bottom:0}
   body.admin-authenticated main#content{padding-bottom:78px}
-  body.admin-authenticated .mobile-admin{position:fixed;display:grid;grid-template-columns:repeat(6,1fr);left:10px;right:10px;bottom:10px;z-index:200;padding:8px;border-radius:24px}
+  body.admin-authenticated .mobile-admin{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);left:10px;right:10px;bottom:10px;z-index:200;padding:8px;border-radius:24px}
   body.admin-gate .mobile-admin{display:none!important}
   .mobile-admin a{padding:8px 2px;border-radius:15px;color:#687386;font-size:10px;font-weight:800;text-align:center;text-decoration:none;transition:.3s;line-height:1.35}
   .mobile-admin a:hover{transform:scale(1.04);background:#ffffffb8;color:#11834a}
 }
 </style>
 </head><body class="admin-gate">
-<header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><button class="logout" id="logout">Keluar</button></header>
+<header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#data-absensi">Data Absensi</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><button class="logout" id="logout">Keluar</button></header>
 <section id="adminLoginGate" class="section admin-login-section"><div class="container"><div class="card glass">
 <div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username &amp; Password untuk membuka halaman Admin</p>
 <div class="login-field"><label>USERNAME</label><input id="gateUser" class="login-input" autocomplete="username"></div>
@@ -168,7 +163,6 @@ body.admin-authenticated #content{display:block}
 <div class="attendance-date-head"><span class="selected-date" id="selectedDateText"></span><span class="desc" style="font-size:12px">Data diperbarui otomatis saat ada siswa yang absen.</span></div>
 <div id="tableBox"></div>
 </div></div></section>
-<section id="siswa" class="section"><div class="container"><div class="head"><div class="kicker">DATA SISWA</div><h2>Kelola Data Siswa</h2><p class="desc">Edit atau hapus nama siswa yang sudah ada. Tidak ada tombol tambah siswa. Perubahan akan langsung digunakan untuk absensi dan jumlah siswa di halaman utama.</p></div><div class="panel glass"><div id="studentManager" class="student-manager"><div class="empty">Memuat data siswa...</div></div><div class="student-count-note" id="studentManagerMessage"></div></div></div></section>
 <section id="struktur" class="section"><div class="container"><div class="head"><div class="kicker">KELAS</div><h2>Struktur Kelas</h2><p class="desc">Isi struktur dibuat sama seperti halaman siswa. Kamu bisa mengganti nama setiap orang langsung dari kartu di bawah, lalu simpan.</p></div><div id="structureEditor" class="admin-structure-grid"></div><div class="panel glass structure-save-panel"><div class="schedule-actions"><button class="btn" id="saveStructure">💾 Simpan Struktur</button><span id="structureMessage" class="schedule-message"></span></div></div></div></section>
 <section id="jadwal" class="section"><div class="container">
 <div class="head"><div><div class="kicker">PELAJARAN</div><h2>Kelola Jadwal Kelas</h2><p class="desc">Edit jam dan mata pelajaran di sini. Setelah disimpan, jadwal akan langsung tampil di halaman siswa.</p></div></div>
@@ -179,7 +173,7 @@ body.admin-authenticated #content{display:block}
 <section id="galeri" class="section v6-gallery"><div class="container"><div class="head v6-gallery-head"><div><div class="kicker">GALERI KELAS</div><h2>Kelola Galeri</h2><p class="desc">Tambahkan foto. Foto otomatis masuk ke folder penyimpanan Vercel Blob dan muncul di halaman siswa. Urutan bisa diubah dengan tombol naik/turun.</p></div></div><div class="panel glass"><div class="manager-form"><input id="galleryFile" type="file" accept="image/*" multiple class="manager-input"><button type="button" class="btn" id="uploadGallery">＋ Tambah Foto</button></div><div id="galleryMessage" class="schedule-message" style="margin-top:10px"></div><div id="galleryManagerList" class="gallery-manager-list"></div></div></div></section>
 </main><div class="v7-lightbox" id="lightbox" aria-hidden="true"><button class="v7-close" id="lightboxClose" aria-label="Tutup">×</button><img id="lightboxImage" src="" alt="Foto diperbesar"></div>
 <footer class="footer">XII TKJ 3 · Admin</footer>
-<nav class="mobile-admin glass" aria-label="Navigasi Admin Mobile"><a href="#dashboard">⌂<br>Utama</a><a href="#data-absensi">▣<br>Absensi</a><a href="#siswa">♙<br>Siswa</a><a href="#struktur">♙<br>Struktur</a><a href="#jadwal">▦<br>Jadwal</a><a href="#galeri">▣<br>Galeri</a></nav>
+<nav class="mobile-admin glass" aria-label="Navigasi Admin Mobile"><a href="#dashboard">⌂<br>Utama</a><a href="#data-absensi">▣<br>Absensi</a><a href="#struktur">♙<br>Struktur</a><a href="#jadwal">▦<br>Jadwal</a><a href="#galeri">▣<br>Galeri</a></nav>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 import{getFirestore,collection,getDocs,getDoc,query,orderBy,onSnapshot,deleteDoc,doc,setDoc,updateDoc}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
@@ -444,64 +438,11 @@ document.getElementById("saveSchedule").onclick=async()=>{
 loadSchedule();
 </script><script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import{getFirestore,collection,getDocs,getDoc,doc,setDoc,updateDoc,deleteDoc,onSnapshot}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import{getFirestore,collection,getDocs,getDoc,doc,setDoc,updateDoc,deleteDoc}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 const managerApp=initializeApp({apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"},"adminManager");
 const managerDb=getFirestore(managerApp);
 function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 function showManagerToast(title,detail){const t=document.getElementById("adminToast");t.innerHTML=`<b>🔔 ${safe(title)}</b><small>${safe(detail)}</small>`;t.classList.add("show");clearTimeout(window.__managerToast);window.__managerToast=setTimeout(()=>t.classList.remove("show"),4500)}
-/* ---------- Data Siswa ---------- */
-const defaultStudents=["AHID PUTRA ANANDA","ALVIN","ANANDA DANNI ALFIAN","ANGGUN KHOIRU SYIFA","ARIL NASTAIN","ATI' DINA MAULAYA","AVIDA AMELIA","CLARISSA DWI OKTAVIANA","ISNAENI AFIATUN NURUL ARIFIA","JUAN AKBARUDIN","M QYANO AVIANSYAH","MELI AFIKASARI","MUFIDA SYAFA ALYA","M KHOIRUL IQBAL","MUHAMMAD ADLI ALFIANSYAH","MUHAMMAD ADZKIYA MUMTAZ","MUHAMMAD HANIF","MUHAMMAD ILHAM","MUHAMMAD KHOIRUL ANAM","PUTRI AMANDA","RIMA TRI JUNITA","ROHMATUL KHASANAH","ROMADZON ANTA NUHRAFI","SANDI SETIAWAN","SISKA","SISKA AMELIA","STIFEN JODI PRATAMA","SUCI LISTIANA","SUPARLIYAH","SYAFA TASYA KAMILA","TIWIK OKTAVIANINGSIH","TRI YULIA NINGSIH","TUTUT JUANITA","VIRNAJI RIZKY RAMADHAN","YULIA ADISTYAR","ZAHRO LAZIMATUSYIFA","ZULFATUROHMI"];
-let studentData=[];
-async function ensureStudentsSeeded(){
- const seedRef=doc(managerDb,"pengaturan","siswaSeed");
- const seedSnap=await getDoc(seedRef);
- if(seedSnap.exists() && seedSnap.data()?.seeded)return;
- const snap=await getDocs(collection(managerDb,"siswa"));
- if(snap.empty){
-  for(let i=0;i<defaultStudents.length;i++){
-   const id=`siswa-${String(i+1).padStart(3,"0")}`;
-   await setDoc(doc(managerDb,"siswa",id),{nama:defaultStudents[i],urutan:i+1});
-  }
- }
- await setDoc(seedRef,{seeded:true,updatedAt:Date.now()},{merge:true});
-}
-function renderStudentManager(){
- const el=document.getElementById("studentManager"),msg=document.getElementById("studentManagerMessage");
- if(!el)return;
- if(!studentData.length){el.innerHTML='<div class="empty">Belum ada data siswa.</div>'; if(msg)msg.textContent="0 siswa"; return;}
- el.innerHTML=studentData.map((x,i)=>`<div class="student-row"><div class="student-number">${i+1}</div><input class="student-name-input" data-student-id="${safe(x.id)}" value="${safe(x.nama||"")}" aria-label="Nama siswa ${i+1}"><div class="student-actions"><button type="button" data-student-save="${safe(x.id)}">Simpan</button><button type="button" class="danger" data-student-delete="${safe(x.id)}">Hapus</button></div></div>`).join("");
- if(msg)msg.textContent=`${studentData.length} siswa • Edit nama atau hapus siswa yang dipilih.`;
- el.querySelectorAll("[data-student-save]").forEach(btn=>btn.onclick=()=>saveStudent(btn.dataset.studentSave));
- el.querySelectorAll("[data-student-delete]").forEach(btn=>btn.onclick=()=>deleteStudent(btn.dataset.studentDelete));
-}
-async function loadStudents(){
- const msg=document.getElementById("studentManagerMessage");
- try{
-  await ensureStudentsSeeded();
-  const snap=await getDocs(collection(managerDb,"siswa"));
-  studentData=snap.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x.nama).sort((a,b)=>(a.urutan||999)-(b.urutan||999)||String(a.nama).localeCompare(String(b.nama)));
-  renderStudentManager();
- }catch(e){console.error("Students load",e); if(msg)msg.textContent="❌ Gagal membaca data siswa. Periksa Firestore Rules untuk collection siswa dan pengaturan."; renderStudentManager();}
-}
-async function saveStudent(id){
- const input=document.querySelector(`[data-student-id="${CSS.escape(id)}"]`),name=input?.value.trim();
- if(!name){showManagerToast("Nama belum diisi","Masukkan nama siswa terlebih dahulu.");return;}
- try{
-  await updateDoc(doc(managerDb,"siswa",id),{nama:name,updatedAt:Date.now()});
-  showManagerToast("Nama diperbarui",`${name} sudah tersimpan.`);
- }catch(e){console.error(e);showManagerToast("Gagal menyimpan","Periksa Firestore Rules untuk collection siswa.");}
-}
-async function deleteStudent(id){
- const row=studentData.find(x=>x.id===id); if(!row)return;
- if(!confirm(`Hapus siswa "${row.nama}"? Data absensi lama siswa ini tidak ikut dihapus.`))return;
- try{
-  await deleteDoc(doc(managerDb,"siswa",id));
-  studentData=studentData.filter(x=>x.id!==id); renderStudentManager();
-  showManagerToast("Siswa dihapus",`${row.nama} sudah dihapus dari daftar siswa.`);
- }catch(e){console.error(e);showManagerToast("Gagal menghapus","Periksa Firestore Rules untuk collection siswa.");}
-}
-loadStudents();
-
 /* ---------- Struktur Kelas ---------- */
 const structureDefaults=[
  {id:"wali",role:"Wali Kelas",name:"Andi Prasetyo, S.Kom.",urutan:1},

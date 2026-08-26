@@ -92,7 +92,7 @@ a{text-decoration:none;color:inherit}.container{width:min(1050px,calc(100% - 28p
 <header class="nav glass"><a class="brand" href="#home"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><a class="admin-btn" href="#admin-login">⚙ Admin</a><nav class="links"><a href="#absensi">Absensi</a><a href="#home">Utama</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav></header>
 <main>
 <section id="home" class="hero"><div class="container grid"><div><span class="pill"><span class="dot"></span> SMK NU Bandar</span><h1>Selamat Datang di Website Kelas <span class="gradient">XII TKJ 3</span></h1><p class="desc">SMK Bisa, SMK Hebat, SMK NU Bandar Luar Biasa</p><div class="actions"><a class="btn primary" href="#absensi">Isi Absensi →</a><a class="btn soft" href="#struktur">Struktur Kelas</a></div></div><div class="hero-card glass v7-hero-card v9-hero-card"><div class="v9-school-logo-wrap" data-lightbox="assets/galeri/logo-smk.jpg"><img class="v9-school-logo" src="assets/galeri/logo-smk.jpg" alt="Logo SMK NU Bandar"></div><div class="hero-bottom"><div><small>Kelas</small><strong>XII TKJ 3</strong></div><div><small>Sekolah</small><strong>SMK NU Bandar</strong></div></div></div></div></section>
-<section><div class="container"><div class="stats"><div class="stat glass"><b id="studentCount">0</b><span>Siswa</span></div><div class="stat glass"><b id="subjectCount">0</b><span>Mata Pelajaran</span></div><div class="stat glass"><b id="dayCount">0</b><span>Hari Belajar</span></div></div><div class="quick"><a class="quick-card glass" href="#struktur"><div class="icon">♙</div><h3>Struktur</h3><p>Pengurus kelas</p></a><a class="quick-card glass" href="#jadwal"><div class="icon">▦</div><h3>Jadwal</h3><p>Pelajaran kelas</p></a><a class="quick-card glass" href="#galeri"><div class="icon">▣</div><h3>Galeri</h3><p>Momen kelas</p></a></div></div></section>
+<section><div class="container"><div class="stats"><div class="stat glass"><b>37</b><span>Siswa</span></div><div class="stat glass"><b>11</b><span>Mata Pelajaran</span></div><div class="stat glass"><b>6</b><span>Hari Belajar</span></div></div><div class="quick"><a class="quick-card glass" href="#struktur"><div class="icon">♙</div><h3>Struktur</h3><p>Pengurus kelas</p></a><a class="quick-card glass" href="#jadwal"><div class="icon">▦</div><h3>Jadwal</h3><p>Pelajaran kelas</p></a><a class="quick-card glass" href="#galeri"><div class="icon">▣</div><h3>Galeri</h3><p>Momen kelas</p></a></div></div></section>
 
 <section id="absensi" class="section">
 <div class="container">
@@ -100,7 +100,10 @@ a{text-decoration:none;color:inherit}.container{width:min(1050px,calc(100% - 28p
 <div class="card glass" style="max-width:650px;margin:auto;border-radius:30px;padding:24px">
 <div class="time" id="timeInfo" style="padding:14px;border-radius:17px;background:#ffffff80;color:#687386">🕕 Absensi dibuka 06.00 — 15.00</div>
 <div style="margin-top:18px"><label style="display:block;font-weight:800;font-size:12px;margin-bottom:8px">NAMA SISWA</label>
-<select id="nama" style="width:100%;padding:15px;border-radius:17px;border:1px solid #ffffffd9;background:#ffffffa6;font-size:15px"><option value="">Memuat nama siswa...</option></select></div>
+<select id="nama" style="width:100%;padding:15px;border-radius:17px;border:1px solid #ffffffd9;background:#ffffffa6;font-size:15px">
+<option value="">Pilih nama...</option>
+<option>AHID PUTRA ANANDA</option><option>ALVIN</option><option>ANANDA DANNI ALFIAN</option><option>ANGGUN KHOIRU SYIFA</option><option>ARIL NASTAIN</option><option>ATI' DINA MAULAYA</option><option>AVIDA AMELIA</option><option>CLARISSA DWI OKTAVIANA</option><option>ISNAENI AFIATUN NURUL ARIFIA</option><option>JUAN AKBARUDIN</option><option>M QYANO AVIANSYAH</option><option>MELI AFIKASARI</option><option>MUFIDA SYAFA ALYA</option><option>M KHOIRUL IQBAL</option><option>MUHAMMAD ADLI ALFIANSYAH</option><option>MUHAMMAD ADZKIYA MUMTAZ</option><option>MUHAMMAD HANIF</option><option>MUHAMMAD ILHAM</option><option>MUHAMMAD KHOIRUL ANAM</option><option>PUTRI AMANDA</option><option>RIMA TRI JUNITA</option><option>ROHMATUL KHASANAH</option><option>ROMADZON ANTA NUHRAFI</option><option>SANDI SETIAWAN</option><option>SISKA</option><option>SISKA AMELIA</option><option>STIFEN JODI PRATAMA</option><option>SUCI LISTIANA</option><option>SUPARLIYAH</option><option>SYAFA TASYA KAMILA</option><option>TIWIK OKTAVIANINGSIH</option><option>TRI YULIA NINGSIH</option><option>TUTUT JUANITA</option><option>VIRNAJI RIZKY RAMADHAN</option><option>YULIA ADISTYAR</option><option>ZAHRO LAZIMATUSYIFA</option><option>ZULFATUROHMI</option>
+</select></div>
 <div style="margin-top:18px"><label style="display:block;font-weight:800;font-size:12px;margin-bottom:8px">STATUS KEHADIRAN</label>
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
 <label><input type="radio" name="status" value="HADIR"> HADIR</label>
@@ -155,33 +158,6 @@ import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, onSna
 
 const firebaseConfig={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
 const app=initializeApp(firebaseConfig),db=getFirestore(app);
-
-function safeText(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;", "'":"&#039;"}[c]))}
-const dayNames=["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-let liveSchedule={};
-function updateHomeStats(){
- const students=window.__students||[];
- const subjects=new Set(); let days=0;
- dayNames.forEach(day=>{const items=Array.isArray(liveSchedule[day])?liveSchedule[day]:[]; if(items.length)days++; items.forEach(x=>{const name=String(x?.mapel||x?.mataPelajaran||x?.pelajaran||x?.subject||"").trim().toLowerCase(); if(name)subjects.add(name);});});
- document.getElementById("studentCount")&&(document.getElementById("studentCount").textContent=students.length);
- document.getElementById("subjectCount")&&(document.getElementById("subjectCount").textContent=subjects.size);
- document.getElementById("dayCount")&&(document.getElementById("dayCount").textContent=days);
-}
-function renderStudentOptions(rows){
- const sel=document.getElementById("nama"); if(!sel)return;
- if(!rows.length){sel.innerHTML='<option value="">Belum ada data siswa</option>';return;}
- sel.innerHTML='<option value="">Pilih nama...</option>'+rows.map(x=>`<option value="${safeText(x.nama)}">${safeText(x.nama)}</option>`).join("");
-}
-onSnapshot(collection(db,"siswa"),snap=>{
- const rows=snap.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x.nama).sort((a,b)=>(a.urutan||999)-(b.urutan||999)||String(a.nama).localeCompare(String(b.nama)));
- window.__students=rows; renderStudentOptions(rows); updateHomeStats();
-},err=>{console.error("Students realtime",err); renderStudentOptions([]); updateHomeStats();});
-
-onSnapshot(collection(db,"jadwal"),snap=>{
- const loaded=Object.fromEntries(dayNames.map(d=>[d,[]]));
- snap.forEach(ds=>{const x=ds.data()||{},day=dayNames.find(d=>d.toLowerCase()===String(ds.id||"").toLowerCase()||d.toLowerCase()===String(x.hari||x.day||"").toLowerCase()); if(!day)return; const arr=Array.isArray(x.entries)?x.entries:Array.isArray(x.jadwal)?x.jadwal:Array.isArray(x.schedule)?x.schedule:Array.isArray(x.items)?x.items:[]; loaded[day]=arr;});
- liveSchedule=loaded; updateHomeStats();
-},err=>{console.error("Schedule stats",err);updateHomeStats();});
 const info=document.getElementById("timeInfo"),button=document.getElementById("submit"),msg=document.getElementById("message"),box=document.getElementById("keteranganBox");
 
 document.querySelectorAll('input[name="status"]').forEach(r=>r.addEventListener("change",()=>{
