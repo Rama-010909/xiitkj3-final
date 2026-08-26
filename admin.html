@@ -126,6 +126,17 @@ body.admin-authenticated #content{display:block}
 @media(max-width:700px){.manager-form{grid-template-columns:1fr}.gallery-manager-item{grid-template-columns:82px 1fr}.gallery-manager-thumb{width:82px;height:64px}.gallery-manager-buttons{grid-column:1/-1;justify-content:flex-start}.admin-structure-grid{grid-template-columns:1fr}}
 .manager-note{font-size:12px;color:#687386;line-height:1.6;margin-top:8px}
 
+
+/* v48: mobile bottom navigation — same fixed position as student page */
+.mobile-admin{display:none}
+@media(max-width:800px){
+  body.admin-authenticated{padding-bottom:0}
+  body.admin-authenticated main#content{padding-bottom:78px}
+  body.admin-authenticated .mobile-admin{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);left:10px;right:10px;bottom:10px;z-index:200;padding:8px;border-radius:24px}
+  body.admin-gate .mobile-admin{display:none!important}
+  .mobile-admin a{padding:8px 2px;border-radius:15px;color:#687386;font-size:10px;font-weight:800;text-align:center;text-decoration:none;transition:.3s;line-height:1.35}
+  .mobile-admin a:hover{transform:scale(1.04);background:#ffffffb8;color:#11834a}
+}
 </style>
 </head><body class="admin-gate">
 <header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#data-absensi">Data Absensi</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><button class="logout" id="logout">Keluar</button></header>
@@ -162,6 +173,7 @@ body.admin-authenticated #content{display:block}
 <section id="galeri" class="section v6-gallery"><div class="container"><div class="head v6-gallery-head"><div><div class="kicker">GALERI KELAS</div><h2>Kelola Galeri</h2><p class="desc">Tambahkan foto. Foto otomatis masuk ke folder penyimpanan Vercel Blob dan muncul di halaman siswa. Urutan bisa diubah dengan tombol naik/turun.</p></div></div><div class="panel glass"><div class="manager-form"><input id="galleryFile" type="file" accept="image/*" multiple class="manager-input"><button type="button" class="btn" id="uploadGallery">＋ Tambah Foto</button></div><div id="galleryMessage" class="schedule-message" style="margin-top:10px"></div><div id="galleryManagerList" class="gallery-manager-list"></div></div></div></section>
 </main><div class="v7-lightbox" id="lightbox" aria-hidden="true"><button class="v7-close" id="lightboxClose" aria-label="Tutup">×</button><img id="lightboxImage" src="" alt="Foto diperbesar"></div>
 <footer class="footer">XII TKJ 3 · Admin</footer>
+<nav class="mobile-admin glass" aria-label="Navigasi Admin Mobile"><a href="#dashboard">⌂<br>Utama</a><a href="#data-absensi">▣<br>Absensi</a><a href="#struktur">♙<br>Struktur</a><a href="#jadwal">▦<br>Jadwal</a><a href="#galeri">▣<br>Galeri</a></nav>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 import{getFirestore,collection,getDocs,getDoc,query,orderBy,onSnapshot,deleteDoc,doc,setDoc,updateDoc}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
