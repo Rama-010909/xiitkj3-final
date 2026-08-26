@@ -127,7 +127,7 @@ body.admin-authenticated #content{display:block}
 .manager-note{font-size:12px;color:#687386;line-height:1.6;margin-top:8px}
 
 </style>
-</head><body class="admin-gate"><script>if(sessionStorage.getItem("admin")==="1"){document.body.className="admin-authenticated";}</script>
+</head><body class="admin-gate">
 <header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#data-absensi">Data Absensi</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><button class="logout" id="logout">Keluar</button></header>
 <section id="adminLoginGate" class="section admin-login-section"><div class="container"><div class="card glass">
 <div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username &amp; Password untuk membuka halaman Admin</p>
@@ -191,8 +191,10 @@ function openDashboard(){
 }
 
 if(canEnterWithoutLogin || authenticated){
+  document.body.className="admin-authenticated";
   openDashboard();
 }else{
+  document.body.className="admin-gate";
   gate.style.display="flex";
   content.classList.add("hidden");
 }
