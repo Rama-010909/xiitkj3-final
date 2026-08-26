@@ -37,6 +37,36 @@
 </style>
 
 <style>
+/* Login admin: samakan dengan kartu login di halaman siswa */
+.primary{background:#111827;color:#fff}
+.admin-login-section{min-height:100vh;padding:60px 0 100px;display:flex;align-items:flex-start}
+.admin-login-section .container{width:min(100%,430px)}
+.admin-login-section .card{width:100%;max-width:430px;padding:24px;border-radius:30px}
+.admin-login-section h2{font-size:clamp(42px,7vw,50px);line-height:1.05;letter-spacing:-.055em;margin:5px 0 22px}
+.admin-login-section .desc{font-size:16px;line-height:1.7;margin:0 0 16px}
+.admin-login-section .login-field{margin:15px 0}
+.admin-login-section .login-field label{display:block;font-size:13px;font-weight:850;margin-bottom:8px}
+.admin-login-section .login-input{width:100%;padding:15px;border:1px solid #ffffffd9;border-radius:17px;background:#ffffff94;outline:0;color:#101827;font:inherit;box-sizing:border-box}
+.admin-login-section .password-field{position:relative;display:flex;align-items:center}
+.admin-login-section .password-field .login-input{padding-right:52px}
+.admin-login-section .password-toggle{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;border-radius:12px;background:transparent;display:grid;place-items:center;cursor:pointer;color:#667085;padding:0;transition:background .2s ease,color .2s ease,transform .2s ease}
+.admin-login-section .password-toggle:hover{background:rgba(99,102,241,.09);color:#111827;transform:translateY(-50%) scale(1.04)}
+.admin-login-section .password-toggle:active{transform:translateY(-50%) scale(.96)}
+.admin-login-section .password-toggle:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+.admin-login-section .eye-icon{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.admin-login-section .eye-closed{display:none}
+.admin-login-section .password-toggle.is-visible .eye-open{display:none}
+.admin-login-section .password-toggle.is-visible .eye-closed{display:block}
+.admin-login-section #gateLogin{width:100%;margin-top:0;padding:14px 19px;border-radius:18px;box-shadow:0 10px 25px #1f29370f}
+.admin-login-section #gateLogin:hover{transform:scale(1.08) translateY(-3px);box-shadow:0 20px 40px #1f293726}
+body.admin-gate header.nav{display:none}
+body.admin-gate #adminLoginGate{display:flex}
+body.admin-gate #content{display:none}
+body.admin-gate footer.footer{display:none}
+body.admin-authenticated #adminLoginGate{display:none}
+body.admin-authenticated #content{display:block}
+@media(max-width:500px){.admin-login-section{padding:35px 14px 50px}.admin-login-section .card{padding:24px}.admin-login-section h2{font-size:44px}}
+
 /* v12: admin attendance management, realtime notification, daily cards, schedule editor */
 .attendance-date-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .selected-date{font-weight:900;font-size:14px}
@@ -95,28 +125,6 @@
 .structure-save-panel{margin-top:18px}
 @media(max-width:700px){.manager-form{grid-template-columns:1fr}.gallery-manager-item{grid-template-columns:82px 1fr}.gallery-manager-thumb{width:82px;height:64px}.gallery-manager-buttons{grid-column:1/-1;justify-content:flex-start}.admin-structure-grid{grid-template-columns:1fr}}
 .manager-note{font-size:12px;color:#687386;line-height:1.6;margin-top:8px}
-
-/* Login /admin dibuat sama persis dengan kartu login Admin di halaman siswa */
-.admin-login-section{min-height:100vh;padding:84px 0 60px;display:flex;align-items:flex-start}
-.admin-login-section .container{width:min(100%,430px)}
-.admin-login-section .card{width:100%;max-width:430px;min-height:0;padding:24px;border-radius:30px}
-.admin-login-section h2{font-size:clamp(42px,7vw,50px);line-height:1.05;letter-spacing:-.055em;margin:5px 0 22px}
-.admin-login-section .desc{font-size:16px;line-height:1.7;margin:0 0 16px}
-.admin-login-section .login-field{margin:15px 0}
-.admin-login-section .login-field label{font-size:13px;font-weight:850;margin-bottom:8px}
-.admin-login-section .login-input{width:100%;padding:15px;border:1px solid #ffffffd9;border-radius:17px;background:#ffffff94;outline:0;color:#101827;font:inherit;box-sizing:border-box}
-.admin-login-section .password-field{position:relative}
-.admin-login-section .password-field .login-input{padding-right:52px}
-.admin-login-section .password-toggle{right:7px;width:40px;height:40px}
-.admin-login-section #gateLogin{width:100%;margin-top:0;padding:14px 19px;border-radius:18px}
-/* Saat belum login, halaman admin hanya menampilkan kartu login seperti halaman siswa. */
-body.admin-gate header.nav{display:none}
-body.admin-gate #adminLoginGate{display:flex}
-body.admin-gate #content{display:none}
-body.admin-gate footer.footer{display:none}
-body.admin-authenticated #adminLoginGate{display:none}
-body.admin-authenticated #content{display:block}
-@media(max-width:500px){.admin-login-section{padding:35px 14px 50px}.admin-login-section .card{padding:24px}.admin-login-section h2{font-size:44px}}
 
 </style>
 </head><body class="admin-gate"><script>if(sessionStorage.getItem("admin")==="1"){document.body.className="admin-authenticated";}</script>
