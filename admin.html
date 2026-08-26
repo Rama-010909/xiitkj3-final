@@ -96,15 +96,36 @@
 @media(max-width:700px){.manager-form{grid-template-columns:1fr}.gallery-manager-item{grid-template-columns:82px 1fr}.gallery-manager-thumb{width:82px;height:64px}.gallery-manager-buttons{grid-column:1/-1;justify-content:flex-start}.admin-structure-grid{grid-template-columns:1fr}}
 .manager-note{font-size:12px;color:#687386;line-height:1.6;margin-top:8px}
 
-.admin-login-section{padding-top:70px;padding-bottom:70px}.admin-login-section .card{min-height:0}
+/* Login /admin dibuat sama persis dengan kartu login Admin di halaman siswa */
+.admin-login-section{min-height:100vh;padding:84px 0 60px;display:flex;align-items:flex-start}
+.admin-login-section .container{width:min(100%,430px)}
+.admin-login-section .card{width:100%;max-width:430px;min-height:0;padding:24px;border-radius:30px}
+.admin-login-section h2{font-size:clamp(42px,7vw,50px);line-height:1.05;letter-spacing:-.055em;margin:5px 0 22px}
+.admin-login-section .desc{font-size:16px;line-height:1.7;margin:0 0 16px}
+.admin-login-section .login-field{margin:15px 0}
+.admin-login-section .login-field label{font-size:13px;font-weight:850;margin-bottom:8px}
+.admin-login-section .login-input{width:100%;padding:15px;border:1px solid #ffffffd9;border-radius:17px;background:#ffffff94;outline:0;color:#101827;font:inherit;box-sizing:border-box}
+.admin-login-section .password-field{position:relative}
+.admin-login-section .password-field .login-input{padding-right:52px}
+.admin-login-section .password-toggle{right:7px;width:40px;height:40px}
+.admin-login-section #gateLogin{width:100%;margin-top:0;padding:14px 19px;border-radius:18px}
+/* Saat belum login, halaman admin hanya menampilkan kartu login seperti halaman siswa. */
+body.admin-gate header.nav{display:none}
+body.admin-gate #adminLoginGate{display:flex}
+body.admin-gate #content{display:none}
+body.admin-gate footer.footer{display:none}
+body.admin-authenticated #adminLoginGate{display:none}
+body.admin-authenticated #content{display:block}
+@media(max-width:500px){.admin-login-section{padding:35px 14px 50px}.admin-login-section .card{padding:24px}.admin-login-section h2{font-size:44px}}
+
 </style>
-</head><body>
+</head><body class="admin-gate"><script>if(sessionStorage.getItem("admin")==="1"){document.body.className="admin-authenticated";}</script>
 <header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#data-absensi">Data Absensi</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><button class="logout" id="logout">Keluar</button></header>
-<section id="adminLoginGate" class="section admin-login-section"><div class="container"><div class="card glass" style="max-width:430px;margin:auto">
+<section id="adminLoginGate" class="section admin-login-section"><div class="container"><div class="card glass">
 <div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username &amp; Password untuk membuka halaman Admin</p>
-<div style="margin:15px 0"><label>USERNAME</label><input id="gateUser" style="width:100%;padding:15px;border:1px solid #fff;border-radius:16px;background:#ffffff94;box-sizing:border-box" autocomplete="username"></div>
-<div style="margin:15px 0"><label>PASSWORD</label><div class="password-field"><input id="gatePassword" type="password" style="width:100%;padding:15px;border:1px solid #fff;border-radius:16px;background:#ffffff94;box-sizing:border-box" autocomplete="current-password"><button type="button" class="password-toggle" id="gatePasswordToggle" aria-label="Tampilkan password" aria-pressed="false" title="Tampilkan password"><svg class="eye-icon eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.7"/></svg><svg class="eye-icon eye-closed" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 6.2A10.6 10.6 0 0 1 12 6c6.5 0 10 6 10 6a18.8 18.8 0 0 1-3.2 3.6"/><path d="M6.2 8.1C3.8 9.7 2 12 2 12s3.5 6 10 6a10.6 10.6 0 0 0 3.4-.55"/><path d="M9.9 9.9a2.7 2.7 0 0 0 3.8 3.8"/></svg></button></div></div>
-<button class="btn primary" id="gateLogin" style="width:100%">Login ke Admin →</button><div id="gateMsg" class="message"></div>
+<div class="login-field"><label>USERNAME</label><input id="gateUser" class="login-input" autocomplete="username"></div>
+<div class="login-field"><label>PASSWORD</label><div class="password-field"><input id="gatePassword" class="login-input" type="password" autocomplete="current-password"><button type="button" class="password-toggle" id="gatePasswordToggle" aria-label="Tampilkan password" aria-pressed="false" title="Tampilkan password"><svg class="eye-icon eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.7"/></svg><svg class="eye-icon eye-closed" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 6.2A10.6 10.6 0 0 1 12 6c6.5 0 10 6 10 6a18.8 18.8 0 0 1-3.2 3.6"/><path d="M6.2 8.1C3.8 9.7 2 12 2 12s3.5 6 10 6a10.6 10.6 0 0 0 3.4-.55"/><path d="M9.9 9.9a2.7 2.7 0 0 0 3.8 3.8"/></svg></button></div></div>
+<button class="btn primary" id="gateLogin">Login ke Admin →</button><div id="gateMsg" class="message"></div>
 </div></div></section>
 <div id="adminToast" class="admin-toast" role="status"></div><main id="content" class="hidden">
 <section id="dashboard" class="hero"><div class="container"><div class="kicker">ADMINISTRATOR</div><h1>Dashboard <span class="gradient">XII TKJ 3</span></h1><p class="desc">Selamat Datang Admin. Akses penuh untuk kelola <b>Data Absensi,</b> <b>Struktur,</b> <b>Jadwal,</b> <b>& Galeri Kelas</b></p></div></section>
