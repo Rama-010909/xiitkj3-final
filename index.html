@@ -141,7 +141,12 @@ a{text-decoration:none;color:inherit}.container{width:min(1050px,calc(100% - 28p
 <script>
 function adminLogin(){
  const u=document.getElementById("adminUser").value,p=document.getElementById("adminPassword").value,m=document.getElementById("adminMsg");
- if(u==="tkj3"&&p==="smknubandar"){sessionStorage.admin="1";location.href="admin.html"}else m.textContent="❌ Username atau Password salah.";
+ if(u==="tkj3"&&p==="smknubandar"){sessionStorage.admin="1";sessionStorage.adminEntry="student";location.href="/admin?from=student"}else m.textContent="❌ Username atau Password salah.";
+}
+</script>
+<script>
+if(new URLSearchParams(location.search).get("login")==="admin"){
+  window.addEventListener("DOMContentLoaded",()=>document.getElementById("admin-login")?.scrollIntoView({behavior:"instant",block:"start"}));
 }
 </script>
 <div class="v7-lightbox" id="lightbox" aria-hidden="true"><button class="v7-close" id="lightboxClose" aria-label="Tutup">×</button><img id="lightboxImage" src="" alt="Foto diperbesar"></div>

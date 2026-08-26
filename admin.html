@@ -140,7 +140,10 @@ const dayOrder=["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
 const dayIds={Senin:"senin",Selasa:"selasa",Rabu:"rabu",Kamis:"kamis",Jumat:"jumat",Sabtu:"sabtu"};
 const defaultSchedule={Senin:[],Selasa:[],Rabu:[],Kamis:[],Jumat:[],Sabtu:[]};
 
-if(sessionStorage.admin!=="1"){location.href="index.html#admin-login"}
+const adminParams=new URLSearchParams(location.search);
+const enteredFromStudent=adminParams.get("from")==="student";
+const canEnterWithoutSecondLogin=sessionStorage.admin==="1" && sessionStorage.adminEntry==="student" && enteredFromStudent;
+if(!canEnterWithoutSecondLogin){sessionStorage.removeItem("admin");sessionStorage.removeItem("adminEntry");location.href="/?login=admin#admin-login"}
 else{
  content.classList.remove("hidden");
  const today=new Date();
@@ -148,7 +151,7 @@ else{
  loadAttendance();
 }
 
-document.getElementById("logout").onclick=()=>{sessionStorage.removeItem("admin");location.href="index.html#admin-login"};
+document.getElementById("logout").onclick=()=>{sessionStorage.removeItem("admin");sessionStorage.removeItem("adminEntry");location.href="/?login=admin#admin-login"};
 document.getElementById("refresh").onclick=loadAttendance;
 filterDate.onchange=loadAttendance;
 document.getElementById("todayDate").onclick=()=>{const d=new Date();filterDate.value=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");loadAttendance()};
