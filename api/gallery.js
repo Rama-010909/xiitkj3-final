@@ -11,11 +11,20 @@ const DEFAULTS = [1,2,3,4,5,6,7].map(n => ({
 
 const MANIFEST_PATH = 'gallery/gallery.json';
 
+function ensureBlobConfigured() {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    const err = new Error('Vercel Blob belum terhubung ke project. Tambahkan Blob Store agar galeri online dan upload foto aktif.');
+    err.code = 'BLOB_NOT_CONFIGURED';
+    throw err;
+  }
+}
+
 function json(res, status, body) {
   res.status(status).json(body);
 }
 
 async function getManifestUrl() {
+  ensureBlobConfigured();
   const result = await list({ prefix: 'gallery/gallery.json', limit: 10 });
   const exact = (result.blobs || []).find(b => b.pathname === MANIFEST_PATH);
   return exact?.url || null;
@@ -35,6 +44,7 @@ async function readGallery() {
 }
 
 async function writeGallery(rows) {
+  ensureBlobConfigured();
   const normalized = rows.map((x, i) => ({ ...x, urutan: i + 1 }));
   await put(MANIFEST_PATH, JSON.stringify(normalized, null, 2), {
     access: 'public',
@@ -130,6 +140,6 @@ module.exports = async function handler(req, res) {
     return json(res, 404, { ok: false, error: 'Endpoint tidak ditemukan.' });
   } catch (error) {
     console.error('Gallery API error:', error);
-    return json(res, 500, { ok: false, error: error?.message || 'Server galeri gagal.' });
+    return json(res, error?.code === 'BLOB_NOT_CONFIGURED' ? 503 : 500, { ok: false, error: error?.message || 'Server galeri gagal.' });
   }
 };

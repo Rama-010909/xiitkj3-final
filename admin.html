@@ -201,8 +201,111 @@ input,select,textarea,.date,.student-name-input,.login-input{background:var(--in
 }
 .gallery-local-note{font-size:11px;font-weight:850;padding:8px 10px;border-radius:12px;background:var(--surface-soft);color:var(--muted)}
 </style>
+
+<style id="v56-theme">
+/* v56 visual system: light stays close to the previous airy model; dark follows the supplied green/purple reference. */
+:root{
+  --v56-light-bg:#edf3f8;
+  --v56-light-text:#101827;
+  --v56-light-muted:#687386;
+  --v56-dark-bg:#090d18;
+  --v56-dark-text:#f5f7ff;
+  --v56-dark-muted:#aeb7ca;
+}
+/* Light mode: soft green + violet glow, close to the existing student design. */
+:root[data-theme="light"] body:before,
+:root:not([data-theme="dark"]) body:before{background:#72e2a4!important;opacity:.82}
+:root[data-theme="light"] body:after,
+:root:not([data-theme="dark"]) body:after{background:linear-gradient(135deg,#8db7ff 0%,#c08cff 48%,#ffb2d5 100%)!important;opacity:.72}
+:root[data-theme="light"] .glass,
+:root:not([data-theme="dark"]) .glass{backdrop-filter:blur(28px) saturate(150%);-webkit-backdrop-filter:blur(28px) saturate(150%)}
+
+/* Dark mode: deep navy + purple and green atmosphere with stronger contrast. */
+:root[data-theme="dark"]{
+  --bg:#090d18!important;--text:#f5f7ff!important;--muted:#aeb7ca!important;
+  --surface:rgba(18,23,38,.78)!important;--surface-strong:rgba(20,25,43,.92)!important;
+  --surface-soft:rgba(30,35,58,.82)!important;--border:rgba(255,255,255,.13)!important;
+  --line:rgba(255,255,255,.11)!important;--accent:#65e39b!important;
+  --button:#f5f7ff!important;--button-text:#0a0f1d!important;--input:rgba(11,16,29,.88)!important;
+  --shadow:rgba(0,0,0,.48)!important;--table:rgba(10,15,28,.72)!important;--thead:rgba(115,83,255,.16)!important;
+  color-scheme:dark;
+}
+:root[data-theme="dark"] body,
+:root[data-theme="dark"] html{background:#090d18!important;color:#f5f7ff}
+:root[data-theme="dark"] body:before{
+  width:520px!important;height:520px!important;left:-180px!important;top:40px!important;
+  background:radial-gradient(circle at 55% 50%,rgba(30,210,127,.72) 0%,rgba(14,122,79,.42) 32%,rgba(8,70,54,0) 70%)!important;
+  opacity:1!important;filter:blur(55px)!important;
+}
+:root[data-theme="dark"] body:after{
+  width:650px!important;height:650px!important;right:-240px!important;bottom:-180px!important;
+  background:radial-gradient(circle at 45% 45%,rgba(157,78,255,.72) 0%,rgba(87,48,164,.46) 35%,rgba(25,31,72,0) 72%)!important;
+  opacity:1!important;filter:blur(65px)!important;
+}
+:root[data-theme="dark"] .glass{background:rgba(18,23,38,.72)!important;border-color:rgba(255,255,255,.13)!important;box-shadow:0 24px 70px rgba(0,0,0,.34)!important}
+:root[data-theme="dark"] .nav{background:rgba(15,20,34,.84)!important}
+:root[data-theme="dark"] h1,
+:root[data-theme="dark"] h2,
+:root[data-theme="dark"] h3,
+:root[data-theme="dark"] strong,
+:root[data-theme="dark"] b,
+:root[data-theme="dark"] label,
+:root[data-theme="dark"] .gallery-manager-name,
+:root[data-theme="dark"] .admin-structure-role{color:#f5f7ff!important}
+:root[data-theme="dark"] .desc,
+:root[data-theme="dark"] .empty,
+:root[data-theme="dark"] .footer,
+:root[data-theme="dark"] .gallery-manager-meta,
+:root[data-theme="dark"] .stat span,
+:root[data-theme="dark"] .quick-card p,
+:root[data-theme="dark"] .schedule-message,
+:root[data-theme="dark"] .student-count-note{color:#aeb7ca!important}
+:root[data-theme="dark"] .gradient{background:linear-gradient(110deg,#ffffff 0%,#6ee6a1 38%,#76a9ff 66%,#b98cff 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important}
+:root[data-theme="dark"] .kicker,.kicker{color:var(--accent)!important}
+:root[data-theme="dark"] .btn:not(.primary),
+:root[data-theme="dark"] .date{background:rgba(32,38,62,.84)!important;color:#f5f7ff!important;border-color:rgba(255,255,255,.13)!important}
+:root[data-theme="dark"] .primary,.btn.primary{box-shadow:0 10px 30px rgba(91,68,190,.20)}
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] select,
+:root[data-theme="dark"] textarea,
+:root[data-theme="dark"] .login-input,
+:root[data-theme="dark"] .student-name-input{background:rgba(10,15,27,.88)!important;color:#f5f7ff!important;border-color:rgba(255,255,255,.15)!important}
+:root[data-theme="dark"] input::placeholder,
+:root[data-theme="dark"] textarea::placeholder{color:#8792a8!important}
+:root[data-theme="dark"] .table,
+:root[data-theme="dark"] .schedule table{background:rgba(8,13,25,.72)!important;color:#f5f7ff}
+:root[data-theme="dark"] .table th,
+:root[data-theme="dark"] .schedule th{background:rgba(111,70,220,.18)!important;color:#f5f7ff!important}
+:root[data-theme="dark"] .table td,
+:root[data-theme="dark"] .schedule td{border-bottom-color:rgba(255,255,255,.09)!important;color:#dfe5f1!important}
+:root[data-theme="dark"] .theme-control select{background:rgba(29,34,57,.92)!important;color:#f5f7ff!important;border-color:rgba(255,255,255,.14)!important}
+:root[data-theme="dark"] .links a,
+:root[data-theme="dark"] .logout{color:#b8c1d2!important}
+:root[data-theme="dark"] .links a:hover,
+:root[data-theme="dark"] .logout:hover{background:rgba(255,255,255,.08)!important;color:#65e39b!important}
+:root[data-theme="dark"] .avatar,
+:root[data-theme="dark"] .icon{background:rgba(33,40,65,.88)!important;border-color:rgba(255,255,255,.13)!important;color:#f5f7ff!important}
+:root[data-theme="dark"] .badge{background:rgba(255,255,255,.09)!important;color:#f5f7ff!important}
+:root[data-theme="dark"] .v9-school-logo-wrap{background:rgba(255,255,255,.035)!important;border-color:rgba(255,255,255,.10)!important}
+:root[data-theme="dark"] .v9-school-logo{filter:drop-shadow(0 15px 28px rgba(105,77,255,.32))}
+:root[data-theme="dark"] .v9-brand-logo{filter:drop-shadow(0 8px 18px rgba(80,220,150,.18))}
+:root[data-theme="dark"] .mobile,
+:root[data-theme="dark"] .mobile-admin{background:rgba(14,19,33,.92)!important;border-color:rgba(255,255,255,.12)!important}
+
+/* Gallery online status card, based on the supplied reference. */
+.gallery-online-status{display:flex;align-items:center;gap:11px;padding:13px 15px;border-radius:16px;margin:12px 0 16px;background:rgba(42,196,116,.08);border:1px solid rgba(42,196,116,.25);color:var(--text)}
+.gallery-online-status small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.status-dot{width:10px;height:10px;border-radius:50%;background:#aab3c2;box-shadow:0 0 0 4px rgba(170,179,194,.10);flex:none}
+.status-dot.ok{background:#38d889;box-shadow:0 0 0 4px rgba(56,216,137,.12)}
+.status-pill{margin-left:auto;font-size:10px;font-weight:900;padding:6px 9px;border-radius:99px;background:rgba(130,140,160,.12);color:var(--muted)}
+.status-pill.online{background:rgba(56,216,137,.14);color:#169557}
+.status-pill.offline{background:rgba(244,82,82,.12);color:#c83c3c}
+:root[data-theme="dark"] .gallery-online-status{background:rgba(48,212,133,.07);border-color:rgba(48,212,133,.25)}
+:root[data-theme="dark"] .status-pill.online{color:#73e9a8;background:rgba(65,223,142,.12)}
+:root[data-theme="dark"] .status-pill.offline{color:#ff9b9b;background:rgba(255,90,90,.12)}
+</style>
 </head><body class="admin-gate">
-<header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="system">🖥 Sistem</option><option value="light">☀️ Cerah</option><option value="dark">🌙 Gelap</option></select></div><button class="logout" id="logout">Keluar</button></header>
+<header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-smk-theme.png" src="assets/galeri/logo-smk-theme.png" alt="Logo SMK NU Bandar">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="system">🖥 Sistem</option><option value="light">☀️ Cerah</option><option value="dark">🌙 Gelap</option></select></div><button class="logout" id="logout">Keluar</button></header>
 <section id="adminLoginGate" class="section admin-login-section"><div class="container"><div class="card glass">
 <div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username &amp; Password untuk membuka halaman Admin</p>
 <div class="login-field"><label>USERNAME</label><input id="gateUser" class="login-input" autocomplete="username"></div>
@@ -235,7 +338,7 @@ input,select,textarea,.date,.student-name-input,.login-input{background:var(--in
 <div id="scheduleEditor" class="schedule-editor"></div>
 <div class="schedule-actions"><button class="btn" id="saveSchedule">💾 Simpan Semua Jadwal</button><span id="scheduleMessage" class="schedule-message"></span></div>
 </div></div></section>
-<section id="galeri" class="section v6-gallery"><div class="container"><div class="head v6-gallery-head"><div><div class="kicker">GALERI KELAS</div><h2>Kelola Galeri</h2><p class="desc">Tambahkan foto. Foto otomatis masuk ke folder penyimpanan Vercel Blob dan muncul di halaman siswa. Urutan bisa diubah dengan tombol naik/turun.</p></div></div><div class="panel glass"><div class="manager-form"><input id="galleryFile" type="file" accept="image/*" multiple class="manager-input"><button type="button" class="btn" id="uploadGallery">＋ Tambah Foto</button></div><div id="galleryMessage" class="schedule-message" style="margin-top:10px"></div><div id="galleryManagerList" class="gallery-manager-list"></div></div></div></section>
+<section id="galeri" class="section v6-gallery"><div class="container"><div class="head v6-gallery-head"><div><div class="kicker">GALERI KELAS</div><h2>Kelola Galeri</h2><p class="desc">Tambahkan foto. Foto otomatis masuk ke folder penyimpanan Vercel Blob dan muncul di halaman siswa. Urutan bisa diubah dengan tombol naik/turun.</p></div></div><div class="panel glass"><div class="manager-form"><input id="galleryFile" type="file" accept="image/*" multiple class="manager-input"><button type="button" class="btn" id="uploadGallery">＋ Tambah Foto</button></div><div id="galleryOnlineStatus" class="gallery-online-status"><span class="status-dot"></span><div><b>Penyimpanan Online</b><small id="galleryOnlineText">Memeriksa koneksi Vercel Blob...</small></div><span class="status-pill" id="galleryOnlinePill">Memeriksa</span></div><div id="galleryMessage" class="schedule-message" style="margin-top:10px"></div><div id="galleryManagerList" class="gallery-manager-list"></div></div></div></section>
 </main><div class="v7-lightbox" id="lightbox" aria-hidden="true"><button class="v7-close" id="lightboxClose" aria-label="Tutup">×</button><img id="lightboxImage" src="" alt="Foto diperbesar"></div>
 <footer class="footer">XII TKJ 3 · Admin</footer>
 <nav class="mobile-admin glass" aria-label="Navigasi Admin Mobile"><a href="#dashboard">⌂<br>Utama</a><a href="#data-absensi">▣<br>Absensi</a><a href="#siswa">♙<br>Siswa</a><a href="#struktur">♙<br>Struktur</a><a href="#jadwal">▦<br>Jadwal</a><a href="#galeri">▣<br>Galeri</a></nav>
@@ -670,12 +773,13 @@ async function loadGallery(){
   galleryData=remote.length?remote:galleryLocalFallback.slice();
   renderGalleryManager();
   const msg=document.getElementById("galleryMessage");
-  if(!remote.length && msg) msg.textContent="ℹ️ Belum ada foto Vercel Blob. Menampilkan foto bawaan agar galeri tetap terlihat.";
+  if(msg) msg.textContent=remote.length ? "" : "Foto bawaan ditampilkan. Tambahkan foto untuk menyimpannya online.";
  }catch(e){
   console.error("Gallery load:",e);
   galleryData=galleryLocalFallback.slice();
   renderGalleryManager();
-  document.getElementById("galleryMessage").textContent="ℹ️ Galeri online belum tersedia di server ini. Menampilkan foto bawaan.";
+  const msg=document.getElementById("galleryMessage");
+  if(msg) msg.textContent="Foto bawaan tetap ditampilkan. Penyimpanan online perlu dihubungkan ke Vercel Blob.";
  }
 }
 
@@ -744,6 +848,19 @@ document.getElementById("uploadGallery").onclick=async()=>{
  finally{btn.disabled=false}
 };
 
+async function checkGalleryOnline(){
+ const dot=document.querySelector("#galleryOnlineStatus .status-dot"), text=document.getElementById("galleryOnlineText"), pill=document.getElementById("galleryOnlinePill");
+ try{
+  const data=await galleryRequest(GALLERY_API);
+  if(dot)dot.classList.add("ok");
+  if(pill){pill.textContent="Online";pill.className="status-pill online";}
+  if(text)text.textContent=(data.items||[]).filter(x=>!x.local).length+" foto tersimpan dan bisa diakses dari semua perangkat.";
+ }catch(e){
+  if(pill){pill.textContent="Belum aktif";pill.className="status-pill offline";}
+  if(text)text.textContent="Hubungkan Vercel Blob ke project agar Tambah Foto dapat menyimpan online.";
+ }
+}
+checkGalleryOnline();
 loadGallery();
 </script><script>
 (()=>{const lb=document.getElementById('lightbox'),im=document.getElementById('lightboxImage'),close=document.getElementById('lightboxClose');function open(src){im.src=src;lb.classList.add('open');lb.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}function shut(){lb.classList.remove('open');lb.setAttribute('aria-hidden','true');im.src='';document.body.style.overflow=''}document.querySelectorAll('[data-lightbox]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();open(el.dataset.lightbox)}));close.addEventListener('click',e=>{e.stopPropagation();shut()});lb.addEventListener('click',e=>{if(e.target===lb)shut()});document.addEventListener('keydown',e=>{if(e.key==='Escape')shut()})})();

@@ -1,8 +1,6 @@
 {
-  "name": "xii-tkj3-gallery-vercel",
-  "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "@vercel/blob": "latest"
-  }
+  "name":"xii-tkj3-gallery-vercel",
+  "version":"1.0.0",
+  "private":true,
+  "dependencies":{"@vercel/blob":"2.6.1"}
 }

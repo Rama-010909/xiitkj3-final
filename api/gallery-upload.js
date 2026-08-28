@@ -1,6 +1,9 @@
 const { handleUpload } = require('@vercel/blob/client');
 
 module.exports = async function handler(req, res) {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return res.status(503).json({ error: 'Vercel Blob belum terhubung ke project. Hubungkan Blob Store lalu deploy ulang.' });
+  }
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'Method Not Allowed' });
