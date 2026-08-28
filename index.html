@@ -172,10 +172,15 @@ function renderStudentOptions(rows){
  if(!rows.length){sel.innerHTML='<option value="">Belum ada data siswa</option>';return;}
  sel.innerHTML='<option value="">Pilih nama...</option>'+rows.map(x=>`<option value="${safeText(x.nama)}">${safeText(x.nama)}</option>`).join("");
 }
+let studentsLoaded=false;
+const studentsTimeout=setTimeout(()=>{
+ if(!studentsLoaded){console.warn("Students Firestore timeout"); renderStudentOptions([]); updateHomeStats();}
+},8000);
 onSnapshot(collection(db,"siswa"),snap=>{
+ studentsLoaded=true; clearTimeout(studentsTimeout);
  const rows=snap.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x.nama).sort((a,b)=>(a.urutan||999)-(b.urutan||999)||String(a.nama).localeCompare(String(b.nama)));
  window.__students=rows; renderStudentOptions(rows); updateHomeStats();
-},err=>{console.error("Students realtime",err); renderStudentOptions([]); updateHomeStats();});
+},err=>{studentsLoaded=true; clearTimeout(studentsTimeout); console.error("Students realtime",err); renderStudentOptions([]); updateHomeStats();});
 
 onSnapshot(collection(db,"jadwal"),snap=>{
  const loaded=Object.fromEntries(dayNames.map(d=>[d,[]]));
@@ -276,7 +281,15 @@ function updateCurrentLesson(){
    currentLessonCard.hidden=true;
  }
 }
+let scheduleLoaded=false;
+const scheduleTimeout=setTimeout(()=>{
+ if(!scheduleLoaded){
+  console.warn("Schedule Firestore timeout");
+  scheduleBody.innerHTML=dayOrder.map(day=>`<tr><td><b>${day}</b></td><td colspan="2" style="color:#687386">Belum ada jadwal</td></tr>`).join("");
+ }
+},8000);
 onSnapshot(collection(db,"jadwal"),snap=>{
+ scheduleLoaded=true; clearTimeout(scheduleTimeout);
  const data=Object.fromEntries(dayOrder.map(day=>[day,[]]));
  const normalizeDay=(value)=>{
    const key=String(value??"").trim().toLowerCase();
@@ -313,6 +326,7 @@ onSnapshot(collection(db,"jadwal"),snap=>{
  }).join("");
  updateCurrentLesson();
 },err=>{
+ scheduleLoaded=true; clearTimeout(scheduleTimeout);
  console.error("Schedule error:",err);
  scheduleBody.innerHTML=`<tr><td colspan="3" class="schedule-loading">❌ Gagal memuat jadwal. Periksa Firestore Rules.</td></tr>`;
 });
@@ -331,10 +345,15 @@ function renderStudentStructure(rows){
  const el=document.getElementById("studentStructure");
  el.innerHTML=rows.map(x=>`<article class="person glass"><div class="avatar">${safeText(String(x.role||"?").charAt(0))}</div><div class="role">${safeText(x.role)}</div><h3>${safeText(x.name||"-")}</h3></article>`).join("");
 }
+let structureLoaded=false;
+const structureTimeout=setTimeout(()=>{
+ if(!structureLoaded){console.warn("Structure Firestore timeout"); renderStudentStructure(structureFallback);}
+},8000);
 onSnapshot(collection(db,"struktur"),snap=>{
+ structureLoaded=true; clearTimeout(structureTimeout);
  const rows=snap.docs.map(d=>d.data()).sort((a,b)=>(a.urutan||99)-(b.urutan||99));
  renderStudentStructure(rows.length?rows:structureFallback);
-},()=>renderStudentStructure(structureFallback));
+},()=>{structureLoaded=true; clearTimeout(structureTimeout); renderStudentStructure(structureFallback);});
 
 function renderStudentGallery(rows){
  const el=document.getElementById("studentGallery");
