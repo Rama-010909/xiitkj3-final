@@ -89,6 +89,13 @@ a{text-decoration:none;color:inherit}.container{width:min(1050px,calc(100% - 28p
 }
 </style>
 
+<style>
+/* v59: logo kelas diperbaiki + otomatis mengikuti tema */
+.class-logo{width:42px;height:42px;object-fit:contain;display:block;flex:0 0 42px;border-radius:10px;background:transparent;box-shadow:none;cursor:zoom-in;transition:filter .25s ease,opacity .25s ease,transform .25s ease}
+.class-logo:hover{transform:scale(1.05)}
+.class-logo-picture{display:contents}
+@media(max-width:800px){.class-logo{width:38px;height:38px;flex-basis:38px}}
+</style>
 <style id="theme-system">
 :root{
   color-scheme: light;
@@ -268,7 +275,7 @@ input,select,textarea,.date,.student-name-input,.login-input{background:var(--in
 
 </style>
 </head><body>
-<header class="nav glass"><a class="brand" href="#home"><picture class="class-logo-picture"><source media="(prefers-color-scheme: dark)" srcset="assets/galeri/logo-kelas-dark.png"><img class="class-logo" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3"></picture>XII TKJ 3</a><a class="admin-btn" href="#admin-login">⚙ Admin</a><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><nav class="links"><a href="#absensi">Absensi</a><a href="#home">Utama</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav></header>
+<header class="nav glass"><a class="brand" href="#home"><img class="class-logo theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3">XII TKJ 3</a><a class="admin-btn" href="#admin-login">⚙ Admin</a><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><nav class="links"><a href="#absensi">Absensi</a><a href="#home">Utama</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav></header>
 <main>
 <section id="home" class="hero"><div class="container grid"><div><span class="pill"><span class="dot"></span> SMK NU Bandar</span><h1>Selamat Datang di Website Kelas <span class="gradient">XII TKJ 3</span></h1><p class="desc">SMK Bisa, SMK Hebat, SMK NU Bandar Luar Biasa</p><div class="actions"><a class="btn primary" href="#absensi">Isi Absensi →</a><a class="btn soft" href="#struktur">Struktur Kelas</a></div></div><div class="hero-card glass v7-hero-card v9-hero-card"><div class="v9-school-logo-wrap" data-lightbox="assets/galeri/logo-smk-theme.png"><img class="v9-school-logo" src="assets/galeri/logo-smk-theme.png" alt="Logo SMK NU Bandar"></div><div class="hero-bottom"><div><small>Kelas</small><strong>XII TKJ 3</strong></div><div><small>Sekolah</small><strong>SMK NU Bandar</strong></div></div></div></div></section>
 <section><div class="container"><div class="stats"><div class="stat glass"><b id="studentCount">0</b><span>Siswa</span></div><div class="stat glass"><b id="subjectCount">0</b><span>Mata Pelajaran</span></div><div class="stat glass"><b id="dayCount">0</b><span>Hari Belajar</span></div></div><div class="quick"><a class="quick-card glass" href="#struktur"><div class="icon">♙</div><h3>Struktur</h3><p>Pengurus kelas</p></a><a class="quick-card glass" href="#jadwal"><div class="icon">▦</div><h3>Jadwal</h3><p>Pelajaran kelas</p></a><a class="quick-card glass" href="#galeri"><div class="icon">▣</div><h3>Galeri</h3><p>Momen kelas</p></a></div></div></section>
@@ -334,13 +341,25 @@ if(new URLSearchParams(location.search).get("login")==="admin"){
  const root=document.documentElement;
  const select=document.getElementById('themeSelect');
  const stored=localStorage.getItem(key); const saved=(stored==='dark'||stored==='light'||stored==='system')?stored:'system';
+ const media=window.matchMedia('(prefers-color-scheme: dark)');
+ const getActualTheme=mode=>mode==='system'?(media.matches?'dark':'light'):mode;
+ const updateLogo=actual=>{
+   document.querySelectorAll('.theme-logo').forEach(img=>{
+     const src=actual==='dark'?img.dataset.darkSrc:img.dataset.lightSrc;
+     if(src && img.getAttribute('src')!==src){img.src=src;}
+     img.dataset.lightbox=src || img.dataset.lightbox || '';
+   });
+ };
  const apply=(mode)=>{
-   if(mode==='system') root.setAttribute('data-theme','system');
-   else root.setAttribute('data-theme',mode);
+   const actual=getActualTheme(mode);
+   root.setAttribute('data-theme',actual);
+   root.setAttribute('data-theme-mode',mode);
    if(select) select.value=mode;
+   updateLogo(actual);
  };
  apply(saved);
  if(select) select.addEventListener('change',()=>{localStorage.setItem(key,select.value);apply(select.value)});
+ media.addEventListener?.('change',()=>{if((localStorage.getItem(key)||'system')==='system') apply('system')});
 })();
 </script>
 

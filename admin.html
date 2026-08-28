@@ -144,6 +144,13 @@ body.admin-authenticated #content{display:block}
 }
 </style>
 
+<style>
+/* v59: logo kelas diperbaiki + otomatis mengikuti tema */
+.class-logo{width:42px;height:42px;object-fit:contain;display:block;flex:0 0 42px;border-radius:10px;background:transparent;box-shadow:none;cursor:zoom-in;transition:filter .25s ease,opacity .25s ease,transform .25s ease}
+.class-logo:hover{transform:scale(1.05)}
+.class-logo-picture{display:contents}
+@media(max-width:800px){.class-logo{width:38px;height:38px;flex-basis:38px}}
+</style>
 <style id="theme-system">
 :root{
   color-scheme: light;
@@ -335,7 +342,7 @@ input,select,textarea,.date,.student-name-input,.login-input{background:var(--in
 :root[data-theme="dark"] .status-pill.offline{color:#ff9b9b;background:rgba(255,90,90,.12)}
 </style>
 </head><body class="admin-gate">
-<header class="nav glass"><a class="brand" href="index.html"><picture class="class-logo-picture"><source media="(prefers-color-scheme: dark)" srcset="assets/galeri/logo-kelas-dark.png"><img class="class-logo" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3"></picture>XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><button class="logout" id="logout">Keluar</button></header>
+<header class="nav glass"><a class="brand" href="index.html"><img class="class-logo theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><button class="logout" id="logout">Keluar</button></header>
 <section id="adminLoginGate" class="section admin-login-section"><div class="container"><div class="card glass">
 <div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username &amp; Password untuk membuka halaman Admin</p>
 <div class="login-field"><label>USERNAME</label><input id="gateUser" class="login-input" autocomplete="username"></div>
@@ -378,13 +385,25 @@ input,select,textarea,.date,.student-name-input,.login-input{background:var(--in
  const root=document.documentElement;
  const select=document.getElementById('themeSelect');
  const stored=localStorage.getItem(key); const saved=(stored==='dark'||stored==='light'||stored==='system')?stored:'system';
+ const media=window.matchMedia('(prefers-color-scheme: dark)');
+ const getActualTheme=mode=>mode==='system'?(media.matches?'dark':'light'):mode;
+ const updateLogo=actual=>{
+   document.querySelectorAll('.theme-logo').forEach(img=>{
+     const src=actual==='dark'?img.dataset.darkSrc:img.dataset.lightSrc;
+     if(src && img.getAttribute('src')!==src){img.src=src;}
+     img.dataset.lightbox=src || img.dataset.lightbox || '';
+   });
+ };
  const apply=(mode)=>{
-   if(mode==='system') root.setAttribute('data-theme','system');
-   else root.setAttribute('data-theme',mode);
+   const actual=getActualTheme(mode);
+   root.setAttribute('data-theme',actual);
+   root.setAttribute('data-theme-mode',mode);
    if(select) select.value=mode;
+   updateLogo(actual);
  };
  apply(saved);
  if(select) select.addEventListener('change',()=>{localStorage.setItem(key,select.value);apply(select.value)});
+ media.addEventListener?.('change',()=>{if((localStorage.getItem(key)||'system')==='system') apply('system')});
 })();
 </script>
 
