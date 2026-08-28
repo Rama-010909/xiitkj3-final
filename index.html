@@ -88,10 +88,67 @@ a{text-decoration:none;color:inherit}.container{width:min(1050px,calc(100% - 28p
   opacity:.72;
 }
 </style>
+
+<style id="theme-system">
+:root{
+  color-scheme: light;
+  --bg:#edf3f8; --text:#101827; --muted:#687386; --surface:rgba(255,255,255,.45);
+  --surface-strong:rgba(255,255,255,.72); --surface-soft:rgba(255,255,255,.58);
+  --border:rgba(255,255,255,.80); --line:rgba(16,24,39,.10); --accent:#11834a;
+  --button:#111827; --button-text:#fff; --input:rgba(255,255,255,.62);
+  --shadow:rgba(25,35,50,.12); --table:rgba(255,255,255,.36); --thead:rgba(22,184,102,.10);
+}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--text);transition:background-color .25s ease,color .25s ease}
+body:before{background:#74e4a6!important;opacity:.9}
+body:after{opacity:.9}
+.glass{background:var(--surface)!important;border-color:var(--border)!important;box-shadow:0 20px 55px var(--shadow)!important}
+.desc,.empty,.footer,.student-count-note,.gallery-manager-meta,.stat span,.quick-card p,.v9-hero-card .hero-bottom small{color:var(--muted)!important}
+.links a,.logout{color:var(--muted)}
+.links a:hover,.logout:hover{background:var(--surface-strong);color:var(--accent)}
+.btn,.date{background:var(--surface-soft);border-color:var(--border);color:var(--text)}
+.primary,.btn.primary{background:var(--button)!important;color:var(--button-text)!important}
+input,select,textarea,.date,.student-name-input,.login-input{background:var(--input)!important;color:var(--text)!important;border-color:var(--border)!important}
+.table,.schedule table{background:var(--table)}
+.table th,.schedule th{border-bottom-color:var(--line)}
+.table th,.schedule th{background:var(--thead)}
+.avatar,.icon{background:var(--surface-soft);border-color:var(--border)}
+.v9-hero-card{background:var(--surface-strong)!important;border-color:var(--border)!important}
+.v9-hero-card .hero-bottom{color:var(--text)!important}.v9-hero-card .hero-bottom strong{color:var(--text)!important}
+.v9-brand-logo{background:transparent!important;box-shadow:none!important}
+.v9-school-logo{filter:drop-shadow(0 18px 30px var(--shadow))}
+.theme-control{display:flex;align-items:center;gap:6px;margin-left:4px}
+.theme-control select{appearance:none;-webkit-appearance:none;padding:9px 30px 9px 11px;border-radius:14px;font:inherit;font-size:12px;font-weight:850;cursor:pointer;background:var(--surface-soft)!important;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%)!important;background-position:calc(100% - 14px) 13px,calc(100% - 9px) 13px!important;background-size:5px 5px,5px 5px!important;background-repeat:no-repeat!important;color:var(--text)!important}
+.theme-control select:focus{outline:2px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:2px}
+@media(max-width:800px){.theme-control{margin-left:auto}.theme-control select{font-size:11px;padding:8px 27px 8px 9px;max-width:115px}.nav{gap:6px}}
+
+[data-theme="dark"]{color-scheme:dark;--bg:#0b1220;--text:#f3f6fb;--muted:#aab5c7;--surface:rgba(20,29,45,.72);--surface-strong:rgba(22,31,48,.88);--surface-soft:rgba(30,41,59,.74);--border:rgba(255,255,255,.12);--line:rgba(255,255,255,.10);--accent:#68e39c;--button:#f4f7fb;--button-text:#0b1220;--input:rgba(17,25,39,.78);--shadow:rgba(0,0,0,.34);--table:rgba(17,25,39,.58);--thead:rgba(104,227,156,.10)}
+[data-theme="dark"] body:before{background:#0c7b4b!important;opacity:.55}
+[data-theme="dark"] body:after{background:linear-gradient(135deg,#244b91,#613b86,#743d59)!important;opacity:.55}
+[data-theme="dark"] .gradient{background:linear-gradient(110deg,#f3f6fb,#68e39c,#7ea8ff,#b38cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+[data-theme="dark"] .kicker,.dark .kicker{color:var(--accent)!important}
+[data-theme="dark"] .links a:hover,[data-theme="dark"] .logout:hover{background:rgba(255,255,255,.09);color:var(--accent)}
+[data-theme="dark"] .status label{background:var(--surface-soft);border-color:var(--border)}
+[data-theme="dark"] .status input:checked+label{background:#f4f7fb;color:#0b1220}
+[data-theme="dark"] .badge{background:rgba(255,255,255,.10);color:var(--text)}
+[data-theme="dark"] .v9-hero-card .hero-bottom small{color:var(--muted)!important}
+[data-theme="dark"] .v9-school-logo-wrap{background:transparent}
+[data-theme="dark"] .v7-lightbox{background:rgba(0,0,0,.88)}
+
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){color-scheme:dark;--bg:#0b1220;--text:#f3f6fb;--muted:#aab5c7;--surface:rgba(20,29,45,.72);--surface-strong:rgba(22,31,48,.88);--surface-soft:rgba(30,41,59,.74);--border:rgba(255,255,255,.12);--line:rgba(255,255,255,.10);--accent:#68e39c;--button:#f4f7fb;--button-text:#0b1220;--input:rgba(17,25,39,.78);--shadow:rgba(0,0,0,.34);--table:rgba(17,25,39,.58);--thead:rgba(104,227,156,.10)}
+  :root:not([data-theme="light"]) body:before{background:#0c7b4b!important;opacity:.55}
+  :root:not([data-theme="light"]) body:after{background:linear-gradient(135deg,#244b91,#613b86,#743d59)!important;opacity:.55}
+  :root:not([data-theme="light"]) .gradient{background:linear-gradient(110deg,#f3f6fb,#68e39c,#7ea8ff,#b38cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  :root:not([data-theme="light"]) .status input:checked+label{background:#f4f7fb;color:#0b1220}
+  :root:not([data-theme="light"]) .badge{background:rgba(255,255,255,.10);color:var(--text)}
+  :root:not([data-theme="light"]) .v7-lightbox{background:rgba(0,0,0,.88)}
+}
+</style>
 </head><body>
-<header class="nav glass"><a class="brand" href="#home"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><a class="admin-btn" href="#admin-login">⚙ Admin</a><nav class="links"><a href="#absensi">Absensi</a><a href="#home">Utama</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav></header>
+<header class="nav glass"><a class="brand" href="#home"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><a class="admin-btn" href="#admin-login">⚙ Admin</a><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="system">🖥 Sistem</option><option value="light">☀️ Cerah</option><option value="dark">🌙 Gelap</option></select></div><nav class="links"><a href="#absensi">Absensi</a><a href="#home">Utama</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav></header>
 <main>
-<section id="home" class="hero"><div class="container grid"><div><span class="pill"><span class="dot"></span> SMK NU Bandar</span><h1>Selamat Datang di Website Kelas <span class="gradient">XII TKJ 3</span></h1><p class="desc">SMK Bisa, SMK Hebat, SMK NU Bandar Luar Biasa</p><div class="actions"><a class="btn primary" href="#absensi">Isi Absensi →</a><a class="btn soft" href="#struktur">Struktur Kelas</a></div></div><div class="hero-card glass v7-hero-card v9-hero-card"><div class="v9-school-logo-wrap" data-lightbox="assets/galeri/logo-smk.jpg"><img class="v9-school-logo" src="assets/galeri/logo-smk.jpg" alt="Logo SMK NU Bandar"></div><div class="hero-bottom"><div><small>Kelas</small><strong>XII TKJ 3</strong></div><div><small>Sekolah</small><strong>SMK NU Bandar</strong></div></div></div></div></section>
+<section id="home" class="hero"><div class="container grid"><div><span class="pill"><span class="dot"></span> SMK NU Bandar</span><h1>Selamat Datang di Website Kelas <span class="gradient">XII TKJ 3</span></h1><p class="desc">SMK Bisa, SMK Hebat, SMK NU Bandar Luar Biasa</p><div class="actions"><a class="btn primary" href="#absensi">Isi Absensi →</a><a class="btn soft" href="#struktur">Struktur Kelas</a></div></div><div class="hero-card glass v7-hero-card v9-hero-card"><div class="v9-school-logo-wrap" data-lightbox="assets/galeri/logo-smk-theme.png"><img class="v9-school-logo" src="assets/galeri/logo-smk-theme.png" alt="Logo SMK NU Bandar"></div><div class="hero-bottom"><div><small>Kelas</small><strong>XII TKJ 3</strong></div><div><small>Sekolah</small><strong>SMK NU Bandar</strong></div></div></div></div></section>
 <section><div class="container"><div class="stats"><div class="stat glass"><b id="studentCount">0</b><span>Siswa</span></div><div class="stat glass"><b id="subjectCount">0</b><span>Mata Pelajaran</span></div><div class="stat glass"><b id="dayCount">0</b><span>Hari Belajar</span></div></div><div class="quick"><a class="quick-card glass" href="#struktur"><div class="icon">♙</div><h3>Struktur</h3><p>Pengurus kelas</p></a><a class="quick-card glass" href="#jadwal"><div class="icon">▦</div><h3>Jadwal</h3><p>Pelajaran kelas</p></a><a class="quick-card glass" href="#galeri"><div class="icon">▣</div><h3>Galeri</h3><p>Momen kelas</p></a></div></div></section>
 
 <section id="absensi" class="section">
@@ -149,6 +206,21 @@ if(new URLSearchParams(location.search).get("login")==="admin"){
 <div class="v7-lightbox" id="lightbox" aria-hidden="true"><button class="v7-close" id="lightboxClose" aria-label="Tutup">×</button><img id="lightboxImage" src="" alt="Foto diperbesar"></div>
 <footer class="footer">XII TKJ 3 · SMK NU Bandar</footer><nav class="mobile glass"><a href="#home">⌂<br>Utama</a><a href="#struktur">♙<br>Struktur</a><a href="#jadwal">▦<br>Jadwal</a><a href="#galeri">▣<br>Galeri</a></nav>
 <script>/* Absensi siswa dipindahkan ke halaman admin/data sesuai permintaan. */</script>
+<script>
+(()=>{
+ const key='xii-tkj3-theme';
+ const root=document.documentElement;
+ const select=document.getElementById('themeSelect');
+ const saved=localStorage.getItem(key)||'system';
+ const apply=(mode)=>{
+   if(mode==='system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme',mode);
+   if(select) select.value=mode;
+ };
+ apply(saved);
+ if(select) select.addEventListener('change',()=>{localStorage.setItem(key,select.value);apply(select.value)});
+})();
+</script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";

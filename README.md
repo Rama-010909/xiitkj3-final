@@ -7,3 +7,10 @@ Firestore Rules di firestore.rules. Copy ke Firebase Console > Firestore Databas
 
 ### Pengaturan jumlah mata pelajaran
 Jumlah mata pelajaran di halaman siswa sekarang dapat diatur manual dari Admin > Jumlah Mapel. Nilainya disimpan di `pengaturan/homeStats` pada field `subjectCount`. Jika belum diatur, sistem tetap menghitung dari jadwal.
+
+
+## v55 changes
+- Added Cerah / Gelap / Sistem theme selector, saved in browser localStorage.
+- Dark mode adapts backgrounds, text, glass cards, inputs, tables, buttons and other UI colors.
+- Replaced school logo with the supplied emblem and removed its black photo background so the surrounding theme can show through.
+- Admin gallery now shows bundled local gallery photos as a fallback when /api/gallery is unavailable or has no remote items, so the gallery is not blank during Live Server testing.

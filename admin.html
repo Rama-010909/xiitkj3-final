@@ -143,8 +143,66 @@ body.admin-authenticated #content{display:block}
   .mobile-admin a:hover{transform:scale(1.04);background:#ffffffb8;color:#11834a}
 }
 </style>
+
+<style id="theme-system">
+:root{
+  color-scheme: light;
+  --bg:#edf3f8; --text:#101827; --muted:#687386; --surface:rgba(255,255,255,.45);
+  --surface-strong:rgba(255,255,255,.72); --surface-soft:rgba(255,255,255,.58);
+  --border:rgba(255,255,255,.80); --line:rgba(16,24,39,.10); --accent:#11834a;
+  --button:#111827; --button-text:#fff; --input:rgba(255,255,255,.62);
+  --shadow:rgba(25,35,50,.12); --table:rgba(255,255,255,.36); --thead:rgba(22,184,102,.10);
+}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--text);transition:background-color .25s ease,color .25s ease}
+body:before{background:#74e4a6!important;opacity:.9}
+body:after{opacity:.9}
+.glass{background:var(--surface)!important;border-color:var(--border)!important;box-shadow:0 20px 55px var(--shadow)!important}
+.desc,.empty,.footer,.student-count-note,.gallery-manager-meta,.stat span,.quick-card p,.v9-hero-card .hero-bottom small{color:var(--muted)!important}
+.links a,.logout{color:var(--muted)}
+.links a:hover,.logout:hover{background:var(--surface-strong);color:var(--accent)}
+.btn,.date{background:var(--surface-soft);border-color:var(--border);color:var(--text)}
+.primary,.btn.primary{background:var(--button)!important;color:var(--button-text)!important}
+input,select,textarea,.date,.student-name-input,.login-input{background:var(--input)!important;color:var(--text)!important;border-color:var(--border)!important}
+.table,.schedule table{background:var(--table)}
+.table th,.schedule th{border-bottom-color:var(--line)}
+.table th,.schedule th{background:var(--thead)}
+.avatar,.icon{background:var(--surface-soft);border-color:var(--border)}
+.v9-hero-card{background:var(--surface-strong)!important;border-color:var(--border)!important}
+.v9-hero-card .hero-bottom{color:var(--text)!important}.v9-hero-card .hero-bottom strong{color:var(--text)!important}
+.v9-brand-logo{background:transparent!important;box-shadow:none!important}
+.v9-school-logo{filter:drop-shadow(0 18px 30px var(--shadow))}
+.theme-control{display:flex;align-items:center;gap:6px;margin-left:4px}
+.theme-control select{appearance:none;-webkit-appearance:none;padding:9px 30px 9px 11px;border-radius:14px;font:inherit;font-size:12px;font-weight:850;cursor:pointer;background:var(--surface-soft)!important;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%)!important;background-position:calc(100% - 14px) 13px,calc(100% - 9px) 13px!important;background-size:5px 5px,5px 5px!important;background-repeat:no-repeat!important;color:var(--text)!important}
+.theme-control select:focus{outline:2px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:2px}
+@media(max-width:800px){.theme-control{margin-left:auto}.theme-control select{font-size:11px;padding:8px 27px 8px 9px;max-width:115px}.nav{gap:6px}}
+
+[data-theme="dark"]{color-scheme:dark;--bg:#0b1220;--text:#f3f6fb;--muted:#aab5c7;--surface:rgba(20,29,45,.72);--surface-strong:rgba(22,31,48,.88);--surface-soft:rgba(30,41,59,.74);--border:rgba(255,255,255,.12);--line:rgba(255,255,255,.10);--accent:#68e39c;--button:#f4f7fb;--button-text:#0b1220;--input:rgba(17,25,39,.78);--shadow:rgba(0,0,0,.34);--table:rgba(17,25,39,.58);--thead:rgba(104,227,156,.10)}
+[data-theme="dark"] body:before{background:#0c7b4b!important;opacity:.55}
+[data-theme="dark"] body:after{background:linear-gradient(135deg,#244b91,#613b86,#743d59)!important;opacity:.55}
+[data-theme="dark"] .gradient{background:linear-gradient(110deg,#f3f6fb,#68e39c,#7ea8ff,#b38cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+[data-theme="dark"] .kicker,.dark .kicker{color:var(--accent)!important}
+[data-theme="dark"] .links a:hover,[data-theme="dark"] .logout:hover{background:rgba(255,255,255,.09);color:var(--accent)}
+[data-theme="dark"] .status label{background:var(--surface-soft);border-color:var(--border)}
+[data-theme="dark"] .status input:checked+label{background:#f4f7fb;color:#0b1220}
+[data-theme="dark"] .badge{background:rgba(255,255,255,.10);color:var(--text)}
+[data-theme="dark"] .v9-hero-card .hero-bottom small{color:var(--muted)!important}
+[data-theme="dark"] .v9-school-logo-wrap{background:transparent}
+[data-theme="dark"] .v7-lightbox{background:rgba(0,0,0,.88)}
+
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){color-scheme:dark;--bg:#0b1220;--text:#f3f6fb;--muted:#aab5c7;--surface:rgba(20,29,45,.72);--surface-strong:rgba(22,31,48,.88);--surface-soft:rgba(30,41,59,.74);--border:rgba(255,255,255,.12);--line:rgba(255,255,255,.10);--accent:#68e39c;--button:#f4f7fb;--button-text:#0b1220;--input:rgba(17,25,39,.78);--shadow:rgba(0,0,0,.34);--table:rgba(17,25,39,.58);--thead:rgba(104,227,156,.10)}
+  :root:not([data-theme="light"]) body:before{background:#0c7b4b!important;opacity:.55}
+  :root:not([data-theme="light"]) body:after{background:linear-gradient(135deg,#244b91,#613b86,#743d59)!important;opacity:.55}
+  :root:not([data-theme="light"]) .gradient{background:linear-gradient(110deg,#f3f6fb,#68e39c,#7ea8ff,#b38cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  :root:not([data-theme="light"]) .status input:checked+label{background:#f4f7fb;color:#0b1220}
+  :root:not([data-theme="light"]) .badge{background:rgba(255,255,255,.10);color:var(--text)}
+  :root:not([data-theme="light"]) .v7-lightbox{background:rgba(0,0,0,.88)}
+}
+.gallery-local-note{font-size:11px;font-weight:850;padding:8px 10px;border-radius:12px;background:var(--surface-soft);color:var(--muted)}
+</style>
 </head><body class="admin-gate">
-<header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><button class="logout" id="logout">Keluar</button></header>
+<header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="system">🖥 Sistem</option><option value="light">☀️ Cerah</option><option value="dark">🌙 Gelap</option></select></div><button class="logout" id="logout">Keluar</button></header>
 <section id="adminLoginGate" class="section admin-login-section"><div class="container"><div class="card glass">
 <div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username &amp; Password untuk membuka halaman Admin</p>
 <div class="login-field"><label>USERNAME</label><input id="gateUser" class="login-input" autocomplete="username"></div>
@@ -152,7 +210,7 @@ body.admin-authenticated #content{display:block}
 <button class="btn primary" id="gateLogin">Login ke Admin →</button><div id="gateMsg" class="message"></div>
 </div></div></section>
 <div id="adminToast" class="admin-toast" role="status"></div><main id="content" class="hidden">
-<section id="dashboard" class="hero"><div class="container"><div class="kicker">ADMINISTRATOR</div><h1>Dashboard <span class="gradient">XII TKJ 3</span></h1><p class="desc">Selamat Datang Admin. Akses penuh untuk kelola <b>Jumlah Mapel,</b> <b>Data Absensi,</b> <b>Data Siswa,</b> <b>Struktur,</b> <b>Jadwal,</b> <b>& Galeri Kelas</b></p></div></section>
+<section id="dashboard" class="hero"><div class="container"><div class="kicker">ADMINISTRATOR</div><h1>Dashboard <span class="gradient">XII TKJ 3</span></h1><p class="desc">Selamat Datang Admin. Akses penuh untuk kelola <b>Data Absensi,</b> <b>Struktur,</b> <b>Jadwal,</b> <b>& Galeri Kelas</b></p></div></section>
 <section id="statistik" class="section"><div class="container"><div class="head"><div class="kicker">PENGATURAN</div><h2>Jumlah Mata Pelajaran</h2><p class="desc">Jumlah ini ditampilkan di halaman siswa. Kamu bisa mengubah angkanya tanpa harus mengikuti jumlah mata pelajaran di jadwal.</p></div><div class="panel glass"><div style="display:flex;gap:12px;align-items:end;flex-wrap:wrap"><div style="flex:1;min-width:180px"><label style="display:block;font-weight:800;font-size:13px;margin-bottom:7px">JUMLAH MATA PELAJARAN</label><input id="manualSubjectCount" type="number" min="0" step="1" class="login-input" style="width:100%" placeholder="Contoh: 11"></div><button class="btn primary" id="saveSubjectCount" type="button">💾 Simpan Jumlah</button></div><div id="subjectCountMessage" class="schedule-message" style="margin-top:10px"></div></div></div></section>
  <section id="data-absensi"><div class="container">
 <div class="daily-cards">
@@ -169,7 +227,7 @@ body.admin-authenticated #content{display:block}
 <div class="attendance-date-head"><span class="selected-date" id="selectedDateText"></span><span class="desc" style="font-size:12px">Data diperbarui otomatis saat ada siswa yang absen.</span></div>
 <div id="tableBox"></div>
 </div></div></section>
-<section id="siswa" class="section"><div class="container"><div class="head"><div class="kicker">DATA SISWA</div><h2>Kelola Data Siswa</h2><p class="desc">Edit atau hapus nama siswa. Perubahan akan langsung digunakan untuk absensi dan jumlah siswa di halaman utama.</p></div><div class="panel glass"><div id="studentManager" class="student-manager"><div class="empty">Memuat data siswa...</div></div><div class="student-count-note" id="studentManagerMessage"></div></div></div></section>
+<section id="siswa" class="section"><div class="container"><div class="head"><div class="kicker">DATA SISWA</div><h2>Kelola Data Siswa</h2><p class="desc">Edit atau hapus nama siswa yang sudah ada. Tidak ada tombol tambah siswa. Perubahan akan langsung digunakan untuk absensi dan jumlah siswa di halaman utama.</p></div><div class="panel glass"><div id="studentManager" class="student-manager"><div class="empty">Memuat data siswa...</div></div><div class="student-count-note" id="studentManagerMessage"></div></div></div></section>
 <section id="struktur" class="section"><div class="container"><div class="head"><div class="kicker">KELAS</div><h2>Struktur Kelas</h2><p class="desc">Isi struktur dibuat sama seperti halaman siswa. Kamu bisa mengganti nama setiap orang langsung dari kartu di bawah, lalu simpan.</p></div><div id="structureEditor" class="admin-structure-grid"></div><div class="panel glass structure-save-panel"><div class="schedule-actions"><button class="btn" id="saveStructure">💾 Simpan Struktur</button><span id="structureMessage" class="schedule-message"></span></div></div></div></section>
 <section id="jadwal" class="section"><div class="container">
 <div class="head"><div><div class="kicker">PELAJARAN</div><h2>Kelola Jadwal Kelas</h2><p class="desc">Edit jam dan mata pelajaran di sini. Setelah disimpan, jadwal akan langsung tampil di halaman siswa.</p></div></div>
@@ -181,6 +239,21 @@ body.admin-authenticated #content{display:block}
 </main><div class="v7-lightbox" id="lightbox" aria-hidden="true"><button class="v7-close" id="lightboxClose" aria-label="Tutup">×</button><img id="lightboxImage" src="" alt="Foto diperbesar"></div>
 <footer class="footer">XII TKJ 3 · Admin</footer>
 <nav class="mobile-admin glass" aria-label="Navigasi Admin Mobile"><a href="#dashboard">⌂<br>Utama</a><a href="#data-absensi">▣<br>Absensi</a><a href="#siswa">♙<br>Siswa</a><a href="#struktur">♙<br>Struktur</a><a href="#jadwal">▦<br>Jadwal</a><a href="#galeri">▣<br>Galeri</a></nav>
+<script>
+(()=>{
+ const key='xii-tkj3-theme';
+ const root=document.documentElement;
+ const select=document.getElementById('themeSelect');
+ const saved=localStorage.getItem(key)||'system';
+ const apply=(mode)=>{
+   if(mode==='system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme',mode);
+   if(select) select.value=mode;
+ };
+ apply(saved);
+ if(select) select.addEventListener('change',()=>{localStorage.setItem(key,select.value);apply(select.value)});
+})();
+</script>
+
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 import{getFirestore,collection,getDocs,getDoc,query,orderBy,onSnapshot,deleteDoc,doc,setDoc,updateDoc}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
@@ -572,6 +645,15 @@ document.getElementById("saveStructure").onclick=async()=>{
 /* ---------- Galeri Foto Lokal ---------- */
 const GALLERY_API="/api/gallery";
 let galleryData=[];
+const galleryLocalFallback=[
+ {id:"local-1",src:"assets/galeri/momen-1.jpg",name:"Momen 1",urutan:1,local:true},
+ {id:"local-2",src:"assets/galeri/momen-2.jpg",name:"Momen 2",urutan:2,local:true},
+ {id:"local-3",src:"assets/galeri/momen-3.jpg",name:"Momen 3",urutan:3,local:true},
+ {id:"local-4",src:"assets/galeri/momen-4.jpg",name:"Momen 4",urutan:4,local:true},
+ {id:"local-5",src:"assets/galeri/momen-5.jpg",name:"Momen 5",urutan:5,local:true},
+ {id:"local-6",src:"assets/galeri/momen-6.jpg",name:"Momen 6",urutan:6,local:true},
+ {id:"local-7",src:"assets/galeri/momen-7.jpg",name:"Momen 7",urutan:7,local:true}
+];
 
 async function galleryRequest(url, options={}){
  const res=await fetch(url,options);
@@ -584,24 +666,30 @@ async function galleryRequest(url, options={}){
 async function loadGallery(){
  try{
   const data=await galleryRequest(GALLERY_API);
-  galleryData=(data.items||[]).sort((a,b)=>(a.urutan||999)-(b.urutan||999));
+  const remote=(data.items||[]).sort((a,b)=>(a.urutan||999)-(b.urutan||999));
+  galleryData=remote.length?remote:galleryLocalFallback.slice();
   renderGalleryManager();
+  const msg=document.getElementById("galleryMessage");
+  if(!remote.length && msg) msg.textContent="ℹ️ Belum ada foto Vercel Blob. Menampilkan foto bawaan agar galeri tetap terlihat.";
  }catch(e){
   console.error("Gallery load:",e);
-  galleryData=[];
+  galleryData=galleryLocalFallback.slice();
   renderGalleryManager();
-  document.getElementById("galleryMessage").textContent="❌ API galeri Vercel belum siap. Pastikan Vercel Blob sudah terhubung ke project.";
+  document.getElementById("galleryMessage").textContent="ℹ️ Galeri online belum tersedia di server ini. Menampilkan foto bawaan.";
  }
 }
 
 function renderGalleryManager(){
  const el=document.getElementById("galleryManagerList");
- if(!galleryData.length){el.innerHTML='<div class="empty">Belum ada foto di galeri atau server belum berjalan.</div>';return;}
- el.innerHTML=galleryData.map((x,i)=>`<div class="gallery-manager-item"><div class="gallery-manager-thumb"><img src="${safe(x.src)}" alt="${safe(x.name||"Foto")}"></div><div><div class="gallery-manager-name">${safe(x.name||"Foto")}</div><div class="gallery-manager-meta">Urutan ${i+1}${x.local?" • Foto bawaan":" • Foto di folder Vercel Blob"}</div></div><div class="gallery-manager-buttons"><button class="small-btn" data-up="${safe(x.id)}" ${i===0?"disabled":""}>↑</button><button class="small-btn" data-down="${safe(x.id)}" ${i===galleryData.length-1?"disabled":""}>↓</button><button class="small-btn danger" data-gallery-delete="${safe(x.id)}">Hapus</button></div></div>`).join("");
+ if(!galleryData.length){el.innerHTML='<div class="empty">Belum ada foto di galeri.</div>';return;}
+ el.innerHTML=galleryData.map((x,i)=>{
+  const local=!!x.local;
+  return `<div class="gallery-manager-item"><div class="gallery-manager-thumb"><img src="${safe(x.src)}" alt="${safe(x.name||"Foto")}"></div><div><div class="gallery-manager-name">${safe(x.name||"Foto")}</div><div class="gallery-manager-meta">Urutan ${i+1}${local?" • Foto bawaan":" • Foto Vercel Blob"}</div></div><div class="gallery-manager-buttons">${local?'<span class="gallery-local-note">Bawaan</span>':`<button class="small-btn" data-up="${safe(x.id)}" ${i===0?"disabled":""}>↑</button><button class="small-btn" data-down="${safe(x.id)}" ${i===galleryData.length-1?"disabled":""}>↓</button><button class="small-btn danger" data-gallery-delete="${safe(x.id)}">Hapus</button>`}</div></div>`;
+ }).join("");
  el.querySelectorAll("[data-up]").forEach(b=>b.onclick=()=>moveGallery(b.dataset.up,-1));
  el.querySelectorAll("[data-down]").forEach(b=>b.onclick=()=>moveGallery(b.dataset.down,1));
  el.querySelectorAll("[data-gallery-delete]").forEach(b=>b.onclick=()=>removeGallery(b.dataset.galleryDelete));
-}
+} 
 
 async function moveGallery(id,dir){
  const i=galleryData.findIndex(x=>x.id===id),j=i+dir;
