@@ -144,7 +144,7 @@ body.admin-authenticated #content{display:block}
 }
 </style>
 </head><body class="admin-gate">
-<header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><button class="logout" id="logout">Keluar</button></header>
+<header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-kelas-fullblack.png" src="assets/galeri/logo-kelas-fullblack.png" alt="Logo XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><button class="logout" id="logout">Keluar</button></header>
 <section id="adminLoginGate" class="section admin-login-section"><div class="container"><div class="card glass">
 <div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username &amp; Password untuk membuka halaman Admin</p>
 <div class="login-field"><label>USERNAME</label><input id="gateUser" class="login-input" autocomplete="username"></div>
@@ -152,8 +152,9 @@ body.admin-authenticated #content{display:block}
 <button class="btn primary" id="gateLogin">Login ke Admin →</button><div id="gateMsg" class="message"></div>
 </div></div></section>
 <div id="adminToast" class="admin-toast" role="status"></div><main id="content" class="hidden">
-<section id="dashboard" class="hero"><div class="container"><div class="kicker">ADMINISTRATOR</div><h1>Dashboard <span class="gradient">XII TKJ 3</span></h1><p class="desc">Selamat Datang Admin. Akses penuh untuk kelola <b>Data Absensi,</b> <b>Struktur,</b> <b>Jadwal,</b> <b>& Galeri Kelas</b></p></div></section>
-<section id="data-absensi"><div class="container">
+<section id="dashboard" class="hero"><div class="container"><div class="kicker">ADMINISTRATOR</div><h1>Dashboard <span class="gradient">XII TKJ 3</span></h1><p class="desc">Selamat Datang Admin. Akses penuh untuk kelola <b>Data Absensi,</b> <b>Data Siswa,</b><b>Struktur,</b> <b>Jadwal,</b> <b>& Galeri Kelas</b></p></div></section>
+<section id="statistik" class="section"><div class="container"><div class="head"><div class="kicker">PENGATURAN</div><h2>Jumlah Mata Pelajaran</h2><p class="desc">Jumlah ini ditampilkan di halaman siswa. Kamu bisa mengubah angkanya tanpa harus mengikuti jumlah mata pelajaran di jadwal.</p></div><div class="panel glass"><div style="display:flex;gap:12px;align-items:end;flex-wrap:wrap"><div style="flex:1;min-width:180px"><label style="display:block;font-weight:800;font-size:13px;margin-bottom:7px">JUMLAH MATA PELAJARAN</label><input id="manualSubjectCount" type="number" min="0" step="1" class="login-input" style="width:100%" placeholder="Contoh: 11"></div><button class="btn primary" id="saveSubjectCount" type="button">💾 Simpan Jumlah</button></div><div id="subjectCountMessage" class="schedule-message" style="margin-top:10px"></div></div></div></section>
+ <section id="data-absensi"><div class="container">
 <div class="daily-cards">
 <div class="daily-card glass"><div class="date-label" id="dailyLabel">TANGGAL TERPILIH</div><span class="number" id="hadir">0</span><span class="label">Hadir</span></div>
 <div class="daily-card glass"><div class="date-label" id="dailyLabel2">TANGGAL TERPILIH</div><span class="number" id="izin">0</span><span class="label">Izin</span></div>
@@ -185,6 +186,12 @@ import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-ap
 import{getFirestore,collection,getDocs,getDoc,query,orderBy,onSnapshot,deleteDoc,doc,setDoc,updateDoc}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 const app=initializeApp({apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"}),db=getFirestore(app);
+const manualSubjectInput=document.getElementById("manualSubjectCount");
+const manualSubjectMsg=document.getElementById("subjectCountMessage");
+async function loadSubjectSetting(){try{const snap=await getDoc(doc(db,"pengaturan","homeStats")); if(snap.exists() && Number.isFinite(Number(snap.data().subjectCount))) manualSubjectInput.value=Math.max(0,Math.floor(Number(snap.data().subjectCount))); else manualSubjectInput.value="";}catch(e){console.warn(e)}}
+document.getElementById("saveSubjectCount").onclick=async()=>{const n=Math.max(0,Math.floor(Number(manualSubjectInput.value))); if(!Number.isFinite(n)){manualSubjectMsg.textContent="Masukkan jumlah yang valid.";return;} try{await setDoc(doc(db,"pengaturan","homeStats"),{subjectCount:n},{merge:true}); manualSubjectMsg.textContent="Jumlah mata pelajaran berhasil disimpan.";}catch(e){manualSubjectMsg.textContent="Gagal menyimpan jumlah: "+(e.message||e);}};
+loadSubjectSetting();
+
 
 const content=document.getElementById("content");
 const filterDate=document.getElementById("filterDate");

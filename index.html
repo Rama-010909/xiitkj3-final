@@ -151,20 +151,26 @@ if(new URLSearchParams(location.search).get("login")==="admin"){
 <script>/* Absensi siswa dipindahkan ke halaman admin/data sesuai permintaan. */</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 const firebaseConfig={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
 const app=initializeApp(firebaseConfig),db=getFirestore(app);
+loadManualSubjectCount();
 
 function safeText(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;", "'":"&#039;"}[c]))}
 const dayNames=["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
 let liveSchedule={};
+let manualSubjectCount=null;
+async function loadManualSubjectCount(){
+ try{const snap=await getDoc(doc(db,"pengaturan","homeStats")); if(snap.exists() && Number.isFinite(Number(snap.data().subjectCount))){manualSubjectCount=Math.max(0,Math.floor(Number(snap.data().subjectCount)));}}catch(e){console.warn("Subject count setting error",e)}
+ updateHomeStats();
+}
 function updateHomeStats(){
  const students=window.__students||[];
  const subjects=new Set(); let days=0;
  dayNames.forEach(day=>{const items=Array.isArray(liveSchedule[day])?liveSchedule[day]:[]; if(items.length)days++; items.forEach(x=>{const name=String(x?.mapel||x?.mataPelajaran||x?.pelajaran||x?.subject||"").trim().toLowerCase(); if(name)subjects.add(name);});});
  document.getElementById("studentCount")&&(document.getElementById("studentCount").textContent=students.length);
- document.getElementById("subjectCount")&&(document.getElementById("subjectCount").textContent=subjects.size);
+ document.getElementById("subjectCount")&&(document.getElementById("subjectCount").textContent=manualSubjectCount===null?subjects.size:manualSubjectCount);
  document.getElementById("dayCount")&&(document.getElementById("dayCount").textContent=days);
 }
 function renderStudentOptions(rows){
@@ -387,7 +393,6 @@ async function loadStudentGallery(){
 loadStudentGallery();
 setInterval(loadStudentGallery,3000);
 
-function safeText(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 </script>
 
 <script>
