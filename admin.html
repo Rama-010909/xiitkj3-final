@@ -202,6 +202,36 @@ input,select,textarea,.date,.student-name-input,.login-input{background:var(--in
 .gallery-local-note{font-size:11px;font-weight:850;padding:8px 10px;border-radius:12px;background:var(--surface-soft);color:var(--muted)}
 </style>
 
+<style id="system-theme-override">
+/* System mode: follows the device/browser preference without changing the Light/Dark manual modes. */
+:root[data-theme="system"]{
+  color-scheme:light;
+  --bg:#edf3f8;--text:#101827;--muted:#687386;--surface:rgba(255,255,255,.45);
+  --surface-strong:rgba(255,255,255,.72);--surface-soft:rgba(255,255,255,.58);--border:rgba(255,255,255,.80);
+  --line:rgba(16,24,39,.10);--accent:#11834a;--button:#111827;--button-text:#fff;--input:rgba(255,255,255,.62);
+  --shadow:rgba(25,35,50,.12);--table:rgba(255,255,255,.36);--thead:rgba(22,184,102,.10);
+}
+:root[data-theme="system"] body:before{background:#72e2a4!important;opacity:.82}
+:root[data-theme="system"] body:after{background:linear-gradient(135deg,#8db7ff 0%,#c08cff 48%,#ffb2d5 100%)!important;opacity:.72}
+:root[data-theme="system"] .glass{backdrop-filter:blur(28px) saturate(150%);-webkit-backdrop-filter:blur(28px) saturate(150%)}
+@media(prefers-color-scheme:dark){
+  :root[data-theme="system"]{
+    color-scheme:dark;--bg:#090d18!important;--text:#f5f7ff!important;--muted:#aeb7ca!important;
+    --surface:rgba(18,23,38,.78)!important;--surface-strong:rgba(20,25,43,.92)!important;
+    --surface-soft:rgba(28,34,54,.82)!important;--border:rgba(255,255,255,.13)!important;
+    --line:rgba(255,255,255,.10)!important;--accent:#68e39c!important;--button:#f5f7ff!important;--button-text:#090d18!important;
+    --input:rgba(10,15,27,.88)!important;--shadow:rgba(0,0,0,.34)!important;--table:rgba(8,13,25,.72)!important;--thead:rgba(111,70,220,.18)!important;
+  }
+  :root[data-theme="system"] body:before{background:#0c7b4b!important;opacity:.55}
+  :root[data-theme="system"] body:after{background:linear-gradient(135deg,#244b91,#613b86,#743d59)!important;opacity:.55}
+  :root[data-theme="system"] .glass{background:rgba(18,23,38,.78)!important;border-color:rgba(255,255,255,.13)!important;box-shadow:0 24px 70px rgba(0,0,0,.34)!important}
+  :root[data-theme="system"] h1,:root[data-theme="system"] h2,:root[data-theme="system"] h3,:root[data-theme="system"] strong,:root[data-theme="system"] b,:root[data-theme="system"] label{color:#f5f7ff!important}
+  :root[data-theme="system"] .desc,:root[data-theme="system"] .empty,:root[data-theme="system"] .footer,:root[data-theme="system"] .stat span,:root[data-theme="system"] .quick-card p{color:#aeb7ca!important}
+  :root[data-theme="system"] input,:root[data-theme="system"] select,:root[data-theme="system"] textarea{background:rgba(10,15,27,.88)!important;color:#f5f7ff!important;border-color:rgba(255,255,255,.15)!important}
+  :root[data-theme="system"] .theme-control select{background:rgba(29,34,57,.92)!important;color:#f5f7ff!important}
+}
+</style>
+
 <style id="v56-theme">
 /* v56 visual system: light stays close to the previous airy model; dark follows the supplied green/purple reference. */
 :root{
@@ -305,7 +335,7 @@ input,select,textarea,.date,.student-name-input,.login-input{background:var(--in
 :root[data-theme="dark"] .status-pill.offline{color:#ff9b9b;background:rgba(255,90,90,.12)}
 </style>
 </head><body class="admin-gate">
-<header class="nav glass"><a class="brand" href="index.html"><img class="v9-brand-logo" data-lightbox="assets/galeri/logo-smk-theme.png" src="assets/galeri/logo-smk-theme.png" alt="Logo SMK NU Bandar">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="system">🖥 Sistem</option><option value="light">☀️ Cerah</option><option value="dark">🌙 Gelap</option></select></div><button class="logout" id="logout">Keluar</button></header>
+<header class="nav glass"><a class="brand" href="index.html"><picture class="class-logo-picture"><source media="(prefers-color-scheme: dark)" srcset="assets/galeri/logo-kelas-dark.png"><img class="class-logo" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3"></picture>XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><button class="logout" id="logout">Keluar</button></header>
 <section id="adminLoginGate" class="section admin-login-section"><div class="container"><div class="card glass">
 <div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username &amp; Password untuk membuka halaman Admin</p>
 <div class="login-field"><label>USERNAME</label><input id="gateUser" class="login-input" autocomplete="username"></div>
@@ -347,9 +377,10 @@ input,select,textarea,.date,.student-name-input,.login-input{background:var(--in
  const key='xii-tkj3-theme';
  const root=document.documentElement;
  const select=document.getElementById('themeSelect');
- const saved=localStorage.getItem(key)||'system';
+ const stored=localStorage.getItem(key); const saved=(stored==='dark'||stored==='light'||stored==='system')?stored:'system';
  const apply=(mode)=>{
-   if(mode==='system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme',mode);
+   if(mode==='system') root.setAttribute('data-theme','system');
+   else root.setAttribute('data-theme',mode);
    if(select) select.value=mode;
  };
  apply(saved);

@@ -30,9 +30,31 @@ async function getManifestUrl() {
   return exact?.url || null;
 }
 
+async function listGalleryImages() {
+  const result = await list({ prefix: 'gallery/', limit: 1000 });
+  return (result.blobs || []).filter(b => {
+    const path = String(b.pathname || '').toLowerCase();
+    return path !== MANIFEST_PATH && /\.(jpe?g|png|webp|gif|bmp|avif)$/i.test(path);
+  });
+}
+
 async function readGallery() {
   const url = await getManifestUrl();
   if (!url) {
+    const blobs = await listGalleryImages();
+    if (blobs.length) {
+      const recovered = blobs.map((b, i) => ({
+        id: `blob-existing-${Date.now()}-${i}`,
+        src: b.url,
+        name: String(b.pathname || 'Foto').split('/').pop() || 'Foto',
+        local: false,
+        createdAt: b.uploadedAt ? new Date(b.uploadedAt).getTime() : Date.now(),
+        urutan: i + 1,
+        blobUrl: b.url
+      }));
+      await writeGallery(recovered);
+      return recovered;
+    }
     await writeGallery(DEFAULTS);
     return DEFAULTS.map(x => ({ ...x }));
   }
@@ -40,7 +62,28 @@ async function readGallery() {
   const response = await fetch(url, { cache: 'no-store' });
   if (!response.ok) throw new Error('Manifest galeri tidak bisa dibaca.');
   const data = await response.json();
-  return Array.isArray(data) ? data : DEFAULTS.map(x => ({ ...x }));
+  let gallery = Array.isArray(data) ? data : [];
+
+  // Recover any online photos that already exist in Blob but are missing from the manifest.
+  // This also fixes older deployments where the manifest contained only the local defaults.
+  const blobs = await listGalleryImages();
+  const knownUrls = new Set(gallery.map(x => x.blobUrl || x.src));
+  const online = blobs.filter(b => !knownUrls.has(b.url));
+  if (online.length) {
+    const additions = online.map((b, i) => ({
+      id: `blob-existing-${Date.now()}-${i}`,
+      src: b.url,
+      name: String(b.pathname || 'Foto').split('/').pop() || 'Foto',
+      local: false,
+      createdAt: b.uploadedAt ? new Date(b.uploadedAt).getTime() : Date.now(),
+      urutan: gallery.length + i + 1,
+      blobUrl: b.url
+    }));
+    gallery = gallery.concat(additions);
+    await writeGallery(gallery);
+  }
+
+  return gallery.length ? gallery : DEFAULTS.map(x => ({ ...x }));
 }
 
 async function writeGallery(rows) {
