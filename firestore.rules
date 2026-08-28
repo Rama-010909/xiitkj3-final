@@ -1,0 +1,26 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /absensi/{document} {
+      allow read, write: if true;
+    }
+
+    match /jadwal/{document=**} {
+      allow read, write: if true;
+    }
+
+    match /siswa/{document} {
+      allow read, write: if true;
+    }
+
+    match /struktur/{document} {
+      allow read, write: if true;
+    }
+
+    match /pengaturan/{document} {
+      allow read, write: if true;
+    }
+  }
+}
