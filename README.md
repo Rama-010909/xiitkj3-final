@@ -45,3 +45,10 @@ Setiap area utama kini ditampilkan sebagai halaman fitur terpisah agar tidak men
 - Halaman siswa/guru/admin memasang `auth-guard.js`.
 - Sesi demo disimpan di `sessionStorage` setelah login form berhasil.
 - Untuk produksi, guard tampilan harus dilengkapi Firebase Authentication + Firestore Rules agar akses data benar-benar terlindungi.
+
+
+## v67 - Domain utama langsung Login
+- `index.html` sekarang menjadi halaman login.
+- Membuka domain utama `/` langsung menampilkan login.
+- Dashboard siswa lama dipindahkan ke `siswa.html` jika sebelumnya `index.html` adalah dashboard.
+- `login.html` tetap tersedia sebagai halaman login alternatif.
