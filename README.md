@@ -52,3 +52,11 @@ Setiap area utama kini ditampilkan sebagai halaman fitur terpisah agar tidak men
 - Membuka domain utama `/` langsung menampilkan login.
 - Dashboard siswa lama dipindahkan ke `siswa.html` jika sebelumnya `index.html` adalah dashboard.
 - `login.html` tetap tersedia sebagai halaman login alternatif.
+
+# v68 - Login gratis + Kelola Akun
+- Domain utama (`index.html`) langsung menjadi halaman login.
+- Akun awal: `rama / 010909` (siswa), `andi / smknubandar` (guru).
+- Tidak memakai Firebase Authentication.
+- Password akun tambahan di-hash SHA-256 sebelum disimpan ke Firestore.
+- Admin mendapat panel Kelola Akun yang siap memakai collection `accounts`.
+- Untuk produksi, Rules Firestore tetap harus membatasi siapa yang boleh membaca/menulis `accounts`.

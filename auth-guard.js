@@ -1,13 +1,7 @@
-(function () {
+
+(function(){
   const path = location.pathname.toLowerCase();
-  const isLogin = /(^|\/)login\.html$/.test(path) || /(^|\/)index\.html$/.test(path) || path === "/" || path.endsWith("/");
-  const session = sessionStorage.getItem("portal_login");
-  if (!isLogin && !session) {
-    const base = location.pathname.split("/").slice(0, -1).join("/") + "/";
-    location.replace(base + "login.html");
-  }
-  window.portalLogout = function () {
-    sessionStorage.removeItem("portal_login");
-    location.href = "login.html";
-  };
+  const publicPage = path === "/" || path.endsWith("/") || /index\.html$/.test(path) || /login\.html$/.test(path);
+  const session = sessionStorage.getItem("tkj3_session");
+  if (!publicPage && !session) location.replace("index.html");
 })();

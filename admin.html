@@ -1062,4 +1062,60 @@ onSnapshot(collection(db2,'users'),snap=>renderTeachers(snap.docs.map(d=>({id:d.
 el('saveTeacher')?.addEventListener('click',async()=>{const uid=el('teacherUidInput').value.trim(),name=el('teacherNameInput').value.trim(),email=el('teacherEmailInput').value.trim(),subs=el('teacherSubjectsInput').value.split(',').map(x=>x.trim()).filter(Boolean);if(!uid||!name||!subs.length){el('teacherMessage').textContent='UID, nama, dan minimal satu mapel wajib diisi.';return}await setDoc(doc(db2,'users',uid),{role:'guru',nama:name,email,mataPelajaran:subs,updatedAt:Date.now()},{merge:true});el('teacherMessage').textContent='✅ Profil guru tersimpan. Buat/atur akun dengan UID yang sama di Firebase Authentication.';['teacherUidInput','teacherNameInput','teacherEmailInput','teacherSubjectsInput'].forEach(x=>el(x).value='')});
 </script><script>if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script><style id="admin-page-nav-v65">.v65-admin-hidden{display:none!important}.v65-admin-nav{width:min(1050px,calc(100% - 28px));margin:10px auto 16px;display:flex;gap:8px;flex-wrap:wrap}.v65-admin-nav .btn.active{outline:2px solid currentColor;outline-offset:2px}@media(max-width:700px){.v65-admin-nav{overflow:auto;flex-wrap:nowrap}.v65-admin-nav .btn{white-space:nowrap}}</style><script>
 (()=>{const ids=['dashboard','statistik','data-absensi','siswa','guru','struktur','jadwal','galeri'];const labels={dashboard:'Utama',statistik:'Jumlah Mapel', 'data-absensi':'Data Absensi',siswa:'Data Siswa',guru:'Data Guru',struktur:'Struktur',jadwal:'Jadwal',galeri:'Galeri'};const secs=ids.map(id=>document.getElementById(id)).filter(Boolean);if(!secs.length)return;const nav=document.createElement('div');nav.className='v65-admin-nav';ids.forEach(id=>{if(!document.getElementById(id))return;const b=document.createElement('a');b.href='#'+id;b.className='btn';b.textContent=labels[id];b.dataset.id=id;nav.appendChild(b)});const content=document.getElementById('content');if(content)content.prepend(nav);function show(id,scroll=true){if(!ids.includes(id)||!document.getElementById(id))id='dashboard';secs.forEach(s=>s.classList.toggle('v65-admin-hidden',s.id!==id));nav.querySelectorAll('[data-id]').forEach(b=>b.classList.toggle('active',b.dataset.id===id));if(scroll)document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'})}function hash(){show(location.hash.slice(1)||'dashboard',false)}window.addEventListener('hashchange',hash);hash();})();
-</script></body></html>
+</script>
+<section id="kelola-akun" style="margin:24px 0;padding:20px;border-radius:18px;border:1px solid #ddd;">
+  <h2>Kelola Akun</h2>
+  <p>Tambah akun siswa atau guru tanpa Firebase Authentication. Password di-hash sebelum disimpan.</p>
+  <form id="account-form">
+    <input id="acc-nama" placeholder="Nama" required>
+    <input id="acc-username" placeholder="Username" required>
+    <input id="acc-password" type="password" placeholder="Password" required>
+    <select id="acc-role"><option value="siswa">Siswa</option><option value="guru">Guru</option></select>
+    <input id="acc-mapel" placeholder="Mata pelajaran (untuk guru, opsional)">
+    <button type="submit">Simpan Akun</button>
+  </form>
+  <div id="account-list" style="margin-top:16px;"></div>
+</section>
+<script>
+(async function(){
+  const form=document.getElementById("account-form"), list=document.getElementById("account-list");
+  if(!form) return;
+  async function refresh(){
+    if(!window.db || !window.collection || !window.getDocs) {
+      list.innerHTML="<small>Firestore belum terhubung di halaman ini. Akun awal tetap dapat dipakai untuk testing.</small>";
+      return;
+    }
+    try {
+      const snap=await window.getDocs(window.collection(window.db,"accounts"));
+      list.innerHTML="";
+      snap.forEach(d=>{
+        const x=d.data();
+        const row=document.createElement("div");
+        row.style.marginBottom="8px";
+        row.textContent=(x.nama||x.username)+" — "+x.username+" — "+x.role;
+        list.appendChild(row);
+      });
+    } catch(e) { list.textContent="Gagal membaca akun: "+e.message; }
+  }
+  form.addEventListener("submit", async e=>{
+    e.preventDefault();
+    if(!window.db || !window.collection || !window.addDoc) {
+      alert("Firestore belum terhubung pada halaman admin.");
+      return;
+    }
+    const username=document.getElementById("acc-username").value.trim().toLowerCase();
+    const password=document.getElementById("acc-password").value;
+    const nama=document.getElementById("acc-nama").value.trim();
+    const role=document.getElementById("acc-role").value;
+    const mapel=document.getElementById("acc-mapel").value.trim();
+    const passwordHash=await window.portalAuth.hashPassword(password);
+    await window.addDoc(window.collection(window.db,"accounts"),{
+      username,nama,role,passwordHash,mapel,createdAt:new Date().toISOString()
+    });
+    form.reset(); await refresh(); alert("Akun berhasil ditambahkan.");
+  });
+  refresh();
+})();
+</script>
+
+</body></html>

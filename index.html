@@ -1,828 +1,90 @@
-<!doctype html><html lang="id"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>XII TKJ 3</title>
-<style>
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:#101827;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;background:#edf3f8}body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(65px)}body:before{width:380px;height:380px;left:-130px;top:70px;background:#74e4a6}body:after{width:430px;height:430px;right:-150px;bottom:-40px;background:linear-gradient(135deg,#77a8ff,#d68cff,#ff9bc7)}
-a{text-decoration:none;color:inherit}.container{width:min(1050px,calc(100% - 28px));margin:auto}.glass{background:#ffffff73;border:1px solid #ffffffc9;box-shadow:0 20px 55px #1923321c;backdrop-filter:blur(28px) saturate(150%);-webkit-backdrop-filter:blur(28px) saturate(150%)}.nav{position:sticky;top:12px;z-index:10;width:min(1050px,calc(100% - 20px));margin:12px auto;padding:10px 12px;border-radius:24px;display:flex;justify-content:space-between;align-items:center}.brand{display:flex;align-items:center;gap:10px;font-weight:900}.mark{width:40px;height:40px;border-radius:14px;background:#111827;color:#fff;display:grid;place-items:center}.links{display:flex;gap:4px}.links a,.mobile a{padding:10px 12px;border-radius:15px;color:#687386;font-size:13px;font-weight:800;transition:.3s}.links a:hover,.mobile a:hover{transform:scale(1.08);background:#ffffffb8;color:#11834a}.hero{padding:75px 0 45px}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:25px;align-items:center}h1{font-size:clamp(45px,7vw,78px);line-height:.95;letter-spacing:-.06em;margin:20px 0}.gradient{background:linear-gradient(110deg,#111827,#16a35a,#5b8cff,#a56bff);-webkit-background-clip:text;background-clip:text;color:transparent}.pill{display:inline-flex;gap:8px;padding:9px 13px;border-radius:99px;background:#fff8;border:1px solid #fff;color:#11834a;font-size:12px;font-weight:850}.dot{width:8px;height:8px;border-radius:50%;background:#24d66d}.desc{color:#687386;line-height:1.7}.btn{border:1px solid #ffffffc9;border-radius:18px;padding:14px 19px;cursor:pointer;font-weight:850;transition:.3s;box-shadow:0 10px 25px #1f29370f}.btn:hover{transform:scale(1.08) translateY(-3px);box-shadow:0 20px 40px #1f293726}.primary{background:#111827;color:#fff}.soft{background:#ffffff85}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.hero-card{min-height:360px;border-radius:38px;padding:22px}.logo{height:270px;display:grid;place-items:center}.logo div{width:165px;height:165px;border-radius:50px;display:grid;place-items:center;text-align:center;background:#ffffff75;border:1px solid #fff;box-shadow:0 25px 60px #1f29371c;font-size:36px;font-weight:950}.hero-bottom{display:flex;justify-content:space-between}.hero-bottom small{color:#687386}.hero-bottom strong{display:block}.section{padding:60px 0}.head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:20px}.head>div{min-width:0}.head .desc{margin:12px 0 0;max-width:700px}.kicker{font-size:11px;letter-spacing:.15em;color:#11834a;font-weight:950}h2{font-size:clamp(32px,5vw,50px);letter-spacing:-.055em;margin:5px 0}.card{padding:24px;border-radius:30px}.form{display:grid;gap:16px}label{display:block;font-size:13px;font-weight:850;margin-bottom:8px}select,textarea{width:100%;padding:15px;border:1px solid #ffffffd9;border-radius:17px;background:#ffffff94;outline:0;color:#101827}textarea{min-height:90px;resize:vertical}.status{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.status input{display:none}.status label{text-align:center;padding:15px;border-radius:17px;background:#ffffff75;border:1px solid #ffffffd9;cursor:pointer;transition:.3s}.status label:hover{transform:scale(1.05)}.status input:checked+label{background:#111827;color:#fff;transform:scale(1.03)}#keteranganBox{display:none}.message{text-align:center;min-height:20px;margin-top:12px;font-size:13px}.stats,.quick,.people,.gallery{display:grid;gap:12px}.stats{grid-template-columns:repeat(3,1fr)}.stat{padding:21px;border-radius:24px}.stat b{font-size:32px}.stat span{display:block;color:#687386;font-size:13px}.quick{grid-template-columns:repeat(4,1fr);margin-top:14px}.quick-card,.person,.gallery-item{border-radius:25px;transition:.3s}.quick-card{padding:20px}.quick-card:hover,.person:hover,.gallery-item:hover{transform:scale(1.06) translateY(-5px);box-shadow:0 25px 55px #1f29371f}.icon,.avatar{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:#ffffff75;border:1px solid #fff;font-weight:900}.quick-card h3{margin:14px 0 5px}.quick-card p{margin:0;color:#687386;font-size:13px}.people{grid-template-columns:repeat(3,1fr)}.person{padding:20px}.role{margin-top:13px;font-size:11px;color:#11834a;font-weight:900}.gallery{grid-template-columns:repeat(3,1fr)}.gallery-item{aspect-ratio:4/3;display:grid;place-items:center;color:#687386}.schedule{overflow:auto;border-radius:28px}.schedule table{width:100%;min-width:620px;border-collapse:collapse;background:#ffffff70}th,td{padding:14px;text-align:left;border-bottom:1px solid #11182710;font-size:13px}th{background:#16b86618}.footer{text-align:center;color:#687386;padding:45px 0 100px;font-size:12px}.mobile{display:none}
-@media(max-width:800px){.links{display:none}.grid{grid-template-columns:1fr}.hero{padding-top:50px}.stats{gap:8px}.quick{grid-template-columns:1fr 1fr}.people{grid-template-columns:1fr 1fr}.gallery{grid-template-columns:1fr 1fr}.mobile{position:fixed;display:grid;grid-template-columns:repeat(4,1fr);left:10px;right:10px;bottom:10px;z-index:200;padding:8px;border-radius:24px}.mobile a{text-align:center;font-size:10px;padding:8px 2px;line-height:1.35}.head{display:block}main{padding-bottom:68px}}@media(max-width:430px){.people{grid-template-columns:1fr}}
-.admin-btn{padding:10px 13px;border-radius:15px;background:#111827;color:#fff;font-size:12px;font-weight:850;transition:.3s;margin-left:auto;margin-right:8px}.admin-btn:hover{transform:scale(1.08)}@media(max-width:800px){.admin-btn{margin-left:auto;margin-right:4px}} 
-/* v8: logo utama tanpa foto bersama */
-.v8-logo-card{display:flex;flex-direction:column;justify-content:center;overflow:visible}
-.v8-logo-area{min-height:270px;display:flex;align-items:center;justify-content:center;gap:34px;padding:20px 8px}
-.v8-logo{width:145px;height:145px;object-fit:contain;border-radius:50%;background:#ffffff78;border:1px solid #ffffffcc;padding:8px;box-shadow:0 25px 60px #1f29371c;cursor:zoom-in;transition:transform .35s ease,box-shadow .35s ease}
-.v8-logo:hover{transform:scale(1.08) translateY(-6px);box-shadow:0 30px 70px #1f29372c}
-.v8-float-1{animation:v8Float1 4s ease-in-out infinite}
-.v8-float-2{animation:v8Float2 4.6s ease-in-out infinite}
-@keyframes v8Float1{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
-@keyframes v8Float2{0%,100%{transform:translateY(-5px)}50%{transform:translateY(8px)}}
-@media(max-width:800px){.v8-logo-area{min-height:240px;gap:20px}.v8-logo{width:115px;height:115px}}
-</style><style>
-.v6-gallery-head{justify-content:center;text-align:center}.v6-gallery-head h2{margin-bottom:8px}.v6-gallery-head p{opacity:.72}.v6-logos{display:flex;justify-content:center;align-items:center;gap:70px;margin:5px 0 34px}.v6-logos img{width:125px;height:125px;object-fit:contain;border-radius:50%;animation:v6Float 4s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(0,255,200,.35))}.v6-logos img:nth-child(2){animation-delay:-2s}.v6-gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.v6-gallery-grid figure{margin:0;border-radius:18px;overflow:hidden;border:1px solid rgba(0,255,200,.3);box-shadow:0 10px 35px rgba(0,0,0,.28);animation:v6CardFloat 5s ease-in-out infinite}.v6-gallery-grid figure:nth-child(2){animation-delay:-1s}.v6-gallery-grid figure:nth-child(3){animation-delay:-2s}.v6-gallery-grid figure:nth-child(4){animation-delay:-3s}.v6-gallery-grid figure:nth-child(5){animation-delay:-4s}.v6-gallery-grid figure:nth-child(n+4){grid-column:span 1}.v6-gallery-grid figure img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;transition:transform .45s ease,filter .45s ease}.v6-gallery-grid figure:hover img{transform:scale(1.045);filter:brightness(1.08)}@keyframes v6Float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}@keyframes v6CardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}@media(max-width:800px){.v6-gallery-grid{grid-template-columns:1fr 1fr}.v6-logos{gap:30px}.v6-logos img{width:95px;height:95px}}@media(max-width:520px){.v6-gallery-grid{grid-template-columns:1fr}.v6-logos{gap:18px}}
-</style>
-<style>
-/* v7: homepage logos, floating photos and lightbox */
-.v7-hero-card{position:relative;overflow:hidden;padding:18px;min-height:430px}
-.v7-hero-photo{position:relative;width:100%;height:330px;border-radius:28px;overflow:hidden;cursor:zoom-in;animation:v7Float 5s ease-in-out infinite;box-shadow:0 25px 60px rgba(16,24,39,.22)}
-.v7-hero-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
-.v7-hero-photo:hover img{transform:scale(1.04)}
-.v7-logo-row{position:absolute;left:24px;bottom:76px;display:flex;align-items:center;gap:12px;z-index:2}
-.v7-logo{width:78px;height:78px;object-fit:contain;border-radius:22px;background:#fff;padding:5px;border:1px solid #fff;box-shadow:0 18px 35px rgba(16,24,39,.22);cursor:zoom-in;animation:v7Float 4s ease-in-out infinite}
-.v7-logo:nth-child(2){animation-delay:-2s}
-.v7-hero-bottom{margin-top:18px}
-.v7-gallery-grid figure{cursor:zoom-in}
-.v7-gallery-grid figure img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
-.v7-lightbox{position:fixed;inset:0;background:rgba(5,10,16,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
-.v7-lightbox.open{display:flex}
-.v7-lightbox img{max-width:min(94vw,1250px);max-height:88vh;object-fit:contain;border-radius:20px;box-shadow:0 30px 100px rgba(0,0,0,.5);cursor:default}
-.v7-close{position:fixed;right:22px;top:18px;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;font-size:27px;cursor:pointer}
-@keyframes v7Float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-@media(max-width:800px){.v7-hero-card{min-height:370px}.v7-hero-photo{height:270px}.v7-logo{width:65px;height:65px}.v7-logo-row{bottom:70px;left:22px}}
-</style>
-
-<style>
-/* v9 homepage layout: class logo in navigation, school logo in black hero panel */
-.v9-brand-logo{width:42px;height:42px;border-radius:12px;object-fit:contain;background:#000;display:block;cursor:zoom-in;box-shadow:0 8px 22px rgba(0,0,0,.22)}
-.v9-hero-card{background:rgba(255,255,255,.72)!important;border-color:rgba(255,255,255,.88)!important;box-shadow:0 25px 70px rgba(31,41,55,.16)!important;display:flex;flex-direction:column;justify-content:center;min-height:430px}
-.v9-school-logo-wrap{min-height:330px;display:flex;align-items:center;justify-content:center;padding:25px;cursor:zoom-in;animation:v9Float 4.5s ease-in-out infinite}
-.v9-school-logo{width:min(260px,70%);height:auto;object-fit:contain;display:block;filter:drop-shadow(0 18px 30px rgba(31,41,55,.14))}
-.v9-hero-card .hero-bottom{color:#111827}.v9-hero-card .hero-bottom small{color:#687386}.v9-hero-card .hero-bottom strong{color:#111827}
-@keyframes v9Float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@media(max-width:800px){.v9-brand-logo{width:38px;height:38px}.v9-hero-card{min-height:360px}.v9-school-logo-wrap{min-height:260px}.v9-school-logo{width:min(220px,72%)}}
-.schedule-loading{text-align:center!important;color:#687386;padding:28px!important}
-</style>
-
-<style>
-.password-field{position:relative;display:flex;align-items:center}
-.password-field input{padding-right:50px!important}
-.password-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:0;border-radius:12px;background:transparent;display:grid;place-items:center;cursor:pointer;color:#667085;transition:background .2s ease,color .2s ease,transform .2s ease}
-.password-toggle:hover{background:rgba(99,102,241,.09);color:#111827;transform:translateY(-50%) scale(1.04)}
-.password-toggle:active{transform:translateY(-50%) scale(.96)}
-.password-toggle:focus-visible{outline:2px solid currentColor;outline-offset:2px}
-.eye-icon{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.eye-closed{display:none}
-.password-toggle.is-visible .eye-open{display:none}
-.password-toggle.is-visible .eye-closed{display:block}
-</style>
-<style>
-.current-lesson{
-  margin:0 0 18px;
-  padding:18px 20px;
-  border-radius:18px;
-  border:1px solid rgba(99,102,241,.18);
-}
-.current-lesson-label{
-  font-size:.76rem;
-  font-weight:700;
-  letter-spacing:.08em;
-  opacity:.68;
-  margin-bottom:6px;
-}
-.current-lesson-title{
-  font-size:1.2rem;
-  font-weight:800;
-  line-height:1.35;
-}
-.current-lesson-time{
-  margin-top:5px;
-  font-size:.9rem;
-  opacity:.72;
-}
-</style>
-
-<style>
-/* v59: logo kelas diperbaiki + otomatis mengikuti tema */
-.class-logo{width:42px;height:42px;object-fit:contain;display:block;flex:0 0 42px;border-radius:10px;background:transparent;box-shadow:none;cursor:zoom-in;transition:filter .25s ease,opacity .25s ease,transform .25s ease}
-.class-logo:hover{transform:scale(1.05)}
-.class-logo-picture{display:contents}
-@media(max-width:800px){.class-logo{width:38px;height:38px;flex-basis:38px}}
-</style>
-<style id="theme-system">
-:root{
-  color-scheme: light;
-  --bg:#edf3f8; --text:#101827; --muted:#687386; --surface:rgba(255,255,255,.45);
-  --surface-strong:rgba(255,255,255,.72); --surface-soft:rgba(255,255,255,.58);
-  --border:rgba(255,255,255,.80); --line:rgba(16,24,39,.10); --accent:#11834a;
-  --button:#111827; --button-text:#fff; --input:rgba(255,255,255,.62);
-  --shadow:rgba(25,35,50,.12); --table:rgba(255,255,255,.36); --thead:rgba(22,184,102,.10);
-}
-html{background:var(--bg)}
-body{background:var(--bg);color:var(--text);transition:background-color .25s ease,color .25s ease}
-body:before{background:#74e4a6!important;opacity:.9}
-body:after{opacity:.9}
-.glass{background:var(--surface)!important;border-color:var(--border)!important;box-shadow:0 20px 55px var(--shadow)!important}
-.desc,.empty,.footer,.student-count-note,.gallery-manager-meta,.stat span,.quick-card p,.v9-hero-card .hero-bottom small{color:var(--muted)!important}
-.links a,.logout{color:var(--muted)}
-.links a:hover,.logout:hover{background:var(--surface-strong);color:var(--accent)}
-.btn,.date{background:var(--surface-soft);border-color:var(--border);color:var(--text)}
-.primary,.btn.primary{background:var(--button)!important;color:var(--button-text)!important}
-input,select,textarea,.date,.student-name-input,.login-input{background:var(--input)!important;color:var(--text)!important;border-color:var(--border)!important}
-.table,.schedule table{background:var(--table)}
-.table th,.schedule th{border-bottom-color:var(--line)}
-.table th,.schedule th{background:var(--thead)}
-.avatar,.icon{background:var(--surface-soft);border-color:var(--border)}
-.v9-hero-card{background:var(--surface-strong)!important;border-color:var(--border)!important}
-.v9-hero-card .hero-bottom{color:var(--text)!important}.v9-hero-card .hero-bottom strong{color:var(--text)!important}
-.v9-brand-logo{background:transparent!important;box-shadow:none!important}
-.v9-school-logo{filter:drop-shadow(0 18px 30px var(--shadow))}
-.theme-control{display:flex;align-items:center;gap:6px;margin-left:4px}
-.theme-control select{appearance:none;-webkit-appearance:none;padding:9px 30px 9px 11px;border-radius:14px;font:inherit;font-size:12px;font-weight:850;cursor:pointer;background:var(--surface-soft)!important;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%)!important;background-position:calc(100% - 14px) 13px,calc(100% - 9px) 13px!important;background-size:5px 5px,5px 5px!important;background-repeat:no-repeat!important;color:var(--text)!important}
-.theme-control select:focus{outline:2px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:2px}
-@media(max-width:800px){.theme-control{margin-left:auto}.theme-control select{font-size:11px;padding:8px 27px 8px 9px;max-width:115px}.nav{gap:6px}}
-
-[data-theme="dark"]{color-scheme:dark;--bg:#0b1220;--text:#f3f6fb;--muted:#aab5c7;--surface:rgba(20,29,45,.72);--surface-strong:rgba(22,31,48,.88);--surface-soft:rgba(30,41,59,.74);--border:rgba(255,255,255,.12);--line:rgba(255,255,255,.10);--accent:#68e39c;--button:#f4f7fb;--button-text:#0b1220;--input:rgba(17,25,39,.78);--shadow:rgba(0,0,0,.34);--table:rgba(17,25,39,.58);--thead:rgba(104,227,156,.10)}
-[data-theme="dark"] body:before{background:#0c7b4b!important;opacity:.55}
-[data-theme="dark"] body:after{background:linear-gradient(135deg,#244b91,#613b86,#743d59)!important;opacity:.55}
-[data-theme="dark"] .gradient{background:linear-gradient(110deg,#f3f6fb,#68e39c,#7ea8ff,#b38cff);-webkit-background-clip:text;background-clip:text;color:transparent}
-[data-theme="dark"] .kicker,.dark .kicker{color:var(--accent)!important}
-[data-theme="dark"] .links a:hover,[data-theme="dark"] .logout:hover{background:rgba(255,255,255,.09);color:var(--accent)}
-[data-theme="dark"] .status label{background:var(--surface-soft);border-color:var(--border)}
-[data-theme="dark"] .status input:checked+label{background:#f4f7fb;color:#0b1220}
-[data-theme="dark"] .badge{background:rgba(255,255,255,.10);color:var(--text)}
-[data-theme="dark"] .v9-hero-card .hero-bottom small{color:var(--muted)!important}
-[data-theme="dark"] .v9-school-logo-wrap{background:transparent}
-[data-theme="dark"] .v7-lightbox{background:rgba(0,0,0,.88)}
-
-@media(prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){color-scheme:dark;--bg:#0b1220;--text:#f3f6fb;--muted:#aab5c7;--surface:rgba(20,29,45,.72);--surface-strong:rgba(22,31,48,.88);--surface-soft:rgba(30,41,59,.74);--border:rgba(255,255,255,.12);--line:rgba(255,255,255,.10);--accent:#68e39c;--button:#f4f7fb;--button-text:#0b1220;--input:rgba(17,25,39,.78);--shadow:rgba(0,0,0,.34);--table:rgba(17,25,39,.58);--thead:rgba(104,227,156,.10)}
-  :root:not([data-theme="light"]) body:before{background:#0c7b4b!important;opacity:.55}
-  :root:not([data-theme="light"]) body:after{background:linear-gradient(135deg,#244b91,#613b86,#743d59)!important;opacity:.55}
-  :root:not([data-theme="light"]) .gradient{background:linear-gradient(110deg,#f3f6fb,#68e39c,#7ea8ff,#b38cff);-webkit-background-clip:text;background-clip:text;color:transparent}
-  :root:not([data-theme="light"]) .status input:checked+label{background:#f4f7fb;color:#0b1220}
-  :root:not([data-theme="light"]) .badge{background:rgba(255,255,255,.10);color:var(--text)}
-  :root:not([data-theme="light"]) .v7-lightbox{background:rgba(0,0,0,.88)}
-}
-</style>
-
-<style id="system-theme-override">
-/* System mode: follows the device/browser preference without changing the Light/Dark manual modes. */
-:root[data-theme="system"]{
-  color-scheme:light;
-  --bg:#edf3f8;--text:#101827;--muted:#687386;--surface:rgba(255,255,255,.45);
-  --surface-strong:rgba(255,255,255,.72);--surface-soft:rgba(255,255,255,.58);--border:rgba(255,255,255,.80);
-  --line:rgba(16,24,39,.10);--accent:#11834a;--button:#111827;--button-text:#fff;--input:rgba(255,255,255,.62);
-  --shadow:rgba(25,35,50,.12);--table:rgba(255,255,255,.36);--thead:rgba(22,184,102,.10);
-}
-:root[data-theme="system"] body:before{background:#72e2a4!important;opacity:.82}
-:root[data-theme="system"] body:after{background:linear-gradient(135deg,#8db7ff 0%,#c08cff 48%,#ffb2d5 100%)!important;opacity:.72}
-:root[data-theme="system"] .glass{backdrop-filter:blur(28px) saturate(150%);-webkit-backdrop-filter:blur(28px) saturate(150%)}
-@media(prefers-color-scheme:dark){
-  :root[data-theme="system"]{
-    color-scheme:dark;--bg:#090d18!important;--text:#f5f7ff!important;--muted:#aeb7ca!important;
-    --surface:rgba(18,23,38,.78)!important;--surface-strong:rgba(20,25,43,.92)!important;
-    --surface-soft:rgba(28,34,54,.82)!important;--border:rgba(255,255,255,.13)!important;
-    --line:rgba(255,255,255,.10)!important;--accent:#68e39c!important;--button:#f5f7ff!important;--button-text:#090d18!important;
-    --input:rgba(10,15,27,.88)!important;--shadow:rgba(0,0,0,.34)!important;--table:rgba(8,13,25,.72)!important;--thead:rgba(111,70,220,.18)!important;
-  }
-  :root[data-theme="system"] body:before{background:#0c7b4b!important;opacity:.55}
-  :root[data-theme="system"] body:after{background:linear-gradient(135deg,#244b91,#613b86,#743d59)!important;opacity:.55}
-  :root[data-theme="system"] .glass{background:rgba(18,23,38,.78)!important;border-color:rgba(255,255,255,.13)!important;box-shadow:0 24px 70px rgba(0,0,0,.34)!important}
-  :root[data-theme="system"] h1,:root[data-theme="system"] h2,:root[data-theme="system"] h3,:root[data-theme="system"] strong,:root[data-theme="system"] b,:root[data-theme="system"] label{color:#f5f7ff!important}
-  :root[data-theme="system"] .desc,:root[data-theme="system"] .empty,:root[data-theme="system"] .footer,:root[data-theme="system"] .stat span,:root[data-theme="system"] .quick-card p{color:#aeb7ca!important}
-  :root[data-theme="system"] input,:root[data-theme="system"] select,:root[data-theme="system"] textarea{background:rgba(10,15,27,.88)!important;color:#f5f7ff!important;border-color:rgba(255,255,255,.15)!important}
-  :root[data-theme="system"] .theme-control select{background:rgba(29,34,57,.92)!important;color:#f5f7ff!important}
-}
-</style>
-
-<style id="v56-theme">
-/* v56 visual system: light stays close to the previous airy model; dark follows the supplied green/purple reference. */
-:root{
-  --v56-light-bg:#edf3f8;
-  --v56-light-text:#101827;
-  --v56-light-muted:#687386;
-  --v56-dark-bg:#090d18;
-  --v56-dark-text:#f5f7ff;
-  --v56-dark-muted:#aeb7ca;
-}
-/* Light mode: soft green + violet glow, close to the existing student design. */
-:root[data-theme="light"] body:before,
-:root:not([data-theme="dark"]) body:before{background:#72e2a4!important;opacity:.82}
-:root[data-theme="light"] body:after,
-:root:not([data-theme="dark"]) body:after{background:linear-gradient(135deg,#8db7ff 0%,#c08cff 48%,#ffb2d5 100%)!important;opacity:.72}
-:root[data-theme="light"] .glass,
-:root:not([data-theme="dark"]) .glass{backdrop-filter:blur(28px) saturate(150%);-webkit-backdrop-filter:blur(28px) saturate(150%)}
-
-/* Dark mode: deep navy + purple and green atmosphere with stronger contrast. */
-:root[data-theme="dark"]{
-  --bg:#090d18!important;--text:#f5f7ff!important;--muted:#aeb7ca!important;
-  --surface:rgba(18,23,38,.78)!important;--surface-strong:rgba(20,25,43,.92)!important;
-  --surface-soft:rgba(30,35,58,.82)!important;--border:rgba(255,255,255,.13)!important;
-  --line:rgba(255,255,255,.11)!important;--accent:#65e39b!important;
-  --button:#f5f7ff!important;--button-text:#0a0f1d!important;--input:rgba(11,16,29,.88)!important;
-  --shadow:rgba(0,0,0,.48)!important;--table:rgba(10,15,28,.72)!important;--thead:rgba(115,83,255,.16)!important;
-  color-scheme:dark;
-}
-:root[data-theme="dark"] body,
-:root[data-theme="dark"] html{background:#090d18!important;color:#f5f7ff}
-:root[data-theme="dark"] body:before{
-  width:520px!important;height:520px!important;left:-180px!important;top:40px!important;
-  background:radial-gradient(circle at 55% 50%,rgba(30,210,127,.72) 0%,rgba(14,122,79,.42) 32%,rgba(8,70,54,0) 70%)!important;
-  opacity:1!important;filter:blur(55px)!important;
-}
-:root[data-theme="dark"] body:after{
-  width:650px!important;height:650px!important;right:-240px!important;bottom:-180px!important;
-  background:radial-gradient(circle at 45% 45%,rgba(157,78,255,.72) 0%,rgba(87,48,164,.46) 35%,rgba(25,31,72,0) 72%)!important;
-  opacity:1!important;filter:blur(65px)!important;
-}
-:root[data-theme="dark"] .glass{background:rgba(18,23,38,.72)!important;border-color:rgba(255,255,255,.13)!important;box-shadow:0 24px 70px rgba(0,0,0,.34)!important}
-:root[data-theme="dark"] .nav{background:rgba(15,20,34,.84)!important}
-:root[data-theme="dark"] h1,
-:root[data-theme="dark"] h2,
-:root[data-theme="dark"] h3,
-:root[data-theme="dark"] strong,
-:root[data-theme="dark"] b,
-:root[data-theme="dark"] label,
-:root[data-theme="dark"] .gallery-manager-name,
-:root[data-theme="dark"] .admin-structure-role{color:#f5f7ff!important}
-:root[data-theme="dark"] .desc,
-:root[data-theme="dark"] .empty,
-:root[data-theme="dark"] .footer,
-:root[data-theme="dark"] .gallery-manager-meta,
-:root[data-theme="dark"] .stat span,
-:root[data-theme="dark"] .quick-card p,
-:root[data-theme="dark"] .schedule-message,
-:root[data-theme="dark"] .student-count-note{color:#aeb7ca!important}
-:root[data-theme="dark"] .gradient{background:linear-gradient(110deg,#ffffff 0%,#6ee6a1 38%,#76a9ff 66%,#b98cff 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important}
-:root[data-theme="dark"] .kicker,.kicker{color:var(--accent)!important}
-:root[data-theme="dark"] .btn:not(.primary),
-:root[data-theme="dark"] .date{background:rgba(32,38,62,.84)!important;color:#f5f7ff!important;border-color:rgba(255,255,255,.13)!important}
-:root[data-theme="dark"] .primary,.btn.primary{box-shadow:0 10px 30px rgba(91,68,190,.20)}
-:root[data-theme="dark"] input,
-:root[data-theme="dark"] select,
-:root[data-theme="dark"] textarea,
-:root[data-theme="dark"] .login-input,
-:root[data-theme="dark"] .student-name-input{background:rgba(10,15,27,.88)!important;color:#f5f7ff!important;border-color:rgba(255,255,255,.15)!important}
-:root[data-theme="dark"] input::placeholder,
-:root[data-theme="dark"] textarea::placeholder{color:#8792a8!important}
-:root[data-theme="dark"] .table,
-:root[data-theme="dark"] .schedule table{background:rgba(8,13,25,.72)!important;color:#f5f7ff}
-:root[data-theme="dark"] .table th,
-:root[data-theme="dark"] .schedule th{background:rgba(111,70,220,.18)!important;color:#f5f7ff!important}
-:root[data-theme="dark"] .table td,
-:root[data-theme="dark"] .schedule td{border-bottom-color:rgba(255,255,255,.09)!important;color:#dfe5f1!important}
-:root[data-theme="dark"] .theme-control select{background:rgba(29,34,57,.92)!important;color:#f5f7ff!important;border-color:rgba(255,255,255,.14)!important}
-:root[data-theme="dark"] .links a,
-:root[data-theme="dark"] .logout{color:#b8c1d2!important}
-:root[data-theme="dark"] .links a:hover,
-:root[data-theme="dark"] .logout:hover{background:rgba(255,255,255,.08)!important;color:#65e39b!important}
-:root[data-theme="dark"] .avatar,
-:root[data-theme="dark"] .icon{background:rgba(33,40,65,.88)!important;border-color:rgba(255,255,255,.13)!important;color:#f5f7ff!important}
-:root[data-theme="dark"] .badge{background:rgba(255,255,255,.09)!important;color:#f5f7ff!important}
-:root[data-theme="dark"] .v9-school-logo-wrap{background:rgba(255,255,255,.035)!important;border-color:rgba(255,255,255,.10)!important}
-:root[data-theme="dark"] .v9-school-logo{filter:drop-shadow(0 15px 28px rgba(105,77,255,.32))}
-:root[data-theme="dark"] .v9-brand-logo{filter:drop-shadow(0 8px 18px rgba(80,220,150,.18))}
-:root[data-theme="dark"] .mobile,
-:root[data-theme="dark"] .mobile-admin{background:rgba(14,19,33,.92)!important;border-color:rgba(255,255,255,.12)!important}
-
-</style>
-
-<style id="v60-dark-readable">
-/* v60: Dark mode readability pass.
-   Keeps the green/purple glow, but makes tables, forms and manager cards clearly separated. */
-:root[data-theme="dark"] {
-  --bg:#080d18!important;
-  --text:#f7f9fd!important;
-  --muted:#aeb9cb!important;
-  --surface:rgba(19,27,43,.84)!important;
-  --surface-strong:rgba(23,32,51,.94)!important;
-  --surface-soft:rgba(30,40,61,.88)!important;
-  --border:rgba(255,255,255,.14)!important;
-  --line:rgba(255,255,255,.11)!important;
-  --accent:#70e6a3!important;
-  --button:#f7f9fd!important;
-  --button-text:#080d18!important;
-  --input:rgba(10,16,28,.94)!important;
-  --shadow:rgba(0,0,0,.42)!important;
-  --table:rgba(12,19,32,.88)!important;
-  --thead:rgba(112,230,163,.13)!important;
-}
-:root[data-theme="dark"] .glass{
-  background:rgba(18,26,42,.82)!important;
-  border-color:rgba(255,255,255,.13)!important;
-  box-shadow:0 24px 70px rgba(0,0,0,.34)!important;
-}
-:root[data-theme="dark"] .table,
-:root[data-theme="dark"] .schedule table{
-  background:rgba(9,15,27,.88)!important;
-  color:#eef3fa!important;
-  border:1px solid rgba(255,255,255,.10);
-}
-:root[data-theme="dark"] .table th,
-:root[data-theme="dark"] .schedule th{
-  background:linear-gradient(90deg,rgba(112,230,163,.16),rgba(126,91,214,.14))!important;
-  color:#ffffff!important;
-  border-bottom:1px solid rgba(255,255,255,.16)!important;
-}
-:root[data-theme="dark"] .table td,
-:root[data-theme="dark"] .schedule td,
-:root[data-theme="dark"] th,
-:root[data-theme="dark"] td{
-  color:#e5ebf5!important;
-  border-bottom-color:rgba(255,255,255,.09)!important;
-}
-:root[data-theme="dark"] .table tbody tr:nth-child(even),
-:root[data-theme="dark"] .schedule tbody tr:nth-child(even){
-  background:rgba(255,255,255,.025)!important;
-}
-:root[data-theme="dark"] .table tbody tr:hover,
-:root[data-theme="dark"] .schedule tbody tr:hover{
-  background:rgba(112,230,163,.075)!important;
-}
-:root[data-theme="dark"] .badge{
-  background:rgba(255,255,255,.10)!important;
-  color:#f7f9fd!important;
-  border:1px solid rgba(255,255,255,.10);
-}
-:root[data-theme="dark"] .student-row,
-:root[data-theme="dark"] .gallery-manager-item,
-:root[data-theme="dark"] .admin-structure-card{
-  background:rgba(22,31,49,.88)!important;
-  border-color:rgba(255,255,255,.12)!important;
-  box-shadow:0 12px 35px rgba(0,0,0,.20)!important;
-}
-:root[data-theme="dark"] .student-name-input,
-:root[data-theme="dark"] .manager-input,
-:root[data-theme="dark"] input,
-:root[data-theme="dark"] select,
-:root[data-theme="dark"] textarea{
-  background:rgba(9,15,27,.94)!important;
-  color:#f7f9fd!important;
-  border-color:rgba(255,255,255,.14)!important;
-}
-:root[data-theme="dark"] input::placeholder,
-:root[data-theme="dark"] textarea::placeholder{
-  color:#7f8ba0!important;
-}
-:root[data-theme="dark"] .small-btn,
-:root[data-theme="dark"] .btn{
-  background:rgba(36,47,69,.92)!important;
-  color:#f7f9fd!important;
-  border-color:rgba(255,255,255,.14)!important;
-}
-:root[data-theme="dark"] .small-btn:hover,
-:root[data-theme="dark"] .btn:hover{
-  background:rgba(53,66,91,.98)!important;
-}
-:root[data-theme="dark"] .small-btn.danger,
-:root[data-theme="dark"] .student-actions button{
-  background:#f7f9fd!important;
-  color:#080d18!important;
-}
-:root[data-theme="dark"] .student-actions .danger{
-  background:rgba(255,255,255,.06)!important;
-  color:#ff9d9d!important;
-  border-color:rgba(255,120,120,.25)!important;
-}
-:root[data-theme="dark"] .gallery-manager-thumb{
-  background:#0b111e!important;
-  border:1px solid rgba(255,255,255,.10);
-}
-:root[data-theme="dark"] .gallery-manager-meta,
-:root[data-theme="dark"] .student-count-note,
-:root[data-theme="dark"] .admin-structure-label{
-  color:#aeb9cb!important;
-}
-:root[data-theme="dark"] .date{
-  background:rgba(9,15,27,.94)!important;
-  color:#f7f9fd!important;
-  border-color:rgba(255,255,255,.14)!important;
-}
-:root[data-theme="dark"] .empty,
-:root[data-theme="dark"] .desc,
-:root[data-theme="dark"] .footer,
-:root[data-theme="dark"] .stat span{
-  color:#aeb9cb!important;
-}
-:root[data-theme="dark"] .kicker,
-:root[data-theme="dark"] .role,
-:root[data-theme="dark"] .admin-structure-role{
-  color:#70e6a3!important;
-}
-:root[data-theme="dark"] .status-pill{
-  background:rgba(255,255,255,.08)!important;
-  color:#c5cfdd!important;
-}
-:root[data-theme="dark"] .status-pill.online{
-  background:rgba(65,223,142,.14)!important;
-  color:#7af0ae!important;
-}
-:root[data-theme="dark"] .status-pill.offline{
-  background:rgba(255,90,90,.12)!important;
-  color:#ffaaaa!important;
-}
-</style>
-
-<style>
-/* v63 portal kelas */
-.portal-dashboard{padding-top:20px}.dashboard-card{padding:24px}.dashboard-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.dashboard-feature{padding:18px;border-radius:22px;background:rgba(255,255,255,.42);border:1px solid var(--border);min-height:125px}.dash-label{display:block;font-size:10px;letter-spacing:.14em;color:var(--accent);font-weight:950;margin-bottom:10px}.dashboard-feature strong{display:block;font-size:18px;line-height:1.3}.dashboard-feature small{display:block;color:var(--muted);margin-top:8px}.subject-rooms{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}.subject-room{padding:18px;border-radius:22px;background:var(--surface);border:1px solid var(--border);transition:.25s}.subject-room:hover{transform:translateY(-4px) scale(1.02)}.subject-room b{display:block;font-size:15px}.subject-room small{color:var(--muted);display:block;margin-top:7px}.subject-room a{display:inline-block;margin-top:12px;font-size:12px;font-weight:900;color:var(--accent)}:root[data-theme="dark"] .dashboard-feature{background:rgba(36,48,72,.78)}:root[data-theme="dark"] .subject-room{background:rgba(23,32,51,.92)}@media(max-width:800px){.dashboard-grid{grid-template-columns:1fr}.subject-rooms{grid-template-columns:1fr 1fr}}@media(max-width:480px){.subject-rooms{grid-template-columns:1fr}.dashboard-card .head .btn{width:100%;text-align:center}}
-</style>
-<style>.task-detail{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(127,127,127,.07)}.task-detail textarea,.task-detail input{width:100%;padding:10px;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);margin-top:6px}.task-detail button{margin-top:8px}.notif-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:6px}.calendar-item{padding:11px 0;border-bottom:1px solid var(--line)}@media(max-width:700px){#kalender .grid{grid-template-columns:1fr!important}}</style><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0b1220">  <script src="auth-guard.js"></script>
-</head><body>
-<header class="nav glass"><a class="brand" href="#home"><img class="class-logo theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3">XII TKJ 3</a><a class="admin-btn" href="login.html">Login</a><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><nav class="links"><a href="#absensi">Absensi</a><a href="#home">Utama</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav></header>
-<main>
-<section id="home" class="hero"><div class="container grid"><div><span class="pill"><span class="dot"></span> SMK NU Bandar</span><h1>Selamat Datang di Website Kelas <span class="gradient">XII TKJ 3</span></h1><p class="desc">SMK Bisa, SMK Hebat, SMK NU Bandar Luar Biasa</p><div class="actions"><a class="btn primary" href="#absensi">Isi Absensi →</a><a class="btn soft" href="#struktur">Struktur Kelas</a></div></div><div class="hero-card glass v7-hero-card v9-hero-card"><div class="v9-school-logo-wrap" data-lightbox="assets/galeri/logo-smk-theme.png"><img class="v9-school-logo" src="assets/galeri/logo-smk-theme.png" alt="Logo SMK NU Bandar"></div><div class="hero-bottom"><div><small>Kelas</small><strong>XII TKJ 3</strong></div><div><small>Sekolah</small><strong>SMK NU Bandar</strong></div></div></div></div></section>
-<section id="dashboard" class="section portal-dashboard"><div class="container"><div class="card glass dashboard-card"><div class="head"><div><div class="kicker">DASHBOARD</div><h2>Halo, <span id="studentGreeting">Siswa</span></h2><p class="desc">Ringkasan kegiatan kelas, pelajaran yang sedang berlangsung, tugas, dan pengumuman terbaru.</p></div><a class="btn primary" href="#belajar">Lihat Pembelajaran →</a></div><div class="dashboard-grid"><div class="dashboard-feature"><span class="dash-label">PELAJARAN SEKARANG</span><strong id="dashCurrentLesson">Memuat jadwal...</strong><small id="dashCurrentTime">-</small></div><div class="dashboard-feature"><span class="dash-label">TUGAS TERDEKAT</span><strong id="dashNextTask">Memuat tugas...</strong><small id="dashNextDeadline">-</small></div><div class="dashboard-feature"><span class="dash-label">PENGUMUMAN TERBARU</span><strong id="dashAnnouncement">Memuat pengumuman...</strong><small id="dashAnnouncementMeta">-</small></div></div></div><div class="subject-rooms" id="studentSubjectRooms"><div class="desc">Memuat ruang mata pelajaran...</div></div></div></section>
-
-<section><div class="container"><div class="stats"><div class="stat glass"><b id="studentCount">0</b><span>Siswa</span></div><div class="stat glass"><b id="subjectCount">0</b><span>Mata Pelajaran</span></div><div class="stat glass"><b id="dayCount">0</b><span>Hari Belajar</span></div></div><div class="quick"><a class="quick-card glass" href="#struktur"><div class="icon">♙</div><h3>Struktur</h3><p>Pengurus kelas</p></a><a class="quick-card glass" href="#jadwal"><div class="icon">▦</div><h3>Jadwal</h3><p>Pelajaran kelas</p></a><a class="quick-card glass" href="#galeri"><div class="icon">▣</div><h3>Galeri</h3><p>Momen kelas</p></a><a class="quick-card glass" href="#belajar"><div class="icon">▤</div><h3>Tugas</h3><p>Tugas & materi</p></a><a class="quick-card glass" href="#kalender"><div class="icon">◷</div><h3>Agenda</h3><p>Kalender & notifikasi</p></a></div></div></section>
-
-<section id="absensi" class="section">
-<div class="container">
-<div class="head"><div><div class="kicker">KEHADIRAN</div><h2>Absensi Siswa</h2><p class="desc">Absensi dibuka setiap hari pukul <b>06.00–15.00</b>. Data akan tersimpan secara otomatis</p></div></div>
-<div class="card glass" style="max-width:650px;margin:auto;border-radius:30px;padding:24px">
-<div class="time" id="timeInfo" style="padding:14px;border-radius:17px;background:#ffffff80;color:#687386">🕕 Absensi dibuka 06.00 — 15.00</div>
-<div style="margin-top:18px"><label style="display:block;font-weight:800;font-size:12px;margin-bottom:8px">NAMA SISWA</label>
-<select id="nama" style="width:100%;padding:15px;border-radius:17px;border:1px solid #ffffffd9;background:#ffffffa6;font-size:15px"><option value="">Memuat nama siswa...</option></select></div>
-<div style="margin-top:18px"><label style="display:block;font-weight:800;font-size:12px;margin-bottom:8px">STATUS KEHADIRAN</label>
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-<label><input type="radio" name="status" value="HADIR"> HADIR</label>
-<label><input type="radio" name="status" value="IZIN"> IZIN</label>
-<label><input type="radio" name="status" value="SAKIT"> SAKIT</label>
-<label><input type="radio" name="status" value="LIBUR"> LIBUR</label>
-</div></div>
-<div id="keteranganBox" style="display:none;margin-top:18px"><label style="display:block;font-weight:800;font-size:12px;margin-bottom:8px">KETERANGAN</label>
-<textarea id="keterangan" placeholder="Tuliskan keterangan..." style="width:100%;min-height:90px;padding:15px;border-radius:17px;border:1px solid #ffffffd9;background:#ffffffa6;font-family:inherit"></textarea></div>
-<button id="submit" class="btn primary" style="width:100%;margin-top:20px;background:#111827;color:white">KIRIM ABSEN</button>
-<div id="message" style="text-align:center;margin-top:13px;color:#687386;font-size:13px"></div>
-</div></div></section>
-
-<section id="struktur" class="section"><div class="container"><div class="head"><div><div class="kicker">KELAS</div><h2>Struktur Kelas</h2></div></div><div id="studentStructure" class="people"><div class="person glass">Memuat struktur...</div></div></div></section>
-<section id="jadwal" class="section"><div class="container">
-<div class="head"><div><div class="kicker">PELAJARAN</div><h2>Jadwal Kelas</h2><p class="desc">Jadwal ini diperbarui oleh admin dan tampil otomatis di halaman siswa.</p></div></div>
-<div id="currentLessonCard" class="current-lesson glass" hidden aria-live="polite">
-  <div class="current-lesson-label">PELAJARAN SAAT INI</div>
-  <div class="current-lesson-title" id="currentLessonName">-</div>
-  <div class="current-lesson-time" id="currentLessonTime">-</div>
-</div>
-<div class="schedule glass"><table><thead><tr><th>Hari</th><th>Jam</th><th>Mata Pelajaran</th></tr></thead><tbody id="studentScheduleBody">
-<tr><td colspan="3" class="schedule-loading">⏳ Memuat jadwal...</td></tr>
-</tbody></table></div>
-</div></section>
-<section id="galeri" class="section v6-gallery"><div class="container"><div class="head v6-gallery-head"><div><div class="kicker">GALERI KELAS</div><h2>Galeri Momen Bersama</h2><p>Kumpulan momen bersama keluarga besar XII TKJ 3</p></div></div><div id="studentGallery" class="v6-gallery-grid v7-gallery-grid"><div class="person glass">Memuat galeri...</div></div></div></section>
-</main>
-<section id="admin-login" class="section"><div class="container"><div class="card glass" style="max-width:430px;margin:auto">
-<div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username & Password untuk membuka halaman Admin</p>
-<div style="margin:15px 0"><label>USERNAME</label><input id="adminUser" style="width:100%;padding:15px;border:1px solid #fff;border-radius:16px;background:#ffffff94" autocomplete="username"></div>
-<div style="margin:15px 0"><label>PASSWORD</label><div class="password-field"><input type="password" style="width:100%;padding:15px;border:1px solid #fff;border-radius:16px;background:#ffffff94" autocomplete="current-password" id="adminPassword">
-<button type="button" class="password-toggle" id="adminPasswordToggle" aria-label="Tampilkan password" aria-pressed="false" title="Tampilkan password"><svg class="eye-icon eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.7"/></svg><svg class="eye-icon eye-closed" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 6.2A10.6 10.6 0 0 1 12 6c6.5 0 10 6 10 6a18.8 18.8 0 0 1-3.2 3.6"/><path d="M6.2 8.1C3.8 9.7 2 12 2 12s3.5 6 10 6a10.6 10.6 0 0 0 3.4-.55"/><path d="M9.9 9.9a2.7 2.7 0 0 0 3.8 3.8"/></svg></button></div></div>
-<button class="btn primary" style="width:100%" onclick="adminLogin()">Login ke Admin →</button>
-<div id="adminMsg" class="message"></div></div></div></section>
-<script>
-function adminLogin(){
- const u=document.getElementById("adminUser").value,p=document.getElementById("adminPassword").value,m=document.getElementById("adminMsg");
- if(u==="tkj3"&&p==="smknubandar"){sessionStorage.admin="1";sessionStorage.adminEntry="student";location.href="/admin?from=student"}else m.textContent="❌ Username atau Password salah.";
-}
-</script>
-<script>
-if(new URLSearchParams(location.search).get("login")==="admin"){
-  window.addEventListener("DOMContentLoaded",()=>document.getElementById("admin-login")?.scrollIntoView({behavior:"instant",block:"start"}));
-}
-</script>
-<div class="v7-lightbox" id="lightbox" aria-hidden="true"><button class="v7-close" id="lightboxClose" aria-label="Tutup">×</button><img id="lightboxImage" src="" alt="Foto diperbesar"></div>
-<section id="belajar" class="section"><div class="container"><div class="head"><div><div class="kicker">PEMBELAJARAN</div><h2>Tugas & Pengumuman</h2><p class="desc">Tugas, materi, dan pengumuman dari guru akan muncul otomatis.</p></div></div><div class="grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px"><div class="card glass"><h3>📝 Tugas</h3><div id="studentTasks"><div class="desc">Memuat...</div></div></div><div class="card glass"><h3>📚 Materi</h3><div id="studentMaterials"><div class="desc">Memuat...</div></div></div><div class="card glass"><h3>📢 Pengumuman</h3><div id="studentAnnouncements"><div class="desc">Memuat...</div></div></div></div></div></section><section class="section" id="kalender"><div class="container"><div class="head"><div><div class="kicker">KALENDER KELAS</div><h2>Agenda & Notifikasi</h2><p class="desc">Deadline tugas, ujian, kegiatan, dan pengumuman terbaru.</p></div></div><div class="grid" style="display:grid;grid-template-columns:1.15fr .85fr;gap:14px"><div class="card glass"><h3>📅 Agenda</h3><div id="studentCalendar"><div class="desc">Memuat agenda...</div></div></div><div class="card glass"><h3>🔔 Notifikasi</h3><div id="studentNotifications"><div class="desc">Memuat notifikasi...</div></div></div></div></div></section>
-<footer class="footer">XII TKJ 3 · SMK NU Bandar</footer><nav class="mobile glass" aria-label="Navigasi Siswa"><a href="#home">⌂<br>Utama</a><a href="#absensi">✓<br>Absensi</a><a href="#belajar">▤<br>Tugas</a><a href="#jadwal">▦<br>Jadwal</a><a href="#galeri">▣<br>Galeri</a></nav>
-<script>/* Absensi siswa dipindahkan ke halaman admin/data sesuai permintaan. */</script>
-<script>
-(()=>{
- const key='xii-tkj3-theme';
- const root=document.documentElement;
- const select=document.getElementById('themeSelect');
- const stored=localStorage.getItem(key); const saved=(stored==='dark'||stored==='light'||stored==='system')?stored:'system';
- const media=window.matchMedia('(prefers-color-scheme: dark)');
- const getActualTheme=mode=>mode==='system'?(media.matches?'dark':'light'):mode;
- const updateLogo=actual=>{
-   document.querySelectorAll('.theme-logo').forEach(img=>{
-     const src=actual==='dark'?img.dataset.darkSrc:img.dataset.lightSrc;
-     if(src && img.getAttribute('src')!==src){img.src=src;}
-     img.dataset.lightbox=src || img.dataset.lightbox || '';
-   });
- };
- const apply=(mode)=>{
-   const actual=getActualTheme(mode);
-   root.setAttribute('data-theme',actual);
-   root.setAttribute('data-theme-mode',mode);
-   if(select) select.value=mode;
-   updateLogo(actual);
- };
- apply(saved);
- if(select) select.addEventListener('change',()=>{localStorage.setItem(key,select.value);apply(select.value)});
- media.addEventListener?.('change',()=>{if((localStorage.getItem(key)||'system')==='system') apply('system')});
-})();
-</script>
-
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Login • XII TKJ 3</title><style>
+:root{--bg:#edf3f8;--text:#101827;--muted:#687386;--surface:rgba(255,255,255,.68);--border:rgba(255,255,255,.8);--accent:#16a35a;--purple:#9b6cff}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:var(--text);background:var(--bg);min-height:100vh}body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(75px);opacity:.65}body:before{width:420px;height:420px;left:-150px;top:80px;background:#74e4a6}body:after{width:480px;height:480px;right:-180px;bottom:-100px;background:linear-gradient(135deg,#78a9ff,#d68cff,#ff9bc7)}.wrap{width:min(1100px,calc(100% - 28px));margin:auto}.nav{margin:14px auto;padding:11px 14px;border:1px solid var(--border);border-radius:24px;background:var(--surface);backdrop-filter:blur(24px);display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-weight:900}.brand img{width:42px;height:42px;object-fit:contain;border-radius:12px}.nav a{padding:9px 12px;border-radius:14px;text-decoration:none;color:inherit;font-weight:800}.hero{padding:55px 0 30px}.kicker{font-size:11px;letter-spacing:.15em;color:var(--accent);font-weight:950}.hero h1{font-size:clamp(42px,7vw,72px);line-height:.95;letter-spacing:-.06em;margin:10px 0}.gradient{background:linear-gradient(110deg,#111827,#16a35a,#5b8cff,#a56bff);-webkit-background-clip:text;background-clip:text;color:transparent}.desc{color:var(--muted);line-height:1.7}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{padding:22px;border-radius:28px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(24px);box-shadow:0 20px 55px rgba(25,35,50,.1)}.card h3{margin:10px 0 5px}.icon{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:rgba(22,163,90,.12);font-weight:900}.section{padding:35px 0}.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:1px solid var(--border);background:rgba(255,255,255,.65);padding:13px 16px;border-radius:16px;font-weight:850;text-decoration:none;color:inherit}.primary{background:#111827;color:#fff}.footer{text-align:center;padding:45px 0;color:var(--muted)}.theme{border:1px solid var(--border);border-radius:14px;padding:9px;background:rgba(255,255,255,.6);font-weight:800}@media(max-width:700px){.grid{grid-template-columns:1fr 1fr}}@media(max-width:480px){.grid{grid-template-columns:1fr}.nav{gap:8px}.nav .brand span{display:none}}
+:root[data-theme="dark"]{--bg:#0b1220;--text:#f5f7ff;--muted:#aeb8ca;--surface:rgba(20,28,45,.78);--border:rgba(255,255,255,.13);--accent:#68e39c}:root[data-theme="dark"] .primary{background:#f4f7fb;color:#0b1220}:root[data-theme="dark"] .btn{background:rgba(30,40,61,.82)}
+</style><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0b1220"></head><style>
+:root{--bg:#edf3f8;--text:#101827;--muted:#687386;--surface:rgba(255,255,255,.72);--border:rgba(255,255,255,.82);--accent:#16a35a;--purple:#9b6cff} 
+:root[data-theme="dark"]{--bg:#0b1220;--text:#f5f7ff;--muted:#aeb8ca;--surface:rgba(20,28,45,.86);--border:rgba(255,255,255,.13);--accent:#68e39c;--purple:#b38cff;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:var(--text);background:var(--bg);min-height:100vh}body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(80px);opacity:.6}body:before{width:420px;height:420px;left:-150px;top:70px;background:#74e4a6}body:after{width:480px;height:480px;right:-180px;bottom:-100px;background:linear-gradient(135deg,#78a9ff,#d68cff,#ff9bc7)}.wrap{width:min(1050px,calc(100% - 28px));margin:auto}.top{display:flex;justify-content:space-between;align-items:center;padding:16px 0}.brand{display:flex;align-items:center;gap:10px;font-weight:900}.brand img{width:46px;height:46px;object-fit:contain;border-radius:14px}.theme{border:1px solid var(--border);border-radius:14px;padding:9px 12px;background:var(--surface);color:var(--text);font-weight:800}.hero{padding:45px 0}.kicker{font-size:11px;letter-spacing:.15em;color:var(--accent);font-weight:950}.hero h1{font-size:clamp(42px,7vw,70px);line-height:.95;letter-spacing:-.06em;margin:10px 0}.gradient{background:linear-gradient(110deg,var(--text),var(--accent),#6f9cff,var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}.desc{color:var(--muted);line-height:1.7}.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{padding:22px;border-radius:28px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(24px);box-shadow:0 20px 55px rgba(0,0,0,.08)}.card h3{margin:12px 0 5px}.icon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:rgba(104,227,156,.14);font-weight:900}.btn{display:inline-block;border:1px solid var(--border);background:rgba(255,255,255,.55);color:var(--text);padding:13px 16px;border-radius:16px;font-weight:850;cursor:pointer}.primary{background:#111827;color:#fff}.form{display:none;max-width:460px;margin:20px auto 0}.form.show{display:block}.field{margin:14px 0}.field label{display:block;font-size:12px;font-weight:850;margin-bottom:7px}.field input{width:100%;padding:14px;border:1px solid var(--border);border-radius:16px;background:var(--surface);color:var(--text);outline:none}.message{min-height:22px;margin-top:10px;font-size:13px;color:var(--muted)}.back{margin-top:12px}.hidden{display:none!important}@media(max-width:700px){.roles{grid-template-columns:1fr}.hero{padding:25px 0}.top .brand span{display:none}}
+</style><body><div class="wrap"><header class="top"><a class="brand" href="index.html"><img class="theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" src="assets/galeri/logo-kelas-light.png" alt="Logo kelas"><span>XII TKJ 3</span></a><select class="theme" id="theme"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></header><main class="hero"><div class="kicker">XII TKJ 3 · SMK NU BANDAR</div><h1>Pilih <span class="gradient">Login</span></h1><p class="desc">Satu pintu untuk siswa, guru, dan admin dengan hak akses yang berbeda.</p><div class="roles"><article class="card"><div class="icon">S</div><h3>Siswa</h3><p class="desc">Absensi, tugas, materi, jadwal, dan pengumuman.</p><button class="btn primary" data-role="siswa">Masuk Siswa</button></article><article class="card"><div class="icon">G</div><h3>Guru</h3><p class="desc">Kelola ruang mata pelajaran, tugas, materi, absensi, dan nilai.</p><button class="btn primary" data-role="guru">Masuk Guru</button></article><article class="card"><div class="icon">A</div><h3>Admin</h3><p class="desc">Kelola seluruh data kelas dan pengaturan website.</p><a class="btn primary" href="admin.html">Masuk Admin</a></article></div><section class="card form" id="authForm"><div class="kicker" id="roleLabel">LOGIN</div><h2 id="formTitle">Masuk</h2><p class="desc" id="formDesc"></p><div class="field"><label>USERNAME</label><input id="username" type="text" autocomplete="username" autocapitalize="none"></div><div class="field"><label>PASSWORD</label><input id="password" type="password" autocomplete="current-password"></div><button class="btn primary" id="loginBtn">Login</button><div class="message" id="msg"></div><button class="btn back" id="backBtn" type="button">← Kembali</button></section></main></div>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";import{getAuth,signInWithEmailAndPassword}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";import{getFirestore,doc,getDoc}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 const firebaseConfig={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
-const app=initializeApp(firebaseConfig),db=getFirestore(app);
-loadManualSubjectCount();
-
-function safeText(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;", "'":"&#039;"}[c]))}
-const dayNames=["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-let liveSchedule={};
-let manualSubjectCount=null;
-async function loadManualSubjectCount(){
- try{const snap=await getDoc(doc(db,"pengaturan","homeStats")); if(snap.exists() && Number.isFinite(Number(snap.data().subjectCount))){manualSubjectCount=Math.max(0,Math.floor(Number(snap.data().subjectCount)));}}catch(e){console.warn("Subject count setting error",e)}
- updateHomeStats();
-}
-function updateHomeStats(){
- const students=window.__students||[];
- const subjects=new Set(); let days=0;
- dayNames.forEach(day=>{const items=Array.isArray(liveSchedule[day])?liveSchedule[day]:[]; if(items.length)days++; items.forEach(x=>{const name=String(x?.mapel||x?.mataPelajaran||x?.pelajaran||x?.subject||"").trim().toLowerCase(); if(name)subjects.add(name);});});
- document.getElementById("studentCount")&&(document.getElementById("studentCount").textContent=students.length);
- document.getElementById("subjectCount")&&(document.getElementById("subjectCount").textContent=manualSubjectCount===null?subjects.size:manualSubjectCount);
- document.getElementById("dayCount")&&(document.getElementById("dayCount").textContent=days);
-}
-function renderStudentOptions(rows){
- const sel=document.getElementById("nama"); if(!sel)return;
- if(!rows.length){sel.innerHTML='<option value="">Belum ada data siswa</option>';return;}
- sel.innerHTML='<option value="">Pilih nama...</option>'+rows.map(x=>`<option value="${safeText(x.nama)}">${safeText(x.nama)}</option>`).join("");
-}
-let studentsLoaded=false;
-const studentsTimeout=setTimeout(()=>{
- if(!studentsLoaded){console.warn("Students Firestore timeout"); renderStudentOptions([]); updateHomeStats();}
-},8000);
-onSnapshot(collection(db,"siswa"),snap=>{
- studentsLoaded=true; clearTimeout(studentsTimeout);
- const rows=snap.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x.nama).sort((a,b)=>(a.urutan||999)-(b.urutan||999)||String(a.nama).localeCompare(String(b.nama)));
- window.__students=rows; renderStudentOptions(rows); updateHomeStats();
-},err=>{studentsLoaded=true; clearTimeout(studentsTimeout); console.error("Students realtime",err); renderStudentOptions([]); updateHomeStats();});
-
-onSnapshot(collection(db,"jadwal"),snap=>{
- const loaded=Object.fromEntries(dayNames.map(d=>[d,[]]));
- snap.forEach(ds=>{const x=ds.data()||{},day=dayNames.find(d=>d.toLowerCase()===String(ds.id||"").toLowerCase()||d.toLowerCase()===String(x.hari||x.day||"").toLowerCase()); if(!day)return; const arr=Array.isArray(x.entries)?x.entries:Array.isArray(x.jadwal)?x.jadwal:Array.isArray(x.schedule)?x.schedule:Array.isArray(x.items)?x.items:[]; loaded[day]=arr;});
- liveSchedule=loaded; updateHomeStats();
-},err=>{console.error("Schedule stats",err);updateHomeStats();});
-const info=document.getElementById("timeInfo"),button=document.getElementById("submit"),msg=document.getElementById("message"),box=document.getElementById("keteranganBox");
-
-document.querySelectorAll('input[name="status"]').forEach(r=>r.addEventListener("change",()=>{
-  box.style.display=(r.value==="IZIN"||r.value==="SAKIT"||r.value==="LIBUR")?"block":"none";
-}));
-
-function cekJam(){
- const now=new Date(),h=now.getHours();
- if(h<6){info.textContent="🔒 Absensi belum dibuka. Dibuka pukul 06.00.";button.disabled=true}
- else if(h>=15){info.textContent="🔒 Absensi sudah ditutup. Dibuka kembali besok pukul 06.00.";button.disabled=true}
- else{info.textContent="🟢 Absensi sedang dibuka • 06.00–15.00";button.disabled=false}
-}
-cekJam();setInterval(cekJam,30000);
-
-button.addEventListener("click",async()=>{
- const nama=document.getElementById("nama").value;
- const statusEl=document.querySelector('input[name="status"]:checked');
- const ket=document.getElementById("keterangan").value.trim();
- if(!nama){msg.textContent="Pilih nama terlebih dahulu.";return}
- if(!statusEl){msg.textContent="Pilih status kehadiran.";return}
- const status=statusEl.value;
- if((status==="IZIN"||status==="SAKIT"||status==="LIBUR")&&!ket){msg.textContent="Keterangan wajib diisi.";return}
- const now=new Date(),h=now.getHours();
- if(h<6||h>=15){msg.textContent="🔒 Absensi sedang ditutup.";return}
- const tanggal=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
- button.disabled=true;msg.textContent="⏳ Memeriksa absensi...";
- try{
-  const ref=collection(db,"absensi");
-  const q=query(ref,where("nama","==",nama),where("tanggal","==",tanggal));
-  const hasil=await getDocs(q);
-  if(!hasil.empty){msg.textContent="❌ "+nama+" sudah absen hari ini.";button.disabled=false;return}
-  await addDoc(ref,{nama,status,keterangan:ket||"-",tanggal,waktu:now.toLocaleTimeString("id-ID"),timestamp:Date.now()});
-  msg.textContent="✅ Absensi berhasil disimpan!";
-  button.textContent="ABSEN TERKIRIM";
- }catch(e){
-  console.error("Firestore error:",e);
-  msg.textContent="❌ Gagal menyimpan absensi. Cek Console (F12) dan Firestore Rules.";
-  button.disabled=false;
- }
-});
-
-/* Jadwal siswa: otomatis mengikuti data yang disimpan admin. */
-const scheduleBody=document.getElementById("studentScheduleBody");
-const currentLessonCard=document.getElementById("currentLessonCard");
-const currentLessonName=document.getElementById("currentLessonName");
-const currentLessonTime=document.getElementById("currentLessonTime");
-const dayOrder=["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-const dayIds={Senin:"senin",Selasa:"selasa",Rabu:"rabu",Kamis:"kamis",Jumat:"jumat",Sabtu:"sabtu"};
-let latestSchedule=Object.fromEntries(dayOrder.map(day=>[day,[]]));
-
-function parseTime(value){
- const m=String(value||"").trim().replace(/\s+/g,"").match(/^(\d{1,2})[.:](\d{2})$/);
- if(!m)return null;
- const h=Number(m[1]),min=Number(m[2]);
- if(h>23||min>59)return null;
- return h*60+min;
-}
-function getCurrentLesson(data){
- const now=new Date();
- const day=dayOrder[(now.getDay()+6)%7]; // Senin=0 ... Sabtu=5
- if(!day || !data[day]) return {lesson:null,finished:false};
- const minutes=now.getHours()*60+now.getMinutes();
- const items=(data[day]||[]).map(item=>{
-   const parts=String(item.jam||"").replace(/[–—]/g,"-").split("-");
-   if(parts.length!==2) return null;
-   const start=parseTime(parts[0]),end=parseTime(parts[1]);
-   if(start===null || end===null || end<=start) return null;
-   return {...item,start,end};
- }).filter(Boolean).sort((a,b)=>a.start-b.start);
- for(const item of items){
-   if(minutes>=item.start && minutes<item.end){
-     return {lesson:{...item,day},finished:false};
-   }
- }
- const last=items[items.length-1];
- return {lesson:null,finished:!!last && minutes>=last.end};
-}
-function updateCurrentLesson(){
- const result=getCurrentLesson(latestSchedule);
- if(result.lesson && result.lesson.mapel){
-   currentLessonCard.hidden=false;
-   const isBreak=/^\\s*(istirahat|break|jam istirahat)\\s*$/i.test(String(result.lesson.mapel));
-   currentLessonCard.querySelector(".current-lesson-label").textContent=isBreak ? "WAKTU ISTIRAHAT" : "PELAJARAN SAAT INI";
-   currentLessonName.textContent=isBreak ? "Istirahat" : result.lesson.mapel;
-   currentLessonTime.textContent=`${result.lesson.jam} • ${result.lesson.day} • ${String(new Date().toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"})).replace(".",":")}`;
- }else if(result.finished){
-   currentLessonCard.hidden=false;
-   currentLessonCard.querySelector(".current-lesson-label").textContent="SUDAH PULANG";
-   currentLessonName.textContent="Pelajaran hari ini sudah selesai";
-   currentLessonTime.textContent="Menunggu jadwal pelajaran besok";
- }else{
-   currentLessonCard.hidden=true;
- }
-}
-let scheduleLoaded=false;
-const scheduleTimeout=setTimeout(()=>{
- if(!scheduleLoaded){
-  console.warn("Schedule Firestore timeout");
-  scheduleBody.innerHTML=dayOrder.map(day=>`<tr><td><b>${day}</b></td><td colspan="2" style="color:#687386">Belum ada jadwal</td></tr>`).join("");
- }
-},8000);
-onSnapshot(collection(db,"jadwal"),snap=>{
- scheduleLoaded=true; clearTimeout(scheduleTimeout);
- const data=Object.fromEntries(dayOrder.map(day=>[day,[]]));
- const normalizeDay=(value)=>{
-   const key=String(value??"").trim().toLowerCase();
-   return dayOrder.find(day=>day.toLowerCase()===key || dayIds[day]===key) || null;
- };
- const normalizeEntry=(v)=>({
-   jam:String(v?.jam ?? v?.time ?? v?.waktu ?? v?.timeRange ?? "").trim(),
-   mapel:String(v?.mapel ?? v?.mataPelajaran ?? v?.pelajaran ?? v?.subject ?? v?.name ?? "").trim()
- });
- const clean=(arr)=>Array.isArray(arr)?arr.map(normalizeEntry).filter(x=>x.jam||x.mapel):[];
- snap.forEach(d=>{
-   const x=d.data()||{};
-   const day=normalizeDay(d.id)||normalizeDay(x.hari ?? x.day ?? x.hariNama);
-   if(day){
-     let entries=[];
-     if(Array.isArray(x.entries)) entries=x.entries;
-     else if(Array.isArray(x.jadwal)) entries=x.jadwal;
-     else if(Array.isArray(x.schedule)) entries=x.schedule;
-     else if(Array.isArray(x.items)) entries=x.items;
-     else if(x.jam||x.time||x.waktu||x.mapel||x.mataPelajaran||x.pelajaran||x.subject) entries=[x];
-     data[day]=clean(entries);
-   }
-   for(const candidate of dayOrder){
-     const raw=x[candidate] ?? x[dayIds[candidate]];
-     if(Array.isArray(raw)) data[candidate]=clean(raw);
-     else if(raw && typeof raw==='object') data[candidate]=clean(raw.entries ?? raw.jadwal ?? raw.schedule ?? raw.items);
-   }
- });
- latestSchedule=data;
- scheduleBody.innerHTML=dayOrder.flatMap(day=>{
-   const items=data[day]||[];
-   if(!items.length) return [`<tr><td><b>${day}</b></td><td colspan="2" style="color:#687386">Belum ada jadwal</td></tr>`];
-   return items.map((x,i)=>`<tr><td>${i===0?`<b>${day}</b>`:""}</td><td>${safeText(x.jam||"—")}</td><td>${safeText(x.mapel||"—")}</td></tr>`);
- }).join("");
- updateCurrentLesson();
-},err=>{
- scheduleLoaded=true; clearTimeout(scheduleTimeout);
- console.error("Schedule error:",err);
- scheduleBody.innerHTML=`<tr><td colspan="3" class="schedule-loading">❌ Gagal memuat jadwal. Periksa Firestore Rules.</td></tr>`;
-});
-updateCurrentLesson();
-setInterval(updateCurrentLesson,1000);
-
-/* Struktur dan galeri siswa mengikuti data Admin secara realtime. */
-const structureFallback=[
- {role:"Wali Kelas",name:"Andi Prasetyo, S.Kom."},
- {role:"Ketua Kelas",name:"Virnaji Rizky Ramadhan"},
- {role:"Wakil Ketua",name:"Alvin"},
- {role:"Sekretaris",name:"Anggun Khoiru Syifa"},
- {role:"Bendahara",name:"Suci Listiana"}
-];
-function renderStudentStructure(rows){
- const el=document.getElementById("studentStructure");
- el.innerHTML=rows.map(x=>`<article class="person glass"><div class="avatar">${safeText(String(x.role||"?").charAt(0))}</div><div class="role">${safeText(x.role)}</div><h3>${safeText(x.name||"-")}</h3></article>`).join("");
-}
-let structureLoaded=false;
-const structureTimeout=setTimeout(()=>{
- if(!structureLoaded){console.warn("Structure Firestore timeout"); renderStudentStructure(structureFallback);}
-},8000);
-onSnapshot(collection(db,"struktur"),snap=>{
- structureLoaded=true; clearTimeout(structureTimeout);
- const rows=snap.docs.map(d=>d.data()).sort((a,b)=>(a.urutan||99)-(b.urutan||99));
- renderStudentStructure(rows.length?rows:structureFallback);
-},()=>{structureLoaded=true; clearTimeout(structureTimeout); renderStudentStructure(structureFallback);});
-
-function renderStudentGallery(rows){
- const el=document.getElementById("studentGallery");
- if(!rows.length){el.innerHTML='<div class="person glass">Belum ada foto di galeri.</div>';return;}
- el.innerHTML=rows.map(x=>`<figure data-lightbox="${safeText(x.src)}"><img src="${safeText(x.src)}" alt="${safeText(x.name||"Momen XII TKJ 3")}"></figure>`).join("");
- el.querySelectorAll("[data-lightbox]").forEach(elm=>elm.addEventListener("click",()=>{const lb=document.getElementById("lightbox"),im=document.getElementById("lightboxImage");im.src=elm.dataset.lightbox;lb.classList.add("open");lb.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";}));
-}
-
-const studentGalleryFallback=[
- {id:"local-1",src:"assets/galeri/momen-1.jpg",name:"Momen 1",urutan:1},
- {id:"local-2",src:"assets/galeri/momen-2.jpg",name:"Momen 2",urutan:2},
- {id:"local-3",src:"assets/galeri/momen-3.jpg",name:"Momen 3",urutan:3},
- {id:"local-4",src:"assets/galeri/momen-4.jpg",name:"Momen 4",urutan:4},
- {id:"local-5",src:"assets/galeri/momen-5.jpg",name:"Momen 5",urutan:5},
- {id:"local-6",src:"assets/galeri/momen-6.jpg",name:"Momen 6",urutan:6},
- {id:"local-7",src:"assets/galeri/momen-7.jpg",name:"Momen 7",urutan:7}
-];
-
-async function loadStudentGallery(){
- try{
-  const res=await fetch("/api/gallery");
-  const data=await res.json();
-  if(!res.ok||data.ok===false)throw new Error(data.error||"Server galeri error");
-  const rows=(data.items||[]).sort((a,b)=>(a.urutan||999)-(b.urutan||999));
-  renderStudentGallery(rows);
- }catch(e){
-  renderStudentGallery(studentGalleryFallback);
- }
-}
-loadStudentGallery();
-setInterval(loadStudentGallery,3000);
-
-</script>
-
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),root=document.documentElement,key='xii-tkj3-theme',media=matchMedia('(prefers-color-scheme: dark)');
+function applyTheme(v){const a=v==='system'?(media.matches?'dark':'light'):v;root.dataset.theme=a;document.querySelectorAll('.theme-logo').forEach(i=>i.src=a==='dark'?i.dataset.darkSrc:i.dataset.lightSrc);document.getElementById('theme').value=v}applyTheme(localStorage.getItem(key)||'system');document.getElementById('theme').onchange=e=>{localStorage.setItem(key,e.target.value);applyTheme(e.target.value)};media.addEventListener?.('change',()=>{if((localStorage.getItem(key)||'system')==='system')applyTheme('system')});
+let role='';const form=document.getElementById('authForm'),msg=document.getElementById('msg');document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{role=b.dataset.role;form.classList.add('show');document.getElementById('roleLabel').textContent='LOGIN '+role.toUpperCase();document.getElementById('formTitle').textContent='Login '+role[0].toUpperCase()+role.slice(1);document.getElementById('formDesc').textContent=role==='siswa'?'Gunakan akun siswa yang diberikan admin.':'Gunakan akun guru yang diberikan admin.';document.getElementById('username').focus()});document.getElementById('backBtn').onclick=()=>{form.classList.remove('show');msg.textContent=''};
+document.getElementById('loginBtn').onclick=async()=>{const username=document.getElementById('username').value.trim().toLowerCase(),password=document.getElementById('password').value;if(!username||!password){msg.textContent='Username dan password wajib diisi.';return}msg.textContent='Memeriksa akun...';try{const authEmail=username+'@xii-tkj3.app'; const cred=await signInWithEmailAndPassword(auth,authEmail,password),snap=await getDoc(doc(db,'users',cred.user.uid));if(!snap.exists()){msg.textContent='Profil role belum dibuat oleh admin.';return}const u=snap.data();if(u.role!==role){msg.textContent='Akun ini tidak memiliki role '+role+'.';return}sessionStorage.setItem('role',u.role);sessionStorage.setItem('uid',cred.user.uid);sessionStorage.setItem('username',username);sessionStorage.setItem('userName',u.nama||username);sessionStorage.setItem('subjects',JSON.stringify(u.mataPelajaran||u.subjects||[]));location.href=role==='guru'?'guru.html':'index.html'}catch(e){console.error(e);msg.textContent='❌ Login gagal: '+(e.code||e.message)}};
+</script><script>if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
 <script>
-(()=>{const lb=document.getElementById('lightbox'),im=document.getElementById('lightboxImage'),close=document.getElementById('lightboxClose');function open(src){im.src=src;lb.classList.add('open');lb.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}function shut(){lb.classList.remove('open');lb.setAttribute('aria-hidden','true');im.src='';document.body.style.overflow=''}document.querySelectorAll('[data-lightbox]').forEach(el=>el.addEventListener('click',()=>open(el.dataset.lightbox)));close.addEventListener('click',e=>{e.stopPropagation();shut()});lb.addEventListener('click',e=>{if(e.target===lb)shut()});document.addEventListener('keydown',e=>{if(e.key==='Escape')shut()})})();
+window.portalSetLogin = function(role, username) {
+  sessionStorage.setItem("portal_login", JSON.stringify({
+    role: role, username: username, at: Date.now()
+  }));
+};
 </script>
 
 
 <script>
-document.addEventListener("DOMContentLoaded",()=>{
-  const input=document.getElementById("adminPassword");
-  const toggle=document.getElementById("adminPasswordToggle");
-  if(!input||!toggle)return;
-  toggle.addEventListener("click",()=>{
-    const visible=input.type==="text";
-    input.type=visible?"password":"text";
-    toggle.classList.toggle("is-visible",!visible);
-    toggle.setAttribute("aria-pressed",String(!visible));
-    toggle.setAttribute("aria-label",visible?"Tampilkan password":"Sembunyikan password");
-    toggle.title=visible?"Tampilkan password":"Sembunyikan password";
-    input.focus();
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+  if (!form) return;
+  form.addEventListener("submit", function () {
+    const user = form.querySelector('input[name="username"], input[type="text"]');
+    const role = document.querySelector('[data-role].active, [data-role][aria-selected="true"]');
+    portalSetLogin(role ? role.dataset.role : "siswa", user ? user.value.trim() : "");
   });
 });
 </script>
-<script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";import{getFirestore,collection,onSnapshot,query,orderBy}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-const firebaseConfig={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
-const learningApp=initializeApp(firebaseConfig,'learning'),learningDb=getFirestore(learningApp),escLearn=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-function listen(c,id,render){const el=document.getElementById(id);if(!el)return;onSnapshot(query(collection(learningDb,c),orderBy('createdAt','desc')),snap=>render(el,snap.docs.map(d=>({id:d.id,...d.data()})).slice(0,8)),()=>el.innerHTML='<div class="desc">Belum dapat memuat data.</div>')}
-listen('tugas','studentTasks',(el,rows)=>el.innerHTML=rows.length?rows.map(x=>`<article class="task-card" data-task-id="${escLearn(x.id)}" data-mapel="${escLearn(x.mapel||'')}" style="padding:10px 0;border-bottom:1px solid #0002"><b>${escLearn(x.judul)}</b><div class="desc">${escLearn(x.mapel)} · Deadline ${escLearn(x.deadline||'-')}</div><div class="task-detail"><label style="font-size:12px;font-weight:800">Jawaban / keterangan</label><textarea class="answer-text" rows="2" placeholder="Tulis jawaban atau keterangan pengumpulan..."></textarea><label style="font-size:12px;font-weight:800;display:block;margin-top:7px">Link jawaban (opsional)</label><input class="answer-url" type="url" placeholder="https://..."><button class="btn primary submit-task" type="button">Kirim Tugas</button><div class="submit-status desc"></div></div></article>`).join(''):'<div class="desc">Belum ada tugas.</div>');
-listen('materi','studentMaterials',(el,rows)=>el.innerHTML=rows.length?rows.map(x=>`<article style="padding:10px 0;border-bottom:1px solid #0002"><b>${escLearn(x.judul)}</b><div><a href="${escLearn(x.url)}" target="_blank" rel="noopener">Buka materi</a></div><div class="desc">${escLearn(x.mapel)}</div></article>`).join(''):'<div class="desc">Belum ada materi.</div>');
-listen('pengumuman','studentAnnouncements',(el,rows)=>el.innerHTML=rows.length?rows.map(x=>`<article style="padding:10px 0;border-bottom:1px solid #0002"><b>${escLearn(x.judul)}</b><div class="desc">${escLearn(x.isi)}</div><small>${escLearn(x.mapel)}</small></article>`).join(''):'<div class="desc">Belum ada pengumuman.</div>');
-</script><script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";import{getFirestore,collection,onSnapshot,query,orderBy}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-const dashConfig={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};const dashApp=initializeApp(dashConfig,'dashboard'),dashDb=getFirestore(dashApp);const de=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-const userName=sessionStorage.getItem('userName')||'Siswa';document.getElementById('studentGreeting')&&(document.getElementById('studentGreeting').textContent=userName);
-function rooms(rows){const el=document.getElementById('studentSubjectRooms');if(!el)return;const set=new Set(rows.flatMap(x=>Array.isArray(x.mataPelajaran)?x.mataPelajaran:[]).concat(rows.map(x=>x.mapel).filter(Boolean)));const subs=[...set].slice(0,12);el.innerHTML=subs.length?subs.map(x=>`<article class="subject-room"><b>${de(x)}</b><small>Ruang pelajaran</small><a href="#belajar">Buka ruang →</a></article>`).join(''):'<div class="desc">Ruang mata pelajaran akan muncul dari jadwal.</div>'}
-onSnapshot(query(collection(dashDb,'jadwal')),snap=>{rooms(snap.docs.map(d=>d.data()))},()=>{});
-onSnapshot(query(collection(dashDb,'tugas'),orderBy('createdAt','desc')),snap=>{const rows=snap.docs.map(d=>d.data());const now=Date.now();const future=rows.filter(x=>{const t=Date.parse(x.deadline||'');return !Number.isNaN(t)&&t>=now}).sort((a,b)=>Date.parse(a.deadline)-Date.parse(b.deadline));const x=future[0]||rows[0];const a=document.getElementById('dashNextTask'),b=document.getElementById('dashNextDeadline');if(a)a.textContent=x?.judul||'Belum ada tugas';if(b)b.textContent=x?`${x.mapel||''} · Deadline ${x.deadline||'-'}`:'-';},()=>{});
-onSnapshot(query(collection(dashDb,'pengumuman'),orderBy('createdAt','desc')),snap=>{const x=snap.docs[0]?.data();const a=document.getElementById('dashAnnouncement'),b=document.getElementById('dashAnnouncementMeta');if(a)a.textContent=x?.judul||'Belum ada pengumuman';if(b)b.textContent=x?`${x.mapel||'Kelas'} · Terbaru`:'-';},()=>{});
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = [...document.querySelectorAll("button, [role='button'], a")];
+  const username = document.querySelector("input[name='username'], #username, input[type='text']");
+  const password = document.querySelector("input[name='password'], #password, input[type='password']");
+  const form = document.querySelector("form");
+
+  let selectedRole = "siswa";
+  const roleEls = document.querySelectorAll("[data-role]");
+  roleEls.forEach(el => el.addEventListener("click", () => {
+    if (el.dataset.role) selectedRole = el.dataset.role;
+  }));
+
+  function go(role) {
+    selectedRole = role;
+    const target = role === "guru" ? "guru.html" : role === "admin" ? "admin.html" : "siswa.html";
+    if (username) username.focus();
+    window.__loginTarget = target;
+  }
+
+  buttons.forEach(btn => {
+    const t = (btn.textContent || "").trim().toLowerCase();
+    if (t.includes("siswa")) btn.addEventListener("click", e => { e.preventDefault(); go("siswa"); });
+    if (t.includes("guru")) btn.addEventListener("click", e => { e.preventDefault(); go("guru"); });
+    if (t.includes("admin")) btn.addEventListener("click", e => { e.preventDefault(); go("admin"); });
+  });
+
+  async function submitLogin(e) {
+    if (e) e.preventDefault();
+    const u = username?.value || "";
+    const p = password?.value || "";
+    const role = selectedRole || "siswa";
+    if (!u || !p) { alert("Username dan password wajib diisi."); return false; }
+
+    const result = await window.portalAuth.loginPortal(u, p, role);
+    if (!result.ok) { alert(result.message); return false; }
+
+    const target = role === "guru" ? "guru.html" : role === "admin" ? "admin.html" : "siswa.html";
+    location.href = target;
+    return false;
+  }
+  if (form) form.addEventListener("submit", submitLogin);
+
+  // Support a generic login button if the form is not present.
+  buttons.forEach(btn => {
+    const t = (btn.textContent || "").trim().toLowerCase();
+    if (t === "login" || t.includes("masuk")) btn.addEventListener("click", submitLogin);
+  });
+});
 </script>
-<script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import{getFirestore,collection,setDoc,doc,query,where,onSnapshot,orderBy,getDocs,limit}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-const cfg={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
-const app=initializeApp(cfg,'studentExtras'),db=getFirestore(app),uid=sessionStorage.getItem('uid')||'',student=sessionStorage.getItem('userName')||sessionStorage.getItem('username')||'Siswa';
-const e=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-async function submissionState(){const snap=await getDocs(query(collection(db,'pengumpulan_tugas'),where('siswaUid','==',uid)));const m=new Map();snap.forEach(d=>m.set(d.data().tugasId,d.data()));return m}
-async function bindSubmissions(){if(!uid)return;try{const m=await submissionState();document.querySelectorAll('.task-card').forEach(card=>{const id=card.dataset.taskId, st=m.get(id), status=card.querySelector('.submit-status');if(st){status.textContent='✅ Sudah dikumpulkan '+new Date(st.updatedAt||st.createdAt).toLocaleString('id-ID');}const b=card.querySelector('.submit-task');b.onclick=async()=>{const text=card.querySelector('.answer-text').value.trim(),url=card.querySelector('.answer-url').value.trim();if(!text&&!url){status.textContent='Isi jawaban atau link terlebih dahulu.';return}b.disabled=true;status.textContent='Mengirim...';try{await setDoc(doc(db,'pengumpulan_tugas',uid+'_'+id),{tugasId:id,siswaUid:uid,siswa:student,jawaban:text,link:url,mapel:card.dataset.mapel||'',updatedAt:Date.now(),createdAt:st?.createdAt||Date.now()},{merge:true});status.textContent='✅ Tugas berhasil dikirim.';b.disabled=false}catch(err){console.error(err);status.textContent='❌ Gagal mengirim. Periksa Firestore Rules.';b.disabled=false}}})}catch(err){console.warn(err)}}
-setTimeout(bindSubmissions,1200);setInterval(bindSubmissions,5000);
-function renderCalendar(rows){const el=document.getElementById('studentCalendar');if(!el)return;el.innerHTML=rows.length?rows.map(x=>`<div class="calendar-item"><b>${e(x.judul||x.nama||'Agenda')}</b><div class="desc">${e(x.tanggal||x.waktu||'')} ${x.mapel?`· ${e(x.mapel)}`:''}</div><div>${e(x.keterangan||x.deskripsi||'')}</div></div>`).join(''):'<div class="desc">Belum ada agenda.</div>'}
-function renderNotifications(rows){const el=document.getElementById('studentNotifications');if(!el)return;el.innerHTML=rows.length?rows.map(x=>`<div class="calendar-item"><span class="notif-dot"></span><b>${e(x.judul||'Notifikasi')}</b><div class="desc">${e(x.isi||x.deskripsi||'')}</div><small>${e(x.mapel||'Kelas')}</small></div>`).join(''):'<div class="desc">Belum ada notifikasi.</div>'}
-onSnapshot(query(collection(db,'agenda'),orderBy('createdAt','desc'),limit(12)),s=>renderCalendar(s.docs.map(d=>d.data())),()=>renderCalendar([]));
-// Gabungkan tugas baru dan pengumuman terbaru sebagai notifikasi dalam aplikasi.
-Promise.all([getDocs(query(collection(db,'tugas'),orderBy('createdAt','desc'),limit(6))),getDocs(query(collection(db,'pengumuman'),orderBy('createdAt','desc'),limit(6)))]).then(([a,b])=>{const rows=[...a.docs.map(d=>({judul:'Tugas baru: '+(d.data().judul||''),isi:'Deadline '+(d.data().deadline||'-'),mapel:d.data().mapel||'Kelas',createdAt:d.data().createdAt||0})),...b.docs.map(d=>({judul:d.data().judul,isi:d.data().isi,mapel:d.data().mapel||'Kelas',createdAt:d.data().createdAt||0}))].sort((x,y)=>y.createdAt-x.createdAt).slice(0,8);renderNotifications(rows)}).catch(()=>renderNotifications([]));
-</script>
-<script>if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script><style id="page-navigation-v65">
-/* v65: one-feature-at-a-time navigation */
-.feature-page-hidden{display:none!important}.page-switcher{display:flex;gap:8px;flex-wrap:wrap;margin:0 auto 14px;width:min(1050px,calc(100% - 28px))}.page-switcher .btn.active{outline:2px solid currentColor;outline-offset:2px}.feature-back{margin-bottom:12px}.v65-card-nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.v65-card-nav .btn{min-width:150px}
-@media(max-width:700px){.page-switcher{overflow:auto;flex-wrap:nowrap;padding-bottom:4px}.page-switcher .btn{white-space:nowrap}.links a{font-size:12px}.v65-card-nav .btn{flex:1 1 42%}}
-</style><script>
-(()=>{
- const pages={home:['home','dashboard'],absensi:['absensi'],struktur:['struktur'],jadwal:['jadwal'],galeri:['galeri'],belajar:['belajar'],kalender:['kalender']};
- const labels={home:'Utama',absensi:'Absensi',struktur:'Struktur',jadwal:'Jadwal',galeri:'Galeri',belajar:'Tugas & Materi',kalender:'Kalender'};
- const all=[...new Set(Object.values(pages).flat())].map(id=>document.getElementById(id)).filter(Boolean);
- if(!all.length)return;
- const nav=document.createElement('div');nav.className='page-switcher';
- Object.entries(pages).forEach(([key])=>{const b=document.createElement('a');b.href='#'+(key==='home'?'home':key);b.className='btn';b.textContent=labels[key];b.dataset.page=key;nav.appendChild(b)});
- const main=document.querySelector('main'); if(main) main.prepend(nav);
- function show(key,scroll=true){key=pages[key]?key:'home';all.forEach(el=>el.classList.toggle('feature-page-hidden',!pages[key].includes(el.id)));nav.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===key));if(scroll){const target=document.getElementById(pages[key][0]);if(target) target.scrollIntoView({behavior:'smooth',block:'start'})}}
- function fromHash(){let k=location.hash.replace('#',''); if(k==='home'||k==='dashboard')k='home'; else if(!pages[k])k='home'; show(k,false)}
- window.addEventListener('hashchange',fromHash); fromHash();
- // Make existing internal links switch pages instead of exposing the entire long page.
- document.querySelectorAll('a[href^="#"]').forEach(a=>{const id=a.getAttribute('href').slice(1);let k=id;if(id==='home'||id==='dashboard')k='home';if(pages[k])a.addEventListener('click',e=>{e.preventDefault();location.hash=k;show(k)})});
-})();
-</script></body></html>
+
+</body></html>
