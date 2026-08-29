@@ -13,4 +13,26 @@ const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),r
 function applyTheme(v){const a=v==='system'?(media.matches?'dark':'light'):v;root.dataset.theme=a;document.querySelectorAll('.theme-logo').forEach(i=>i.src=a==='dark'?i.dataset.darkSrc:i.dataset.lightSrc);document.getElementById('theme').value=v}applyTheme(localStorage.getItem(key)||'system');document.getElementById('theme').onchange=e=>{localStorage.setItem(key,e.target.value);applyTheme(e.target.value)};media.addEventListener?.('change',()=>{if((localStorage.getItem(key)||'system')==='system')applyTheme('system')});
 let role='';const form=document.getElementById('authForm'),msg=document.getElementById('msg');document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{role=b.dataset.role;form.classList.add('show');document.getElementById('roleLabel').textContent='LOGIN '+role.toUpperCase();document.getElementById('formTitle').textContent='Login '+role[0].toUpperCase()+role.slice(1);document.getElementById('formDesc').textContent=role==='siswa'?'Gunakan akun siswa yang diberikan admin.':'Gunakan akun guru yang diberikan admin.';document.getElementById('username').focus()});document.getElementById('backBtn').onclick=()=>{form.classList.remove('show');msg.textContent=''};
 document.getElementById('loginBtn').onclick=async()=>{const username=document.getElementById('username').value.trim().toLowerCase(),password=document.getElementById('password').value;if(!username||!password){msg.textContent='Username dan password wajib diisi.';return}msg.textContent='Memeriksa akun...';try{const authEmail=username+'@xii-tkj3.app'; const cred=await signInWithEmailAndPassword(auth,authEmail,password),snap=await getDoc(doc(db,'users',cred.user.uid));if(!snap.exists()){msg.textContent='Profil role belum dibuat oleh admin.';return}const u=snap.data();if(u.role!==role){msg.textContent='Akun ini tidak memiliki role '+role+'.';return}sessionStorage.setItem('role',u.role);sessionStorage.setItem('uid',cred.user.uid);sessionStorage.setItem('username',username);sessionStorage.setItem('userName',u.nama||username);sessionStorage.setItem('subjects',JSON.stringify(u.mataPelajaran||u.subjects||[]));location.href=role==='guru'?'guru.html':'index.html'}catch(e){console.error(e);msg.textContent='❌ Login gagal: '+(e.code||e.message)}};
-</script><script>if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script></body></html>
+</script><script>if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+<script>
+window.portalSetLogin = function(role, username) {
+  sessionStorage.setItem("portal_login", JSON.stringify({
+    role: role, username: username, at: Date.now()
+  }));
+};
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+  if (!form) return;
+  form.addEventListener("submit", function () {
+    const user = form.querySelector('input[name="username"], input[type="text"]');
+    const role = document.querySelector('[data-role].active, [data-role][aria-selected="true"]');
+    portalSetLogin(role ? role.dataset.role : "siswa", user ? user.value.trim() : "");
+  });
+});
+</script>
+
+</body></html>

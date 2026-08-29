@@ -34,3 +34,14 @@ Dashboard siswa menampilkan pelajaran sekarang, tugas terdekat, pengumuman terba
 ### Collection tambahan
 `pengumpulan_tugas`: tugasId, siswaUid, siswa, mapel, jawaban, link, createdAt, updatedAt.
 `agenda`: judul, tanggal/waktu, keterangan/deskripsi, mapel (opsional), createdAt.
+
+
+## v65 — Navigasi per fitur
+Setiap area utama kini ditampilkan sebagai halaman fitur terpisah agar tidak menumpuk dalam satu tampilan panjang. Siswa: Utama, Absensi, Struktur, Jadwal, Galeri, Tugas & Materi, Kalender. Admin: dashboard, mapel, absensi, siswa, guru, struktur, jadwal, galeri. Guru: Tugas, Pengumuman, Materi, Absensi, Nilai, Pengumpulan.
+
+
+## v66 - Login wajib
+- Website diarahkan ke `login.html` saat belum ada sesi login.
+- Halaman siswa/guru/admin memasang `auth-guard.js`.
+- Sesi demo disimpan di `sessionStorage` setelah login form berhasil.
+- Untuk produksi, guard tampilan harus dilengkapi Firebase Authentication + Firestore Rules agar akses data benar-benar terlindungi.
