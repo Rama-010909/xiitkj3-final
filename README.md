@@ -60,3 +60,7 @@ Setiap area utama kini ditampilkan sebagai halaman fitur terpisah agar tidak men
 - Password akun tambahan di-hash SHA-256 sebelum disimpan ke Firestore.
 - Admin mendapat panel Kelola Akun yang siap memakai collection `accounts`.
 - Untuk produksi, Rules Firestore tetap harus membatasi siapa yang boleh membaca/menulis `accounts`.
+
+
+## v70 eye password
+Semua form login utama siswa, guru, dan admin memiliki tombol mata SVG (bukan emoji) untuk tampil/sembunyikan password.

@@ -2,7 +2,8 @@
 const LOCAL_AUTH_KEY = "tkj3_session";
 const DEFAULT_ACCOUNTS = [
   {username:"rama", password:"010909", role:"siswa", nama:"Rama"},
-  {username:"andi", password:"smknubandar", role:"guru", nama:"Andi"}
+  {username:"andi", password:"smknubandar", role:"guru", nama:"Andi"},
+  {username:"tkj3", password:"smknubandar", role:"admin", nama:"Admin XII TKJ 3"}
 ];
 
 async function hashPassword(password) {
