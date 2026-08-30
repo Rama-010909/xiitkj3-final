@@ -2,110 +2,150 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f3f6fb">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#f2f5f9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Ruang Siswa • XII TKJ 3</title>
 <link rel="manifest" href="/manifest.webmanifest">
 <script src="auth-guard.js"></script>
 <style>
 :root{
-  --bg:#edf3f8;
-  --text:#101827;
-  --text-h:#020617;
-  --muted:#5a6880;
-  --surface:rgba(255,255,255,.82);
-  --surface-strong:rgba(255,255,255,.94);
-  --surface-soft:rgba(255,255,255,.68);
-  --border:rgba(255,255,255,.92);
-  --border-subtle:rgba(16,24,39,.08);
-  --accent:#16a34a;
-  --accent-blue:#2563eb;
-  --line:rgba(16,24,39,.08);
+  --smk-green:#059669;
+  --smk-green-light:#10b981;
+  --tkj-cyan:#0284c7;
+  --tkj-sky:#0ea5e9;
+  
+  /* iOS Theme Tokens */
+  --bg:#f2f5f9;
+  --card:rgba(255,255,255,0.76);
+  --card-solid:#ffffff;
+  --card-border:rgba(255,255,255,0.85);
+  --card-border-subtle:rgba(0,0,0,0.06);
+  --text:#000000;
+  --text-h:#000000;
+  --muted:#86868b;
+  --muted-dark:#6e6e73;
+  --input-bg:rgba(235,240,246,0.8);
+  --input-border:rgba(0,0,0,0.08);
+  --accent:#059669;
+  --accent-blue:#0284c7;
+  --accent-gradient:linear-gradient(135deg,#059669,#0284c7);
+  --shadow-ios:0 12px 32px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.02);
+  --shadow-ios-lg:0 24px 60px rgba(0,0,0,0.10), 0 4px 16px rgba(0,0,0,0.04);
   --danger:#dc2626;
-  --shadow:0 18px 45px rgba(15,23,42,.07);
-  --shadow-lg:0 25px 65px rgba(15,23,42,.12);
   --glow-1:#72e2a4;
   --glow-2:#78a9ff;
-  --input-bg:rgba(255,255,255,.92);
-  --input-border:#cbd5e1;
-  --btn-bg:#111827;
-  --btn-text:#ffffff;
+  --ease-ios:cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
 [data-theme="dark"]{
-  --bg:#090d18;
-  --text:#f5f7ff;
+  --bg:#000000;
+  --card:rgba(28,28,30,0.78);
+  --card-solid:#1c1c1e;
+  --card-border:rgba(255,255,255,0.14);
+  --card-border-subtle:rgba(255,255,255,0.08);
+  --text:#ffffff;
   --text-h:#ffffff;
-  --muted:#aeb9cb;
-  --surface:rgba(18,25,41,.84);
-  --surface-strong:rgba(22,31,50,.92);
-  --surface-soft:rgba(28,38,60,.75);
-  --border:rgba(255,255,255,.13);
-  --border-subtle:rgba(255,255,255,.08);
-  --accent:#68e39c;
-  --accent-blue:#60a5fa;
-  --line:rgba(255,255,255,.10);
+  --muted:#8e8e93;
+  --muted-dark:#a1a1a6;
+  --input-bg:rgba(44,44,46,0.8);
+  --input-border:rgba(255,255,255,0.12);
+  --accent:#10b981;
+  --accent-blue:#38bdf8;
+  --accent-gradient:linear-gradient(135deg,#10b981,#0ea5e9);
+  --shadow-ios:0 16px 40px rgba(0,0,0,0.6), 0 2px 10px rgba(0,0,0,0.4);
+  --shadow-ios-lg:0 30px 70px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6);
   --danger:#ef4444;
-  --shadow:0 20px 55px rgba(0,0,0,.45);
-  --shadow-lg:0 25px 70px rgba(0,0,0,.60);
-  --glow-1:#0c7b4b;
-  --glow-2:#4338ca;
-  --input-bg:rgba(11,16,28,.90);
-  --input-border:rgba(255,255,255,.15);
-  --btn-bg:#f5f7ff;
-  --btn-text:#090d18;
+  --glow-1:#064e3b;
+  --glow-2:#0369a1;
   color-scheme:dark;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+html{scroll-behavior:smooth;}
 body{
   margin:0;
-  font-family:system-ui,-apple-system,"SF Pro Display","Segoe UI",Roboto,sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif;
+  letter-spacing:-0.015em;
   background:var(--bg);
   color:var(--text);
   min-height:100vh;
-  transition:background-color .25s ease,color .25s ease;
+  transition:background-color 0.4s var(--ease-ios),color 0.4s var(--ease-ios);
 }
-body:before,body:after{
-  content:"";
+
+/* Ambient animated iOS background mesh */
+.ios-bg{
   position:fixed;
-  z-index:-1;
-  border-radius:50%;
-  filter:blur(85px);
-  opacity:.55;
+  inset:0;
+  overflow:hidden;
   pointer-events:none;
+  z-index:-1;
 }
-body:before{width:420px;height:420px;left:-140px;top:60px;background:var(--glow-1)}
-body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--glow-2)}
-
-.wrap{width:min(1120px,calc(100% - 28px));margin:auto}
-.glass{
-  background:var(--surface);
-  border:1px solid var(--border);
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
+.mesh-orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(90px);
+  opacity:0.35;
+  animation:meshFloat 14s var(--ease-ios) infinite alternate;
+}
+.orb-1{
+  width:420px;
+  height:420px;
+  background:radial-gradient(circle, var(--glow-1) 0%, transparent 70%);
+  top:-140px;
+  left:-100px;
+}
+.orb-2{
+  width:460px;
+  height:460px;
+  background:radial-gradient(circle, var(--glow-2) 0%, transparent 70%);
+  bottom:-160px;
+  right:-120px;
+  animation-delay:-5s;
 }
 
-/* Nav */
-.nav{
+@keyframes meshFloat{
+  0%{transform:translate(0, 0) scale(1);}
+  50%{transform:translate(45px, -35px) scale(1.08);}
+  100%{transform:translate(-35px, 40px) scale(0.95);}
+}
+
+.wrap{width:min(1140px, calc(100% - 32px));margin:auto;}
+
+.ios-glass{
+  background:var(--card);
+  border:1px solid var(--card-border);
+  box-shadow:var(--shadow-ios);
+  backdrop-filter:blur(32px) saturate(190%);
+  -webkit-backdrop-filter:blur(32px) saturate(190%);
+}
+
+/* iOS Floating Header Bar */
+.ios-navbar{
   position:sticky;
   top:12px;
   z-index:100;
-  margin:14px auto;
-  padding:10px 14px;
-  border-radius:24px;
+  margin:12px auto 20px;
+  padding:10px 16px;
+  border-radius:999px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:12px;
+  animation:iosDropIn 0.7s var(--ease-ios);
 }
 .brand{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:12px;
   text-decoration:none;
   color:var(--text);
-  font-weight:900;
+  font-weight:800;
   font-size:15px;
 }
 .brand-logos{
@@ -113,162 +153,222 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   align-items:center;
   gap:6px;
 }
+.logo-btn{
+  background:transparent;
+  border:0;
+  padding:0;
+  cursor:zoom-in;
+  display:flex;
+  align-items:center;
+  border-radius:12px;
+  transition:transform 0.22s var(--ease-spring);
+}
+.logo-btn:hover{transform:scale(1.15);}
+.logo-btn:active{transform:scale(0.92);}
 .brand-logo{
   width:36px;
   height:36px;
   object-fit:contain;
-  border-radius:10px;
-  transition:transform .2s ease;
+  display:block;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.06));
 }
-.brand-logo:hover{transform:scale(1.08)}
+
 .nav-links{
   display:flex;
   gap:4px;
   align-items:center;
+  background:var(--input-bg);
+  padding:3px;
+  border-radius:999px;
+  border:1px solid var(--input-border);
 }
 .nav-links a{
-  padding:8px 12px;
-  border-radius:14px;
-  color:var(--muted);
+  padding:6px 12px;
+  border-radius:999px;
+  color:var(--muted-dark);
   font-size:12.5px;
-  font-weight:750;
+  font-weight:650;
   text-decoration:none;
-  transition:all .2s ease;
+  transition:all 0.22s var(--ease-spring);
 }
 .nav-links a:hover,.nav-links a.active{
-  background:var(--surface-strong);
+  background:var(--card-solid);
   color:var(--accent);
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
 }
 .nav-tools{
   display:flex;
   gap:8px;
   align-items:center;
 }
-.theme-select{
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:8px 10px;
-  background:var(--surface-soft);
+.theme-segmented{
+  display:flex;
+  background:var(--input-bg);
+  padding:2px;
+  border-radius:999px;
+  border:1px solid var(--input-border);
+}
+.theme-segmented select{
+  appearance:none;
+  -webkit-appearance:none;
+  background:transparent;
+  border:0;
   color:var(--text);
-  font-size:12px;
-  font-weight:750;
+  font-size:11.5px;
+  font-weight:650;
+  padding:4px 18px 4px 8px;
   cursor:pointer;
   outline:none;
+  background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);
+  background-position:calc(100% - 8px) 9px,calc(100% - 4px) 9px;
+  background-size:4px 4px,4px 4px;
+  background-repeat:no-repeat;
 }
-.btn{
-  border:1px solid var(--border);
-  background:var(--surface-soft);
+
+.ios-btn{
+  border:1px solid var(--card-border);
+  background:var(--card);
   color:var(--text);
-  padding:9px 14px;
-  border-radius:14px;
-  font-weight:800;
-  font-size:13px;
+  padding:8px 14px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:12.5px;
   cursor:pointer;
   display:inline-flex;
   align-items:center;
   gap:6px;
   text-decoration:none;
-  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+  transition:
+    transform 0.2s var(--ease-spring),
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
-.btn:hover{
-  transform:translateY(-1px);
-  filter:brightness(1.05);
+.ios-btn:hover{
+  transform:translateY(-1px) scale(1.02);
+  filter:brightness(1.04);
 }
-.btn:active{transform:scale(.98)}
-.btn.primary{
-  background:var(--btn-bg);
-  color:var(--btn-text);
+.ios-btn:active{transform:scale(0.95);}
+.ios-btn.primary{
+  background:var(--accent-gradient);
+  color:#ffffff;
   border-color:transparent;
-  box-shadow:0 8px 20px rgba(0,0,0,.15);
+  box-shadow:0 6px 18px rgba(5,150,105,0.28);
 }
-.btn.danger{
-  background:rgba(220,38,38,.12);
+.ios-btn.danger{
+  background:rgba(220,38,38,0.12);
   color:var(--danger);
-  border-color:rgba(220,38,38,.2);
+  border-color:rgba(220,38,38,0.2);
 }
 
-/* Hero */
+/* Hero Section */
 .hero{
-  padding:40px 0 25px;
+  padding:36px 0 20px;
 }
-.kicker{
-  display:inline-block;
+.ios-kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
   font-size:11px;
-  letter-spacing:.15em;
+  letter-spacing:0.12em;
   color:var(--accent);
-  font-weight:950;
+  font-weight:800;
   text-transform:uppercase;
   margin-bottom:6px;
+  animation:iosSlideUp 0.5s var(--ease-ios);
+}
+.kicker-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--accent);
 }
 .hero h1{
-  font-size:clamp(36px,6vw,60px);
+  font-size:clamp(36px, 6vw, 56px);
   line-height:1.02;
-  letter-spacing:-.05em;
+  letter-spacing:-0.04em;
   margin:4px 0 10px;
   color:var(--text-h);
+  animation:iosSlideUp 0.6s var(--ease-ios);
 }
-.gradient{
-  background:linear-gradient(110deg,#10b981,#0ea5e9,#6366f1);
+.ios-gradient-text{
+  background:linear-gradient(135deg, #059669 0%, #0284c7 50%, #6366f1 100%);
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
 }
 .hero p{
-  color:var(--muted);
+  color:var(--muted-dark);
   font-size:15px;
-  line-height:1.65;
+  line-height:1.6;
   max-width:680px;
   margin:0 0 24px;
+  animation:iosSlideUp 0.7s var(--ease-ios);
 }
+
+/* iOS Stats Widgets Stack */
 .stats-grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(4, 1fr);
   gap:12px;
 }
 .stat-card{
   padding:18px 20px;
-  border-radius:22px;
+  border-radius:24px;
+  animation:iosPopIn 0.6s var(--ease-spring) backwards;
 }
+.stat-card:nth-child(1){animation-delay:0.1s;}
+.stat-card:nth-child(2){animation-delay:0.18s;}
+.stat-card:nth-child(3){animation-delay:0.26s;}
+.stat-card:nth-child(4){animation-delay:0.34s;}
 .stat-val{
   font-size:26px;
-  font-weight:950;
+  font-weight:850;
+  letter-spacing:-0.03em;
   color:var(--text-h);
   display:block;
 }
 .stat-label{
   font-size:12px;
-  color:var(--muted);
-  font-weight:750;
+  color:var(--muted-dark);
+  font-weight:650;
   margin-top:2px;
   display:block;
 }
 
-/* Sections */
+/* iOS Sections */
 .section{
-  padding:30px 0;
+  padding:28px 0;
 }
 .sec-head{
-  margin-bottom:18px;
+  margin-bottom:16px;
 }
 .sec-head h2{
-  font-size:28px;
-  font-weight:900;
-  letter-spacing:-.03em;
+  font-size:26px;
+  font-weight:850;
+  letter-spacing:-0.03em;
   margin:0 0 4px;
   color:var(--text-h);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.sec-icon{
+  width:24px;
+  height:24px;
+  stroke:var(--accent);
 }
 .sec-head p{
-  color:var(--muted);
+  color:var(--muted-dark);
   font-size:13.5px;
   margin:0;
 }
 
-.panel{
+.ios-panel{
   padding:24px;
-  border-radius:26px;
+  border-radius:28px;
 }
 
-/* Form Styles */
+/* iOS Form Elements */
 .form-grid{
   display:grid;
   gap:14px;
@@ -278,33 +378,42 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   gap:6px;
 }
 .field-group label{
-  font-size:12px;
-  font-weight:800;
-  color:var(--muted);
+  font-size:11.5px;
+  font-weight:750;
+  color:var(--muted-dark);
   text-transform:uppercase;
-  letter-spacing:.04em;
+  letter-spacing:0.06em;
+  padding-left:4px;
 }
 .form-input,.form-select,.form-textarea{
   width:100%;
   padding:12px 14px;
-  border:1px solid var(--border);
-  border-radius:15px;
+  border:1px solid var(--input-border);
+  border-radius:16px;
   background:var(--input-bg);
   color:var(--text);
   font:inherit;
   font-size:14px;
+  font-weight:550;
   outline:none;
-  transition:border-color .2s,box-shadow .2s;
+  transition:border-color 0.2s,box-shadow 0.2s,background-color 0.2s;
 }
 .form-input:focus,.form-select:focus,.form-textarea:focus{
   border-color:var(--accent);
-  box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+  background:var(--card-solid);
 }
-.form-textarea{min-height:85px;resize:vertical}
+.form-textarea{min-height:85px;resize:vertical;}
+
+/* iOS Segmented Status Radios */
 .status-radios{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
+  grid-template-columns:repeat(4, 1fr);
+  gap:6px;
+  background:var(--input-bg);
+  padding:4px;
+  border-radius:18px;
+  border:1px solid var(--input-border);
 }
 .status-radio{
   position:relative;
@@ -318,102 +427,105 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:12px 10px;
+  padding:10px 8px;
   border-radius:14px;
-  border:1px solid var(--border);
-  background:var(--surface-soft);
-  color:var(--text);
-  font-weight:850;
+  color:var(--muted-dark);
+  font-weight:750;
   font-size:13px;
   cursor:pointer;
-  transition:all .2s ease;
+  transition:all 0.22s var(--ease-spring);
 }
 .status-radio input:checked + .status-btn{
-  background:var(--btn-bg);
-  color:var(--btn-text);
-  box-shadow:0 6px 18px rgba(0,0,0,.15);
-  border-color:transparent;
+  background:var(--accent-gradient);
+  color:#fff;
+  box-shadow:0 4px 14px rgba(5,150,105,0.3);
 }
 
 .two-col{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:14px;
+  gap:16px;
 }
 .three-col{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(3, 1fr);
   gap:14px;
 }
 
-/* Cards & Lists */
+/* iOS Cards & Lists */
 .card-list{
   display:grid;
   gap:12px;
-  margin-top:14px;
+  margin-top:12px;
 }
 .item-card{
   padding:18px 20px;
-  border-radius:20px;
-  background:var(--surface-soft);
-  border:1px solid var(--border-subtle);
-  transition:transform .2s ease,box-shadow .2s ease;
+  border-radius:22px;
+  background:var(--card);
+  border:1px solid var(--card-border);
+  box-shadow:var(--shadow-ios);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  transition:transform 0.22s var(--ease-spring),box-shadow 0.22s ease;
 }
 .item-card:hover{
-  transform:translateY(-2px);
-  box-shadow:var(--shadow);
+  transform:translateY(-2px) scale(1.01);
+  box-shadow:var(--shadow-ios-lg);
 }
 .item-card h3{
   margin:0 0 6px;
   font-size:16.5px;
-  font-weight:850;
+  font-weight:800;
+  letter-spacing:-0.02em;
   color:var(--text-h);
 }
 .item-meta{
   font-size:12px;
-  color:var(--muted);
+  color:var(--muted-dark);
   margin-top:8px;
   display:flex;
   align-items:center;
   gap:10px;
   flex-wrap:wrap;
 }
-.pill{
-  display:inline-block;
-  padding:4px 9px;
-  border-radius:99px;
-  background:rgba(22,163,74,.12);
+.ios-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(5,150,105,0.12);
   color:var(--accent);
   font-size:11px;
-  font-weight:900;
+  font-weight:800;
+  letter-spacing:0.02em;
 }
-.pill.blue{background:rgba(37,99,235,.12);color:var(--accent-blue)}
-.pill.purple{background:rgba(124,58,237,.12);color:#8b5cf6}
+.ios-pill.blue{background:rgba(2,132,199,0.12);color:var(--accent-blue);}
+.ios-pill.purple{background:rgba(99,102,241,0.12);color:#6366f1;}
 
-/* Jadwal Table */
+/* Jadwal Grid */
 .schedule-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(3, 1fr);
   gap:14px;
 }
 .day-card{
   padding:18px;
-  border-radius:22px;
-  border:1px solid var(--border);
+  border-radius:24px;
 }
 .day-card.today{
   border:2px solid var(--accent);
-  box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 .day-title{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  font-weight:900;
+  font-weight:850;
   font-size:15px;
   margin-bottom:12px;
   padding-bottom:8px;
-  border-bottom:1px solid var(--line);
+  border-bottom:1px solid var(--card-border-subtle);
 }
 .day-items{
   display:grid;
@@ -421,21 +533,21 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
 }
 .day-item{
   padding:10px 12px;
-  border-radius:14px;
-  background:var(--surface-soft);
+  border-radius:16px;
+  background:var(--input-bg);
   font-size:12.5px;
 }
-.day-item b{display:block;margin-bottom:2px}
+.day-item b{display:block;margin-bottom:2px;}
 
 /* Struktur Grid */
 .structure-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(3, 1fr);
   gap:14px;
 }
 .structure-card{
   padding:20px;
-  border-radius:22px;
+  border-radius:24px;
   display:flex;
   align-items:center;
   gap:14px;
@@ -444,117 +556,185 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   width:48px;
   height:48px;
   border-radius:16px;
-  background:linear-gradient(135deg,var(--accent),#38bdf8);
+  background:var(--accent-gradient);
   color:#fff;
-  font-weight:900;
+  font-weight:850;
   font-size:20px;
   display:grid;
   place-items:center;
   flex:none;
+  box-shadow:0 4px 12px rgba(5,150,105,0.25);
 }
 
 /* Galeri Grid */
 .gallery-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(3, 1fr);
   gap:14px;
 }
 .gallery-card{
   aspect-ratio:16/10;
-  border-radius:20px;
+  border-radius:22px;
   overflow:hidden;
-  border:1px solid var(--border);
+  border:1px solid var(--card-border);
   cursor:zoom-in;
   position:relative;
-  transition:transform .3s ease,box-shadow .3s ease;
+  transition:transform 0.3s var(--ease-spring),box-shadow 0.3s ease;
 }
 .gallery-card:hover{
   transform:translateY(-4px) scale(1.02);
-  box-shadow:var(--shadow-lg);
+  box-shadow:var(--shadow-ios-lg);
 }
 .gallery-card img{
   width:100%;
   height:100%;
   object-fit:cover;
   display:block;
-  transition:transform .4s ease;
+  transition:transform 0.4s var(--ease-ios);
 }
-.gallery-card:hover img{transform:scale(1.06)}
+.gallery-card:hover img{transform:scale(1.06);}
 
-/* Lightbox */
-.lightbox{
+/* iOS Lightbox Modals */
+.ios-modal{
   position:fixed;
   inset:0;
-  background:rgba(5,10,16,.85);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
+  z-index:9999;
+  background:rgba(0,0,0,0.65);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.ios-modal.open{display:flex;}
+.ios-modal-card{
+  background:var(--card);
+  border:1px solid var(--card-border);
+  border-radius:32px;
+  padding:32px 24px 22px;
+  text-align:center;
+  box-shadow:var(--shadow-ios-lg);
+  max-width:min(90vw, 360px);
+  transform:scale(0.85);
+  transition:transform 0.4s var(--ease-spring);
+}
+.ios-modal.open .ios-modal-card{transform:scale(1);}
+.ios-modal-card img{
+  max-width:220px;
+  max-height:220px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto 16px;
+  filter:drop-shadow(0 14px 28px rgba(0,0,0,0.18));
+}
+.ios-modal-card h3{margin:0 0 4px;font-size:19px;font-weight:800;color:var(--text-h);}
+.ios-modal-card p{margin:0 0 20px;font-size:13px;color:var(--muted-dark);}
+.ios-modal-close{
+  border:0;
+  background:var(--accent-gradient);
+  color:#ffffff;
+  border-radius:14px;
+  padding:12px 28px;
+  font-size:14px;
+  font-weight:750;
+  cursor:pointer;
+  transition:transform 0.2s var(--ease-spring);
+}
+.ios-modal-close:active{transform:scale(0.94);}
+
+.gallery-lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
   z-index:9999;
   display:none;
   align-items:center;
   justify-content:center;
   padding:20px;
 }
-.lightbox.open{display:flex}
-.lightbox img{
-  max-width:min(94vw,1200px);
+.gallery-lightbox.open{display:flex;}
+.gallery-lightbox img{
+  max-width:min(94vw, 1200px);
   max-height:86vh;
   object-fit:contain;
-  border-radius:20px;
-  box-shadow:0 30px 90px rgba(0,0,0,.6);
+  border-radius:24px;
+  box-shadow:0 30px 90px rgba(0,0,0,0.7);
 }
-.lightbox-close{
+.gallery-lightbox-close{
   position:fixed;
   top:20px;
   right:20px;
   width:44px;
   height:44px;
   border-radius:50%;
-  border:1px solid rgba(255,255,255,.3);
-  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,0.3);
+  background:rgba(255,255,255,0.18);
   color:#fff;
   font-size:24px;
   cursor:pointer;
 }
 
-/* Mobile Nav */
-.mobile-nav{
+/* iOS Bottom Nav Bar for Mobile */
+.ios-tab-bar{
   display:none;
 }
 @media(max-width:800px){
-  .nav-links{display:none}
-  .stats-grid{grid-template-columns:1fr 1fr}
-  .two-col,.three-col,.schedule-grid,.structure-grid,.gallery-grid{grid-template-columns:1fr}
-  .status-radios{grid-template-columns:1fr 1fr}
-  .mobile-nav{
+  .nav-links{display:none;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .two-col,.three-col,.schedule-grid,.structure-grid,.gallery-grid{grid-template-columns:1fr;}
+  .status-radios{grid-template-columns:1fr 1fr;}
+  .ios-tab-bar{
     position:fixed;
-    left:10px;
-    right:10px;
-    bottom:10px;
+    left:12px;
+    right:12px;
+    bottom:12px;
     z-index:200;
-    padding:8px 6px;
-    border-radius:22px;
+    padding:6px;
+    border-radius:999px;
     display:grid;
-    grid-template-columns:repeat(6,1fr);
+    grid-template-columns:repeat(6, 1fr);
     text-align:center;
+    background:var(--card);
+    border:1px solid var(--card-border);
+    box-shadow:var(--shadow-ios-lg);
+    backdrop-filter:blur(36px) saturate(190%);
+    -webkit-backdrop-filter:blur(36px) saturate(190%);
   }
-  .mobile-nav a{
-    padding:6px 2px;
-    border-radius:14px;
-    color:var(--muted);
-    font-size:10px;
-    font-weight:800;
+  .ios-tab-bar a{
+    padding:8px 2px;
+    border-radius:999px;
+    color:var(--muted-dark);
+    font-size:11px;
+    font-weight:750;
     text-decoration:none;
-    line-height:1.3;
+    transition:all 0.2s var(--ease-spring);
   }
-  .mobile-nav a:hover{
-    background:var(--surface-strong);
+  .ios-tab-bar a:hover,.ios-tab-bar a:active{
+    background:var(--card-solid);
     color:var(--accent);
   }
-  body{padding-bottom:75px}
+  body{padding-bottom:85px;}
+}
+
+/* Keyframes */
+@keyframes iosPopIn{
+  0%{opacity:0;transform:scale(0.85);}
+  100%{opacity:1;transform:scale(1);}
+}
+@keyframes iosSlideUp{
+  0%{opacity:0;transform:translateY(20px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+@keyframes iosDropIn{
+  0%{opacity:0;transform:translateY(-16px);}
+  100%{opacity:1;transform:translateY(0);}
 }
 
 .empty{
-  color:var(--muted);
+  color:var(--muted-dark);
   font-size:13px;
   padding:20px;
   text-align:center;
@@ -566,16 +746,28 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   margin-top:10px;
   color:var(--accent);
 }
-.toast.err{color:var(--danger)}
+.toast.err{color:var(--danger);}
 </style>
 </head>
 <body>
 
-<header class="nav wrap glass">
+<!-- Ambient Animated Glow -->
+<div class="ios-bg" aria-hidden="true">
+  <div class="mesh-orb orb-1"></div>
+  <div class="mesh-orb orb-2"></div>
+</div>
+
+<!-- Floating iOS Navigation Bar -->
+<header class="ios-navbar wrap ios-glass">
   <a class="brand" href="#utama">
+    <!-- Dual Logo: KIRI = Logo Kelas, KANAN = Logo Sekolah SMK -->
     <div class="brand-logos">
-      <img src="assets/galeri/logo-smk-transparent.png" alt="Logo SMK" class="brand-logo" title="SMK NU Bandar">
-      <img src="assets/galeri/logo-kelas-light.png" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" alt="Logo Kelas" class="brand-logo theme-logo" title="XII TKJ 3">
+      <button type="button" class="logo-btn" id="navLogoKelas" title="Lihat Logo Kelas">
+        <img src="assets/galeri/logo-kelas-light.png" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" alt="Logo Kelas" class="brand-logo theme-logo">
+      </button>
+      <button type="button" class="logo-btn" id="navLogoSmk" title="Lihat Logo SMK">
+        <img src="assets/galeri/logo-smk-transparent.png" alt="Logo SMK" class="brand-logo">
+      </button>
     </div>
     <span>XII TKJ 3 · Siswa</span>
   </a>
@@ -592,38 +784,43 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   </nav>
 
   <div class="nav-tools">
-    <select class="theme-select" id="themeSelect" aria-label="Mode Tampilan">
-      <option value="light">☀️ Light</option>
-      <option value="dark">🌙 Dark</option>
-      <option value="system">💻 Sistem</option>
-    </select>
-    <button class="btn danger" id="logoutBtn" type="button">Keluar</button>
+    <div class="theme-segmented">
+      <select id="themeSelect" aria-label="Mode Tampilan">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="system">Sistem</option>
+      </select>
+    </div>
+    <button class="ios-btn danger" id="logoutBtn" type="button">Keluar</button>
   </div>
 </header>
 
 <main class="wrap">
   <!-- Hero -->
   <section id="utama" class="hero">
-    <span class="kicker">PORTAL SISWA • XII TKJ 3</span>
-    <h1>Halo, <span class="gradient" id="studentGreeting">Rama</span> 👋</h1>
-    <p>Selamat datang di portal kelas XII TKJ 3 SMK NU Bandar. Pantau kehadiran, kerjakan tugas, akses materi pelajaran, jadwal, dan nilai secara realtime.</p>
+    <div class="ios-kicker">
+      <span class="kicker-dot"></span>
+      <span>Portal Siswa • XII TKJ 3</span>
+    </div>
+    <h1>Halo, <span class="ios-gradient-text" id="studentGreeting">Rama</span></h1>
+    <p>Selamat datang di portal kelas XII TKJ 3 SMK NU Bandar. Pantau kehadiran, kerjakan tugas, akses materi pelajaran, jadwal, dan nilai secara terpadu.</p>
 
     <div class="stats-grid">
-      <div class="stat-card glass">
+      <div class="stat-card ios-glass">
         <span class="stat-val">XII TKJ 3</span>
         <span class="stat-label">Kelas & Kejuruan</span>
       </div>
-      <div class="stat-card glass">
+      <div class="stat-card ios-glass">
         <span class="stat-val" id="statSubjectCount">11</span>
         <span class="stat-label">Mata Pelajaran Aktif</span>
       </div>
-      <div class="stat-card glass">
+      <div class="stat-card ios-glass">
         <span class="stat-val" id="statStudentCount">37</span>
         <span class="stat-label">Total Siswa Terdaftar</span>
       </div>
-      <div class="stat-card glass">
-        <span class="stat-val" id="statMyAbsenBadge" style="font-size:18px;margin-top:4px">
-          <span class="pill">Hadir Hari Ini</span>
+      <div class="stat-card ios-glass">
+        <span class="stat-val" id="statMyAbsenBadge" style="font-size:16px;margin-top:4px">
+          <span class="ios-pill">Hadir Hari Ini</span>
         </span>
         <span class="stat-label">Status Absen Anda</span>
       </div>
@@ -633,13 +830,16 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   <!-- Absensi Harian -->
   <section id="absensi" class="section">
     <div class="sec-head">
-      <span class="kicker">KEHADIRAN</span>
-      <h2>Absensi Harian Siswa</h2>
-      <p>Kirim kehadiranmu setiap hari saat jam pelajaran dimulai.</p>
+      <div class="ios-kicker"><span class="kicker-dot"></span><span>Kehadiran</span></div>
+      <h2>
+        <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span>Absensi Harian Siswa</span>
+      </h2>
+      <p>Kirim kehadiran Anda setiap hari saat jam pelajaran dimulai.</p>
     </div>
 
     <div class="two-col">
-      <div class="panel glass">
+      <div class="ios-panel ios-glass">
         <form id="absenForm" class="form-grid" onsubmit="return false;">
           <div class="field-group">
             <label for="absenNama">Nama Siswa</label>
@@ -672,20 +872,20 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
 
           <div class="field-group">
             <label for="absenKet">Keterangan (Opsional)</label>
-            <input id="absenKet" class="form-input" placeholder="Contoh: Sakit demam / Acara keluarga">
+            <input id="absenKet" class="form-input" placeholder="Contoh: Sakit demam / Keperluan keluarga">
           </div>
 
-          <button id="submitAbsen" class="btn primary" type="submit" style="padding:13px;justify-content:center">
+          <button id="submitAbsen" class="ios-btn primary" type="submit" style="padding:14px;justify-content:center;font-size:14px">
             Kirim Absensi Sekarang
           </button>
           <div id="absenToast" class="toast"></div>
         </form>
       </div>
 
-      <div class="panel glass">
+      <div class="ios-panel ios-glass">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
           <strong style="font-size:15px">Data Absensi Hari Ini</strong>
-          <span id="todayDateLabel" style="font-size:12px;color:var(--muted)"></span>
+          <span id="todayDateLabel" style="font-size:12px;color:var(--muted-dark)"></span>
         </div>
         <div id="todayAbsenList" class="card-list" style="max-height:360px;overflow-y:auto">
           <div class="empty">Memuat data absensi...</div>
@@ -697,22 +897,25 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   <!-- Tugas & Pengumpulan -->
   <section id="tugas" class="section">
     <div class="sec-head">
-      <span class="kicker">TUGAS KELAS</span>
-      <h2>Tugas & Pengumpulan</h2>
+      <div class="ios-kicker"><span class="kicker-dot"></span><span>Tugas</span></div>
+      <h2>
+        <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+        <span>Tugas & Pengumpulan</span>
+      </h2>
       <p>Kerjakan tugas yang diberikan guru dan kumpulkan tepat waktu.</p>
     </div>
 
     <div class="two-col">
       <div>
-        <h3 style="margin:0 0 12px;font-size:17px">📝 Daftar Tugas Guru</h3>
+        <h3 style="margin:0 0 12px;font-size:17px;font-weight:800">Daftar Tugas Guru</h3>
         <div id="taskList" class="card-list">
           <div class="empty">Memuat daftar tugas...</div>
         </div>
       </div>
 
       <div>
-        <h3 style="margin:0 0 12px;font-size:17px">📥 Kumpulkan Tugas</h3>
-        <div class="panel glass">
+        <h3 style="margin:0 0 12px;font-size:17px;font-weight:800">Kumpulkan Tugas</h3>
+        <div class="ios-panel ios-glass">
           <form id="submissionForm" class="form-grid" onsubmit="return false;">
             <div class="field-group">
               <label for="subMapel">Mata Pelajaran / Tugas</label>
@@ -738,7 +941,7 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
               <input id="subLink" class="form-input" placeholder="https://drive.google.com/..." type="url">
             </div>
 
-            <button id="submitTaskBtn" class="btn primary" type="submit" style="padding:12px;justify-content:center">
+            <button id="submitTaskBtn" class="ios-btn primary" type="submit" style="padding:14px;justify-content:center;font-size:14px">
               Kirim Pengumpulan Tugas
             </button>
             <div id="subToast" class="toast"></div>
@@ -753,8 +956,11 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
     <div class="two-col">
       <div>
         <div class="sec-head">
-          <span class="kicker">INFORMASI</span>
-          <h2>📢 Pengumuman Kelas</h2>
+          <div class="ios-kicker"><span class="kicker-dot"></span><span>Informasi</span></div>
+          <h2>
+            <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+            <span>Pengumuman Kelas</span>
+          </h2>
         </div>
         <div id="annList" class="card-list">
           <div class="empty">Memuat pengumuman...</div>
@@ -763,8 +969,11 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
 
       <div>
         <div class="sec-head">
-          <span class="kicker">BAHAN AJAR</span>
-          <h2>📚 Materi Pelajaran</h2>
+          <div class="ios-kicker"><span class="kicker-dot"></span><span>Bahan Ajar</span></div>
+          <h2>
+            <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+            <span>Materi Pelajaran</span>
+          </h2>
         </div>
         <div id="matList" class="card-list">
           <div class="empty">Memuat materi pelajaran...</div>
@@ -776,11 +985,14 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   <!-- Nilai Siswa -->
   <section id="nilai" class="section">
     <div class="sec-head">
-      <span class="kicker">HASIL BELAJAR</span>
-      <h2>📊 Rekap Nilai Siswa</h2>
-      <p>Nilai tugas dan penilaian yang telah diinputkan oleh guru.</p>
+      <div class="ios-kicker"><span class="kicker-dot"></span><span>Hasil Belajar</span></div>
+      <h2>
+        <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Rekap Nilai Siswa</span>
+      </h2>
+      <p>Nilai tugas dan penilaian yang telah dipublikasikan oleh guru.</p>
     </div>
-    <div class="panel glass">
+    <div class="ios-panel ios-glass">
       <div id="gradeList" class="three-col">
         <div class="empty">Memuat data nilai...</div>
       </div>
@@ -790,8 +1002,11 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   <!-- Jadwal Pelajaran -->
   <section id="jadwal" class="section">
     <div class="sec-head">
-      <span class="kicker">PELAJARAN</span>
-      <h2>🗓️ Jadwal Pelajaran Kelas</h2>
+      <div class="ios-kicker"><span class="kicker-dot"></span><span>Pelajaran</span></div>
+      <h2>
+        <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Jadwal Pelajaran Kelas</span>
+      </h2>
       <p>Jadwal mata pelajaran Senin sampai Sabtu kelas XII TKJ 3.</p>
     </div>
     <div id="scheduleContainer" class="schedule-grid">
@@ -802,9 +1017,12 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   <!-- Struktur Kelas -->
   <section id="struktur" class="section">
     <div class="sec-head">
-      <span class="kicker">ORGANISASI</span>
-      <h2>🏛️ Struktur Organisasi Kelas</h2>
-      <p>Pengurus dan wali kelas XII TKJ 3.</p>
+      <div class="ios-kicker"><span class="kicker-dot"></span><span>Organisasi</span></div>
+      <h2>
+        <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Struktur Organisasi Kelas</span>
+      </h2>
+      <p>Pengurus dan wali kelas XII TKJ 3 SMK NU Bandar.</p>
     </div>
     <div id="structureContainer" class="structure-grid">
       <div class="empty">Memuat struktur kelas...</div>
@@ -814,9 +1032,12 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   <!-- Galeri Kelas -->
   <section id="galeri" class="section">
     <div class="sec-head">
-      <span class="kicker">DOKUMENTASI</span>
-      <h2>🖼️ Galeri Momen Kelas</h2>
-      <p>Foto dan kenangan kegiatan kelas XII TKJ 3.</p>
+      <div class="ios-kicker"><span class="kicker-dot"></span><span>Dokumentasi</span></div>
+      <h2>
+        <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Galeri Momen Kelas</span>
+      </h2>
+      <p>Foto dan dokumentasi kegiatan kelas XII TKJ 3.</p>
     </div>
     <div id="galleryContainer" class="gallery-grid">
       <div class="empty">Memuat galeri kelas...</div>
@@ -824,23 +1045,33 @@ body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--g
   </section>
 </main>
 
-<!-- Lightbox -->
-<div id="lightbox" class="lightbox" aria-hidden="true">
-  <button id="lightboxClose" class="lightbox-close" aria-label="Tutup foto">×</button>
+<!-- Lightbox Galeri -->
+<div id="lightbox" class="gallery-lightbox" aria-hidden="true">
+  <button id="lightboxClose" class="gallery-lightbox-close" aria-label="Tutup foto">×</button>
   <img id="lightboxImg" src="" alt="Momen XII TKJ 3">
 </div>
 
-<!-- Mobile Navigation -->
-<nav class="mobile-nav glass" aria-label="Navigasi Mobile Siswa">
-  <a href="#utama">⌂<br>Utama</a>
-  <a href="#absensi">▣<br>Absen</a>
-  <a href="#tugas">📝<br>Tugas</a>
-  <a href="#materi">📚<br>Materi</a>
-  <a href="#jadwal">🗓️<br>Jadwal</a>
-  <a href="#galeri">🖼<br>Galeri</a>
+<!-- Modal Viewer Logo iOS -->
+<div id="logoModal" class="ios-modal" aria-hidden="true">
+  <div class="ios-modal-card">
+    <img id="logoModalImg" src="" alt="Pratinjau Logo">
+    <h3 id="logoModalTitle">Logo</h3>
+    <p id="logoModalSub">Identitas Resmi</p>
+    <button type="button" class="ios-modal-close" id="logoModalClose">Selesai</button>
+  </div>
+</div>
+
+<!-- Mobile Navigation Tab Bar (iOS style) -->
+<nav class="ios-tab-bar" aria-label="Navigasi Mobile Siswa">
+  <a href="#utama">Utama</a>
+  <a href="#absensi">Absen</a>
+  <a href="#tugas">Tugas</a>
+  <a href="#materi">Materi</a>
+  <a href="#jadwal">Jadwal</a>
+  <a href="#galeri">Galeri</a>
 </nav>
 
-<footer style="text-align:center;color:var(--muted);font-size:12px;padding:40px 0 60px">
+<footer style="text-align:center;color:var(--muted-dark);font-size:12px;padding:40px 0 60px;font-weight:500">
   XII TKJ 3 • SMK NU Bandar
 </footer>
 
@@ -862,7 +1093,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-/* Theme */
+/* Theme Engine */
 const THEME_KEY = 'xii-tkj3-theme';
 const root = document.documentElement;
 const themeSelect = document.getElementById('themeSelect');
@@ -901,6 +1132,38 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
   location.href = "index.html";
 });
 
+/* Logo Modal Viewer */
+const logoModal = document.getElementById('logoModal');
+const logoModalImg = document.getElementById('logoModalImg');
+const logoModalTitle = document.getElementById('logoModalTitle');
+const logoModalSub = document.getElementById('logoModalSub');
+const logoModalClose = document.getElementById('logoModalClose');
+
+function openLogoModal(src, title, sub) {
+  logoModalImg.src = src;
+  logoModalTitle.textContent = title;
+  logoModalSub.textContent = sub;
+  logoModal.classList.add('open');
+  logoModal.setAttribute('aria-hidden', 'false');
+}
+function closeLogoModal() {
+  logoModal.classList.remove('open');
+  logoModal.setAttribute('aria-hidden', 'true');
+}
+
+document.getElementById('navLogoKelas')?.addEventListener('click', () => {
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  const src = isDark ? 'assets/galeri/logo-kelas-dark.png' : 'assets/galeri/logo-kelas-light.png';
+  openLogoModal(src, 'Logo Kelas XII TKJ 3', 'Jurusan Teknik Komputer & Jaringan • SMK NU Bandar');
+});
+
+document.getElementById('navLogoSmk')?.addEventListener('click', () => {
+  openLogoModal('assets/galeri/logo-smk-transparent.png', 'Logo SMK NU Bandar', 'Sekolah Menengah Kejuruan Nahdlatul Ulama Bandar');
+});
+
+logoModalClose.addEventListener('click', closeLogoModal);
+logoModal.addEventListener('click', e => { if (e.target === logoModal) closeLogoModal(); });
+
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
 }[c]));
@@ -936,7 +1199,6 @@ async function loadStudents() {
     q('absenNama').innerHTML = opts;
     q('subNama').innerHTML = opts;
 
-    // Try selecting based on logged in name
     const match = students.find(s => s.toLowerCase().includes(studentName.toLowerCase()));
     if (match) {
       q('absenNama').value = match;
@@ -971,15 +1233,12 @@ onSnapshot(collection(db, "absensi"), snap => {
   const rows = [];
   snap.forEach(d => rows.push({ id: d.id, ...d.data() }));
   
-  // Filter for today
   const todayRows = rows.filter(r => r.tanggal === todayStr);
-  
-  // Check if current student has checked in
   const myAbsen = todayRows.find(r => r.nama && r.nama.toLowerCase().includes(studentName.toLowerCase()));
   if (myAbsen) {
-    q('statMyAbsenBadge').innerHTML = `<span class="pill ${myAbsen.status==='HADIR'?'':'blue'}">${myAbsen.status} Hari Ini</span>`;
+    q('statMyAbsenBadge').innerHTML = `<span class="ios-pill ${myAbsen.status==='HADIR'?'':'blue'}">${myAbsen.status} Hari Ini</span>`;
   } else {
-    q('statMyAbsenBadge').innerHTML = `<span class="pill" style="background:rgba(239,68,68,.12);color:var(--danger)">Belum Absen</span>`;
+    q('statMyAbsenBadge').innerHTML = `<span class="ios-pill" style="background:rgba(239,68,68,0.12);color:var(--danger)">Belum Absen</span>`;
   }
 
   if (!todayRows.length) {
@@ -989,13 +1248,13 @@ onSnapshot(collection(db, "absensi"), snap => {
 
   todayRows.sort((a, b) => (b.waktu || "").localeCompare(a.waktu || ""));
   q('todayAbsenList').innerHTML = todayRows.map(r => `
-    <div class="item-card" style="padding:12px 14px">
+    <div class="item-card" style="padding:12px 16px">
       <div style="display:flex;justify-content:space-between;align-items:center">
-        <b>${esc(r.nama)}</b>
-        <span class="pill ${r.status==='HADIR'?'':'blue'}">${esc(r.status)}</span>
+        <b style="font-weight:750">${esc(r.nama)}</b>
+        <span class="ios-pill ${r.status==='HADIR'?'':'blue'}">${esc(r.status)}</span>
       </div>
       <div class="item-meta" style="margin-top:4px">
-        <span>⏰ ${esc(r.waktu || '-')}</span>
+        <span>Waktu: ${esc(r.waktu || '-')}</span>
         ${r.keterangan ? `<span>• ${esc(r.keterangan)}</span>` : ''}
       </div>
     </div>
@@ -1032,12 +1291,12 @@ q('submitAbsen').addEventListener('click', async () => {
       waktu,
       timestamp: Date.now()
     });
-    toast.textContent = `✅ Absensi ${nama} (${status}) berhasil terkirim.`;
+    toast.textContent = `Absensi ${nama} (${status}) berhasil terkirim.`;
     toast.className = "toast";
     q('absenKet').value = '';
   } catch (e) {
     console.error("Absen submit:", e);
-    toast.textContent = "❌ Gagal mengirim absensi: " + (e.message || e);
+    toast.textContent = "Gagal mengirim absensi: " + (e.message || e);
     toast.className = "toast err";
   } finally {
     q('submitAbsen').disabled = false;
@@ -1060,15 +1319,15 @@ onSnapshot(query(collection(db, "tugas"), orderBy("createdAt", "desc")), snap =>
   taskList.innerHTML = activeTasks.map(t => `
     <article class="item-card">
       <div style="display:flex;justify-content:space-between;align-items:center">
-        <span class="pill blue">${esc(t.mapel || 'Tugas')}</span>
-        <small style="color:var(--muted)">${t.createdAt ? new Date(t.createdAt).toLocaleDateString('id-ID') : ''}</small>
+        <span class="ios-pill blue">${esc(t.mapel || 'Tugas')}</span>
+        <small style="color:var(--muted-dark)">${t.createdAt ? new Date(t.createdAt).toLocaleDateString('id-ID') : ''}</small>
       </div>
       <h3 style="margin-top:8px">${esc(t.judul)}</h3>
-      <p style="color:var(--muted);font-size:13.5px;margin:0 0 10px;line-height:1.5">${esc(t.deskripsi || '-')}</p>
+      <p style="color:var(--muted-dark);font-size:13.5px;margin:0 0 10px;line-height:1.5">${esc(t.deskripsi || '-')}</p>
       <div class="item-meta">
-        <span>⏰ Deadline: <b>${esc(t.deadline ? new Date(t.deadline).toLocaleString('id-ID') : 'Tidak ditentukan')}</b></span>
+        <span>Deadline: <b>${esc(t.deadline ? new Date(t.deadline).toLocaleString('id-ID') : 'Tidak ditentukan')}</b></span>
         ${t.guru ? `<span>• Guru: ${esc(t.guru)}</span>` : ''}
-        ${t.fileUrl ? `<a href="${esc(t.fileUrl)}" target="_blank" rel="noopener" class="btn" style="padding:4px 10px;font-size:11px;margin-left:auto">📎 Unduh Lampiran</a>` : ''}
+        ${t.fileUrl ? `<a href="${esc(t.fileUrl)}" target="_blank" rel="noopener" class="ios-btn" style="padding:4px 10px;font-size:11px;margin-left:auto">Unduh Lampiran</a>` : ''}
       </div>
     </article>
   `).join('');
@@ -1108,13 +1367,13 @@ q('submitTaskBtn').addEventListener('click', async () => {
       link,
       updatedAt: Date.now()
     });
-    toast.textContent = "✅ Tugas berhasil dikumpulkan!";
+    toast.textContent = "Tugas berhasil dikumpulkan.";
     toast.className = "toast";
     q('subJawaban').value = '';
     q('subLink').value = '';
   } catch (e) {
     console.error("Submit task:", e);
-    toast.textContent = "❌ Gagal mengirim tugas: " + (e.message || e);
+    toast.textContent = "Gagal mengirim tugas: " + (e.message || e);
     toast.className = "toast err";
   } finally {
     q('submitTaskBtn').disabled = false;
@@ -1132,11 +1391,11 @@ onSnapshot(query(collection(db, "pengumuman"), orderBy("createdAt", "desc")), sn
     const x = d.data();
     return `
       <article class="item-card">
-        <span class="pill purple">${esc(x.mapel || 'Pengumuman')}</span>
+        <span class="ios-pill purple">${esc(x.mapel || 'Pengumuman')}</span>
         <h3 style="margin-top:6px">${esc(x.judul)}</h3>
-        <p style="color:var(--muted);font-size:13.5px;margin:0;line-height:1.5">${esc(x.isi)}</p>
+        <p style="color:var(--muted-dark);font-size:13.5px;margin:0;line-height:1.5">${esc(x.isi)}</p>
         <div class="item-meta">
-          <small>📅 ${x.createdAt ? new Date(x.createdAt).toLocaleDateString('id-ID') : '-'}</small>
+          <small>${x.createdAt ? new Date(x.createdAt).toLocaleDateString('id-ID') : '-'}</small>
           ${x.guru ? `<small>• ${esc(x.guru)}</small>` : ''}
         </div>
       </article>
@@ -1156,13 +1415,13 @@ onSnapshot(query(collection(db, "materi"), orderBy("createdAt", "desc")), snap =
       <article class="item-card">
         <div style="display:flex;justify-content:space-between;align-items:start;gap:10px">
           <div>
-            <span class="pill blue">${esc(x.mapel || 'Materi')}</span>
+            <span class="ios-pill blue">${esc(x.mapel || 'Materi')}</span>
             <h3 style="margin-top:6px">${esc(x.judul)}</h3>
           </div>
-          ${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener" class="btn primary" style="padding:7px 12px;font-size:12px;flex:none">Buka Materi →</a>` : ''}
+          ${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener" class="ios-btn primary" style="padding:6px 12px;font-size:12px;flex:none">Buka Materi</a>` : ''}
         </div>
         <div class="item-meta">
-          <small>📅 ${x.createdAt ? new Date(x.createdAt).toLocaleDateString('id-ID') : '-'}</small>
+          <small>${x.createdAt ? new Date(x.createdAt).toLocaleDateString('id-ID') : '-'}</small>
           ${x.guru ? `<small>• ${esc(x.guru)}</small>` : ''}
         </div>
       </article>
@@ -1182,11 +1441,11 @@ onSnapshot(query(collection(db, "nilai"), orderBy("createdAt", "desc")), snap =>
     return `
       <div class="item-card">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <span class="pill">${esc(x.mapel || 'Mapel')}</span>
-          <strong style="font-size:22px;color:var(--accent)">${esc(x.nilai)}</strong>
+          <span class="ios-pill">${esc(x.mapel || 'Mapel')}</span>
+          <strong style="font-size:22px;color:var(--accent);font-weight:850">${esc(x.nilai)}</strong>
         </div>
-        <h4 style="margin:8px 0 2px;font-size:15px">${esc(x.nama)}</h4>
-        <small style="color:var(--muted)">${esc(x.judul || 'Penilaian')}</small>
+        <h4 style="margin:8px 0 2px;font-size:15px;font-weight:750">${esc(x.nama)}</h4>
+        <small style="color:var(--muted-dark)">${esc(x.judul || 'Penilaian')}</small>
       </div>
     `;
   }).join('');
@@ -1194,7 +1453,6 @@ onSnapshot(query(collection(db, "nilai"), orderBy("createdAt", "desc")), snap =>
 
 /* 7. Realtime Jadwal */
 const dayOrder = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-const dayIds = { Senin: "senin", Selasa: "selasa", Rabu: "rabu", Kamis: "kamis", Jumat: "jumat", Sabtu: "sabtu" };
 const currentDayName = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"][new Date().getDay()];
 
 onSnapshot(collection(db, "jadwal"), snap => {
@@ -1214,18 +1472,18 @@ onSnapshot(collection(db, "jadwal"), snap => {
     const items = schedule[day] || [];
     const isToday = day === currentDayName;
     return `
-      <div class="day-card glass ${isToday ? 'today' : ''}">
+      <div class="day-card ios-glass ${isToday ? 'today' : ''}">
         <div class="day-title">
-          <span>${day} ${isToday ? '<span class="pill" style="font-size:10px">HARI INI</span>' : ''}</span>
-          <small style="color:var(--muted);font-size:12px">${items.length} Mapel</small>
+          <span>${day} ${isToday ? '<span class="ios-pill" style="font-size:10px">HARI INI</span>' : ''}</span>
+          <small style="color:var(--muted-dark);font-size:12px">${items.length} Mapel</small>
         </div>
         <div class="day-items">
           ${items.length ? items.map(it => `
             <div class="day-item">
-              <b>${esc(it.mapel)}</b>
-              <small style="color:var(--muted)">⏰ ${esc(it.jam || '-')}</small>
+              <b style="font-weight:750">${esc(it.mapel)}</b>
+              <small style="color:var(--muted-dark)">Waktu: ${esc(it.jam || '-')}</small>
             </div>
-          `).join('') : '<div style="color:var(--muted);font-size:12px;padding:8px">Tidak ada jadwal.</div>'}
+          `).join('') : '<div style="color:var(--muted-dark);font-size:12px;padding:8px">Tidak ada jadwal.</div>'}
         </div>
       </div>
     `;
@@ -1248,12 +1506,12 @@ onSnapshot(collection(db, "struktur"), snap => {
     data = structureDefaults.map(def => ({ ...def, ...(map.get(def.id) || {}) }));
   }
   container.innerHTML = data.map(s => `
-    <div class="structure-card glass">
+    <div class="structure-card ios-glass">
       <div class="structure-avatar">${esc((s.name || '?').charAt(0).toUpperCase())}</div>
       <div>
-        <span class="pill" style="font-size:10.5px">${esc(s.role)}</span>
-        <h4 style="margin:4px 0 0;font-size:15px;color:var(--text-h)">${esc(s.name)}</h4>
-        <small style="color:var(--muted)">Pengurus XII TKJ 3</small>
+        <span class="ios-pill" style="font-size:10.5px">${esc(s.role)}</span>
+        <h4 style="margin:4px 0 0;font-size:15px;font-weight:750;color:var(--text-h)">${esc(s.name)}</h4>
+        <small style="color:var(--muted-dark)">Pengurus XII TKJ 3</small>
       </div>
     </div>
   `).join('');
@@ -1280,7 +1538,7 @@ async function loadGallery() {
 function renderGallery(items) {
   const container = q('galleryContainer');
   container.innerHTML = items.map(img => `
-    <div class="gallery-card glass" data-src="${esc(img.src)}">
+    <div class="gallery-card ios-glass" data-src="${esc(img.src)}">
       <img src="${esc(img.src)}" alt="${esc(img.name || 'Galeri')}" loading="lazy">
     </div>
   `).join('');

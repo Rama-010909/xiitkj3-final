@@ -2,165 +2,245 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f3f6fb">
-<title>Portal Login • XII TKJ 3</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#f2f5f9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Portal Resmi • XII TKJ 3</title>
 <link rel="manifest" href="/manifest.webmanifest">
 <style>
 :root{
-  --bg:#f3f6fb;
-  --card:rgba(255,255,255,.90);
-  --card-border:rgba(255,255,255,.95);
-  --text:#0f172a;
-  --text-h:#020617;
-  --muted:#52617a;
-  --border:#e2e8f0;
-  --input-bg:rgba(255,255,255,.92);
-  --input-border:#cbd5e1;
-  --accent:#2563eb;
-  --shadow:0 18px 45px rgba(15,23,42,.07);
-  --shadow-lg:0 25px 60px rgba(15,23,42,.12);
-  --glow-1:#38bdf8;
-  --glow-2:#34d399;
+  --smk-green:#059669;
+  --smk-green-light:#10b981;
+  --tkj-cyan:#0284c7;
+  --tkj-sky:#0ea5e9;
+  
+  /* iOS Light Theme Variables */
+  --bg:#f2f5f9;
+  --card:rgba(255,255,255,0.78);
+  --card-solid:#ffffff;
+  --card-border:rgba(255,255,255,0.85);
+  --card-border-subtle:rgba(0,0,0,0.06);
+  --text:#000000;
+  --text-h:#000000;
+  --muted:#86868b;
+  --muted-dark:#6e6e73;
+  --input-bg:rgba(235,240,246,0.75);
+  --input-border:rgba(0,0,0,0.08);
+  --accent:#059669;
+  --accent-gradient:linear-gradient(135deg,#059669,#0284c7);
+  --shadow-ios:0 12px 36px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03);
+  --shadow-ios-lg:0 24px 60px rgba(0,0,0,0.10), 0 4px 16px rgba(0,0,0,0.05);
+  --glow-1:#34d399;
+  --glow-2:#38bdf8;
+  --nav-bg:rgba(255,255,255,0.72);
+  --ease-ios:cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
 [data-theme="dark"]{
-  --bg:#090e17;
-  --card:rgba(18,25,41,.88);
-  --card-border:rgba(255,255,255,.12);
-  --text:#f8fafc;
+  /* iOS Dark Theme Variables (OLED deep slate) */
+  --bg:#000000;
+  --card:rgba(28,28,30,0.78);
+  --card-solid:#1c1c1e;
+  --card-border:rgba(255,255,255,0.14);
+  --card-border-subtle:rgba(255,255,255,0.08);
+  --text:#ffffff;
   --text-h:#ffffff;
-  --muted:#94a3b8;
-  --border:rgba(255,255,255,.14);
-  --input-bg:rgba(11,16,28,.90);
-  --input-border:rgba(255,255,255,.16);
-  --accent:#60a5fa;
-  --shadow:0 20px 45px rgba(0,0,0,.45);
-  --shadow-lg:0 25px 70px rgba(0,0,0,.60);
-  --glow-1:#0ea5e9;
-  --glow-2:#10b981;
+  --muted:#8e8e93;
+  --muted-dark:#a1a1a6;
+  --input-bg:rgba(44,44,46,0.8);
+  --input-border:rgba(255,255,255,0.12);
+  --accent:#10b981;
+  --accent-gradient:linear-gradient(135deg,#10b981,#0ea5e9);
+  --shadow-ios:0 16px 40px rgba(0,0,0,0.6), 0 2px 10px rgba(0,0,0,0.4);
+  --shadow-ios-lg:0 30px 70px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6);
+  --glow-1:#064e3b;
+  --glow-2:#0369a1;
+  --nav-bg:rgba(28,28,30,0.75);
 }
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden}
-body{
-  font-family:system-ui,-apple-system,"SF Pro Display","Segoe UI",Roboto,sans-serif;
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif;
+  letter-spacing:-0.015em;
   background:var(--bg);
   color:var(--text);
-  transition:background-color .3s ease,color .3s ease;
+  transition:background-color 0.4s var(--ease-ios),color 0.4s var(--ease-ios);
 }
-.bg{
-  background:
-    radial-gradient(circle at 10% 12%, color-mix(in srgb,var(--glow-1) 28%,transparent) 0%, transparent 40%),
-    radial-gradient(circle at 90% 88%, color-mix(in srgb,var(--glow-2) 28%,transparent) 0%, transparent 45%),
-    var(--bg);
-}
-.bg:before,.bg:after{
-  content:"";
-  position:absolute;
-  width:320px;
-  height:320px;
-  border-radius:50%;
-  filter:blur(85px);
-  opacity:.35;
-  pointer-events:none;
-  animation:float 10s ease-in-out infinite alternate;
-}
-.bg:before{background:var(--glow-1);left:-100px;top:-100px}
-.bg:after{background:var(--glow-2);right:-100px;bottom:-100px;animation-delay:-5s}
 
-.top-bar{
+/* Ambient animated iOS background mesh */
+.ios-bg{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  background:var(--bg);
+}
+.mesh-orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(80px);
+  opacity:0.38;
+  animation:meshFloat 14s var(--ease-ios) infinite alternate;
+}
+.orb-1{
+  width:380px;
+  height:380px;
+  background:radial-gradient(circle, var(--glow-1) 0%, transparent 70%);
+  top:-120px;
+  left:-80px;
+  animation-duration:12s;
+}
+.orb-2{
+  width:420px;
+  height:420px;
+  background:radial-gradient(circle, var(--glow-2) 0%, transparent 70%);
+  bottom:-140px;
+  right:-100px;
+  animation-duration:16s;
+  animation-delay:-4s;
+}
+.orb-3{
+  width:260px;
+  height:260px;
+  background:radial-gradient(circle, #6366f1 0%, transparent 70%);
+  top:45%;
+  left:60%;
+  opacity:0.22;
+  animation-duration:18s;
+  animation-delay:-8s;
+}
+
+@keyframes meshFloat{
+  0%{transform:translate(0, 0) scale(1);}
+  50%{transform:translate(40px, -30px) scale(1.1);}
+  100%{transform:translate(-30px, 35px) scale(0.95);}
+}
+
+/* iOS Dynamic Header Pill */
+.ios-header{
   position:fixed;
   top:16px;
-  left:16px;
-  right:16px;
-  z-index:20;
+  left:0;
+  right:0;
+  z-index:30;
   display:flex;
-  align-items:center;
-  justify-content:space-between;
-  max-width:1100px;
-  margin:0 auto;
+  justify-content:center;
+  padding:0 16px;
+  animation:iosDropIn 0.8s var(--ease-ios);
 }
-.school-badge{
+.island-capsule{
   display:flex;
   align-items:center;
-  gap:8px;
-  padding:7px 14px;
-  border-radius:99px;
-  background:var(--card);
+  gap:12px;
+  padding:6px 14px 6px 12px;
+  border-radius:999px;
+  background:var(--nav-bg);
   border:1px solid var(--card-border);
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  font-size:12px;
-  font-weight:750;
-  color:var(--text);
-  letter-spacing:.02em;
+  box-shadow:var(--shadow-ios);
+  backdrop-filter:blur(30px) saturate(190%);
+  -webkit-backdrop-filter:blur(30px) saturate(190%);
 }
-.school-badge .badge-dot{
+.island-status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-size:12px;
+  font-weight:600;
+  color:var(--text);
+}
+.pulse-dot{
   width:8px;
   height:8px;
   border-radius:50%;
   background:#10b981;
-  box-shadow:0 0 0 3px rgba(16,185,129,.2);
+  box-shadow:0 0 0 0 rgba(16,185,129,0.7);
+  animation:pulse 2s infinite;
 }
-.theme-switch{
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(16,185,129,0.7);}
+  70%{box-shadow:0 0 0 6px rgba(16,185,129,0);}
+  100%{box-shadow:0 0 0 0 rgba(16,185,129,0);}
+}
+.island-sep{
+  width:1px;
+  height:16px;
+  background:var(--card-border-subtle);
+}
+.theme-segmented{
   display:flex;
-  align-items:center;
-  gap:6px;
-  background:var(--card);
-  border:1px solid var(--card-border);
-  border-radius:99px;
-  padding:4px 10px;
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
+  background:var(--input-bg);
+  padding:2px;
+  border-radius:999px;
+  border:1px solid var(--input-border);
 }
-.theme-switch select{
+.theme-segmented select{
   appearance:none;
   -webkit-appearance:none;
   background:transparent;
   border:0;
   color:var(--text);
-  font-size:12px;
-  font-weight:750;
-  padding:5px 22px 5px 6px;
+  font-size:11.5px;
+  font-weight:650;
+  padding:3px 18px 3px 8px;
   cursor:pointer;
   outline:none;
   background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);
-  background-position:calc(100% - 10px) 11px,calc(100% - 6px) 11px;
+  background-position:calc(100% - 8px) 8px,calc(100% - 4px) 8px;
   background-size:4px 4px,4px 4px;
   background-repeat:no-repeat;
 }
 
-.screen{
-  position:fixed;
-  inset:0;
+/* App Container & Screens */
+.app-viewport{
+  position:relative;
   width:100%;
   height:100dvh;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:24px;
+  padding:20px;
+}
+.screen{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
   opacity:0;
   visibility:hidden;
   pointer-events:none;
-  transform:scale(.97) translateY(12px);
-  transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s linear .45s;
+  transform:scale(0.94) translateY(20px);
+  transition:
+    opacity 0.45s var(--ease-ios),
+    transform 0.5s var(--ease-ios),
+    visibility 0s linear 0.5s;
 }
 .screen.active{
   opacity:1;
   visibility:visible;
   pointer-events:auto;
-  transform:none;
+  transform:scale(1) translateY(0);
   transition-delay:0s;
 }
+
 .wrap{
-  position:relative;
-  width:min(470px,100%);
-  z-index:2;
+  width:min(440px, 100%);
   text-align:center;
+  z-index:2;
 }
 
-.brand-card{
+/* iOS Widget Style Dual Logo (Left: Class, Right: SMK) */
+.ios-brand-widget{
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -169,381 +249,577 @@ body{
   border-radius:26px;
   background:var(--card);
   border:1px solid var(--card-border);
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  margin-bottom:18px;
-  animation:pop .55s cubic-bezier(.2,.8,.2,1);
+  box-shadow:var(--shadow-ios);
+  backdrop-filter:blur(32px) saturate(190%);
+  -webkit-backdrop-filter:blur(32px) saturate(190%);
+  margin-bottom:20px;
+  animation:iosPopIn 0.7s var(--ease-spring);
 }
-.brand-img{
-  width:50px;
-  height:50px;
+.logo-btn{
+  background:transparent;
+  border:0;
+  padding:0;
+  cursor:zoom-in;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  transition:transform 0.25s var(--ease-spring);
+}
+.logo-btn:hover{
+  transform:scale(1.12);
+}
+.logo-btn:active{
+  transform:scale(0.92);
+}
+.logo-img{
+  width:52px;
+  height:52px;
   object-fit:contain;
   display:block;
-  transition:transform .25s ease;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,0.06));
 }
-.brand-img:hover{
-  transform:scale(1.08);
+.logo-caption{
+  font-size:10.5px;
+  font-weight:700;
+  color:var(--muted);
+  letter-spacing:0.02em;
+  text-transform:uppercase;
 }
-.brand-sep{
+.logo-divider{
   width:1px;
-  height:36px;
-  background:var(--border);
+  height:44px;
+  background:linear-gradient(to bottom, transparent, var(--muted), transparent);
+  opacity:0.25;
 }
 
-.title{
-  font-size:clamp(30px,6vw,42px);
-  font-weight:900;
-  letter-spacing:-.04em;
-  margin:0 0 4px;
+/* Typography */
+.ios-title{
+  font-size:clamp(32px, 7vw, 42px);
+  font-weight:800;
+  letter-spacing:-0.04em;
+  line-height:1.05;
+  margin:0 0 6px;
   color:var(--text-h);
 }
-.title .gradient{
-  background:linear-gradient(110deg,#10b981,#0ea5e9,#6366f1);
+.ios-gradient-text{
+  background:linear-gradient(135deg, #059669 0%, #0284c7 50%, #6366f1 100%);
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
 }
-.subtitle{
-  color:var(--muted);
+.ios-subtitle{
+  color:var(--muted-dark);
   font-size:14px;
-  font-weight:600;
+  font-weight:550;
   margin:0 0 24px;
 }
 
-.roles{
+/* iOS Role Selection Group */
+.roles-stack{
   display:grid;
   gap:12px;
   width:100%;
 }
-.role{
+.role-card{
   width:100%;
   border:0;
-  border-radius:20px;
-  padding:17px 20px;
-  color:#fff;
+  border-radius:22px;
+  padding:16px 18px;
+  color:#ffffff;
   display:flex;
   align-items:center;
   gap:14px;
-  font-size:15.5px;
-  font-weight:800;
   cursor:pointer;
-  box-shadow:var(--shadow);
-  transition:transform .2s ease,box-shadow .2s ease,filter .2s ease;
+  box-shadow:var(--shadow-ios);
+  position:relative;
+  overflow:hidden;
+  transition:
+    transform 0.22s var(--ease-spring),
+    box-shadow 0.25s var(--ease-ios),
+    filter 0.25s ease;
+  animation:iosSlideUp 0.6s var(--ease-ios) backwards;
 }
-.role:hover{
-  transform:translateY(-3px);
-  filter:brightness(1.06);
-  box-shadow:var(--shadow-lg);
+.role-card:nth-child(1){animation-delay:0.1s;}
+.role-card:nth-child(2){animation-delay:0.18s;}
+.role-card:nth-child(3){animation-delay:0.26s;}
+
+.role-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 100%);
+  pointer-events:none;
 }
-.role:active{
-  transform:scale(.98);
+.role-card:hover{
+  transform:translateY(-3px) scale(1.015);
+  box-shadow:var(--shadow-ios-lg);
+  filter:brightness(1.05);
 }
-.role-icon{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  background:rgba(255,255,255,.22);
+.role-card:active{
+  transform:scale(0.96);
+  filter:brightness(0.94);
+}
+
+.role-squircle{
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  background:rgba(255,255,255,0.24);
+  backdrop-filter:blur(10px);
   display:grid;
   place-items:center;
-  font-size:20px;
   flex:none;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,0.4);
 }
-.role-info{
+.role-svg{
+  width:22px;
+  height:22px;
+  stroke:currentColor;
+}
+.role-meta{
   flex:1;
   text-align:left;
 }
-.role-info b{
+.role-meta b{
   display:block;
-  font-size:16px;
+  font-size:16.5px;
+  font-weight:750;
+  letter-spacing:-0.02em;
   line-height:1.2;
 }
-.role-info small{
+.role-meta small{
   display:block;
-  font-size:11.5px;
-  font-weight:550;
-  opacity:.9;
+  font-size:12px;
+  font-weight:500;
+  opacity:0.9;
   margin-top:2px;
 }
-.role .arrow{
-  font-size:22px;
-  font-weight:400;
-  opacity:.85;
+.role-chevron{
+  width:20px;
+  height:20px;
+  stroke:currentColor;
+  opacity:0.8;
+  flex:none;
 }
 
-.siswa{background:linear-gradient(135deg,#1d4ed8,#2563eb,#38bdf8)}
-.guru{background:linear-gradient(135deg,#6d28d9,#7c3aed,#a855f7)}
-.admin{background:linear-gradient(135deg,#047857,#059669,#10b981)}
+.siswa-gradient{background:linear-gradient(135deg, #0284c7 0%, #0ea5e9 60%, #38bdf8 100%);}
+.guru-gradient{background:linear-gradient(135deg, #6366f1 0%, #7c3aed 60%, #9333ea 100%);}
+.admin-gradient{background:linear-gradient(135deg, #047857 0%, #059669 60%, #10b981 100%);}
 
-.login-card{
-  position:relative;
-  width:min(440px,100%);
-  margin:auto;
+/* iOS Login Card */
+.ios-login-card{
+  width:100%;
   background:var(--card);
   border:1px solid var(--card-border);
-  border-radius:30px;
-  padding:32px 30px;
-  box-shadow:var(--shadow-lg);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  z-index:2;
+  border-radius:32px;
+  padding:30px 26px;
+  box-shadow:var(--shadow-ios-lg);
+  backdrop-filter:blur(36px) saturate(190%);
+  -webkit-backdrop-filter:blur(36px) saturate(190%);
 }
-.login-header{
+.card-nav-row{
   display:flex;
   align-items:center;
   justify-content:space-between;
   margin-bottom:18px;
 }
-.back-btn{
+.ios-back-btn{
   border:0;
   background:transparent;
   color:var(--accent);
-  font-weight:800;
-  font-size:13.5px;
+  font-weight:700;
+  font-size:14px;
   padding:6px 0;
   cursor:pointer;
   display:inline-flex;
   align-items:center;
-  gap:6px;
-  transition:transform .2s ease;
+  gap:5px;
+  transition:transform 0.2s var(--ease-spring);
 }
-.back-btn:hover{
-  transform:translateX(-3px);
+.ios-back-btn:hover{
+  transform:translateX(-4px);
 }
-.role-badge{
+.ios-back-btn:active{
+  transform:scale(0.94);
+}
+.ios-badge{
   font-size:11px;
-  font-weight:850;
+  font-weight:800;
   text-transform:uppercase;
-  letter-spacing:.08em;
-  padding:5px 11px;
-  border-radius:99px;
+  letter-spacing:0.06em;
+  padding:4px 12px;
+  border-radius:999px;
   color:#fff;
 }
-.role-badge.siswa{background:#2563eb}
-.role-badge.guru{background:#7c3aed}
-.role-badge.admin{background:#059669}
+.ios-badge.siswa{background:#0284c7;}
+.ios-badge.guru{background:#6366f1;}
+.ios-badge.admin{background:#059669;}
 
-.role-title{
+.login-heading{
   font-size:26px;
-  font-weight:850;
-  letter-spacing:-.03em;
+  font-weight:800;
+  letter-spacing:-0.03em;
   margin:0 0 6px;
   color:var(--text-h);
 }
-.role-desc{
-  color:var(--muted);
+.login-subheading{
+  color:var(--muted-dark);
   font-size:13.5px;
-  margin:0 0 20px;
-  line-height:1.5;
+  margin:0 0 22px;
 }
 
-.field{
-  margin-bottom:16px;
+/* iOS Input Fields */
+.ios-field{
+  margin-bottom:14px;
   text-align:left;
 }
-.field label{
+.ios-label{
   display:block;
-  font-size:12.5px;
-  font-weight:800;
-  color:var(--muted);
+  font-size:11.5px;
+  font-weight:750;
+  color:var(--muted-dark);
   text-transform:uppercase;
-  letter-spacing:.04em;
-  margin-bottom:7px;
+  letter-spacing:0.06em;
+  margin-bottom:6px;
+  padding-left:4px;
 }
-.field input{
+.ios-input-box{
+  position:relative;
+}
+.ios-input{
   width:100%;
-  height:48px;
+  height:50px;
   border:1px solid var(--input-border);
-  border-radius:15px;
+  border-radius:16px;
   background:var(--input-bg);
   color:var(--text);
   font-size:15px;
-  padding:0 46px 0 15px;
+  font-weight:550;
+  padding:0 48px 0 16px;
   outline:none;
-  transition:border-color .2s ease,box-shadow .2s ease,background-color .2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.25s ease,
+    background-color 0.2s ease;
 }
-.field input:focus{
+.ios-input:focus{
   border-color:var(--accent);
-  box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 24%, transparent);
+  background:var(--card-solid);
 }
-.input-wrap{
-  position:relative;
-}
-.eye{
+.ios-eye-btn{
   position:absolute;
-  right:6px;
+  right:8px;
   top:50%;
   transform:translateY(-50%);
   width:36px;
   height:36px;
   padding:7px;
   border:0;
-  background:none;
+  background:transparent;
   color:var(--muted);
   cursor:pointer;
-  border-radius:10px;
-  transition:color .2s ease,background .2s ease;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  transition:all 0.2s ease;
 }
-.eye:hover{
+.ios-eye-btn:hover{
   color:var(--text);
-  background:rgba(0,0,0,.05);
+  background:rgba(0,0,0,0.06);
 }
-.eye svg{
-  width:100%;
-  height:100%;
+.ios-eye-btn svg{
+  width:20px;
+  height:20px;
 }
-.submit{
+
+/* iOS Primary Action Button */
+.ios-submit-btn{
   width:100%;
-  height:50px;
+  height:52px;
   border:0;
-  border-radius:16px;
-  background:linear-gradient(135deg,var(--accent),#4f46e5);
-  color:#fff;
-  font-size:15.5px;
-  font-weight:850;
+  border-radius:18px;
+  background:var(--accent-gradient);
+  color:#ffffff;
+  font-size:16px;
+  font-weight:750;
+  letter-spacing:-0.01em;
   cursor:pointer;
-  margin-top:6px;
-  box-shadow:0 10px 25px color-mix(in srgb,var(--accent) 35%,transparent);
-  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease;
+  margin-top:8px;
+  box-shadow:0 10px 26px color-mix(in srgb, var(--accent) 38%, transparent);
+  position:relative;
+  overflow:hidden;
+  transition:
+    transform 0.2s var(--ease-spring),
+    box-shadow 0.25s var(--ease-ios),
+    filter 0.2s ease;
 }
-.submit:hover{
-  filter:brightness(1.08);
-  transform:translateY(-2px);
-  box-shadow:0 14px 30px color-mix(in srgb,var(--accent) 45%,transparent);
+.ios-submit-btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 100%);
+  pointer-events:none;
 }
-.submit:active{
-  transform:scale(.98);
+.ios-submit-btn:hover{
+  filter:brightness(1.06);
+  transform:translateY(-2px) scale(1.01);
+  box-shadow:0 14px 34px color-mix(in srgb, var(--accent) 48%, transparent);
 }
-.err{
+.ios-submit-btn:active{
+  transform:scale(0.96);
+  filter:brightness(0.94);
+}
+.ios-err-msg{
   min-height:22px;
   color:#ef4444;
   font-size:13px;
-  font-weight:700;
+  font-weight:650;
   margin-top:12px;
   text-align:center;
+  animation:shake 0.35s ease;
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  20%,60%{transform:translateX(-6px);}
+  40%,80%{transform:translateX(6px);}
 }
 
-@keyframes float{to{transform:translate(35px,25px) scale(1.06)}}
-@keyframes pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+/* iOS Spring Lightbox Modal */
+.ios-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,0.65);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  opacity:0;
+  transition:opacity 0.3s var(--ease-ios);
+}
+.ios-modal.open{
+  display:flex;
+  opacity:1;
+}
+.ios-modal-card{
+  background:var(--card);
+  border:1px solid var(--card-border);
+  border-radius:32px;
+  padding:32px 24px 22px;
+  text-align:center;
+  box-shadow:var(--shadow-ios-lg);
+  max-width:min(90vw, 360px);
+  transform:scale(0.85);
+  transition:transform 0.4s var(--ease-spring);
+}
+.ios-modal.open .ios-modal-card{
+  transform:scale(1);
+}
+.ios-modal-card img{
+  max-width:220px;
+  max-height:220px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto 16px;
+  filter:drop-shadow(0 14px 28px rgba(0,0,0,0.18));
+}
+.ios-modal-card h3{
+  margin:0 0 4px;
+  font-size:19px;
+  font-weight:800;
+  color:var(--text-h);
+}
+.ios-modal-card p{
+  margin:0 0 20px;
+  font-size:13px;
+  color:var(--muted-dark);
+}
+.ios-modal-close{
+  border:0;
+  background:var(--accent-gradient);
+  color:#ffffff;
+  border-radius:14px;
+  padding:12px 28px;
+  font-size:14px;
+  font-weight:750;
+  cursor:pointer;
+  transition:transform 0.2s var(--ease-spring);
+}
+.ios-modal-close:active{
+  transform:scale(0.94);
+}
 
-@media(max-width:600px){
-  .top-bar{top:12px;left:12px;right:12px}
-  .screen{padding:16px 14px}
-  .brand-card{padding:10px 16px;gap:12px;margin-bottom:14px}
-  .brand-img{width:42px;height:42px}
-  .title{font-size:28px}
-  .subtitle{margin-bottom:18px;font-size:13px}
-  .role{padding:14px 16px}
-  .role-icon{width:34px;height:34px;font-size:18px}
-  .login-card{padding:24px 20px;border-radius:24px}
+/* iOS Keyframe Animations */
+@keyframes iosPopIn{
+  0%{opacity:0;transform:scale(0.75);}
+  100%{opacity:1;transform:scale(1);}
 }
-@media(max-height:640px){
-  .top-bar{position:static;margin-bottom:8px}
-  .brand-card{padding:8px 14px;margin-bottom:10px}
-  .brand-img{width:36px;height:36px}
-  .subtitle{margin-bottom:12px}
-  .role{padding:12px 14px}
-  .login-card{padding:20px 18px}
+@keyframes iosSlideUp{
+  0%{opacity:0;transform:translateY(24px) scale(0.96);}
+  100%{opacity:1;transform:translateY(0) scale(1);}
 }
-@media(prefers-reduced-motion:reduce){
-  .screen{transition:none}
-  .bg:before,.bg:after,.brand-card{animation:none}
+@keyframes iosDropIn{
+  0%{opacity:0;transform:translateY(-20px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:480px){
+  .ios-header{top:12px;padding:0 12px;}
+  .app-viewport{padding:14px;}
+  .ios-brand-widget{padding:10px 16px;gap:14px;margin-bottom:16px;}
+  .logo-img{width:46px;height:46px;}
+  .ios-title{font-size:30px;}
+  .ios-subtitle{font-size:13px;margin-bottom:18px;}
+  .role-card{padding:14px 16px;}
+  .role-squircle{width:38px;height:38px;}
+  .ios-login-card{padding:24px 20px;border-radius:26px;}
 }
 </style>
 </head>
 <body>
 
-<header class="top-bar">
-  <div class="school-badge">
-    <span class="badge-dot"></span>
-    <span>Portal Resmi • XII TKJ 3</span>
-  </div>
-  <div class="theme-switch">
-    <select id="themeSelect" aria-label="Mode Tampilan">
-      <option value="light">☀️ Light</option>
-      <option value="dark">🌙 Dark</option>
-      <option value="system">💻 Sistem</option>
-    </select>
+<!-- Animated iOS Ambient Glow -->
+<div class="ios-bg" aria-hidden="true">
+  <div class="mesh-orb orb-1"></div>
+  <div class="mesh-orb orb-2"></div>
+  <div class="mesh-orb orb-3"></div>
+</div>
+
+<!-- iOS Dynamic Header Capsule -->
+<header class="ios-header">
+  <div class="island-capsule">
+    <div class="island-status">
+      <span class="pulse-dot"></span>
+      <span>Portal XII TKJ 3</span>
+    </div>
+    <div class="island-sep"></div>
+    <div class="theme-segmented">
+      <select id="themeSelect" aria-label="Mode Tampilan">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="system">Sistem</option>
+      </select>
+    </div>
   </div>
 </header>
 
-<section id="chooser" class="screen active bg" aria-label="Pilih akun login">
-  <div class="wrap">
-    <div class="brand-card">
-      <img src="assets/galeri/logo-smk-transparent.png" alt="Logo SMK NU Bandar" class="brand-img" title="SMK NU Bandar">
-      <div class="brand-sep"></div>
-      <img src="assets/galeri/logo-kelas-light.png" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" alt="Logo Kelas XII TKJ 3" class="brand-img theme-logo" title="XII TKJ 3">
-    </div>
+<main class="app-viewport">
+  <!-- Screen 1: Chooser -->
+  <section id="chooser" class="screen active" aria-label="Pilih akun login">
+    <div class="wrap">
+      <!-- Dual Logo Widget: KIRI = Logo Kelas, KANAN = Logo SMK -->
+      <div class="ios-brand-widget">
+        <button type="button" class="logo-btn" id="btnLogoKelas" title="Ketuk untuk melihat Logo Kelas">
+          <img src="assets/galeri/logo-kelas-light.png" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" alt="Logo Kelas XII TKJ 3" class="logo-img theme-logo">
+          <span class="logo-caption">Kelas</span>
+        </button>
 
-    <h1 class="title">XII TKJ 3 <span class="gradient">Portal</span></h1>
-    <p class="subtitle">SMK NU BANDAR • Pilih jenis akun untuk masuk</p>
+        <div class="logo-divider"></div>
 
-    <div class="roles">
-      <button class="role siswa" data-role="siswa" type="button">
-        <span class="role-icon">👨‍🎓</span>
-        <span class="role-info">
-          <b>Masuk Siswa</b>
-          <small>Absensi, tugas, materi, jadwal & nilai</small>
-        </span>
-        <span class="arrow">›</span>
-      </button>
-
-      <button class="role guru" data-role="guru" type="button">
-        <span class="role-icon">👨‍🏫</span>
-        <span class="role-info">
-          <b>Masuk Guru</b>
-          <small>Kelola materi, tugas, nilai & absensi pelajaran</small>
-        </span>
-        <span class="arrow">›</span>
-      </button>
-
-      <button class="role admin" data-role="admin" type="button">
-        <span class="role-icon">🛡️</span>
-        <span class="role-info">
-          <b>Masuk Admin</b>
-          <small>Kelola data siswa, guru, jadwal, struktur & galeri</small>
-        </span>
-        <span class="arrow">›</span>
-      </button>
-    </div>
-  </div>
-</section>
-
-<section id="login" class="screen bg" aria-label="Form login">
-  <div class="login-card">
-    <div class="login-header">
-      <button id="back" class="back-btn" type="button">← Pilih Akun</button>
-      <span id="roleBadge" class="role-badge siswa">Siswa</span>
-    </div>
-
-    <h2 id="roleTitle" class="role-title">Login Siswa</h2>
-    <p id="roleDesc" class="role-desc">Masukkan username dan password akun siswa.</p>
-
-    <form id="loginForm" onsubmit="return false;">
-      <div class="field">
-        <label for="username">Username</label>
-        <input id="username" autocomplete="username" spellcheck="false" placeholder="Masukkan username" required>
+        <button type="button" class="logo-btn" id="btnLogoSmk" title="Ketuk untuk melihat Logo SMK">
+          <img src="assets/galeri/logo-smk-transparent.png" alt="Logo SMK NU Bandar" class="logo-img">
+          <span class="logo-caption">SMK</span>
+        </button>
       </div>
 
-      <div class="field">
-        <label for="password">Password</label>
-        <div class="input-wrap">
-          <input id="password" type="password" autocomplete="current-password" placeholder="Masukkan password" required>
-          <button id="eye" class="eye" type="button" aria-label="Tampilkan password">
-            <svg id="eyeOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg>
-            <svg id="eyeClosed" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l18 18"/><path d="M10.6 6.2A10.9 10.9 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-3.1 3.7M6.2 6.2C3.5 8.1 2 12 2 12s3.5 6 10 6c1.2 0 2.3-.2 3.3-.6"/></svg>
+      <h1 class="ios-title">XII TKJ 3 <span class="ios-gradient-text">Portal</span></h1>
+      <p class="ios-subtitle">SMK NU BANDAR • Masuk sesuai akun Anda</p>
+
+      <div class="roles-stack">
+        <button class="role-card siswa-gradient" data-role="siswa" type="button">
+          <div class="role-squircle">
+            <svg class="role-svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+          </div>
+          <div class="role-meta">
+            <b>Siswa</b>
+            <small>Absensi, tugas, materi, jadwal & nilai</small>
+          </div>
+          <svg class="role-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        <button class="role-card guru-gradient" data-role="guru" type="button">
+          <div class="role-squircle">
+            <svg class="role-svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+          </div>
+          <div class="role-meta">
+            <b>Guru</b>
+            <small>Kelola materi, tugas, nilai & absensi</small>
+          </div>
+          <svg class="role-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        <button class="role-card admin-gradient" data-role="admin" type="button">
+          <div class="role-squircle">
+            <svg class="role-svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="role-meta">
+            <b>Admin</b>
+            <small>Kelola data siswa, guru, jadwal & galeri</small>
+          </div>
+          <svg class="role-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 2: Login Form Sheet -->
+  <section id="login" class="screen" aria-label="Form login">
+    <div class="wrap">
+      <div class="ios-login-card">
+        <div class="card-nav-row">
+          <button id="back" class="ios-back-btn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" style="width:16px;height:16px;stroke:currentColor"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Pilih Akun</span>
           </button>
+          <span id="roleBadge" class="ios-badge siswa">Siswa</span>
         </div>
-      </div>
 
-      <button id="submit" class="submit" type="submit">Masuk ke Portal →</button>
-      <div id="err" class="err" role="alert"></div>
-    </form>
+        <h2 id="roleTitle" class="login-heading">Login Siswa</h2>
+        <p id="roleDesc" class="login-subheading">Masukkan username dan password akun Anda.</p>
+
+        <form id="loginForm" onsubmit="return false;">
+          <div class="ios-field">
+            <label class="ios-label" for="username">Username</label>
+            <div class="ios-input-box">
+              <input id="username" class="ios-input" autocomplete="username" spellcheck="false" placeholder="Masukkan username" required>
+            </div>
+          </div>
+
+          <div class="ios-field">
+            <label class="ios-label" for="password">Password</label>
+            <div class="ios-input-box">
+              <input id="password" class="ios-input" type="password" autocomplete="current-password" placeholder="Masukkan password" required>
+              <button id="eye" class="ios-eye-btn" type="button" aria-label="Tampilkan password">
+                <svg id="eyeOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                <svg id="eyeClosed" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l18 18"/><path d="M10.6 6.2A10.9 10.9 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-3.1 3.7M6.2 6.2C3.5 8.1 2 12 2 12s3.5 6 10 6c1.2 0 2.3-.2 3.3-.6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <button id="submit" class="ios-submit-btn" type="submit">Masuk ke Portal</button>
+          <div id="err" class="ios-err-msg" role="alert"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- iOS Spring Modal for Full Logo View -->
+<div id="logoModal" class="ios-modal" aria-hidden="true">
+  <div class="ios-modal-card">
+    <img id="logoModalImg" src="" alt="Pratinjau Logo">
+    <h3 id="logoModalTitle">Logo</h3>
+    <p id="logoModalSub">Identitas Resmi</p>
+    <button type="button" class="ios-modal-close" id="logoModalClose">Selesai</button>
   </div>
-</section>
+</div>
 
 <script>
-/* Theme System */
+/* iOS Theme Engine */
 const THEME_KEY = 'xii-tkj3-theme';
 const root = document.documentElement;
 const themeSelect = document.getElementById('themeSelect');
@@ -573,7 +849,40 @@ if (media.addEventListener) {
   });
 }
 
-/* Authentication & Navigation */
+/* iOS Spring Modal Logo Viewer */
+const modal = document.getElementById('logoModal');
+const modalImg = document.getElementById('logoModalImg');
+const modalTitle = document.getElementById('logoModalTitle');
+const modalSub = document.getElementById('logoModalSub');
+const modalClose = document.getElementById('logoModalClose');
+
+function openLogo(src, title, sub) {
+  modalImg.src = src;
+  modalTitle.textContent = title;
+  modalSub.textContent = sub;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+}
+function closeLogo() {
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+}
+
+document.getElementById('btnLogoKelas').addEventListener('click', () => {
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  const src = isDark ? 'assets/galeri/logo-kelas-dark.png' : 'assets/galeri/logo-kelas-light.png';
+  openLogo(src, 'Logo Kelas XII TKJ 3', 'Teknik Komputer & Jaringan • SMK NU Bandar');
+});
+
+document.getElementById('btnLogoSmk').addEventListener('click', () => {
+  openLogo('assets/galeri/logo-smk-transparent.png', 'Logo SMK NU Bandar', 'Sekolah Menengah Kejuruan Nahdlatul Ulama Bandar');
+});
+
+modalClose.addEventListener('click', closeLogo);
+modal.addEventListener('click', e => { if (e.target === modal) closeLogo(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLogo(); });
+
+/* Authentication & Smooth Slide Transitions */
 const accounts = {
   siswa: { username: "rama", password: "010909", target: "siswa.html", label: "Siswa", color: "siswa" },
   guru:  { username: "andi", password: "smknubandar", target: "guru.html", label: "Guru", color: "guru" },
@@ -590,17 +899,17 @@ function showLogin(r) {
   $("roleTitle").textContent = "Login " + acc.label;
   $("roleDesc").textContent = "Masukkan username dan password akun " + acc.label.toLowerCase() + ".";
   $("roleBadge").textContent = acc.label;
-  $("roleBadge").className = "role-badge " + acc.color;
+  $("roleBadge").className = "ios-badge " + acc.color;
   $("username").value = "";
   $("password").value = "";
   $("err").textContent = "";
   $("password").type = "password";
   $("eyeOpen").style.display = "block";
   $("eyeClosed").style.display = "none";
-  setTimeout(() => $("username").focus(), 250);
+  setTimeout(() => $("username").focus(), 300);
 }
 
-document.querySelectorAll(".role").forEach(b => {
+document.querySelectorAll(".role-card").forEach(b => {
   b.addEventListener("click", () => showLogin(b.dataset.role));
 });
 
