@@ -10,7 +10,7 @@
 </style>
 <style>
 /* Data Siswa manager */
-.student-manager{display:grid;gap:10px}.student-row{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center;padding:12px;border-radius:18px;background:#ffffff58;border:1px solid #ffffffb8}.student-number{font-weight:900;color:#11834a;text-align:center}.student-name-input{width:100%;padding:12px 14px;border:1px solid #ffffffd9;border-radius:15px;background:#ffffff94;outline:0;font:inherit}.student-actions{display:flex;gap:7px}.student-actions button{border:0;border-radius:13px;padding:10px 12px;cursor:pointer;font-weight:800;background:#111827;color:#fff}.student-actions .danger{background:#fff;color:#b42318;border:1px solid #ffd0cb}.student-count-note{font-size:12px;color:#687386;margin-top:8px}
+.student-manager{display:grid;gap:10px}.student-row{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center;padding:12px;border-radius:18px;background:#ffffff58;border:1px solid #ffffffb8}.student-number{font-weight:900;color:#11834a;text-align:center}.student-name-input{width:100%;padding:12px 14px;border:1px solid #ffffffd9;border-radius:15px;background:#ffffff94;outline:0;font:inherit}.student-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.student-actions button{border:0;border-radius:13px;padding:10px 12px;cursor:pointer;font-weight:800;background:#111827;color:#fff}.student-actions .danger{background:#fff;color:#b42318;border:1px solid #ffd0cb}.student-account-badge{font-size:11px;font-weight:850;color:#11834a;background:#11834a1a;padding:8px 11px;border-radius:12px;white-space:nowrap}.student-actions .account-btn{background:#0284c7}.student-count-note{font-size:12px;color:#687386;margin-top:8px}
 @media(max-width:600px){.student-row{grid-template-columns:38px 1fr}.student-actions{grid-column:2}.student-actions button{flex:1}}
 </style>
 <style>
@@ -551,7 +551,7 @@ button,input,select,textarea{font:inherit}
 <script src="auth-guard.js"></script>
 </head><body class="admin-gate">
 <header class="nav glass"><a class="brand" href="index.html"><div style="display:flex;align-items:center;gap:6px"><img class="class-logo theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3" style="width:34px;height:34px;object-fit:contain;cursor:zoom-in"><img src="assets/galeri/logo-smk-transparent.png" alt="Logo SMK" data-lightbox="assets/galeri/logo-smk-transparent.png" style="width:34px;height:34px;object-fit:contain;cursor:zoom-in"></div>XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#guru">Data Guru</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><button class="logout" id="logout">Keluar</button></header>
-<section id="adminLoginGate" class="section admin-login-section"><div class="container"><div class="card glass">
+<section id="adminLoginGate" class="section admin-login-section" style="display:none"><div class="container"><div class="card glass">
 <div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username &amp; Password untuk membuka halaman Admin</p>
 <div class="login-field"><label>USERNAME</label><input id="gateUser" class="login-input" autocomplete="username"></div>
 <div class="login-field"><label>PASSWORD</label><div class="password-field"><input id="gatePassword" class="login-input" type="password" autocomplete="current-password"><button type="button" class="password-toggle" id="gatePasswordToggle" aria-label="Tampilkan password" aria-pressed="false" title="Tampilkan password"><svg class="eye-icon eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.7"/></svg><svg class="eye-icon eye-closed" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 6.2A10.6 10.6 0 0 1 12 6c6.5 0 10 6 10 6a18.8 18.8 0 0 1-3.2 3.6"/><path d="M6.2 8.1C3.8 9.7 2 12 2 12s3.5 6 10 6a10.6 10.6 0 0 0 3.4-.55"/><path d="M9.9 9.9a2.7 2.7 0 0 0 3.8 3.8"/></svg></button></div></div>
@@ -575,7 +575,7 @@ button,input,select,textarea{font:inherit}
 <div class="attendance-date-head"><span class="selected-date" id="selectedDateText"></span><span class="desc" style="font-size:12px">Data diperbarui otomatis saat ada siswa yang absen.</span></div>
 <div id="tableBox"></div>
 </div></div></section>
-<section id="guru" class="section"><div class="container"><div class="head"><div class="kicker">DATA GURU</div><h2>Kelola Guru</h2><p class="desc">Buat profil guru dan tentukan mata pelajaran yang diampu. Akun login Firebase tetap dibuat di Authentication.</p></div><div class="panel glass"><div class="manager-form" style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px"><input id="teacherNameInput" class="manager-input" placeholder="Nama guru"><input id="teacherEmailInput" class="manager-input" placeholder="Email akun Firebase"><input id="teacherSubjectsInput" class="manager-input" placeholder="Mapel, pisahkan koma"><input id="teacherUidInput" class="manager-input" placeholder="UID Firebase"><button type="button" class="btn primary" id="saveTeacher">Simpan</button></div><div id="teacherMessage" class="schedule-message"></div><div id="teacherManagerList" class="student-manager"></div></div></div></section><section id="siswa" class="section"><div class="container"><div class="head"><div class="kicker">DATA SISWA</div><h2>Kelola Data Siswa</h2><p class="desc">Edit atau hapus nama siswa yang sudah ada. Tidak ada tombol tambah siswa. Perubahan akan langsung digunakan untuk absensi dan jumlah siswa di halaman utama.</p></div><div class="panel glass"><div id="studentManager" class="student-manager"><div class="empty">Memuat data siswa...</div></div><div class="student-count-note" id="studentManagerMessage"></div></div></div></section>
+<section id="guru" class="section"><div class="container"><div class="head"><div class="kicker">DATA GURU</div><h2>Kelola Guru</h2><p class="desc">Tambah akun guru baru lengkap dengan username &amp; password untuk login di Portal, serta mata pelajaran yang diampu.</p></div><div class="panel glass"><div class="manager-form" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="teacherNameInput" class="manager-input" placeholder="Nama guru"><input id="teacherUsernameInput" class="manager-input" placeholder="Username login"><input id="teacherPasswordInput" class="manager-input" type="password" placeholder="Password login" autocomplete="new-password"><input id="teacherSubjectsInput" class="manager-input" placeholder="Mapel, pisahkan koma"><input id="teacherEmailInput" class="manager-input" placeholder="Email (opsional)"><button type="button" class="btn primary" id="saveTeacher" style="grid-column:1/-1">Tambah Akun Guru</button></div><div id="teacherMessage" class="schedule-message"></div><div id="teacherManagerList" class="student-manager"></div></div></div></section><section id="siswa" class="section"><div class="container"><div class="head"><div class="kicker">DATA SISWA</div><h2>Kelola Data Siswa</h2><p class="desc">Tambah siswa baru lengkap dengan akun login (username &amp; password) sendiri-sendiri, supaya tiap siswa punya halaman pribadi tanpa perlu pilih nama secara manual. Siswa lama yang belum punya akun bisa dibuatkan lewat tombol "Buat Akun".</p></div><div class="panel glass"><div class="manager-form" style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;margin-bottom:14px"><input id="newStudentName" class="manager-input" placeholder="Nama siswa baru"><input id="newStudentUsername" class="manager-input" placeholder="Username login"><input id="newStudentPassword" class="manager-input" type="password" placeholder="Password login" autocomplete="new-password"><button type="button" class="btn primary" id="addStudent">Tambah Siswa</button></div><div id="studentManager" class="student-manager"><div class="empty">Memuat data siswa...</div></div><div class="student-count-note" id="studentManagerMessage"></div></div></div></section>
 <section id="struktur" class="section"><div class="container"><div class="head"><div class="kicker">KELAS</div><h2>Struktur Kelas</h2><p class="desc">Isi struktur dibuat sama seperti halaman siswa. Kamu bisa mengganti nama setiap orang langsung dari kartu di bawah, lalu simpan.</p></div><div id="structureEditor" class="admin-structure-grid"></div><div class="panel glass structure-save-panel"><div class="schedule-actions"><button class="btn" id="saveStructure">💾 Simpan Struktur</button><span id="structureMessage" class="schedule-message"></span></div></div></div></section>
 <section id="jadwal" class="section"><div class="container">
 <div class="head"><div><div class="kicker">PELAJARAN</div><h2>Kelola Jadwal Kelas</h2><p class="desc">Edit jam dan mata pelajaran di sini. Setelah disimpan, jadwal akan langsung tampil di halaman siswa.</p></div></div>
@@ -925,10 +925,11 @@ function renderStudentManager(){
  const el=document.getElementById("studentManager"),msg=document.getElementById("studentManagerMessage");
  if(!el)return;
  if(!studentData.length){el.innerHTML='<div class="empty">Belum ada data siswa.</div>'; if(msg)msg.textContent="0 siswa"; return;}
- el.innerHTML=studentData.map((x,i)=>`<div class="student-row"><div class="student-number">${i+1}</div><input class="student-name-input" data-student-id="${safe(x.id)}" value="${safe(x.nama||"")}" aria-label="Nama siswa ${i+1}"><div class="student-actions"><button type="button" data-student-save="${safe(x.id)}">Simpan</button><button type="button" class="danger" data-student-delete="${safe(x.id)}">Hapus</button></div></div>`).join("");
- if(msg)msg.textContent=`${studentData.length} siswa • Edit nama atau hapus siswa yang dipilih.`;
+ el.innerHTML=studentData.map((x,i)=>`<div class="student-row"><div class="student-number">${i+1}</div><input class="student-name-input" data-student-id="${safe(x.id)}" value="${safe(x.nama||"")}" aria-label="Nama siswa ${i+1}"><div class="student-actions">${x.username?`<span class="student-account-badge" title="Sudah punya akun login sendiri">🔑 ${safe(x.username)}</span>`:`<button type="button" class="account-btn" data-student-account="${safe(x.id)}">Buat Akun</button>`}<button type="button" data-student-save="${safe(x.id)}">Simpan</button><button type="button" class="danger" data-student-delete="${safe(x.id)}">Hapus</button></div></div>`).join("");
+ if(msg)msg.textContent=`${studentData.length} siswa • ${studentData.filter(x=>x.username).length} sudah punya akun login sendiri.`;
  el.querySelectorAll("[data-student-save]").forEach(btn=>btn.onclick=()=>saveStudent(btn.dataset.studentSave));
  el.querySelectorAll("[data-student-delete]").forEach(btn=>btn.onclick=()=>deleteStudent(btn.dataset.studentDelete));
+ el.querySelectorAll("[data-student-account]").forEach(btn=>btn.onclick=()=>createAccountForStudent(btn.dataset.studentAccount));
 }
 async function loadStudents(){
  const msg=document.getElementById("studentManagerMessage");
@@ -952,10 +953,58 @@ async function deleteStudent(id){
  if(!confirm(`Hapus siswa "${row.nama}"? Data absensi lama siswa ini tidak ikut dihapus.`))return;
  try{
   await deleteDoc(doc(managerDb,"siswa",id));
+  if(row.username)await deleteDoc(doc(managerDb,"accounts",row.username)).catch(()=>{});
   studentData=studentData.filter(x=>x.id!==id); renderStudentManager();
   showManagerToast("Siswa dihapus",`${row.nama} sudah dihapus dari daftar siswa.`);
  }catch(e){console.error(e);showManagerToast("Gagal menghapus","Periksa Firestore Rules untuk collection siswa.");}
 }
+async function hashPw(pw){
+ const data=new TextEncoder().encode(pw);
+ const h=await crypto.subtle.digest("SHA-256",data);
+ return[...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+async function createStudentAccount(username,password,nama){
+ username=username.trim().toLowerCase();
+ if(!username||password.length<4)return{ok:false,message:"Username wajib diisi dan password minimal 4 karakter."};
+ const existing=await getDoc(doc(managerDb,"accounts",username));
+ if(existing.exists())return{ok:false,message:`Username "${username}" sudah dipakai, pilih username lain.`};
+ const passwordHash=await hashPw(password);
+ await setDoc(doc(managerDb,"accounts",username),{username,passwordHash,role:"siswa",nama,createdAt:Date.now()});
+ return{ok:true};
+}
+async function createAccountForStudent(id){
+ const row=studentData.find(x=>x.id===id); if(!row)return;
+ const username=(prompt(`Username login untuk ${row.nama}:`)||"").trim();
+ if(!username)return;
+ const password=prompt(`Password login untuk ${row.nama} (minimal 4 karakter):`)||"";
+ try{
+  const result=await createStudentAccount(username,password,row.nama);
+  if(!result.ok){showManagerToast("Gagal membuat akun",result.message);return;}
+  await updateDoc(doc(managerDb,"siswa",id),{username:username.toLowerCase()});
+  showManagerToast("Akun dibuat",`${row.nama} sekarang bisa login sendiri dengan username "${username.toLowerCase()}".`);
+  await loadStudents();
+ }catch(e){console.error(e);showManagerToast("Gagal membuat akun","Periksa Firestore Rules untuk collection accounts."+(e.message?" ("+e.message+")":""));}
+}
+async function addStudent(){
+ const nameInput=document.getElementById("newStudentName"),userInput=document.getElementById("newStudentUsername"),passInput=document.getElementById("newStudentPassword"),btn=document.getElementById("addStudent");
+ const name=nameInput?.value.trim(),username=userInput?.value.trim(),password=passInput?.value||"";
+ if(!name){showManagerToast("Nama belum diisi","Masukkan nama siswa yang ingin ditambahkan.");return;}
+ if(!username||!password){showManagerToast("Akun belum diisi","Isi username & password (minimal 4 karakter) agar siswa punya akun login sendiri.");return;}
+ btn.disabled=true;
+ try{
+  const result=await createStudentAccount(username,password,name);
+  if(!result.ok){showManagerToast("Gagal membuat akun",result.message);return;}
+  const nextUrutan=studentData.reduce((max,x)=>Math.max(max,Number(x.urutan)||0),0)+1;
+  const id=`siswa-${String(Date.now()).slice(-6)}`;
+  await setDoc(doc(managerDb,"siswa",id),{nama:name,urutan:nextUrutan,username:username.trim().toLowerCase(),createdAt:Date.now()});
+  nameInput.value="";userInput.value="";passInput.value="";
+  await loadStudents();
+  showManagerToast("Siswa ditambahkan",`${name} sudah bisa login sendiri dengan username "${username.trim().toLowerCase()}".`);
+ }catch(e){console.error(e);showManagerToast("Gagal menambah","Periksa Firestore Rules untuk collection siswa/accounts."+(e.message?" ("+e.message+")":""));}
+ finally{btn.disabled=false;}
+}
+document.getElementById("addStudent").onclick=addStudent;
+[document.getElementById("newStudentName"),document.getElementById("newStudentUsername"),document.getElementById("newStudentPassword")].forEach(inp=>inp?.addEventListener("keydown",e=>{if(e.key==="Enter")addStudent();}));
 loadStudents();
 
 /* ---------- Struktur Kelas ---------- */
@@ -1139,12 +1188,29 @@ loadGallery();
 (()=>{const lb=document.getElementById('lightbox'),im=document.getElementById('lightboxImage'),close=document.getElementById('lightboxClose');function open(src){im.src=src;lb.classList.add('open');lb.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}function shut(){lb.classList.remove('open');lb.setAttribute('aria-hidden','true');im.src='';document.body.style.overflow=''}document.querySelectorAll('[data-lightbox]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();open(el.dataset.lightbox)}));close.addEventListener('click',e=>{e.stopPropagation();shut()});lb.addEventListener('click',e=>{if(e.target===lb)shut()});document.addEventListener('keydown',e=>{if(e.key==='Escape')shut()})})();
 </script>
 <script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";import{getFirestore,collection,onSnapshot,doc,setDoc,deleteDoc}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";import{getFirestore,collection,onSnapshot,doc,getDoc,setDoc,deleteDoc}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 const firebaseConfig={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
 const a=initializeApp(firebaseConfig,'teacherProfiles'),db2=getFirestore(a),el=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-function renderTeachers(rows){const box=el('teacherManagerList');if(!box)return;box.innerHTML=rows.length?rows.map(x=>`<div class="student-row"><div class="student-number">${esc(x.nama||'?').slice(0,1)}</div><div style="flex:1"><b>${esc(x.nama)}</b><div class="desc">${esc(x.email||'')} · ${(x.mataPelajaran||[]).map(esc).join(', ')}</div><small>UID: ${esc(x.id)}</small></div><div class="student-actions"><button type="button" data-del-guru="${esc(x.id)}">Hapus</button></div></div>`).join(''):'<div class="empty">Belum ada profil guru.</div>';box.querySelectorAll('[data-del-guru]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus profil guru?'))await deleteDoc(doc(db2,'users',b.dataset.delGuru))})}
+async function hashPw(pw){const data=new TextEncoder().encode(pw);const h=await crypto.subtle.digest("SHA-256",data);return[...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join("")}
+function renderTeachers(rows){const box=el('teacherManagerList');if(!box)return;box.innerHTML=rows.length?rows.map(x=>`<div class="student-row"><div class="student-number">${esc(x.nama||'?').slice(0,1)}</div><div style="flex:1"><b>${esc(x.nama)}</b><div class="desc">${esc(x.email||'')} · ${(x.mataPelajaran||[]).map(esc).join(', ')}</div><small>Username: ${esc(x.id)}</small></div><div class="student-actions"><button type="button" data-del-guru="${esc(x.id)}">Hapus</button></div></div>`).join(''):'<div class="empty">Belum ada akun guru.</div>';box.querySelectorAll('[data-del-guru]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus akun guru ini? Guru tidak akan bisa login lagi.')){await deleteDoc(doc(db2,'users',b.dataset.delGuru));await deleteDoc(doc(db2,'accounts',b.dataset.delGuru)).catch(()=>{})}})}
 onSnapshot(collection(db2,'users'),snap=>renderTeachers(snap.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x.role==='guru')));
-el('saveTeacher')?.addEventListener('click',async()=>{const uid=el('teacherUidInput').value.trim(),name=el('teacherNameInput').value.trim(),email=el('teacherEmailInput').value.trim(),subs=el('teacherSubjectsInput').value.split(',').map(x=>x.trim()).filter(Boolean);if(!uid||!name||!subs.length){el('teacherMessage').textContent='UID, nama, dan minimal satu mapel wajib diisi.';return}await setDoc(doc(db2,'users',uid),{role:'guru',nama:name,email,mataPelajaran:subs,updatedAt:Date.now()},{merge:true});el('teacherMessage').textContent='✅ Profil guru tersimpan. Buat/atur akun dengan UID yang sama di Firebase Authentication.';['teacherUidInput','teacherNameInput','teacherEmailInput','teacherSubjectsInput'].forEach(x=>el(x).value='')});
+el('saveTeacher')?.addEventListener('click',async()=>{
+  const btn=el('saveTeacher'),msg=el('teacherMessage');
+  const username=el('teacherUsernameInput').value.trim().toLowerCase(),password=el('teacherPasswordInput').value,name=el('teacherNameInput').value.trim(),email=el('teacherEmailInput').value.trim(),subs=el('teacherSubjectsInput').value.split(',').map(x=>x.trim()).filter(Boolean);
+  if(!username||!password||!name||!subs.length){msg.textContent='Nama, username, password, dan minimal satu mapel wajib diisi.';return}
+  if(password.length<4){msg.textContent='Password minimal 4 karakter.';return}
+  btn.disabled=true;
+  try{
+    const existing=await getDoc(doc(db2,'accounts',username));
+    if(existing.exists()){msg.textContent='❌ Username sudah dipakai, pilih username lain.';return}
+    const passwordHash=await hashPw(password);
+    await setDoc(doc(db2,'accounts',username),{username,passwordHash,role:'guru',nama:name,createdAt:Date.now()});
+    await setDoc(doc(db2,'users',username),{role:'guru',nama:name,email,mataPelajaran:subs,updatedAt:Date.now()},{merge:true});
+    msg.textContent='✅ Akun guru dibuat. Guru bisa langsung login di Portal dengan username & password ini.';
+    ['teacherUsernameInput','teacherPasswordInput','teacherNameInput','teacherEmailInput','teacherSubjectsInput'].forEach(x=>el(x).value='');
+  }catch(e){console.error(e);msg.textContent='❌ Gagal membuat akun guru: '+(e.message||e);}
+  finally{btn.disabled=false;}
+});
 </script><script>if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script><style id="admin-page-nav-v65">.v65-admin-hidden{display:none!important}.v65-admin-nav{width:min(1050px,calc(100% - 28px));margin:10px auto 16px;display:flex;gap:8px;flex-wrap:wrap}.v65-admin-nav .btn.active{outline:2px solid currentColor;outline-offset:2px}@media(max-width:700px){.v65-admin-nav{overflow:auto;flex-wrap:nowrap}.v65-admin-nav .btn{white-space:nowrap}}</style><script>
 (()=>{const ids=['dashboard','statistik','data-absensi','siswa','guru','struktur','jadwal','galeri'];const labels={dashboard:'Utama',statistik:'Jumlah Mapel', 'data-absensi':'Data Absensi',siswa:'Data Siswa',guru:'Data Guru',struktur:'Struktur',jadwal:'Jadwal',galeri:'Galeri'};const secs=ids.map(id=>document.getElementById(id)).filter(Boolean);if(!secs.length)return;const nav=document.createElement('div');nav.className='v65-admin-nav';ids.forEach(id=>{if(!document.getElementById(id))return;const b=document.createElement('a');b.href='#'+id;b.className='btn';b.textContent=labels[id];b.dataset.id=id;nav.appendChild(b)});const content=document.getElementById('content');if(content)content.prepend(nav);function show(id,scroll=true){if(!ids.includes(id)||!document.getElementById(id))id='dashboard';secs.forEach(s=>s.classList.toggle('v65-admin-hidden',s.id!==id));nav.querySelectorAll('[data-id]').forEach(b=>b.classList.toggle('active',b.dataset.id===id));if(scroll)document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'})}function hash(){show(location.hash.slice(1)||'dashboard',false)}window.addEventListener('hashchange',hash);hash();})();
 </script>

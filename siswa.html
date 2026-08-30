@@ -1186,6 +1186,7 @@ const defaultStudents = [
 ];
 
 /* 1. Load Students List */
+let studentHasOwnAccount = false;
 async function loadStudents() {
   try {
     const snap = await getDocs(collection(db, "siswa"));
@@ -1199,10 +1200,20 @@ async function loadStudents() {
     q('absenNama').innerHTML = opts;
     q('subNama').innerHTML = opts;
 
-    const match = students.find(s => s.toLowerCase().includes(studentName.toLowerCase()));
+    // Jika siswa login dengan akun sendiri (bukan akun bersama), namanya
+    // dicocokkan persis dan dikunci — tidak perlu (dan tidak bisa) pilih nama lain.
+    const exactMatch = students.find(s => s.toLowerCase() === studentName.toLowerCase());
+    const match = exactMatch || students.find(s => s.toLowerCase().includes(studentName.toLowerCase()));
     if (match) {
       q('absenNama').value = match;
       q('subNama').value = match;
+    }
+    if (exactMatch && userSession.username && userSession.username !== "rama") {
+      studentHasOwnAccount = true;
+      [q('absenNama'), q('subNama')].forEach(sel => {
+        sel.disabled = true;
+        sel.title = "Nama terkunci ke akun Anda sendiri.";
+      });
     }
     q('statStudentCount').textContent = students.length;
   } catch (e) {

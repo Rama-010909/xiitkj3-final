@@ -818,6 +818,30 @@ html,body{
   </div>
 </div>
 
+<script type="module">
+/* Cek akun tambahan (siswa/guru/admin) yang dibuat lewat panel Admin */
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import{getFirestore,doc,getDoc}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
+const portalApp=initializeApp(firebaseConfig,"portalLogin");
+const portalDb=getFirestore(portalApp);
+async function sha256(text){
+  const data=new TextEncoder().encode(text);
+  const hash=await crypto.subtle.digest("SHA-256",data);
+  return[...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+window.checkFirestoreAccount=async function(username,password,role){
+  try{
+    const snap=await getDoc(doc(portalDb,"accounts",username));
+    if(!snap.exists())return null;
+    const d=snap.data();
+    if(d.role!==role)return null;
+    const hashed=await sha256(password);
+    if(d.passwordHash!==hashed)return null;
+    return d;
+  }catch(e){console.warn("Cek akun Firestore gagal:",e);return null;}
+};
+</script>
 <script>
 /* iOS Theme Engine */
 const THEME_KEY = 'xii-tkj3-theme';
@@ -926,7 +950,7 @@ $("eye").addEventListener("click", () => {
   $("eyeClosed").style.display = isPass ? "block" : "none";
 });
 
-function doLogin() {
+async function doLogin() {
   const a = accounts[selectedRole];
   const u = $("username").value.trim().toLowerCase();
   const p = $("password").value;
@@ -934,14 +958,35 @@ function doLogin() {
     $("err").textContent = "Username dan password wajib diisi.";
     return;
   }
-  if (!a || u !== a.username || p !== a.password) {
+
+  let nama = null;
+
+  // 1) Akun default bawaan (testing)
+  if (a && u === a.username && p === a.password) {
+    nama = a.label;
+  }
+
+  // 2) Akun tambahan yang dibuat admin lewat panel Admin (tersimpan di Firestore)
+  if (!nama && window.checkFirestoreAccount) {
+    $("submit").disabled = true;
+    $("err").textContent = "";
+    try {
+      const found = await window.checkFirestoreAccount(u, p, selectedRole);
+      if (found) nama = found.nama || u;
+    } finally {
+      $("submit").disabled = false;
+    }
+  }
+
+  if (!nama) {
     $("err").textContent = "Username atau password salah.";
     return;
   }
+
   sessionStorage.setItem("tkj3_session", JSON.stringify({
     username: u,
     role: selectedRole,
-    nama: a.label
+    nama: nama
   }));
   if (selectedRole === "admin") {
     sessionStorage.setItem("admin", "1");
