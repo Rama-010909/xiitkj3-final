@@ -550,7 +550,7 @@ button,input,select,textarea{font:inherit}
 
 <script src="auth-guard.js"></script>
 </head><body class="admin-gate">
-<header class="nav glass"><a class="brand" href="index.html"><img class="class-logo theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#guru">Data Guru</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><button class="logout" id="logout">Keluar</button></header>
+<header class="nav glass"><a class="brand" href="index.html"><div style="display:flex;align-items:center;gap:6px"><img src="assets/galeri/logo-smk-transparent.png" alt="Logo SMK" style="width:34px;height:34px;object-fit:contain"><img class="class-logo theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3" style="width:34px;height:34px;object-fit:contain"></div>XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#guru">Data Guru</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><button class="logout" id="logout">Keluar</button></header>
 <section id="adminLoginGate" class="section admin-login-section"><div class="container"><div class="card glass">
 <div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username &amp; Password untuk membuka halaman Admin</p>
 <div class="login-field"><label>USERNAME</label><input id="gateUser" class="login-input" autocomplete="username"></div>
@@ -635,10 +635,21 @@ const dayOrder=["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
 const dayIds={Senin:"senin",Selasa:"selasa",Rabu:"rabu",Kamis:"kamis",Jumat:"jumat",Sabtu:"sabtu"};
 const defaultSchedule={Senin:[],Selasa:[],Rabu:[],Kamis:[],Jumat:[],Sabtu:[]};
 
+const rawSession = sessionStorage.getItem("tkj3_session");
+let isPortalAdmin = false;
+if(rawSession){
+  try{
+    const u = JSON.parse(rawSession);
+    if(u.role === "admin") isPortalAdmin = true;
+  }catch(_){}
+}
+if(isPortalAdmin){
+  sessionStorage.admin = "1";
+}
+
 const adminParams=new URLSearchParams(location.search);
-const enteredFromStudent=adminParams.get("from")==="student";
 const authenticated=adminParams.get("auth")==="1" && sessionStorage.admin==="1";
-const canEnterWithoutLogin=enteredFromStudent && sessionStorage.admin==="1" && sessionStorage.adminEntry==="student";
+const canEnterWithoutLogin=sessionStorage.admin==="1" || isPortalAdmin;
 const gate=document.getElementById("adminLoginGate");
 
 function openDashboard(){
@@ -667,19 +678,23 @@ gateToggle.onclick=()=>{
   gateToggle.setAttribute("aria-label",show?"Sembunyikan password":"Tampilkan password");
 };
 function doGateLogin(){
-  const u=document.getElementById("gateUser").value.trim();
+  const u=document.getElementById("gateUser").value.trim().toLowerCase();
   const pw=gatePassword.value;
   const msg=document.getElementById("gateMsg");
   if(u==="tkj3" && pw==="smknubandar"){
+    sessionStorage.setItem("tkj3_session", JSON.stringify({username:u, role:"admin", nama:"Admin XII TKJ 3"}));
     sessionStorage.admin="1";
-    sessionStorage.adminEntry=enteredFromStudent?"student":"direct";
-    location.href="/admin?auth=1";
+    document.body.className="admin-authenticated";
+    openDashboard();
   }else msg.textContent="❌ Username atau Password salah.";
 }
 document.getElementById("gateLogin").onclick=doGateLogin;
 gatePassword.addEventListener("keydown",e=>{if(e.key==="Enter")doGateLogin()});
 
-document.getElementById("logout").onclick=()=>{sessionStorage.removeItem("admin");sessionStorage.removeItem("adminEntry");location.href="/?login=admin#admin-login"};
+document.getElementById("logout").onclick=()=>{
+  sessionStorage.clear();
+  location.href="index.html";
+};
 document.getElementById("refresh").onclick=loadAttendance;
 filterDate.onchange=loadAttendance;
 document.getElementById("todayDate").onclick=()=>{const d=new Date();filterDate.value=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");loadAttendance()};

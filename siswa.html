@@ -1,0 +1,1320 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f3f6fb">
+<title>Ruang Siswa • XII TKJ 3</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<script src="auth-guard.js"></script>
+<style>
+:root{
+  --bg:#edf3f8;
+  --text:#101827;
+  --text-h:#020617;
+  --muted:#5a6880;
+  --surface:rgba(255,255,255,.82);
+  --surface-strong:rgba(255,255,255,.94);
+  --surface-soft:rgba(255,255,255,.68);
+  --border:rgba(255,255,255,.92);
+  --border-subtle:rgba(16,24,39,.08);
+  --accent:#16a34a;
+  --accent-blue:#2563eb;
+  --line:rgba(16,24,39,.08);
+  --danger:#dc2626;
+  --shadow:0 18px 45px rgba(15,23,42,.07);
+  --shadow-lg:0 25px 65px rgba(15,23,42,.12);
+  --glow-1:#72e2a4;
+  --glow-2:#78a9ff;
+  --input-bg:rgba(255,255,255,.92);
+  --input-border:#cbd5e1;
+  --btn-bg:#111827;
+  --btn-text:#ffffff;
+}
+[data-theme="dark"]{
+  --bg:#090d18;
+  --text:#f5f7ff;
+  --text-h:#ffffff;
+  --muted:#aeb9cb;
+  --surface:rgba(18,25,41,.84);
+  --surface-strong:rgba(22,31,50,.92);
+  --surface-soft:rgba(28,38,60,.75);
+  --border:rgba(255,255,255,.13);
+  --border-subtle:rgba(255,255,255,.08);
+  --accent:#68e39c;
+  --accent-blue:#60a5fa;
+  --line:rgba(255,255,255,.10);
+  --danger:#ef4444;
+  --shadow:0 20px 55px rgba(0,0,0,.45);
+  --shadow-lg:0 25px 70px rgba(0,0,0,.60);
+  --glow-1:#0c7b4b;
+  --glow-2:#4338ca;
+  --input-bg:rgba(11,16,28,.90);
+  --input-border:rgba(255,255,255,.15);
+  --btn-bg:#f5f7ff;
+  --btn-text:#090d18;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,"SF Pro Display","Segoe UI",Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  transition:background-color .25s ease,color .25s ease;
+}
+body:before,body:after{
+  content:"";
+  position:fixed;
+  z-index:-1;
+  border-radius:50%;
+  filter:blur(85px);
+  opacity:.55;
+  pointer-events:none;
+}
+body:before{width:420px;height:420px;left:-140px;top:60px;background:var(--glow-1)}
+body:after{width:480px;height:480px;right:-160px;bottom:-80px;background:var(--glow-2)}
+
+.wrap{width:min(1120px,calc(100% - 28px));margin:auto}
+.glass{
+  background:var(--surface);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+}
+
+/* Nav */
+.nav{
+  position:sticky;
+  top:12px;
+  z-index:100;
+  margin:14px auto;
+  padding:10px 14px;
+  border-radius:24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:var(--text);
+  font-weight:900;
+  font-size:15px;
+}
+.brand-logos{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.brand-logo{
+  width:36px;
+  height:36px;
+  object-fit:contain;
+  border-radius:10px;
+  transition:transform .2s ease;
+}
+.brand-logo:hover{transform:scale(1.08)}
+.nav-links{
+  display:flex;
+  gap:4px;
+  align-items:center;
+}
+.nav-links a{
+  padding:8px 12px;
+  border-radius:14px;
+  color:var(--muted);
+  font-size:12.5px;
+  font-weight:750;
+  text-decoration:none;
+  transition:all .2s ease;
+}
+.nav-links a:hover,.nav-links a.active{
+  background:var(--surface-strong);
+  color:var(--accent);
+}
+.nav-tools{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.theme-select{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:8px 10px;
+  background:var(--surface-soft);
+  color:var(--text);
+  font-size:12px;
+  font-weight:750;
+  cursor:pointer;
+  outline:none;
+}
+.btn{
+  border:1px solid var(--border);
+  background:var(--surface-soft);
+  color:var(--text);
+  padding:9px 14px;
+  border-radius:14px;
+  font-weight:800;
+  font-size:13px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
+  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+}
+.btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+}
+.btn:active{transform:scale(.98)}
+.btn.primary{
+  background:var(--btn-bg);
+  color:var(--btn-text);
+  border-color:transparent;
+  box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+.btn.danger{
+  background:rgba(220,38,38,.12);
+  color:var(--danger);
+  border-color:rgba(220,38,38,.2);
+}
+
+/* Hero */
+.hero{
+  padding:40px 0 25px;
+}
+.kicker{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:.15em;
+  color:var(--accent);
+  font-weight:950;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+.hero h1{
+  font-size:clamp(36px,6vw,60px);
+  line-height:1.02;
+  letter-spacing:-.05em;
+  margin:4px 0 10px;
+  color:var(--text-h);
+}
+.gradient{
+  background:linear-gradient(110deg,#10b981,#0ea5e9,#6366f1);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero p{
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.65;
+  max-width:680px;
+  margin:0 0 24px;
+}
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+.stat-card{
+  padding:18px 20px;
+  border-radius:22px;
+}
+.stat-val{
+  font-size:26px;
+  font-weight:950;
+  color:var(--text-h);
+  display:block;
+}
+.stat-label{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:750;
+  margin-top:2px;
+  display:block;
+}
+
+/* Sections */
+.section{
+  padding:30px 0;
+}
+.sec-head{
+  margin-bottom:18px;
+}
+.sec-head h2{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:-.03em;
+  margin:0 0 4px;
+  color:var(--text-h);
+}
+.sec-head p{
+  color:var(--muted);
+  font-size:13.5px;
+  margin:0;
+}
+
+.panel{
+  padding:24px;
+  border-radius:26px;
+}
+
+/* Form Styles */
+.form-grid{
+  display:grid;
+  gap:14px;
+}
+.field-group{
+  display:grid;
+  gap:6px;
+}
+.field-group label{
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.form-input,.form-select,.form-textarea{
+  width:100%;
+  padding:12px 14px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:var(--input-bg);
+  color:var(--text);
+  font:inherit;
+  font-size:14px;
+  outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent);
+}
+.form-textarea{min-height:85px;resize:vertical}
+.status-radios{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+.status-radio{
+  position:relative;
+}
+.status-radio input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+.status-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 10px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:var(--surface-soft);
+  color:var(--text);
+  font-weight:850;
+  font-size:13px;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.status-radio input:checked + .status-btn{
+  background:var(--btn-bg);
+  color:var(--btn-text);
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+  border-color:transparent;
+}
+
+.two-col{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.three-col{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+/* Cards & Lists */
+.card-list{
+  display:grid;
+  gap:12px;
+  margin-top:14px;
+}
+.item-card{
+  padding:18px 20px;
+  border-radius:20px;
+  background:var(--surface-soft);
+  border:1px solid var(--border-subtle);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.item-card:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow);
+}
+.item-card h3{
+  margin:0 0 6px;
+  font-size:16.5px;
+  font-weight:850;
+  color:var(--text-h);
+}
+.item-meta{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:8px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.pill{
+  display:inline-block;
+  padding:4px 9px;
+  border-radius:99px;
+  background:rgba(22,163,74,.12);
+  color:var(--accent);
+  font-size:11px;
+  font-weight:900;
+}
+.pill.blue{background:rgba(37,99,235,.12);color:var(--accent-blue)}
+.pill.purple{background:rgba(124,58,237,.12);color:#8b5cf6}
+
+/* Jadwal Table */
+.schedule-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.day-card{
+  padding:18px;
+  border-radius:22px;
+  border:1px solid var(--border);
+}
+.day-card.today{
+  border:2px solid var(--accent);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent);
+}
+.day-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:900;
+  font-size:15px;
+  margin-bottom:12px;
+  padding-bottom:8px;
+  border-bottom:1px solid var(--line);
+}
+.day-items{
+  display:grid;
+  gap:8px;
+}
+.day-item{
+  padding:10px 12px;
+  border-radius:14px;
+  background:var(--surface-soft);
+  font-size:12.5px;
+}
+.day-item b{display:block;margin-bottom:2px}
+
+/* Struktur Grid */
+.structure-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.structure-card{
+  padding:20px;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.structure-avatar{
+  width:48px;
+  height:48px;
+  border-radius:16px;
+  background:linear-gradient(135deg,var(--accent),#38bdf8);
+  color:#fff;
+  font-weight:900;
+  font-size:20px;
+  display:grid;
+  place-items:center;
+  flex:none;
+}
+
+/* Galeri Grid */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.gallery-card{
+  aspect-ratio:16/10;
+  border-radius:20px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  cursor:zoom-in;
+  position:relative;
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.gallery-card:hover{
+  transform:translateY(-4px) scale(1.02);
+  box-shadow:var(--shadow-lg);
+}
+.gallery-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .4s ease;
+}
+.gallery-card:hover img{transform:scale(1.06)}
+
+/* Lightbox */
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(5,10,16,.85);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.lightbox.open{display:flex}
+.lightbox img{
+  max-width:min(94vw,1200px);
+  max-height:86vh;
+  object-fit:contain;
+  border-radius:20px;
+  box-shadow:0 30px 90px rgba(0,0,0,.6);
+}
+.lightbox-close{
+  position:fixed;
+  top:20px;
+  right:20px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.15);
+  color:#fff;
+  font-size:24px;
+  cursor:pointer;
+}
+
+/* Mobile Nav */
+.mobile-nav{
+  display:none;
+}
+@media(max-width:800px){
+  .nav-links{display:none}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .two-col,.three-col,.schedule-grid,.structure-grid,.gallery-grid{grid-template-columns:1fr}
+  .status-radios{grid-template-columns:1fr 1fr}
+  .mobile-nav{
+    position:fixed;
+    left:10px;
+    right:10px;
+    bottom:10px;
+    z-index:200;
+    padding:8px 6px;
+    border-radius:22px;
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    text-align:center;
+  }
+  .mobile-nav a{
+    padding:6px 2px;
+    border-radius:14px;
+    color:var(--muted);
+    font-size:10px;
+    font-weight:800;
+    text-decoration:none;
+    line-height:1.3;
+  }
+  .mobile-nav a:hover{
+    background:var(--surface-strong);
+    color:var(--accent);
+  }
+  body{padding-bottom:75px}
+}
+
+.empty{
+  color:var(--muted);
+  font-size:13px;
+  padding:20px;
+  text-align:center;
+}
+.toast{
+  min-height:22px;
+  font-size:13px;
+  font-weight:750;
+  margin-top:10px;
+  color:var(--accent);
+}
+.toast.err{color:var(--danger)}
+</style>
+</head>
+<body>
+
+<header class="nav wrap glass">
+  <a class="brand" href="#utama">
+    <div class="brand-logos">
+      <img src="assets/galeri/logo-smk-transparent.png" alt="Logo SMK" class="brand-logo" title="SMK NU Bandar">
+      <img src="assets/galeri/logo-kelas-light.png" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" alt="Logo Kelas" class="brand-logo theme-logo" title="XII TKJ 3">
+    </div>
+    <span>XII TKJ 3 · Siswa</span>
+  </a>
+
+  <nav class="nav-links">
+    <a href="#utama">Utama</a>
+    <a href="#absensi">Absensi</a>
+    <a href="#tugas">Tugas</a>
+    <a href="#materi">Materi</a>
+    <a href="#nilai">Nilai</a>
+    <a href="#jadwal">Jadwal</a>
+    <a href="#struktur">Struktur</a>
+    <a href="#galeri">Galeri</a>
+  </nav>
+
+  <div class="nav-tools">
+    <select class="theme-select" id="themeSelect" aria-label="Mode Tampilan">
+      <option value="light">☀️ Light</option>
+      <option value="dark">🌙 Dark</option>
+      <option value="system">💻 Sistem</option>
+    </select>
+    <button class="btn danger" id="logoutBtn" type="button">Keluar</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- Hero -->
+  <section id="utama" class="hero">
+    <span class="kicker">PORTAL SISWA • XII TKJ 3</span>
+    <h1>Halo, <span class="gradient" id="studentGreeting">Rama</span> 👋</h1>
+    <p>Selamat datang di portal kelas XII TKJ 3 SMK NU Bandar. Pantau kehadiran, kerjakan tugas, akses materi pelajaran, jadwal, dan nilai secara realtime.</p>
+
+    <div class="stats-grid">
+      <div class="stat-card glass">
+        <span class="stat-val">XII TKJ 3</span>
+        <span class="stat-label">Kelas & Kejuruan</span>
+      </div>
+      <div class="stat-card glass">
+        <span class="stat-val" id="statSubjectCount">11</span>
+        <span class="stat-label">Mata Pelajaran Aktif</span>
+      </div>
+      <div class="stat-card glass">
+        <span class="stat-val" id="statStudentCount">37</span>
+        <span class="stat-label">Total Siswa Terdaftar</span>
+      </div>
+      <div class="stat-card glass">
+        <span class="stat-val" id="statMyAbsenBadge" style="font-size:18px;margin-top:4px">
+          <span class="pill">Hadir Hari Ini</span>
+        </span>
+        <span class="stat-label">Status Absen Anda</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Absensi Harian -->
+  <section id="absensi" class="section">
+    <div class="sec-head">
+      <span class="kicker">KEHADIRAN</span>
+      <h2>Absensi Harian Siswa</h2>
+      <p>Kirim kehadiranmu setiap hari saat jam pelajaran dimulai.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="panel glass">
+        <form id="absenForm" class="form-grid" onsubmit="return false;">
+          <div class="field-group">
+            <label for="absenNama">Nama Siswa</label>
+            <select id="absenNama" class="form-select" required>
+              <option value="">Memuat daftar siswa...</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>Status Kehadiran</label>
+            <div class="status-radios">
+              <label class="status-radio">
+                <input type="radio" name="absenStatus" value="HADIR" checked>
+                <span class="status-btn">Hadir</span>
+              </label>
+              <label class="status-radio">
+                <input type="radio" name="absenStatus" value="IZIN">
+                <span class="status-btn">Izin</span>
+              </label>
+              <label class="status-radio">
+                <input type="radio" name="absenStatus" value="SAKIT">
+                <span class="status-btn">Sakit</span>
+              </label>
+              <label class="status-radio">
+                <input type="radio" name="absenStatus" value="LIBUR">
+                <span class="status-btn">Libur</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="absenKet">Keterangan (Opsional)</label>
+            <input id="absenKet" class="form-input" placeholder="Contoh: Sakit demam / Acara keluarga">
+          </div>
+
+          <button id="submitAbsen" class="btn primary" type="submit" style="padding:13px;justify-content:center">
+            Kirim Absensi Sekarang
+          </button>
+          <div id="absenToast" class="toast"></div>
+        </form>
+      </div>
+
+      <div class="panel glass">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <strong style="font-size:15px">Data Absensi Hari Ini</strong>
+          <span id="todayDateLabel" style="font-size:12px;color:var(--muted)"></span>
+        </div>
+        <div id="todayAbsenList" class="card-list" style="max-height:360px;overflow-y:auto">
+          <div class="empty">Memuat data absensi...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tugas & Pengumpulan -->
+  <section id="tugas" class="section">
+    <div class="sec-head">
+      <span class="kicker">TUGAS KELAS</span>
+      <h2>Tugas & Pengumpulan</h2>
+      <p>Kerjakan tugas yang diberikan guru dan kumpulkan tepat waktu.</p>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3 style="margin:0 0 12px;font-size:17px">📝 Daftar Tugas Guru</h3>
+        <div id="taskList" class="card-list">
+          <div class="empty">Memuat daftar tugas...</div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="margin:0 0 12px;font-size:17px">📥 Kumpulkan Tugas</h3>
+        <div class="panel glass">
+          <form id="submissionForm" class="form-grid" onsubmit="return false;">
+            <div class="field-group">
+              <label for="subMapel">Mata Pelajaran / Tugas</label>
+              <select id="subMapel" class="form-select" required>
+                <option value="">Pilih tugas / mata pelajaran...</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="subNama">Nama Siswa</label>
+              <select id="subNama" class="form-select" required>
+                <option value="">Pilih nama Anda...</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="subJawaban">Jawaban / Catatan</label>
+              <textarea id="subJawaban" class="form-textarea" placeholder="Tulis ringkasan atau jawaban tugas di sini..."></textarea>
+            </div>
+
+            <div class="field-group">
+              <label for="subLink">Link Tugas (Drive / Dokumen / GitHub)</label>
+              <input id="subLink" class="form-input" placeholder="https://drive.google.com/..." type="url">
+            </div>
+
+            <button id="submitTaskBtn" class="btn primary" type="submit" style="padding:12px;justify-content:center">
+              Kirim Pengumpulan Tugas
+            </button>
+            <div id="subToast" class="toast"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pengumuman & Materi -->
+  <section id="materi" class="section">
+    <div class="two-col">
+      <div>
+        <div class="sec-head">
+          <span class="kicker">INFORMASI</span>
+          <h2>📢 Pengumuman Kelas</h2>
+        </div>
+        <div id="annList" class="card-list">
+          <div class="empty">Memuat pengumuman...</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-head">
+          <span class="kicker">BAHAN AJAR</span>
+          <h2>📚 Materi Pelajaran</h2>
+        </div>
+        <div id="matList" class="card-list">
+          <div class="empty">Memuat materi pelajaran...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nilai Siswa -->
+  <section id="nilai" class="section">
+    <div class="sec-head">
+      <span class="kicker">HASIL BELAJAR</span>
+      <h2>📊 Rekap Nilai Siswa</h2>
+      <p>Nilai tugas dan penilaian yang telah diinputkan oleh guru.</p>
+    </div>
+    <div class="panel glass">
+      <div id="gradeList" class="three-col">
+        <div class="empty">Memuat data nilai...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Jadwal Pelajaran -->
+  <section id="jadwal" class="section">
+    <div class="sec-head">
+      <span class="kicker">PELAJARAN</span>
+      <h2>🗓️ Jadwal Pelajaran Kelas</h2>
+      <p>Jadwal mata pelajaran Senin sampai Sabtu kelas XII TKJ 3.</p>
+    </div>
+    <div id="scheduleContainer" class="schedule-grid">
+      <div class="empty">Memuat jadwal pelajaran...</div>
+    </div>
+  </section>
+
+  <!-- Struktur Kelas -->
+  <section id="struktur" class="section">
+    <div class="sec-head">
+      <span class="kicker">ORGANISASI</span>
+      <h2>🏛️ Struktur Organisasi Kelas</h2>
+      <p>Pengurus dan wali kelas XII TKJ 3.</p>
+    </div>
+    <div id="structureContainer" class="structure-grid">
+      <div class="empty">Memuat struktur kelas...</div>
+    </div>
+  </section>
+
+  <!-- Galeri Kelas -->
+  <section id="galeri" class="section">
+    <div class="sec-head">
+      <span class="kicker">DOKUMENTASI</span>
+      <h2>🖼️ Galeri Momen Kelas</h2>
+      <p>Foto dan kenangan kegiatan kelas XII TKJ 3.</p>
+    </div>
+    <div id="galleryContainer" class="gallery-grid">
+      <div class="empty">Memuat galeri kelas...</div>
+    </div>
+  </section>
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <button id="lightboxClose" class="lightbox-close" aria-label="Tutup foto">×</button>
+  <img id="lightboxImg" src="" alt="Momen XII TKJ 3">
+</div>
+
+<!-- Mobile Navigation -->
+<nav class="mobile-nav glass" aria-label="Navigasi Mobile Siswa">
+  <a href="#utama">⌂<br>Utama</a>
+  <a href="#absensi">▣<br>Absen</a>
+  <a href="#tugas">📝<br>Tugas</a>
+  <a href="#materi">📚<br>Materi</a>
+  <a href="#jadwal">🗓️<br>Jadwal</a>
+  <a href="#galeri">🖼<br>Galeri</a>
+</nav>
+
+<footer style="text-align:center;color:var(--muted);font-size:12px;padding:40px 0 60px">
+  XII TKJ 3 • SMK NU Bandar
+</footer>
+
+<!-- Firebase & Application Script -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import { 
+  getFirestore, collection, addDoc, onSnapshot, query, where, orderBy, doc, getDoc, getDocs 
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",
+  authDomain: "absensi-xii-tkj3.firebaseapp.com",
+  projectId: "absensi-xii-tkj3",
+  storageBucket: "absensi-xii-tkj3.firebasestorage.app",
+  messagingSenderId: "219267949077",
+  appId: "1:219267949077:web:8cf7d62f31ae1987a6641c"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* Theme */
+const THEME_KEY = 'xii-tkj3-theme';
+const root = document.documentElement;
+const themeSelect = document.getElementById('themeSelect');
+const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+function applyTheme(mode) {
+  const actual = mode === 'system' ? (media.matches ? 'dark' : 'light') : mode;
+  root.setAttribute('data-theme', actual);
+  if (themeSelect) themeSelect.value = mode;
+  document.querySelectorAll('.theme-logo').forEach(img => {
+    const src = actual === 'dark' ? img.dataset.darkSrc : img.dataset.lightSrc;
+    if (src && img.getAttribute('src') !== src) img.src = src;
+  });
+}
+applyTheme(localStorage.getItem(THEME_KEY) || 'system');
+if (themeSelect) {
+  themeSelect.addEventListener('change', e => {
+    localStorage.setItem(THEME_KEY, e.target.value);
+    applyTheme(e.target.value);
+  });
+}
+if (media.addEventListener) {
+  media.addEventListener('change', () => {
+    if ((localStorage.getItem(THEME_KEY) || 'system') === 'system') applyTheme('system');
+  });
+}
+
+/* User Session */
+const rawSession = sessionStorage.getItem("tkj3_session");
+const userSession = rawSession ? JSON.parse(rawSession) : { nama: "Rama", username: "rama" };
+const studentName = userSession.nama || userSession.username || "Rama";
+document.getElementById("studentGreeting").textContent = studentName;
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  sessionStorage.clear();
+  location.href = "index.html";
+});
+
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+}[c]));
+
+const q = id => document.getElementById(id);
+const todayStr = new Date().toISOString().slice(0, 10);
+const todayDatePretty = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+if (q('todayDateLabel')) q('todayDateLabel').textContent = todayDatePretty;
+
+/* Default Students */
+const defaultStudents = [
+  "AHID PUTRA ANANDA","ALVIN","ANANDA DANNI ALFIAN","ANGGUN KHOIRU SYIFA","ARIL NASTAIN",
+  "ATI' DINA MAULAYA","AVIDA AMELIA","CLARISSA DWI OKTAVIANA","ISNAENI AFIATUN NURUL ARIFIA",
+  "JUAN AKBARUDIN","M QYANO AVIANSYAH","MELI AFIKASARI","MUFIDA SYAFA ALYA","M KHOIRUL IQBAL",
+  "MUHAMMAD ADLI ALFIANSYAH","MUHAMMAD ADZKIYA MUMTAZ","MUHAMMAD HANIF","MUHAMMAD ILHAM",
+  "MUHAMMAD KHOIRUL ANAM","PUTRI AMANDA","RIMA TRI JUNITA","ROHMATUL KHASANAH",
+  "ROMADZON ANTA NUHRAFI","SANDI SETIAWAN","SISKA","SISKA AMELIA","STIFEN JODI PRATAMA",
+  "SUCI LISTIANA","SUPARLIYAH","SYAFA TASYA KAMILA","TIWIK OKTAVIANINGSIH","TRI YULIA NINGSIH",
+  "TUTUT JUANITA","VIRNAJI RIZKY RAMADHAN","YULIA ADISTYAR","ZAHRO LAZIMATUSYIFA","ZULFATUROHMI"
+];
+
+/* 1. Load Students List */
+async function loadStudents() {
+  try {
+    const snap = await getDocs(collection(db, "siswa"));
+    let students = snap.docs.map(d => d.data().nama).filter(Boolean);
+    if (!students.length) students = defaultStudents;
+    students.sort((a, b) => a.localeCompare(b));
+
+    const opts = '<option value="">Pilih nama Anda...</option>' + 
+      students.map(name => `<option value="${esc(name)}">${esc(name)}</option>`).join('');
+    
+    q('absenNama').innerHTML = opts;
+    q('subNama').innerHTML = opts;
+
+    // Try selecting based on logged in name
+    const match = students.find(s => s.toLowerCase().includes(studentName.toLowerCase()));
+    if (match) {
+      q('absenNama').value = match;
+      q('subNama').value = match;
+    }
+    q('statStudentCount').textContent = students.length;
+  } catch (e) {
+    console.warn("Load students:", e);
+    const opts = '<option value="">Pilih nama Anda...</option>' + 
+      defaultStudents.map(name => `<option value="${esc(name)}">${esc(name)}</option>`).join('');
+    q('absenNama').innerHTML = opts;
+    q('subNama').innerHTML = opts;
+  }
+}
+loadStudents();
+
+/* 2. Load Subject Count */
+async function loadSubjectCount() {
+  try {
+    const snap = await getDoc(doc(db, "pengaturan", "homeStats"));
+    if (snap.exists() && snap.data().subjectCount) {
+      q('statSubjectCount').textContent = snap.data().subjectCount;
+    }
+  } catch (e) {
+    console.warn("Load subject count:", e);
+  }
+}
+loadSubjectCount();
+
+/* 3. Realtime Absensi */
+onSnapshot(collection(db, "absensi"), snap => {
+  const rows = [];
+  snap.forEach(d => rows.push({ id: d.id, ...d.data() }));
+  
+  // Filter for today
+  const todayRows = rows.filter(r => r.tanggal === todayStr);
+  
+  // Check if current student has checked in
+  const myAbsen = todayRows.find(r => r.nama && r.nama.toLowerCase().includes(studentName.toLowerCase()));
+  if (myAbsen) {
+    q('statMyAbsenBadge').innerHTML = `<span class="pill ${myAbsen.status==='HADIR'?'':'blue'}">${myAbsen.status} Hari Ini</span>`;
+  } else {
+    q('statMyAbsenBadge').innerHTML = `<span class="pill" style="background:rgba(239,68,68,.12);color:var(--danger)">Belum Absen</span>`;
+  }
+
+  if (!todayRows.length) {
+    q('todayAbsenList').innerHTML = '<div class="empty">Belum ada siswa yang absen hari ini.</div>';
+    return;
+  }
+
+  todayRows.sort((a, b) => (b.waktu || "").localeCompare(a.waktu || ""));
+  q('todayAbsenList').innerHTML = todayRows.map(r => `
+    <div class="item-card" style="padding:12px 14px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <b>${esc(r.nama)}</b>
+        <span class="pill ${r.status==='HADIR'?'':'blue'}">${esc(r.status)}</span>
+      </div>
+      <div class="item-meta" style="margin-top:4px">
+        <span>⏰ ${esc(r.waktu || '-')}</span>
+        ${r.keterangan ? `<span>• ${esc(r.keterangan)}</span>` : ''}
+      </div>
+    </div>
+  `).join('');
+});
+
+/* Submit Absensi */
+q('submitAbsen').addEventListener('click', async () => {
+  const nama = q('absenNama').value;
+  const statusEl = document.querySelector('input[name="absenStatus"]:checked');
+  const status = statusEl ? statusEl.value : 'HADIR';
+  const keterangan = q('absenKet').value.trim();
+  const toast = q('absenToast');
+
+  if (!nama) {
+    toast.textContent = "Silakan pilih nama siswa terlebih dahulu.";
+    toast.className = "toast err";
+    return;
+  }
+
+  const now = new Date();
+  const waktu = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+
+  q('submitAbsen').disabled = true;
+  toast.textContent = "Mengirim absensi...";
+  toast.className = "toast";
+
+  try {
+    await addDoc(collection(db, "absensi"), {
+      nama,
+      status,
+      keterangan,
+      tanggal: todayStr,
+      waktu,
+      timestamp: Date.now()
+    });
+    toast.textContent = `✅ Absensi ${nama} (${status}) berhasil terkirim.`;
+    toast.className = "toast";
+    q('absenKet').value = '';
+  } catch (e) {
+    console.error("Absen submit:", e);
+    toast.textContent = "❌ Gagal mengirim absensi: " + (e.message || e);
+    toast.className = "toast err";
+  } finally {
+    q('submitAbsen').disabled = false;
+  }
+});
+
+/* 4. Realtime Tugas & Pengumpulan */
+let activeTasks = [];
+onSnapshot(query(collection(db, "tugas"), orderBy("createdAt", "desc")), snap => {
+  activeTasks = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  const taskList = q('taskList');
+  const subMapel = q('subMapel');
+
+  if (!activeTasks.length) {
+    taskList.innerHTML = '<div class="empty">Belum ada tugas dari guru.</div>';
+    subMapel.innerHTML = '<option value="">Tidak ada tugas aktif</option>';
+    return;
+  }
+
+  taskList.innerHTML = activeTasks.map(t => `
+    <article class="item-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="pill blue">${esc(t.mapel || 'Tugas')}</span>
+        <small style="color:var(--muted)">${t.createdAt ? new Date(t.createdAt).toLocaleDateString('id-ID') : ''}</small>
+      </div>
+      <h3 style="margin-top:8px">${esc(t.judul)}</h3>
+      <p style="color:var(--muted);font-size:13.5px;margin:0 0 10px;line-height:1.5">${esc(t.deskripsi || '-')}</p>
+      <div class="item-meta">
+        <span>⏰ Deadline: <b>${esc(t.deadline ? new Date(t.deadline).toLocaleString('id-ID') : 'Tidak ditentukan')}</b></span>
+        ${t.guru ? `<span>• Guru: ${esc(t.guru)}</span>` : ''}
+        ${t.fileUrl ? `<a href="${esc(t.fileUrl)}" target="_blank" rel="noopener" class="btn" style="padding:4px 10px;font-size:11px;margin-left:auto">📎 Unduh Lampiran</a>` : ''}
+      </div>
+    </article>
+  `).join('');
+
+  subMapel.innerHTML = '<option value="">Pilih tugas / mata pelajaran...</option>' +
+    activeTasks.map(t => `<option value="${esc(t.mapel)} — ${esc(t.judul)}">${esc(t.mapel)}: ${esc(t.judul)}</option>`).join('');
+});
+
+/* Submit Task */
+q('submitTaskBtn').addEventListener('click', async () => {
+  const mapel = q('subMapel').value;
+  const siswa = q('subNama').value;
+  const jawaban = q('subJawaban').value.trim();
+  const link = q('subLink').value.trim();
+  const toast = q('subToast');
+
+  if (!mapel || !siswa) {
+    toast.textContent = "Pilih tugas dan nama siswa terlebih dahulu.";
+    toast.className = "toast err";
+    return;
+  }
+  if (!jawaban && !link) {
+    toast.textContent = "Isi jawaban teks atau sertakan link tugas.";
+    toast.className = "toast err";
+    return;
+  }
+
+  q('submitTaskBtn').disabled = true;
+  toast.textContent = "Mengirim tugas...";
+  toast.className = "toast";
+
+  try {
+    await addDoc(collection(db, "pengumpulan_tugas"), {
+      mapel,
+      siswa,
+      jawaban,
+      link,
+      updatedAt: Date.now()
+    });
+    toast.textContent = "✅ Tugas berhasil dikumpulkan!";
+    toast.className = "toast";
+    q('subJawaban').value = '';
+    q('subLink').value = '';
+  } catch (e) {
+    console.error("Submit task:", e);
+    toast.textContent = "❌ Gagal mengirim tugas: " + (e.message || e);
+    toast.className = "toast err";
+  } finally {
+    q('submitTaskBtn').disabled = false;
+  }
+});
+
+/* 5. Realtime Pengumuman & Materi */
+onSnapshot(query(collection(db, "pengumuman"), orderBy("createdAt", "desc")), snap => {
+  const box = q('annList');
+  if (snap.empty) {
+    box.innerHTML = '<div class="empty">Belum ada pengumuman kelas.</div>';
+    return;
+  }
+  box.innerHTML = snap.docs.map(d => {
+    const x = d.data();
+    return `
+      <article class="item-card">
+        <span class="pill purple">${esc(x.mapel || 'Pengumuman')}</span>
+        <h3 style="margin-top:6px">${esc(x.judul)}</h3>
+        <p style="color:var(--muted);font-size:13.5px;margin:0;line-height:1.5">${esc(x.isi)}</p>
+        <div class="item-meta">
+          <small>📅 ${x.createdAt ? new Date(x.createdAt).toLocaleDateString('id-ID') : '-'}</small>
+          ${x.guru ? `<small>• ${esc(x.guru)}</small>` : ''}
+        </div>
+      </article>
+    `;
+  }).join('');
+});
+
+onSnapshot(query(collection(db, "materi"), orderBy("createdAt", "desc")), snap => {
+  const box = q('matList');
+  if (snap.empty) {
+    box.innerHTML = '<div class="empty">Belum ada materi pembelajaran.</div>';
+    return;
+  }
+  box.innerHTML = snap.docs.map(d => {
+    const x = d.data();
+    return `
+      <article class="item-card">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:10px">
+          <div>
+            <span class="pill blue">${esc(x.mapel || 'Materi')}</span>
+            <h3 style="margin-top:6px">${esc(x.judul)}</h3>
+          </div>
+          ${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener" class="btn primary" style="padding:7px 12px;font-size:12px;flex:none">Buka Materi →</a>` : ''}
+        </div>
+        <div class="item-meta">
+          <small>📅 ${x.createdAt ? new Date(x.createdAt).toLocaleDateString('id-ID') : '-'}</small>
+          ${x.guru ? `<small>• ${esc(x.guru)}</small>` : ''}
+        </div>
+      </article>
+    `;
+  }).join('');
+});
+
+/* 6. Realtime Nilai */
+onSnapshot(query(collection(db, "nilai"), orderBy("createdAt", "desc")), snap => {
+  const box = q('gradeList');
+  if (snap.empty) {
+    box.innerHTML = '<div class="empty">Belum ada data nilai yang dipublikasikan.</div>';
+    return;
+  }
+  box.innerHTML = snap.docs.map(d => {
+    const x = d.data();
+    return `
+      <div class="item-card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="pill">${esc(x.mapel || 'Mapel')}</span>
+          <strong style="font-size:22px;color:var(--accent)">${esc(x.nilai)}</strong>
+        </div>
+        <h4 style="margin:8px 0 2px;font-size:15px">${esc(x.nama)}</h4>
+        <small style="color:var(--muted)">${esc(x.judul || 'Penilaian')}</small>
+      </div>
+    `;
+  }).join('');
+});
+
+/* 7. Realtime Jadwal */
+const dayOrder = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+const dayIds = { Senin: "senin", Selasa: "selasa", Rabu: "rabu", Kamis: "kamis", Jumat: "jumat", Sabtu: "sabtu" };
+const currentDayName = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"][new Date().getDay()];
+
+onSnapshot(collection(db, "jadwal"), snap => {
+  const container = q('scheduleContainer');
+  const schedule = {};
+  dayOrder.forEach(d => schedule[d] = []);
+
+  snap.forEach(ds => {
+    const x = ds.data() || {};
+    const day = dayOrder.find(d => d.toLowerCase() === (ds.id || '').toLowerCase() || d.toLowerCase() === (x.hari || '').toLowerCase());
+    if (day && Array.isArray(x.entries)) {
+      schedule[day] = x.entries;
+    }
+  });
+
+  container.innerHTML = dayOrder.map(day => {
+    const items = schedule[day] || [];
+    const isToday = day === currentDayName;
+    return `
+      <div class="day-card glass ${isToday ? 'today' : ''}">
+        <div class="day-title">
+          <span>${day} ${isToday ? '<span class="pill" style="font-size:10px">HARI INI</span>' : ''}</span>
+          <small style="color:var(--muted);font-size:12px">${items.length} Mapel</small>
+        </div>
+        <div class="day-items">
+          ${items.length ? items.map(it => `
+            <div class="day-item">
+              <b>${esc(it.mapel)}</b>
+              <small style="color:var(--muted)">⏰ ${esc(it.jam || '-')}</small>
+            </div>
+          `).join('') : '<div style="color:var(--muted);font-size:12px;padding:8px">Tidak ada jadwal.</div>'}
+        </div>
+      </div>
+    `;
+  }).join('');
+});
+
+/* 8. Realtime Struktur */
+const structureDefaults = [
+  { id: "wali", role: "Wali Kelas", name: "Andi Prasetyo, S.Kom." },
+  { id: "ketua", role: "Ketua Kelas", name: "Virnaji Rizky Ramadhan" },
+  { id: "wakil", role: "Wakil Ketua", name: "Alvin" },
+  { id: "sekretaris", role: "Sekretaris", name: "Anggun Khoiru Syifa" },
+  { id: "bendahara", role: "Bendahara", name: "Suci Listiana" }
+];
+onSnapshot(collection(db, "struktur"), snap => {
+  const container = q('structureContainer');
+  let data = structureDefaults.slice();
+  if (!snap.empty) {
+    const map = new Map(snap.docs.map(d => [d.id, d.data()]));
+    data = structureDefaults.map(def => ({ ...def, ...(map.get(def.id) || {}) }));
+  }
+  container.innerHTML = data.map(s => `
+    <div class="structure-card glass">
+      <div class="structure-avatar">${esc((s.name || '?').charAt(0).toUpperCase())}</div>
+      <div>
+        <span class="pill" style="font-size:10.5px">${esc(s.role)}</span>
+        <h4 style="margin:4px 0 0;font-size:15px;color:var(--text-h)">${esc(s.name)}</h4>
+        <small style="color:var(--muted)">Pengurus XII TKJ 3</small>
+      </div>
+    </div>
+  `).join('');
+});
+
+/* 9. Galeri & Lightbox */
+const localMoments = [1,2,3,4,5,6,7].map(n => ({
+  id: `momen-${n}`,
+  src: `assets/galeri/momen-${n}.jpg`,
+  name: `Momen Kelas ${n}`
+}));
+
+async function loadGallery() {
+  const container = q('galleryContainer');
+  try {
+    const res = await fetch("/api/gallery");
+    const json = await res.json();
+    const items = (json.items && json.items.length) ? json.items : localMoments;
+    renderGallery(items);
+  } catch (e) {
+    renderGallery(localMoments);
+  }
+}
+function renderGallery(items) {
+  const container = q('galleryContainer');
+  container.innerHTML = items.map(img => `
+    <div class="gallery-card glass" data-src="${esc(img.src)}">
+      <img src="${esc(img.src)}" alt="${esc(img.name || 'Galeri')}" loading="lazy">
+    </div>
+  `).join('');
+
+  container.querySelectorAll('[data-src]').forEach(card => {
+    card.addEventListener('click', () => {
+      openLightbox(card.dataset.src);
+    });
+  });
+}
+loadGallery();
+
+const lb = q('lightbox'), lbImg = q('lightboxImg'), lbClose = q('lightboxClose');
+function openLightbox(src) {
+  lbImg.src = src;
+  lb.classList.add('open');
+  lb.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lb.classList.remove('open');
+  lb.setAttribute('aria-hidden', 'true');
+  lbImg.src = '';
+  document.body.style.overflow = '';
+}
+lbClose.addEventListener('click', closeLightbox);
+lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+}
+</script>
+</body>
+</html>
