@@ -1,129 +1,123 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Login • XII TKJ 3</title><style>
-:root{--bg:#edf3f8;--text:#101827;--muted:#687386;--surface:rgba(255,255,255,.68);--border:rgba(255,255,255,.8);--accent:#16a35a;--purple:#9b6cff}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:var(--text);background:var(--bg);min-height:100vh}body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(75px);opacity:.65}body:before{width:420px;height:420px;left:-150px;top:80px;background:#74e4a6}body:after{width:480px;height:480px;right:-180px;bottom:-100px;background:linear-gradient(135deg,#78a9ff,#d68cff,#ff9bc7)}.wrap{width:min(1100px,calc(100% - 28px));margin:auto}.nav{margin:14px auto;padding:11px 14px;border:1px solid var(--border);border-radius:24px;background:var(--surface);backdrop-filter:blur(24px);display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-weight:900}.brand img{width:42px;height:42px;object-fit:contain;border-radius:12px}.nav a{padding:9px 12px;border-radius:14px;text-decoration:none;color:inherit;font-weight:800}.hero{padding:55px 0 30px}.kicker{font-size:11px;letter-spacing:.15em;color:var(--accent);font-weight:950}.hero h1{font-size:clamp(42px,7vw,72px);line-height:.95;letter-spacing:-.06em;margin:10px 0}.gradient{background:linear-gradient(110deg,#111827,#16a35a,#5b8cff,#a56bff);-webkit-background-clip:text;background-clip:text;color:transparent}.desc{color:var(--muted);line-height:1.7}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{padding:22px;border-radius:28px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(24px);box-shadow:0 20px 55px rgba(25,35,50,.1)}.card h3{margin:10px 0 5px}.icon{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:rgba(22,163,90,.12);font-weight:900}.section{padding:35px 0}.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:1px solid var(--border);background:rgba(255,255,255,.65);padding:13px 16px;border-radius:16px;font-weight:850;text-decoration:none;color:inherit}.primary{background:#111827;color:#fff}.footer{text-align:center;padding:45px 0;color:var(--muted)}.theme{border:1px solid var(--border);border-radius:14px;padding:9px;background:rgba(255,255,255,.6);font-weight:800}@media(max-width:700px){.grid{grid-template-columns:1fr 1fr}}@media(max-width:480px){.grid{grid-template-columns:1fr}.nav{gap:8px}.nav .brand span{display:none}}
-:root[data-theme="dark"]{--bg:#0b1220;--text:#f5f7ff;--muted:#aeb8ca;--surface:rgba(20,28,45,.78);--border:rgba(255,255,255,.13);--accent:#68e39c}:root[data-theme="dark"] .primary{background:#f4f7fb;color:#0b1220}:root[data-theme="dark"] .btn{background:rgba(30,40,61,.82)}
-</style><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0b1220">
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>XII TKJ 3 — Login</title>
 <style>
-.btn.primary{color:#fff!important;background:#111827!important;border-color:rgba(255,255,255,.22)!important;box-shadow:0 10px 24px rgba(15,23,42,.16)}
-.btn.primary:hover{color:#fff!important;background:#26324a!important;transform:translateY(-2px) scale(1.02)}
-:root[data-theme="dark"] .btn.primary{color:#fff!important;background:linear-gradient(135deg,#273652,#405a91)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 10px 28px rgba(0,0,0,.28)}
-:root[data-theme="dark"] .btn.primary:hover{background:linear-gradient(135deg,#314567,#4d69a5)!important}
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;--border:#e4e7ec;--accent:#2563eb}
+[data-theme=dark]{--bg:#09111f;--card:#111c2d;--text:#f5f7fb;--muted:#aab5c8;--border:#2a3950;--accent:#60a5fa}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--text)}
+.screen{position:fixed;inset:0;width:100%;height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;pointer-events:none;transform:translateX(7%);transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s linear .45s}
+.screen.active{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition-delay:0s}
+.bg{background:
+radial-gradient(circle at 15% 15%,#3b82f625,transparent 30%),
+radial-gradient(circle at 88% 82%,#8b5cf625,transparent 33%),var(--bg)}
+.bg:before,.bg:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;filter:blur(75px);opacity:.24;pointer-events:none;animation:float 10s ease-in-out infinite alternate}
+.bg:before{background:#3b82f6;left:-100px;top:-100px}.bg:after{background:#8b5cf6;right:-110px;bottom:-120px;animation-delay:-4s}
+.wrap{position:relative;width:min(460px,100%);z-index:1}
+.logo{width:76px;height:76px;border-radius:22px;margin:0 auto 18px;display:grid;place-items:center;background:color-mix(in srgb,var(--card) 88%,transparent);border:1px solid var(--border);box-shadow:0 15px 40px #0002;font-size:32px;animation:pop .55s cubic-bezier(.2,.8,.2,1)}
+.title{text-align:center;font-size:clamp(28px,5vw,38px);margin:0;font-weight:850;letter-spacing:-1px}
+.subtitle{text-align:center;color:var(--muted);margin:8px 0 26px}
+.roles{display:grid;gap:13px}
+.role{width:100%;border:0;border-radius:20px;padding:17px 19px;color:#fff;display:flex;align-items:center;gap:13px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 12px 30px #0002;transition:transform .2s ease,filter .2s ease}
+.role:hover{transform:translateY(-3px);filter:brightness(1.07)}.role:active{transform:scale(.98)}
+.role span:nth-child(2){flex:1;text-align:left}.arrow{font-size:27px;font-weight:400}
+.siswa{background:linear-gradient(135deg,#2563eb,#3b82f6)}.guru{background:linear-gradient(135deg,#7c3aed,#a855f7)}.admin{background:linear-gradient(135deg,#0f766e,#14b8a6)}
+.login-card{width:min(420px,100%);margin:auto;background:color-mix(in srgb,var(--card) 95%,transparent);border:1px solid var(--border);border-radius:28px;padding:30px;box-shadow:0 25px 75px #0003;backdrop-filter:blur(20px)}
+.back{border:0;background:none;color:var(--accent);font-weight:800;padding:0;margin:0 0 17px;cursor:pointer;font-size:14px}
+.role-title{font-size:27px;margin:0}.role-desc{color:var(--muted);margin:6px 0 22px}
+.field{margin:14px 0}.field label{display:block;font-size:13px;color:var(--muted);font-weight:700;margin-bottom:7px}.field input{width:100%;height:48px;border:1px solid var(--border);border-radius:14px;background:var(--bg);color:var(--text);padding:0 48px 0 14px;outline:none;transition:border-color .2s,box-shadow .2s}.field input:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+.input-wrap{position:relative}.eye{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:36px;height:36px;padding:8px;border:0;background:none;color:var(--muted);cursor:pointer}.eye svg{width:100%;height:100%}
+.submit{width:100%;height:48px;border:0;border-radius:14px;background:linear-gradient(135deg,var(--accent),#6366f1);color:#fff;font-weight:850;cursor:pointer;transition:transform .18s,filter .18s}.submit:hover{filter:brightness(1.08)}.submit:active{transform:scale(.98)}
+.err{min-height:20px;color:#ef4444;font-size:13px;font-weight:650;margin-top:10px}
+@keyframes float{to{transform:translate(42px,30px) scale(1.08)}}@keyframes pop{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+@media(max-width:700px){
+ .screen{padding:18px 14px;align-items:center}
+ .wrap{width:100%;max-width:430px}
+ .logo{width:66px;height:66px;border-radius:19px;font-size:27px;margin-bottom:15px}
+ .title{font-size:27px}.subtitle{margin-bottom:22px}
+ .role{min-height:58px;border-radius:17px;padding:15px 16px}
+ .login-card{width:100%;border:0;border-radius:24px;padding:24px 20px;box-shadow:none;background:color-mix(in srgb,var(--card) 97%,transparent)}
+}
+@media(max-height:620px){
+ .logo{display:none}.subtitle{margin-bottom:14px}.role{padding:12px 15px}.login-card{padding:18px}
+}
+@media(prefers-reduced-motion:reduce){
+ .screen{transition:none}.bg:before,.bg:after,.logo{animation:none}
+}
 </style>
+</head>
+<body>
+<section id="chooser" class="screen active bg" aria-label="Pilih akun">
+<div class="wrap">
+<div class="logo">🏫</div>
+<h1 class="title">XII TKJ 3</h1>
+<p class="subtitle">Pilih jenis akun untuk masuk</p>
+<div class="roles">
+<button class="role siswa" data-role="siswa"><span>👨‍🎓</span><span>Masuk Siswa</span><span class="arrow">›</span></button>
+<button class="role guru" data-role="guru"><span>👨‍🏫</span><span>Masuk Guru</span><span class="arrow">›</span></button>
+<button class="role admin" data-role="admin"><span>🛡️</span><span>Masuk Admin</span><span class="arrow">›</span></button>
+</div>
+</div>
+</section>
 
-<style>
-.password-field{position:relative;display:flex;align-items:center}.password-field input[type=password],.password-field input[type=text]{padding-right:56px!important}.password-toggle{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:42px;height:42px;border:1px solid transparent;border-radius:13px;background:transparent;color:var(--muted,#aeb8ca);display:grid;place-items:center;cursor:pointer;padding:0;transition:background .2s ease,color .2s ease,transform .2s ease}.password-toggle:hover{background:rgba(99,102,241,.13);color:var(--text,#f5f7ff);transform:translateY(-50%) scale(1.05)}.password-toggle:active{transform:translateY(-50%) scale(.96)}.password-toggle:focus-visible{outline:2px solid currentColor;outline-offset:2px}.password-toggle svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.password-toggle .eye-closed{display:none}.password-toggle.is-visible .eye-open{display:none}.password-toggle.is-visible .eye-closed{display:block}
-</style>
-</head><style>
-:root{--bg:#edf3f8;--text:#101827;--muted:#687386;--surface:rgba(255,255,255,.72);--border:rgba(255,255,255,.82);--accent:#16a35a;--purple:#9b6cff} 
-:root[data-theme="dark"]{--bg:#0b1220;--text:#f5f7ff;--muted:#aeb8ca;--surface:rgba(20,28,45,.86);--border:rgba(255,255,255,.13);--accent:#68e39c;--purple:#b38cff;color-scheme:dark}
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:var(--text);background:var(--bg);min-height:100vh}body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(80px);opacity:.6}body:before{width:420px;height:420px;left:-150px;top:70px;background:#74e4a6}body:after{width:480px;height:480px;right:-180px;bottom:-100px;background:linear-gradient(135deg,#78a9ff,#d68cff,#ff9bc7)}.wrap{width:min(1050px,calc(100% - 28px));margin:auto}.top{display:flex;justify-content:space-between;align-items:center;padding:16px 0}.brand{display:flex;align-items:center;gap:10px;font-weight:900}.brand img{width:46px;height:46px;object-fit:contain;border-radius:14px}.theme{border:1px solid var(--border);border-radius:14px;padding:9px 12px;background:var(--surface);color:var(--text);font-weight:800}.hero{padding:45px 0}.kicker{font-size:11px;letter-spacing:.15em;color:var(--accent);font-weight:950}.hero h1{font-size:clamp(42px,7vw,70px);line-height:.95;letter-spacing:-.06em;margin:10px 0}.gradient{background:linear-gradient(110deg,var(--text),var(--accent),#6f9cff,var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}.desc{color:var(--muted);line-height:1.7}.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{padding:22px;border-radius:28px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(24px);box-shadow:0 20px 55px rgba(0,0,0,.08)}.card h3{margin:12px 0 5px}.icon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:rgba(104,227,156,.14);font-weight:900}.btn{display:inline-block;border:1px solid var(--border);background:rgba(255,255,255,.55);color:var(--text);padding:13px 16px;border-radius:16px;font-weight:850;cursor:pointer}.primary{background:#111827;color:#fff}.form{display:none;max-width:460px;margin:20px auto 0}.form.show{display:block}.field{margin:14px 0}.field label{display:block;font-size:12px;font-weight:850;margin-bottom:7px}.field input{width:100%;padding:14px;border:1px solid var(--border);border-radius:16px;background:var(--surface);color:var(--text);outline:none}.message{min-height:22px;margin-top:10px;font-size:13px;color:var(--muted)}.back{margin-top:12px}.hidden{display:none!important}@media(max-width:700px){.roles{grid-template-columns:1fr}.hero{padding:25px 0}.top .brand span{display:none}}
-</style><body><div class="wrap"><header class="top"><a class="brand" href="index.html"><img class="theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" src="assets/galeri/logo-kelas-light.png" alt="Logo kelas"><span>XII TKJ 3</span></a><select class="theme" id="theme"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></header><main class="hero"><div class="kicker">XII TKJ 3 · SMK NU BANDAR</div><h1>Pilih <span class="gradient">Login</span></h1><p class="desc">Satu pintu untuk siswa, guru, dan admin dengan hak akses yang berbeda.</p><div class="roles"><article class="card"><div class="icon">S</div><h3>Siswa</h3><p class="desc">Absensi, tugas, materi, jadwal, dan pengumuman.</p><button class="btn primary" data-role="siswa">Masuk Siswa</button></article><article class="card"><div class="icon">G</div><h3>Guru</h3><p class="desc">Kelola ruang mata pelajaran, tugas, materi, absensi, dan nilai.</p><button class="btn primary" data-role="guru">Masuk Guru</button></article><article class="card"><div class="icon">A</div><h3>Admin</h3><p class="desc">Kelola seluruh data kelas dan pengaturan website.</p><button class="btn primary" data-role="admin" type="button">Masuk Admin →</button></article></div><section class="card form" id="authForm"><div class="kicker" id="roleLabel">LOGIN</div><h2 id="formTitle">Masuk</h2><p class="desc" id="formDesc"></p><div class="field"><label>USERNAME</label><input id="username" type="text" autocomplete="username" autocapitalize="none"></div><div class="field"><label>PASSWORD</label><div class="password-field"><input id="password" type="password" autocomplete="current-password"><button type="button" class="password-toggle" id="passwordToggle" aria-label="Tampilkan password" aria-pressed="false" title="Tampilkan password"><svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.7"/></svg><svg class="eye-closed" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 6.2A10.6 10.6 0 0 1 12 6c6.5 0 10 6 10 6a18.8 18.8 0 0 1-3.2 3.6"/><path d="M6.2 8.1C3.8 9.7 2 12 2 12s3.5 6 10 6a10.6 10.6 0 0 0 3.4-.55"/><path d="M9.9 9.9a2.7 2.7 0 0 0 3.8 3.8"/></svg></button></div></div><button class="btn primary" id="loginBtn">Login</button><div class="message" id="msg"></div><button class="btn back" id="backBtn" type="button">← Kembali</button></section></main></div>
-<script src="auth.js"></script>
+<section id="login" class="screen bg" aria-label="Form login">
+<div class="login-card">
+<button id="back" class="back" type="button">← Kembali</button>
+<h2 id="roleTitle" class="role-title">Login</h2>
+<p id="roleDesc" class="role-desc">Masukkan username dan password.</p>
+<div class="field"><label for="username">Username</label><input id="username" autocomplete="username" spellcheck="false"></div>
+<div class="field"><label for="password">Password</label><div class="input-wrap">
+<input id="password" type="password" autocomplete="current-password">
+<button id="eye" class="eye" type="button" aria-label="Tampilkan password">
+<svg id="eyeOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg>
+<svg id="eyeClosed" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l18 18"/><path d="M10.6 6.2A10.9 10.9 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-3.1 3.7M6.2 6.2C3.5 8.1 2 12 2 12s3.5 6 10 6c1.2 0 2.3-.2 3.3-.6"/></svg>
+</button>
+</div></div>
+<button id="submit" class="submit" type="button">Masuk</button>
+<div id="err" class="err"></div>
+</div>
+</section>
+
 <script>
-(function(){
- const root=document.documentElement,key="xii-tkj3-theme",media=matchMedia("(prefers-color-scheme: dark)");
- function applyTheme(v){const a=v==="system"?(media.matches?"dark":"light"):v;root.dataset.theme=a;document.querySelectorAll(".theme-logo").forEach(i=>i.src=a==="dark"?i.dataset.darkSrc:i.dataset.lightSrc);const t=document.getElementById("theme");if(t)t.value=v;}
- applyTheme(localStorage.getItem(key)||"system");
- document.getElementById("theme")?.addEventListener("change",e=>{localStorage.setItem(key,e.target.value);applyTheme(e.target.value)});
- media.addEventListener?.("change",()=>{if((localStorage.getItem(key)||"system")==="system")applyTheme("system")});
- let role="";
- const form=document.getElementById("authForm"),msg=document.getElementById("msg");
- document.querySelectorAll("[data-role]").forEach(b=>b.addEventListener("click",()=>{role=b.dataset.role;form.classList.add("show");document.getElementById("roleLabel").textContent="LOGIN "+role.toUpperCase();document.getElementById("formTitle").textContent="Login "+role[0].toUpperCase()+role.slice(1);document.getElementById("formDesc").textContent=role==="admin"?"Masuk sebagai pengelola website kelas.":role==="guru"?"Gunakan akun guru yang diberikan admin.":"Gunakan akun siswa yang diberikan admin.";document.getElementById("username").focus();msg.textContent="";}));
- document.getElementById("backBtn")?.addEventListener("click",()=>{form.classList.remove("show");msg.textContent=""});
- document.getElementById("loginBtn")?.addEventListener("click",async()=>{
-  const u=document.getElementById("username").value.trim().toLowerCase(),pw=document.getElementById("password").value;
-  if(!u||!pw){msg.textContent="Username dan password wajib diisi.";return;}
-  msg.textContent="Memeriksa akun...";
-  if(role==="admin"){
-   if(u==="tkj3"&&pw==="smknubandar"){sessionStorage.admin="1";sessionStorage.adminEntry="direct";sessionStorage.setItem("tkj3_session",JSON.stringify({username:u,role:"admin",nama:"Admin XII TKJ 3"}));location.href="admin.html?auth=1";}
-   else msg.textContent="❌ Username atau password salah.";
-   return;
-  }
-  const r=await window.portalAuth.loginPortal(u,pw,role);
-  if(!r.ok){msg.textContent="❌ "+r.message;return;}
-  location.href=role==="guru"?"guru.html":"siswa.html";
- });
- document.getElementById("password")?.addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("loginBtn").click()});
-})();
-</script><script>if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
-<script>
-window.portalSetLogin = function(role, username) {
-  sessionStorage.setItem("portal_login", JSON.stringify({
-    role: role, username: username, at: Date.now()
-  }));
+const accounts={
+ siswa:{username:"rama",password:"010909",target:"siswa.html",label:"Siswa"},
+ guru:{username:"andi",password:"smknubandar",target:"guru.html",label:"Guru"},
+ admin:{username:"tkj3",password:"smknubandar",target:"admin.html",label:"Admin"}
 };
-</script>
-
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("form");
-  if (!form) return;
-  form.addEventListener("submit", function () {
-    const user = form.querySelector('input[name="username"], input[type="text"]');
-    const role = document.querySelector('[data-role].active, [data-role][aria-selected="true"]');
-    portalSetLogin(role ? role.dataset.role : "siswa", user ? user.value.trim() : "");
-  });
+let role=null;
+const $=id=>document.getElementById(id);
+function showLogin(r){
+ role=r;
+ $("chooser").classList.remove("active");
+ $("login").classList.add("active");
+ $("roleTitle").textContent="Login "+accounts[r].label;
+ $("roleDesc").textContent="Masukkan username dan password "+accounts[r].label.toLowerCase()+".";
+ $("username").value="";$("password").value="";$("err").textContent="";
+ $("password").type="password";$("eyeOpen").style.display="block";$("eyeClosed").style.display="none";
+ setTimeout(()=>$("username").focus(),260);
+}
+document.querySelectorAll(".role").forEach(b=>b.addEventListener("click",()=>showLogin(b.dataset.role)));
+$("back").addEventListener("click",()=>{
+ $("login").classList.remove("active");$("chooser").classList.add("active");role=null;
 });
-</script>
-
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const buttons = [...document.querySelectorAll("button, [role='button'], a")];
-  const username = document.querySelector("input[name='username'], #username, input[type='text']");
-  const password = document.querySelector("input[name='password'], #password, input[type='password']");
-  const form = document.querySelector("form");
-
-  let selectedRole = "siswa";
-  const roleEls = document.querySelectorAll("[data-role]");
-  roleEls.forEach(el => el.addEventListener("click", () => {
-    if (el.dataset.role) selectedRole = el.dataset.role;
-  }));
-
-  function go(role) {
-    selectedRole = role;
-    const target = role === "guru" ? "guru.html" : role === "admin" ? "admin.html" : "siswa.html";
-    if (username) username.focus();
-    window.__loginTarget = target;
-  }
-
-  buttons.forEach(btn => {
-    const t = (btn.textContent || "").trim().toLowerCase();
-    if (t.includes("siswa")) btn.addEventListener("click", e => { e.preventDefault(); go("siswa"); });
-    if (t.includes("guru")) btn.addEventListener("click", e => { e.preventDefault(); go("guru"); });
-    if (t.includes("admin")) btn.addEventListener("click", e => { e.preventDefault(); go("admin"); });
-  });
-
-  async function submitLogin(e) {
-    if (e) e.preventDefault();
-    const u = username?.value || "";
-    const p = password?.value || "";
-    const role = selectedRole || "siswa";
-    if (!u || !p) { alert("Username dan password wajib diisi."); return false; }
-
-    const result = await window.portalAuth.loginPortal(u, p, role);
-    if (!result.ok) { alert(result.message); return false; }
-
-    const target = role === "guru" ? "guru.html" : role === "admin" ? "admin.html" : "siswa.html";
-    location.href = target;
-    return false;
-  }
-  if (form) form.addEventListener("submit", submitLogin);
-
-  // Support a generic login button if the form is not present.
-  buttons.forEach(btn => {
-    const t = (btn.textContent || "").trim().toLowerCase();
-    if (t === "login" || t.includes("masuk")) btn.addEventListener("click", submitLogin);
-  });
+$("eye").addEventListener("click",()=>{
+ const show=$("password").type==="password";$("password").type=show?"text":"password";
+ $("eyeOpen").style.display=show?"none":"block";$("eyeClosed").style.display=show?"block":"none";
 });
+function doLogin(){
+ const a=accounts[role],u=$("username").value.trim().toLowerCase(),p=$("password").value;
+ if(!u||!p){$("err").textContent="Username dan password wajib diisi.";return}
+ if(!a||u!==a.username||p!==a.password){$("err").textContent="Username atau password salah.";return}
+ sessionStorage.setItem("tkj3_session",JSON.stringify({username:u,role,nama:u}));
+ location.href=a.target;
+}
+$("submit").addEventListener("click",doLogin);
+$("password").addEventListener("keydown",e=>{if(e.key==="Enter")doLogin()});
 </script>
-
-
-<script>
-(function(){
- const input=document.getElementById("password"),btn=document.getElementById("passwordToggle");
- if(!input||!btn)return;
- btn.addEventListener("click",()=>{const show=input.type==="password";input.type=show?"text":"password";btn.classList.toggle("is-visible",show);btn.setAttribute("aria-pressed",String(show));btn.setAttribute("aria-label",show?"Sembunyikan password":"Tampilkan password");btn.title=show?"Sembunyikan password":"Tampilkan password";input.focus();});
-})();
-</script>
-</body></html>
+</body>
+</html>

@@ -478,7 +478,77 @@ input,select,textarea,.date,.student-name-input,.login-input{background:var(--in
 }
 </style>
 
-<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0b1220">  <script src="auth-guard.js"></script>
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0b1220">  
+
+<style id="tkj3-mobile-minimal">
+/* XII TKJ 3 — mobile minimal layer */
+*{box-sizing:border-box}
+img{max-width:100%;height:auto}
+button,input,select,textarea{font:inherit}
+@media (max-width: 700px){
+  body{
+    width:100%;
+    min-width:0!important;
+    overflow-x:hidden!important;
+    -webkit-text-size-adjust:100%;
+  }
+  header,nav,.navbar,.topbar,.header,.container,.content,.main,.dashboard,.page{
+    max-width:100%!important;
+  }
+  header,nav,.navbar,.topbar{
+    padding-left:14px!important;
+    padding-right:14px!important;
+  }
+  .container,.content,.main,.dashboard,.page{
+    width:100%!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    padding-left:14px!important;
+    padding-right:14px!important;
+  }
+  h1{font-size:clamp(22px,7vw,30px)!important;line-height:1.15}
+  h2{font-size:20px!important}
+  h3{font-size:17px!important}
+  p{line-height:1.55}
+  .card,.panel,.feature-card,.menu-card,.item,.box{
+    border-radius:18px!important;
+    box-shadow:0 6px 22px rgba(0,0,0,.08)!important;
+  }
+  .grid,.cards,.features,.menu-grid,.dashboard-grid,.gallery-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important;
+  }
+  .grid-3,.three-columns{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .gallery-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:15px}
+  table{display:block;width:100%;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+  th,td{padding:9px 10px!important}
+  form{width:100%;max-width:100%!important}
+  input,select,textarea{max-width:100%!important}
+  .btn,button,.button{min-height:42px}
+  .modal,.dialog{width:calc(100% - 24px)!important;max-width:none!important}
+}
+@media (max-width:420px){
+  .grid,.cards,.features,.menu-grid,.dashboard-grid,.gallery-grid{
+    grid-template-columns:1fr 1fr!important;
+    gap:8px!important;
+  }
+  .container,.content,.main,.dashboard,.page{padding-left:11px!important;padding-right:11px!important}
+  .card,.panel,.feature-card,.menu-card,.item,.box{padding:14px!important}
+}
+@media (max-width:360px){
+  .grid,.cards,.features,.menu-grid,.dashboard-grid,.gallery-grid{
+    grid-template-columns:1fr!important;
+  }
+}
+@media (prefers-reduced-motion:no-preference){
+  button,.btn,.button,a,.card,.panel,.feature-card,.menu-card,.item{
+    transition:transform .18s ease,opacity .18s ease,box-shadow .18s ease;
+  }
+  button:active,.btn:active,.button:active{transform:scale(.98)}
+}
+</style>
+
+<script src="auth-guard.js"></script>
 </head><body class="admin-gate">
 <header class="nav glass"><a class="brand" href="index.html"><img class="class-logo theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3">XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#guru">Data Guru</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><button class="logout" id="logout">Keluar</button></header>
 <section id="adminLoginGate" class="section admin-login-section"><div class="container"><div class="card glass">
@@ -1116,6 +1186,24 @@ el('saveTeacher')?.addEventListener('click',async()=>{const uid=el('teacherUidIn
   });
   refresh();
 })();
+</script>
+
+
+<script id="tkj3-mobile-helper">
+document.addEventListener("DOMContentLoaded",()=>{
+  if(window.innerWidth>700) return;
+  const nav=document.querySelector("nav,.navbar,.navigation,.top-nav");
+  if(!nav) return;
+  nav.classList.add("tkj3-mobile-nav");
+  const style=document.createElement("style");
+  style.textContent=`
+    @media(max-width:700px){
+      .tkj3-mobile-nav{display:flex!important;align-items:center!important;gap:7px!important;overflow-x:auto!important;white-space:nowrap!important;scrollbar-width:none!important;padding-top:8px!important;padding-bottom:8px!important}
+      .tkj3-mobile-nav::-webkit-scrollbar{display:none}
+      .tkj3-mobile-nav a,.tkj3-mobile-nav button{flex:0 0 auto!important;padding:9px 12px!important;border-radius:12px!important;font-size:13px!important}
+    }`;
+  document.head.appendChild(style);
+});
 </script>
 
 </body></html>
