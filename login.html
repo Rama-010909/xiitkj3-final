@@ -963,7 +963,7 @@ async function doLogin() {
 
   // 1) Akun default bawaan (testing)
   if (a && u === a.username && p === a.password) {
-    nama = a.label;
+    nama = (selectedRole === "siswa" ? "Rama" : selectedRole === "guru" ? "Andi" : "Admin XII TKJ 3");
   }
 
   // 2) Akun tambahan yang dibuat admin lewat panel Admin (tersimpan di Firestore)

@@ -593,7 +593,7 @@ input::placeholder,textarea::placeholder{color:var(--ui-muted)!important}
 <div class="attendance-date-head"><span class="selected-date" id="selectedDateText"></span><span class="desc" style="font-size:12px">Data diperbarui otomatis saat ada siswa yang absen.</span></div>
 <div id="tableBox"></div>
 </div></div></section>
-<section id="guru" class="section"><div class="container"><div class="head"><div class="kicker">DATA GURU</div><h2>Kelola Guru</h2><p class="desc">Tambah akun guru baru lengkap dengan username &amp; password untuk login di Portal, serta mata pelajaran yang diampu.</p></div><div class="panel glass"><div class="manager-form" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="teacherNameInput" class="manager-input" placeholder="Nama guru"><input id="teacherUsernameInput" class="manager-input" placeholder="Username login"><input id="teacherPasswordInput" class="manager-input" type="password" placeholder="Password login" autocomplete="new-password"><input id="teacherSubjectsInput" class="manager-input" placeholder="Mapel, pisahkan koma"><input id="teacherEmailInput" class="manager-input" placeholder="Email (opsional)"><button type="button" class="btn primary" id="saveTeacher" style="grid-column:1/-1">Tambah Akun Guru</button></div><div id="teacherMessage" class="schedule-message"></div><div id="teacherManagerList" class="student-manager"></div></div></div></section><section id="siswa" class="section"><div class="container"><div class="head"><div class="kicker">DATA SISWA</div><h2>Kelola Data Siswa</h2><p class="desc">Tambah siswa baru lengkap dengan akun login (username &amp; password) sendiri-sendiri, supaya tiap siswa punya halaman pribadi tanpa perlu pilih nama secara manual. Siswa lama yang belum punya akun bisa dibuatkan lewat tombol "Buat Akun".</p></div><div class="panel glass"><div class="manager-form" style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;margin-bottom:14px"><input id="newStudentName" class="manager-input" placeholder="Nama siswa baru"><input id="newStudentUsername" class="manager-input" placeholder="Username login"><input id="newStudentPassword" class="manager-input" type="password" placeholder="Password login" autocomplete="new-password"><button type="button" class="btn primary" id="addStudent">Tambah Siswa</button></div><div id="studentManager" class="student-manager"><div class="empty">Memuat data siswa...</div></div><div class="student-count-note" id="studentManagerMessage"></div></div></div></section>
+<section id="guru" class="section"><div class="container"><div class="head"><div class="kicker">DATA GURU</div><h2>Kelola Guru</h2><p class="desc">Tambah akun guru baru lengkap dengan username &amp; password untuk login di Portal, serta mata pelajaran yang diampu.</p></div><div class="panel glass"><div class="manager-form" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="teacherNameInput" class="manager-input" placeholder="Nama guru"><input id="teacherUsernameInput" class="manager-input" placeholder="Username login"><input id="teacherPasswordInput" class="manager-input" type="password" placeholder="Password login" autocomplete="new-password"><input id="teacherSubjectsInput" class="manager-input" placeholder="Mapel, pisahkan koma"><input id="teacherEmailInput" class="manager-input" placeholder="Email (opsional)"><button type="button" class="btn primary" id="saveTeacher" style="grid-column:1/-1">Tambah Akun Guru</button></div><div id="teacherMessage" class="schedule-message"></div><div id="teacherManagerList" class="student-manager"></div></div></div></section><section id="siswa" class="section"><div class="container"><div class="head"><div class="kicker">DATA SISWA</div><h2>Kelola Data Siswa</h2><p class="desc">Tambah siswa baru lengkap dengan akun login. Untuk siswa lama, tombol <b>Buat Akun</b> menyimpan username dan password ke Firestore collection <code>accounts</code>.</p></div><div class="panel glass"><div class="manager-form" style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;margin-bottom:14px"><input id="newStudentName" class="manager-input" placeholder="Nama siswa baru"><input id="newStudentUsername" class="manager-input" placeholder="Username login"><input id="newStudentPassword" class="manager-input" type="password" placeholder="Password login" autocomplete="new-password"><button type="button" class="btn primary" id="addStudent">Tambah Siswa</button></div><div id="studentManager" class="student-manager"><div class="empty">Memuat data siswa...</div></div><div class="student-count-note" id="studentManagerMessage"></div></div></div></section>
 <section id="struktur" class="section"><div class="container"><div class="head"><div class="kicker">KELAS</div><h2>Struktur Kelas</h2><p class="desc">Isi struktur dibuat sama seperti halaman siswa. Kamu bisa mengganti nama setiap orang langsung dari kartu di bawah, lalu simpan.</p></div><div id="structureEditor" class="admin-structure-grid"></div><div class="panel glass structure-save-panel"><div class="schedule-actions"><button class="btn" id="saveStructure">💾 Simpan Struktur</button><span id="structureMessage" class="schedule-message"></span></div></div></div></section>
 <section id="jadwal" class="section"><div class="container">
 <div class="head"><div><div class="kicker">PELAJARAN</div><h2>Kelola Jadwal Kelas</h2><p class="desc">Edit jam dan mata pelajaran di sini. Setelah disimpan, jadwal akan langsung tampil di halaman siswa.</p></div></div>
@@ -984,13 +984,24 @@ async function hashPw(pw){
  return[...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join("");
 }
 async function createStudentAccount(username,password,nama){
- username=username.trim().toLowerCase();
- if(!username||password.length<4)return{ok:false,message:"Username wajib diisi dan password minimal 4 karakter."};
- const existing=await getDoc(doc(managerDb,"accounts",username));
- if(existing.exists())return{ok:false,message:`Username "${username}" sudah dipakai, pilih username lain.`};
- const passwordHash=await hashPw(password);
- await setDoc(doc(managerDb,"accounts",username),{username,passwordHash,role:"siswa",nama,createdAt:Date.now()});
- return{ok:true};
+ username=String(username||"").trim().toLowerCase();
+ if(!username)return{ok:false,message:"Username wajib diisi."};
+ if(!/^[a-z0-9._-]{3,40}$/.test(username))return{ok:false,message:"Username hanya boleh berisi huruf kecil, angka, titik, garis bawah, atau tanda minus (3–40 karakter)."};
+ if(!password||password.length<4)return{ok:false,message:"Password minimal 4 karakter."};
+ if(!nama)return{ok:false,message:"Nama siswa belum tersedia."};
+ try{
+   const ref=doc(managerDb,"accounts",username);
+   const existing=await getDoc(ref);
+   if(existing.exists())return{ok:false,message:`Username "${username}" sudah dipakai, pilih username lain.`};
+   const passwordHash=await hashPw(password);
+   await setDoc(ref,{username,passwordHash,role:"siswa",nama,createdAt:Date.now(),updatedAt:Date.now()});
+   const verify=await getDoc(ref);
+   if(!verify.exists())return{ok:false,message:"Firestore tidak mengembalikan data akun setelah disimpan. Cek koneksi Firestore."};
+   return{ok:true};
+ }catch(e){
+   console.error("createStudentAccount",e);
+   return{ok:false,message:`${e.code||"firebase-error"}: ${e.message||e}`};
+ }
 }
 async function createAccountForStudent(id){
  const row=studentData.find(x=>x.id===id); if(!row)return;
@@ -1003,7 +1014,7 @@ async function createAccountForStudent(id){
   await updateDoc(doc(managerDb,"siswa",id),{username:username.toLowerCase()});
   showManagerToast("Akun dibuat",`${row.nama} sekarang bisa login sendiri dengan username "${username.toLowerCase()}".`);
   await loadStudents();
- }catch(e){console.error(e);showManagerToast("Gagal membuat akun","Periksa Firestore Rules untuk collection accounts."+(e.message?" ("+e.message+")":""));}
+ }catch(e){console.error(e);showManagerToast("Gagal membuat akun",`${e.code||"firebase-error"}: ${e.message||e}`);}
 }
 async function addStudent(){
  const nameInput=document.getElementById("newStudentName"),userInput=document.getElementById("newStudentUsername"),passInput=document.getElementById("newStudentPassword"),btn=document.getElementById("addStudent");
@@ -1020,7 +1031,7 @@ async function addStudent(){
   nameInput.value="";userInput.value="";passInput.value="";
   await loadStudents();
   showManagerToast("Siswa ditambahkan",`${name} sudah bisa login sendiri dengan username "${username.trim().toLowerCase()}".`);
- }catch(e){console.error(e);showManagerToast("Gagal menambah","Periksa Firestore Rules untuk collection siswa/accounts."+(e.message?" ("+e.message+")":""));}
+ }catch(e){console.error(e);showManagerToast("Gagal menambah",`${e.code||"firebase-error"}: ${e.message||e}`);}
  finally{btn.disabled=false;}
 }
 document.getElementById("addStudent").onclick=addStudent;
@@ -1218,6 +1229,7 @@ el('saveTeacher')?.addEventListener('click',async()=>{
   const btn=el('saveTeacher'),msg=el('teacherMessage');
   const username=el('teacherUsernameInput').value.trim().toLowerCase(),password=el('teacherPasswordInput').value,name=el('teacherNameInput').value.trim(),email=el('teacherEmailInput').value.trim(),subs=el('teacherSubjectsInput').value.split(',').map(x=>x.trim()).filter(Boolean);
   if(!username||!password||!name||!subs.length){msg.textContent='Nama, username, password, dan minimal satu mapel wajib diisi.';return}
+  if(!/^[a-z0-9._-]{3,40}$/.test(username)){msg.textContent='Username hanya boleh huruf kecil, angka, titik, garis bawah, atau minus (3–40 karakter).';return}
   if(password.length<4){msg.textContent='Password minimal 4 karakter.';return}
   btn.disabled=true;
   try{

@@ -747,6 +747,10 @@ body{
   color:var(--accent);
 }
 .toast.err{color:var(--danger);}
+
+.account-name-card{display:flex;align-items:center;gap:12px;min-height:58px;padding:11px 14px;border:1px solid var(--border);border-radius:16px;background:var(--card);color:var(--text)}
+.account-name-avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 14%,transparent)}
+.account-name-card span:last-child{display:flex;flex-direction:column;gap:2px}.account-name-card small{font-size:11px;color:var(--muted)}.account-name-card b{font-size:15px}
 </style>
 </head>
 <body>
@@ -842,10 +846,12 @@ body{
       <div class="ios-panel ios-glass">
         <form id="absenForm" class="form-grid" onsubmit="return false;">
           <div class="field-group">
-            <label for="absenNama">Nama Siswa</label>
-            <select id="absenNama" class="form-select" required>
-              <option value="">Memuat daftar siswa...</option>
-            </select>
+            <label>Nama Siswa</label>
+            <div id="absenNamaDisplay" class="account-name-card">
+              <span class="account-name-avatar">👤</span>
+              <span><small>Login sebagai</small><b id="absenNamaText">Memuat nama...</b></span>
+            </div>
+            <input type="hidden" id="absenNama" value="">
           </div>
 
           <div class="field-group">
@@ -1185,44 +1191,18 @@ const defaultStudents = [
   "TUTUT JUANITA","VIRNAJI RIZKY RAMADHAN","YULIA ADISTYAR","ZAHRO LAZIMATUSYIFA","ZULFATUROHMI"
 ];
 
-/* 1. Load Students List */
-let studentHasOwnAccount = false;
+/* 1. Load logged-in student identity */
+let studentHasOwnAccount = true;
 async function loadStudents() {
-  try {
-    const snap = await getDocs(collection(db, "siswa"));
-    let students = snap.docs.map(d => d.data().nama).filter(Boolean);
-    if (!students.length) students = defaultStudents;
-    students.sort((a, b) => a.localeCompare(b));
-
-    const opts = '<option value="">Pilih nama Anda...</option>' + 
-      students.map(name => `<option value="${esc(name)}">${esc(name)}</option>`).join('');
-    
-    q('absenNama').innerHTML = opts;
-    q('subNama').innerHTML = opts;
-
-    // Jika siswa login dengan akun sendiri (bukan akun bersama), namanya
-    // dicocokkan persis dan dikunci — tidak perlu (dan tidak bisa) pilih nama lain.
-    const exactMatch = students.find(s => s.toLowerCase() === studentName.toLowerCase());
-    const match = exactMatch || students.find(s => s.toLowerCase().includes(studentName.toLowerCase()));
-    if (match) {
-      q('absenNama').value = match;
-      q('subNama').value = match;
-    }
-    if (exactMatch && userSession.username && userSession.username !== "rama") {
-      studentHasOwnAccount = true;
-      [q('absenNama'), q('subNama')].forEach(sel => {
-        sel.disabled = true;
-        sel.title = "Nama terkunci ke akun Anda sendiri.";
-      });
-    }
-    q('statStudentCount').textContent = students.length;
-  } catch (e) {
-    console.warn("Load students:", e);
-    const opts = '<option value="">Pilih nama Anda...</option>' + 
-      defaultStudents.map(name => `<option value="${esc(name)}">${esc(name)}</option>`).join('');
-    q('absenNama').innerHTML = opts;
-    q('subNama').innerHTML = opts;
-  }
+  const name = String(studentName || userSession.username || "").trim();
+  const display = q('absenNamaDisplay');
+  const hidden = q('absenNama');
+  const textEl = q('absenNamaText');
+  if (hidden) hidden.value = name;
+  if (textEl) textEl.textContent = name || "Nama akun belum tersedia";
+  if (display) display.title = "Nama otomatis mengikuti akun yang sedang login.";
+  // Nama absensi tidak lagi dapat dipilih/diganti oleh siswa.
+  q('statStudentCount').textContent = q('statStudentCount').textContent || '—';
 }
 loadStudents();
 
@@ -1274,14 +1254,14 @@ onSnapshot(collection(db, "absensi"), snap => {
 
 /* Submit Absensi */
 q('submitAbsen').addEventListener('click', async () => {
-  const nama = q('absenNama').value;
+  const nama = String(studentName || userSession.nama || userSession.username || '').trim();
   const statusEl = document.querySelector('input[name="absenStatus"]:checked');
   const status = statusEl ? statusEl.value : 'HADIR';
   const keterangan = q('absenKet').value.trim();
   const toast = q('absenToast');
 
   if (!nama) {
-    toast.textContent = "Silakan pilih nama siswa terlebih dahulu.";
+    toast.textContent = "Nama akun belum tersedia. Silakan login ulang.";
     toast.className = "toast err";
     return;
   }
