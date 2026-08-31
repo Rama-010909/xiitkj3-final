@@ -1,143 +1,71 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Login • XII TKJ 3</title>
 <style>
-:root{--bg:#f5f7fb;--card:rgba(255,255,255,.82);--text:#172033;--muted:#6b7280;--border:rgba(15,23,42,.10);--accent:#2563eb;--shadow:0 28px 80px rgba(15,23,42,.14)}
-:root[data-theme=dark]{--bg:#08111f;--card:rgba(18,30,48,.82);--text:#f5f7fb;--muted:#aab5c6;--border:rgba(255,255,255,.12);--accent:#60a5fa;--shadow:0 28px 80px rgba(0,0,0,.4);color-scheme:dark}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-body{overflow:hidden}body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(90px);opacity:.23;animation:float 9s ease-in-out infinite alternate}
-body:before{width:360px;height:360px;left:-100px;top:-100px;background:#3b82f6}body:after{width:390px;height:390px;right:-120px;bottom:-140px;background:#8b5cf6;animation-delay:-4s}
-@keyframes float{to{transform:translate(30px,25px) scale(1.08)}}@keyframes up{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
-.page{min-height:100dvh;display:grid;place-items:center;padding:20px}.box{width:min(460px,100%);animation:up .55s cubic-bezier(.2,.8,.2,1)}
-.logos{display:flex;justify-content:center;gap:10px;margin-bottom:17px}.logos img{width:58px;height:58px;object-fit:contain;padding:7px;border-radius:18px;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);backdrop-filter:blur(20px)}
-h1{text-align:center;margin:0;font-size:clamp(31px,7vw,43px);letter-spacing:-1.7px;font-weight:900}.sub{text-align:center;color:var(--muted);margin:7px 0 25px}
-.roles{display:grid;gap:12px}.role{border:1px solid transparent;border-radius:20px;padding:17px 18px;display:flex;align-items:center;gap:13px;color:white;font-size:16px;font-weight:850;cursor:pointer;box-shadow:0 16px 34px rgba(0,0,0,.12);transition:transform .22s,filter .22s}.role:hover{transform:translateY(-3px);filter:brightness(1.05)}.role:active{transform:scale(.97)}.role b{flex:1;text-align:left}.student{background:linear-gradient(135deg,#2563eb,#3b82f6)}.teacher{background:linear-gradient(135deg,#7c3aed,#a855f7)}.administrator{background:linear-gradient(135deg,#087f72,#14b8a6)}
-.login-card{background:var(--card);border:1px solid var(--border);border-radius:29px;padding:27px;box-shadow:var(--shadow);backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);animation:up .42s cubic-bezier(.2,.8,.2,1)}
-.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}.back{border:0;background:transparent;color:var(--accent);font-weight:850;cursor:pointer;padding:7px 0}.mode{border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--text);padding:8px 10px;font-weight:750}
-.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);font-size:12px;font-weight:900}.role-title{font-size:29px;letter-spacing:-.7px;margin:12px 0 4px}.desc{color:var(--muted);margin:0 0 21px}.field{margin:14px 0}.field label{display:block;color:var(--muted);font-size:13px;font-weight:800;margin:0 0 7px}.field input{width:100%;height:49px;border:1px solid var(--border);border-radius:14px;background:var(--bg);color:var(--text);outline:none;padding:0 14px;font:inherit}.field input:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 15%,transparent)}.pass{position:relative}.pass input{padding-right:48px}.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:37px;height:37px;border:0;background:transparent;color:var(--muted);cursor:pointer;padding:8px}.eye svg{width:100%;height:100%}.submit{width:100%;height:49px;margin-top:6px;border:0;border-radius:14px;background:linear-gradient(135deg,var(--accent),#6366f1);color:white;font:inherit;font-weight:900;cursor:pointer;transition:.2s}.submit:hover{transform:translateY(-2px)}.submit:active{transform:scale(.98)}.error{min-height:21px;margin:9px 0 0;color:#ef4444;font-size:13px;font-weight:700}.hint{text-align:center;color:var(--muted);font-size:12px;margin:13px 0 0}
-@media(max-width:500px){.page{padding:15px}.login-card{padding:22px 18px;border-radius:24px}.logos img{width:54px;height:54px}}
+:root{--bg:#f5f7fb;--card:rgba(255,255,255,.78);--text:#172033;--muted:#687386;--line:rgba(20,30,50,.1);--accent:#2878ff;--shadow:0 30px 90px rgba(24,39,75,.16)}
+:root[data-theme=dark]{--bg:#07111f;--card:rgba(20,31,49,.78);--text:#f5f7ff;--muted:#aeb9ca;--line:rgba(255,255,255,.12);--accent:#70a8ff;--shadow:0 30px 90px rgba(0,0,0,.45);color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif;color:var(--text);background:var(--bg)}
+body{overflow:hidden}body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(90px);opacity:.22;animation:orb 9s ease-in-out infinite alternate}
+body:before{width:380px;height:380px;left:-110px;top:-120px;background:#4b8dff}body:after{width:420px;height:420px;right:-150px;bottom:-170px;background:#9b6cff;animation-delay:-3s}
+@keyframes orb{to{transform:translate(35px,30px) scale(1.1)}}@keyframes rise{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.98)}60%{transform:scale(1.015)}100%{transform:scale(1)}}
+.page{min-height:100dvh;display:grid;place-items:center;padding:18px}.shell{width:min(470px,100%);animation:rise .65s cubic-bezier(.2,.8,.2,1)}
+.logos{display:flex;justify-content:center;gap:10px;margin-bottom:16px}.logos img{width:60px;height:60px;object-fit:contain;padding:7px;border-radius:19px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(24px);animation:orb 7s ease-in-out infinite alternate}
+h1{text-align:center;font-size:clamp(32px,7vw,44px);letter-spacing:-1.8px;margin:0;font-weight:900}.subtitle{text-align:center;color:var(--muted);margin:7px 0 24px}
+.roles{display:grid;gap:12px}.role{display:flex;align-items:center;gap:13px;border:1px solid rgba(255,255,255,.18);border-radius:22px;padding:17px 18px;color:#fff;font:inherit;font-weight:900;cursor:pointer;box-shadow:0 16px 40px rgba(0,0,0,.14);transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,filter .25s}.role:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 24px 48px rgba(0,0,0,.2);filter:brightness(1.05)}.role:active{transform:scale(.965)}.role b{flex:1;text-align:left}.student{background:linear-gradient(135deg,#2476ff,#4b8dff)}.teacher{background:linear-gradient(135deg,#7540e8,#ad67ff)}.admin{background:linear-gradient(135deg,#087d70,#16b8a5)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:30px;padding:27px;box-shadow:var(--shadow);backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);animation:rise .45s cubic-bezier(.2,.8,.2,1)}
+.top{display:flex;align-items:center;justify-content:space-between}.back{border:0;background:none;color:var(--accent);font:inherit;font-weight:900;cursor:pointer;padding:7px 0}.mode{border:1px solid var(--line);border-radius:13px;padding:8px 10px;background:var(--card);color:var(--text);font-weight:800}
+.badge{display:inline-flex;margin-top:18px;padding:7px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 13%,transparent);color:var(--accent);font-size:12px;font-weight:900}.title{font-size:30px;letter-spacing:-.8px;margin:10px 0 4px}.desc{color:var(--muted);margin:0 0 21px}.field{margin:14px 0}.field label{display:block;color:var(--muted);font-size:13px;font-weight:850;margin-bottom:7px}.field input{width:100%;height:50px;border:1px solid var(--line);border-radius:15px;background:var(--bg);color:var(--text);font:inherit;padding:0 14px;outline:none;transition:.2s}.field input:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 15%,transparent);transform:translateY(-1px)}.pass{position:relative}.pass input{padding-right:50px}.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:0;background:none;color:var(--muted);cursor:pointer}.eye svg{width:100%;height:100%}.submit{width:100%;height:50px;border:0;border-radius:15px;background:linear-gradient(135deg,var(--accent),#6b63ff);color:#fff;font:inherit;font-weight:900;cursor:pointer;margin-top:7px;box-shadow:0 12px 28px color-mix(in srgb,var(--accent) 25%,transparent);transition:.22s}.submit:hover{transform:translateY(-2px) scale(1.01)}.submit:active{transform:scale(.97)}.submit:disabled{opacity:.7;cursor:wait}.error{min-height:21px;margin-top:9px;color:#ef4444;font-size:13px;font-weight:750}.hint{text-align:center;color:var(--muted);font-size:12px;margin:13px 0 0}
+@media(max-width:500px){.card{padding:22px 18px;border-radius:25px}.logos img{width:54px;height:54px}}
 </style>
 </head>
 <body>
-<div class="page">
-  <main class="box">
-    <section id="chooser">
-      <div class="logos">
-        <img src="assets/galeri/logo-kelas-light.png" id="classLogo1" data-light="assets/galeri/logo-kelas-light.png" data-dark="assets/galeri/logo-kelas-dark.png" alt="Logo Kelas">
-        <img src="assets/galeri/logo-smk-theme.png" alt="Logo SMK">
-      </div>
-      <h1>XII TKJ 3</h1>
-      <p class="sub">Pilih jenis akun untuk masuk</p>
-      <div class="roles">
-        <button class="role student" data-role="siswa"><span>👨‍🎓</span><b>Login Siswa</b><span>›</span></button>
-        <button class="role teacher" data-role="guru"><span>👨‍🏫</span><b>Login Guru</b><span>›</span></button>
-        <button class="role administrator" data-role="admin"><span>🛡️</span><b>Login Admin</b><span>›</span></button>
-      </div>
-    </section>
-
-    <section id="loginPanel" class="login-card" hidden>
-      <div class="top">
-        <button id="back" class="back" type="button">← Kembali</button>
-        <select id="mode" class="mode"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select>
-      </div>
-      <span id="badge" class="badge">👨‍🎓 Siswa</span>
-      <h2 id="roleTitle" class="role-title">Login Siswa</h2>
-      <p id="roleDesc" class="desc">Masuk menggunakan akun siswa yang telah dibuat.</p>
-      <div class="field"><label for="username">Username</label><input id="username" autocomplete="username" spellcheck="false" placeholder="Masukkan username"></div>
-      <div class="field"><label for="password">Password</label><div class="pass"><input id="password" type="password" autocomplete="current-password" placeholder="Masukkan password"><button id="eye" class="eye" type="button" aria-label="Tampilkan password">
-        <svg id="openEye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg>
-        <svg id="closedEye" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 3 18 18"/><path d="M10.6 6.2A10.8 10.8 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-3.1 3.7M6.2 6.2C3.5 8.1 2 12 2 12s3.5 6 10 6c1.2 0 2.3-.2 3.3-.6"/></svg>
-      </button></div></div>
-      <button id="submit" class="submit" type="button">Masuk sebagai Siswa</button>
-      <div id="error" class="error"></div>
-      <p class="hint">Akun diambil dari database akun yang dibuat admin.</p>
-    </section>
-  </main>
-</div>
-
+<div class="page"><main class="shell">
+<section id="chooser">
+<div class="logos"><img id="classLogo" src="assets/galeri/logo-kelas-light.png" data-light="assets/galeri/logo-kelas-light.png" data-dark="assets/galeri/logo-kelas-dark.png"><img src="assets/galeri/logo-smk-theme.png"></div>
+<h1>XII TKJ 3</h1><p class="subtitle">Pilih jenis akun untuk masuk</p>
+<div class="roles">
+<button class="role student" data-role="siswa"><span>👨‍🎓</span><b>Login Siswa</b><span>›</span></button>
+<button class="role teacher" data-role="guru"><span>👨‍🏫</span><b>Login Guru</b><span>›</span></button>
+<button class="role admin" data-role="admin"><span>🛡️</span><b>Login Admin</b><span>›</span></button>
+</div></section>
+<section id="panel" class="card" hidden>
+<div class="top"><button id="back" class="back">← Kembali</button><select id="mode" class="mode"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div>
+<div id="badge" class="badge">👨‍🎓 Siswa</div><h2 id="title" class="title">Login Siswa</h2><p id="desc" class="desc">Masuk menggunakan akun siswa yang dibuat admin.</p>
+<div class="field"><label>Username</label><input id="username" autocomplete="username" placeholder="Masukkan username"></div>
+<div class="field"><label>Password</label><div class="pass"><input id="password" type="password" autocomplete="current-password" placeholder="Masukkan password"><button id="eye" class="eye" type="button"><svg id="eo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg><svg id="ec" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 3 18 18"/><path d="M10.6 6.2A10.8 10.8 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-3.1 3.7M6.2 6.2C3.5 8.1 2 12 2 12s3.5 6 10 6c1.2 0 2.3-.2 3.3-.6"/></svg></button></div></div>
+<button id="submit" class="submit">Masuk sebagai Siswa</button><div id="error" class="error"></div><p class="hint">Gunakan akun yang tersimpan di Firestore.</p>
+</section></main></div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 import{getFirestore,collection,getDocs,query,where}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-
-const firebaseConfig={apiKey:"AIzaSy8Q0ZfX1xXxXxXxXxXxXxXxXxXxXxXx",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
-const db=getFirestore(initializeApp(firebaseConfig));
-const $=id=>document.getElementById(id);
-let selectedRole="siswa";
-
-const roleInfo={
- siswa:{label:"Siswa",icon:"👨‍🎓",target:"siswa.html",desc:"Masuk menggunakan akun siswa yang telah dibuat admin."},
- guru:{label:"Guru",icon:"👨‍🏫",target:"guru.html",desc:"Masuk menggunakan akun guru yang telah dibuat admin."},
- admin:{label:"Admin",icon:"🛡️",target:"admin.html",desc:"Masuk menggunakan akun admin."}
-};
-
-function applyTheme(v){
- const actual=v==="system"?(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):v;
- document.documentElement.dataset.theme=actual;
- const logo=$("classLogo1"); logo.src=actual==="dark"?logo.dataset.dark:logo.dataset.light;
- localStorage.setItem("tkj3-theme",v); $("mode").value=v;
-}
-applyTheme(localStorage.getItem("tkj3-theme")||"system");
-$("mode").onchange=e=>applyTheme(e.target.value);
-
-function chooseRole(role){
- selectedRole=role;
- const x=roleInfo[role];
- $("badge").textContent=x.icon+" "+x.label;
- $("roleTitle").textContent="Login "+x.label;
- $("roleDesc").textContent=x.desc;
- $("submit").textContent="Masuk sebagai "+x.label;
- $("error").textContent="";
- $("username").value="";$("password").value="";
- $("chooser").hidden=true;$("loginPanel").hidden=false;
- setTimeout(()=>$("username").focus(),180);
-}
-document.querySelectorAll(".role").forEach(b=>b.addEventListener("click",()=>chooseRole(b.dataset.role)));
-$("back").onclick=()=>{$("loginPanel").hidden=true;$("chooser").hidden=false;$("password").value="";$("error").textContent=""};
-$("eye").onclick=()=>{const show=$("password").type==="password";$("password").type=show?"text":"password";$("openEye").style.display=show?"none":"block";$("closedEye").style.display=show?"block":"none"};
-
-async function hash(value){
- const data=new TextEncoder().encode(value);
- const digest=await crypto.subtle.digest("SHA-256",data);
- return Array.from(new Uint8Array(digest)).map(x=>x.toString(16).padStart(2,"0")).join("");
-}
-function normalizeRole(v){
- v=String(v||"").toLowerCase().trim();
- if(["siswa","student","murid"].includes(v))return"siswa";
- if(["guru","teacher"].includes(v))return"guru";
- if(["admin","administrator"].includes(v))return"admin";
- return v;
-}
+const firebaseConfig={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
+const db=getFirestore(initializeApp(firebaseConfig)); const $=id=>document.getElementById(id);
+const info={siswa:{label:"Siswa",icon:"👨‍🎓",target:"siswa.html",desc:"Masuk menggunakan akun siswa yang dibuat admin."},guru:{label:"Guru",icon:"👨‍🏫",target:"guru.html",desc:"Masuk menggunakan akun guru yang dibuat admin."},admin:{label:"Admin",icon:"🛡️",target:"admin.html",desc:"Masuk menggunakan akun administrator."}};
+let role="siswa";
+function theme(v){let a=v==="system"?(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"):v;document.documentElement.dataset.theme=a;localStorage.setItem("tkj3-theme",v);$("mode").value=v;$("classLogo").src=a==="dark"?$("classLogo").dataset.dark:$("classLogo").dataset.light}
+theme(localStorage.getItem("tkj3-theme")||"system");$("mode").onchange=e=>theme(e.target.value);
+document.querySelectorAll(".role").forEach(b=>b.onclick=()=>{role=b.dataset.role;let x=info[role];$("badge").textContent=x.icon+" "+x.label;$("title").textContent="Login "+x.label;$("desc").textContent=x.desc;$("submit").textContent="Masuk sebagai "+x.label;$("error").textContent="";$("username").value="";$("password").value="";$("chooser").hidden=true;$("panel").hidden=false;setTimeout(()=>$("username").focus(),180)});
+$("back").onclick=()=>{$("panel").hidden=true;$("chooser").hidden=false};
+$("eye").onclick=()=>{let s=$("password").type==="password";$("password").type=s?"text":"password";$("eo").style.display=s?"none":"block";$("ec").style.display=s?"block":"none"};
+async function hash(p){let d=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(p));return Array.from(new Uint8Array(d)).map(x=>x.toString(16).padStart(2,"0")).join("")}
+function norm(v){v=String(v||"").toLowerCase().trim();if(["siswa","student","murid"].includes(v))return"siswa";if(["guru","teacher"].includes(v))return"guru";if(["admin","administrator"].includes(v))return"admin";return v}
 async function login(){
- const username=$("username").value.trim();
- const password=$("password").value;
- $("error").textContent="";
- if(!username||!password){$("error").textContent="Username dan password wajib diisi.";return}
- const btn=$("submit");btn.disabled=true;btn.textContent="Memeriksa…";
- try{
-   const snap=await getDocs(query(collection(db,"accounts"),where("username","==",username)));
-   if(snap.empty){$("error").textContent="Akun tidak ditemukan. Pastikan akun sudah dibuat admin.";return}
-   let found=null;
-   snap.forEach(doc=>{if(!found)found={id:doc.id,...doc.data()}});
-   const role=normalizeRole(found.role||found.jenis||found.tipe);
-   if(role!==selectedRole){$("error").textContent="Akun ini terdaftar sebagai "+(role||"role lain")+", bukan "+roleInfo[selectedRole].label+".";return}
-   const inputHash=await hash(password);
-   const stored=String(found.passwordHash||found.password_hash||found.password||"");
-   const valid=stored===password||stored===inputHash;
-   if(!valid){$("error").textContent="Password salah.";return}
-   sessionStorage.setItem("tkj3_session",JSON.stringify({id:found.id,username:found.username||username,nama:found.nama||found.name||username,role}));
-   location.replace(roleInfo[role].target);
- }catch(e){
-   console.error(e);
-   $("error").textContent=e.code==="permission-denied"?"Akses akun ditolak oleh Firestore Rules.":("Gagal login: "+(e.message||"coba lagi."));
- }finally{
-   btn.disabled=false;btn.textContent="Masuk sebagai "+roleInfo[selectedRole].label;
- }
+let u=$("username").value.trim().toLowerCase(),p=$("password").value;if(!u||!p){$("error").textContent="Username dan password wajib diisi.";return}
+let btn=$("submit");btn.disabled=true;btn.textContent="Memeriksa…";
+try{
+  // Administrator master login is intentionally kept as a local fallback.
+  if(role==="admin"&&u==="tkj3"&&p==="smknubandar"){sessionStorage.setItem("tkj3_session",JSON.stringify({username:"tkj3",nama:"Administrator",role:"admin"}));location.replace("admin.html");return}
+  const snap=await getDocs(query(collection(db,"accounts"),where("username","==",u)));
+  if(snap.empty){$("error").textContent="Akun tidak ditemukan.";return}
+  let found=null;snap.forEach(d=>{if(!found)found={id:d.id,...d.data()}});
+  let rr=norm(found.role||found.jenis||found.tipe);if(rr!==role){$("error").textContent="Akun ini adalah akun "+(info[rr]?.label||rr)+", bukan "+info[role].label+".";return}
+  let stored=String(found.passwordHash||found.password_hash||found.password||"");let ok=stored===p||stored===(await hash(p));if(!ok){$("error").textContent="Password salah.";return}
+  sessionStorage.setItem("tkj3_session",JSON.stringify({id:found.id,username:found.username||u,nama:found.nama||found.name||u,role:rr}));location.replace(info[rr].target);
+}catch(e){console.error(e);$("error").textContent=e.code==="permission-denied"?"Firestore menolak akses akun. Pastikan Rules accounts sudah di-Publish.":("Gagal login: "+(e.message||"coba lagi."))}
+finally{btn.disabled=false;btn.textContent="Masuk sebagai "+info[role].label}
 }
-$("submit").onclick=login;
-$("password").onkeydown=e=>{if(e.key==="Enter")login()};
-</script>
-</body>
-</html>
+$("submit").onclick=login;$("password").onkeydown=e=>{if(e.key==="Enter")login()};
+</script></body></html>

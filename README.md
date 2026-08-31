@@ -1,10 +1,7 @@
-# XII TKJ 3 v82
-
-Perbaikan utama:
-- Satu form login dinamis untuk Siswa, Guru, dan Admin.
-- Judul, ikon, keterangan, dan tombol berubah sesuai role yang dipilih.
-- Role akun dicek terhadap field role pada Firestore.
-- Akun lama di collection accounts tetap digunakan.
-- Password mendukung password biasa dan SHA-256 hash untuk kompatibilitas dengan akun lama.
-- Tombol Kembali kembali ke pemilihan role.
-- index.html diarahkan ke login.html agar tidak ada form login lama yang menimpa form baru.
+# XII TKJ 3 v83
+- Login Siswa/Guru/Admin memakai satu form dinamis.
+- Login Admin master: tkj3 / smknubandar.
+- Firebase config dikembalikan ke config project yang benar dari paket v81.
+- Akun siswa/guru tetap dibaca dari Firestore collection accounts.
+- Tampilan diberi polish iOS/glassmorphism + animasi.
+- Firestore rules mencakup accounts dan users.

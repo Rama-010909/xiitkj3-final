@@ -763,7 +763,24 @@ input,select,textarea{background:rgba(120,120,128,.10)!important;color:var(--ios
 .identity-name{width:100%;padding:13px 14px;border-radius:14px;background:rgba(120,120,128,.10);border:1px solid var(--border);font-weight:850;color:var(--text)}
 </style><style id="ios-motion-v79">
 html{scroll-behavior:smooth}body{animation:iosPageIn .55s cubic-bezier(.16,1,.3,1)}.card,.ios-panel,.ios-glass,.panel,.stat-card,.item-card,.item,.section{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s,border-color .35s,background .35s}.card:hover,.ios-panel:hover,.ios-glass:hover,.panel:hover,.stat-card:hover,.item-card:hover,.item:hover{transform:translateY(-3px);box-shadow:0 20px 55px rgba(0,0,0,.10)}button,.btn,.ios-btn,select,input,textarea{transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .25s,opacity .2s}button:hover,.btn:hover,.ios-btn:hover{transform:translateY(-2px)}button:active,.btn:active,.ios-btn:active{transform:scale(.97)}@keyframes iosPageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-</style></head>
+</style>
+<style id="ios-polish-v83">
+:root{--ios-ease:cubic-bezier(.2,.8,.2,1)}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif!important}
+body:after{animation:iosFloat 10s ease-in-out infinite alternate!important}
+@keyframes iosFloat{to{transform:translate(28px,-24px) scale(1.07)}}
+.glass,.panel,.card,.stat,.daily-card,.schedule-day-block,.admin-structure-card,.gallery-manager-item,.student-row,.nav,.mobile-admin{backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);transition:transform .28s var(--ios-ease),box-shadow .28s var(--ios-ease),border-color .28s ease,background .28s ease}
+.card:hover,.stat:hover,.daily-card:hover,.schedule-day-block:hover,.admin-structure-card:hover,.gallery-manager-item:hover,.student-row:hover{transform:translateY(-3px)}
+button,.btn,.logout,a{transition:transform .2s var(--ios-ease),filter .2s ease,box-shadow .2s ease!important}
+button:hover,.btn:hover{transform:translateY(-2px)}
+button:active,.btn:active{transform:scale(.97)!important}
+input,select,textarea{transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease!important}
+input:focus,select:focus,textarea:focus{transform:translateY(-1px)}
+section,.panel,.card{animation:iosEnter .55s var(--ios-ease) both}
+@keyframes iosEnter{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+h1,h2,h3{letter-spacing:-.025em}
+</style>
+</head>
 <body>
 
 <!-- Ambient Animated Glow -->
