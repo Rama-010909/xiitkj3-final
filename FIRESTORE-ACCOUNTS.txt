@@ -1,0 +1,16 @@
+PENTING:
+File firestore.rules pada ZIP ini saat ini sudah mengizinkan read/write:
+allow read, write: if true;
+Jadi jika tombol "Buat Akun" gagal, penyebab utamanya bukan Firestore Rules.
+
+Akun dibuat ke collection:
+accounts/{username}
+Field:
+username, passwordHash, role, nama, createdAt, updatedAt
+
+Password tidak disimpan sebagai teks biasa; admin.html membuat SHA-256 hash dan login.html membandingkan hash yang sama.
+
+Pastikan project Firebase di console sama dengan projectId:
+absensi-xii-tkj3
+
+Setelah deploy, buka ulang dengan hard refresh (Ctrl+F5) agar service worker/browser cache tidak memakai admin.html lama.
