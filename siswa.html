@@ -780,7 +780,14 @@ section,.panel,.card{animation:iosEnter .55s var(--ios-ease) both}
 @keyframes iosEnter{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
 h1,h2,h3{letter-spacing:-.025em}
 </style>
-</head>
+<style id="ios-v84-global">
+*{scroll-behavior:smooth}body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif!important}
+button,.btn,.nav a,.card,.panel,.stat,.daily-card,.student-row,.schedule-day-block,.gallery-manager-item{transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s,border-color .2s,filter .2s!important}
+button:hover,.btn:hover{transform:translateY(-2px)}button:active,.btn:active{transform:scale(.97)!important}
+input,select,textarea{transition:.2s!important}input:focus,select:focus,textarea:focus{transform:translateY(-1px)}
+.card,.panel,.stat,.daily-card,.schedule-day-block,.gallery-manager-item{animation:iosPageIn .55s cubic-bezier(.2,.8,.2,1) both}
+@keyframes iosPageIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+</style></head>
 <body>
 
 <!-- Ambient Animated Glow -->
@@ -876,7 +883,7 @@ h1,h2,h3{letter-spacing:-.025em}
           <div class="field-group">
             <label>Nama Siswa</label>
             <div id="absenNamaDisplay" class="account-name-card">
-              <span class="account-name-avatar">👤</span>
+              <span class="account-name-avatar"></span>
               <span><small>Login sebagai</small><b id="absenNamaText">Memuat nama...</b></span>
             </div>
             <input type="hidden" id="absenNama" value="">
@@ -960,7 +967,7 @@ h1,h2,h3{letter-spacing:-.025em}
 
             <div class="field-group">
               <label>Nama Siswa</label>
-              <div class="account-name-card"><span class="account-name-avatar">👤</span><span><small>Login sebagai</small><b id="submissionStudentName">Memuat nama...</b></span></div>
+              <div class="account-name-card"><span class="account-name-avatar"></span><span><small>Login sebagai</small><b id="submissionStudentName">Memuat nama...</b></span></div>
             </div>
 
             <div class="field-group">

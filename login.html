@@ -20,6 +20,20 @@ h1{text-align:center;font-size:clamp(32px,7vw,44px);letter-spacing:-1.8px;margin
 .badge{display:inline-flex;margin-top:18px;padding:7px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 13%,transparent);color:var(--accent);font-size:12px;font-weight:900}.title{font-size:30px;letter-spacing:-.8px;margin:10px 0 4px}.desc{color:var(--muted);margin:0 0 21px}.field{margin:14px 0}.field label{display:block;color:var(--muted);font-size:13px;font-weight:850;margin-bottom:7px}.field input{width:100%;height:50px;border:1px solid var(--line);border-radius:15px;background:var(--bg);color:var(--text);font:inherit;padding:0 14px;outline:none;transition:.2s}.field input:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 15%,transparent);transform:translateY(-1px)}.pass{position:relative}.pass input{padding-right:50px}.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:0;background:none;color:var(--muted);cursor:pointer}.eye svg{width:100%;height:100%}.submit{width:100%;height:50px;border:0;border-radius:15px;background:linear-gradient(135deg,var(--accent),#6b63ff);color:#fff;font:inherit;font-weight:900;cursor:pointer;margin-top:7px;box-shadow:0 12px 28px color-mix(in srgb,var(--accent) 25%,transparent);transition:.22s}.submit:hover{transform:translateY(-2px) scale(1.01)}.submit:active{transform:scale(.97)}.submit:disabled{opacity:.7;cursor:wait}.error{min-height:21px;margin-top:9px;color:#ef4444;font-size:13px;font-weight:750}.hint{text-align:center;color:var(--muted);font-size:12px;margin:13px 0 0}
 @media(max-width:500px){.card{padding:22px 18px;border-radius:25px}.logos img{width:54px;height:54px}}
 </style>
+
+<style id="ios-v84">
+.role-icon,.badge-icon{width:23px;height:23px;display:grid;place-items:center;flex:0 0 auto}
+.role-icon svg,.badge-icon svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.role{position:relative;overflow:hidden}
+.role:before{content:"";position:absolute;inset:-80% -20%;background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.22) 50%,transparent 60%);transform:translateX(-65%) rotate(8deg);transition:transform .65s ease}
+.role:hover:before{transform:translateX(65%) rotate(8deg)}
+.card{position:relative;overflow:hidden}
+.card:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.16),transparent 35%,transparent 65%,rgba(255,255,255,.05))}
+.badge{gap:7px}
+@keyframes logoFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-4px) rotate(.5deg)}}
+.logos img:first-child{animation:logoFloat 5s ease-in-out infinite}
+.logos img:last-child{animation:logoFloat 5s ease-in-out infinite .7s}
+</style>
 </head>
 <body>
 <div class="page"><main class="shell">
@@ -27,13 +41,13 @@ h1{text-align:center;font-size:clamp(32px,7vw,44px);letter-spacing:-1.8px;margin
 <div class="logos"><img id="classLogo" src="assets/galeri/logo-kelas-light.png" data-light="assets/galeri/logo-kelas-light.png" data-dark="assets/galeri/logo-kelas-dark.png"><img src="assets/galeri/logo-smk-theme.png"></div>
 <h1>XII TKJ 3</h1><p class="subtitle">Pilih jenis akun untuk masuk</p>
 <div class="roles">
-<button class="role student" data-role="siswa"><span>👨‍🎓</span><b>Login Siswa</b><span>›</span></button>
-<button class="role teacher" data-role="guru"><span>👨‍🏫</span><b>Login Guru</b><span>›</span></button>
-<button class="role admin" data-role="admin"><span>🛡️</span><b>Login Admin</b><span>›</span></button>
+<button class="role student" data-role="siswa"><span class="role-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20v-1.5A4.5 4.5 0 0 1 8.5 14h7a4.5 4.5 0 0 1 4.5 4.5V20"/><circle cx="12" cy="7" r="3.5"/></svg></span><b>Login Siswa</b><span>›</span></button>
+<button class="role teacher" data-role="guru"><span class="role-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3.5 20v-1.5A4.5 4.5 0 0 1 8 14h2"/><path d="M15 11v8m-4-4h8"/><path d="M14 5h6M17 2v6"/></svg></span><b>Login Guru</b><span>›</span></button>
+<button class="role admin" data-role="admin"><span class="role-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg></span><b>Login Admin</b><span>›</span></button>
 </div></section>
 <section id="panel" class="card" hidden>
 <div class="top"><button id="back" class="back">← Kembali</button><select id="mode" class="mode"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div>
-<div id="badge" class="badge">👨‍🎓 Siswa</div><h2 id="title" class="title">Login Siswa</h2><p id="desc" class="desc">Masuk menggunakan akun siswa yang dibuat admin.</p>
+<div id="badge" class="badge"><span class="badge-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20v-1.5A4.5 4.5 0 0 1 8.5 14h7a4.5 4.5 0 0 1 4.5 4.5V20"/><circle cx="12" cy="7" r="3.5"/></svg></span><span>Siswa</span></div><h2 id="title" class="title">Login Siswa</h2><p id="desc" class="desc">Masuk menggunakan akun siswa yang dibuat admin.</p>
 <div class="field"><label>Username</label><input id="username" autocomplete="username" placeholder="Masukkan username"></div>
 <div class="field"><label>Password</label><div class="pass"><input id="password" type="password" autocomplete="current-password" placeholder="Masukkan password"><button id="eye" class="eye" type="button"><svg id="eo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg><svg id="ec" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 3 18 18"/><path d="M10.6 6.2A10.8 10.8 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-3.1 3.7M6.2 6.2C3.5 8.1 2 12 2 12s3.5 6 10 6c1.2 0 2.3-.2 3.3-.6"/></svg></button></div></div>
 <button id="submit" class="submit">Masuk sebagai Siswa</button><div id="error" class="error"></div><p class="hint">Gunakan akun yang tersimpan di Firestore.</p>
@@ -43,11 +57,11 @@ import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-ap
 import{getFirestore,collection,getDocs,query,where}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 const firebaseConfig={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
 const db=getFirestore(initializeApp(firebaseConfig)); const $=id=>document.getElementById(id);
-const info={siswa:{label:"Siswa",icon:"👨‍🎓",target:"siswa.html",desc:"Masuk menggunakan akun siswa yang dibuat admin."},guru:{label:"Guru",icon:"👨‍🏫",target:"guru.html",desc:"Masuk menggunakan akun guru yang dibuat admin."},admin:{label:"Admin",icon:"🛡️",target:"admin.html",desc:"Masuk menggunakan akun administrator."}};
+const info={siswa:{label:"Siswa",icon:"",target:"siswa.html",desc:"Masuk menggunakan akun siswa yang dibuat admin."},guru:{label:"Guru",icon:"",target:"guru.html",desc:"Masuk menggunakan akun guru yang dibuat admin."},admin:{label:"Admin",icon:"",target:"admin.html",desc:"Masuk menggunakan akun administrator."}};
 let role="siswa";
 function theme(v){let a=v==="system"?(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"):v;document.documentElement.dataset.theme=a;localStorage.setItem("tkj3-theme",v);$("mode").value=v;$("classLogo").src=a==="dark"?$("classLogo").dataset.dark:$("classLogo").dataset.light}
 theme(localStorage.getItem("tkj3-theme")||"system");$("mode").onchange=e=>theme(e.target.value);
-document.querySelectorAll(".role").forEach(b=>b.onclick=()=>{role=b.dataset.role;let x=info[role];$("badge").textContent=x.icon+" "+x.label;$("title").textContent="Login "+x.label;$("desc").textContent=x.desc;$("submit").textContent="Masuk sebagai "+x.label;$("error").textContent="";$("username").value="";$("password").value="";$("chooser").hidden=true;$("panel").hidden=false;setTimeout(()=>$("username").focus(),180)});
+document.querySelectorAll(".role").forEach(b=>b.onclick=()=>{role=b.dataset.role;let x=info[role];$("badge").innerHTML=(x.icon?x.icon:"")+"<span>"+x.label+"</span>";$("title").textContent="Login "+x.label;$("desc").textContent=x.desc;$("submit").textContent="Masuk sebagai "+x.label;$("error").textContent="";$("username").value="";$("password").value="";$("chooser").hidden=true;$("panel").hidden=false;setTimeout(()=>$("username").focus(),180)});
 $("back").onclick=()=>{$("panel").hidden=true;$("chooser").hidden=false};
 $("eye").onclick=()=>{let s=$("password").type==="password";$("password").type=s?"text":"password";$("eo").style.display=s?"none":"block";$("ec").style.display=s?"block":"none"};
 async function hash(p){let d=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(p));return Array.from(new Uint8Array(d)).map(x=>x.toString(16).padStart(2,"0")).join("")}

@@ -594,7 +594,14 @@ section,.panel,.card{animation:iosEnter .55s var(--ios-ease) both}
 @keyframes iosEnter{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
 h1,h2,h3{letter-spacing:-.025em}
 </style>
-</head><body class="admin-gate">
+<style id="ios-v84-global">
+*{scroll-behavior:smooth}body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif!important}
+button,.btn,.nav a,.card,.panel,.stat,.daily-card,.student-row,.schedule-day-block,.gallery-manager-item{transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s,border-color .2s,filter .2s!important}
+button:hover,.btn:hover{transform:translateY(-2px)}button:active,.btn:active{transform:scale(.97)!important}
+input,select,textarea{transition:.2s!important}input:focus,select:focus,textarea:focus{transform:translateY(-1px)}
+.card,.panel,.stat,.daily-card,.schedule-day-block,.gallery-manager-item{animation:iosPageIn .55s cubic-bezier(.2,.8,.2,1) both}
+@keyframes iosPageIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+</style></head><body class="admin-gate">
 <header class="nav glass"><a class="brand" href="index.html"><div style="display:flex;align-items:center;gap:6px"><img class="class-logo theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3" style="width:34px;height:34px;object-fit:contain;cursor:zoom-in"><img src="assets/galeri/logo-smk-transparent.png" alt="Logo SMK" data-lightbox="assets/galeri/logo-smk-transparent.png" style="width:34px;height:34px;object-fit:contain;cursor:zoom-in"></div>XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#guru">Data Guru</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><button class="logout" id="logout">Keluar</button></header>
 <section id="adminLoginGate" class="section admin-login-section" style="display:none"><div class="container"><div class="card glass">
 <div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username &amp; Password untuk membuka halaman Admin</p>
@@ -621,7 +628,7 @@ h1,h2,h3{letter-spacing:-.025em}
 <div id="tableBox"></div>
 </div></div></section>
 <section id="guru" class="section"><div class="container"><div class="head"><div class="kicker">DATA GURU</div><h2>Kelola Guru</h2><p class="desc">Tambah akun guru baru lengkap dengan username &amp; password untuk login di Portal, serta mata pelajaran yang diampu.</p></div><div class="panel glass"><div class="manager-form" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="teacherNameInput" class="manager-input" placeholder="Nama guru"><input id="teacherUsernameInput" class="manager-input" placeholder="Username login"><input id="teacherPasswordInput" class="manager-input" type="password" placeholder="Password login" autocomplete="new-password"><input id="teacherSubjectsInput" class="manager-input" placeholder="Mapel, pisahkan koma"><input id="teacherEmailInput" class="manager-input" placeholder="Email (opsional)"><button type="button" class="btn primary" id="saveTeacher" style="grid-column:1/-1">Tambah Akun Guru</button></div><div id="teacherMessage" class="schedule-message"></div><div id="teacherManagerList" class="student-manager"></div></div></div></section><section id="siswa" class="section"><div class="container"><div class="head"><div class="kicker">DATA SISWA</div><h2>Kelola Data Siswa</h2><p class="desc">Tambah siswa baru lengkap dengan akun login. Untuk siswa lama, tombol <b>Buat Akun</b> menyimpan username dan password ke Firestore collection <code>accounts</code>.</p></div><div class="panel glass"><div class="manager-form" style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;margin-bottom:14px"><input id="newStudentName" class="manager-input" placeholder="Nama siswa baru"><input id="newStudentUsername" class="manager-input" placeholder="Username login"><input id="newStudentPassword" class="manager-input" type="password" placeholder="Password login" autocomplete="new-password"><button type="button" class="btn primary" id="addStudent">Tambah Siswa</button></div><div id="studentManager" class="student-manager"><div class="empty">Memuat data siswa...</div></div><div class="student-count-note" id="studentManagerMessage"></div></div></div></section>
-<section id="struktur" class="section"><div class="container"><div class="head"><div class="kicker">KELAS</div><h2>Struktur Kelas</h2><p class="desc">Isi struktur dibuat sama seperti halaman siswa. Kamu bisa mengganti nama setiap orang langsung dari kartu di bawah, lalu simpan.</p></div><div id="structureEditor" class="admin-structure-grid"></div><div class="panel glass structure-save-panel"><div class="schedule-actions"><button class="btn" id="saveStructure">💾 Simpan Struktur</button><span id="structureMessage" class="schedule-message"></span></div></div></div></section>
+<section id="struktur" class="section"><div class="container"><div class="head"><div class="kicker">KELAS</div><h2>Struktur Kelas</h2><p class="desc">Isi struktur dibuat sama seperti halaman siswa. Kamu bisa mengganti nama setiap orang langsung dari kartu di bawah, lalu simpan.</p></div><div id="structureEditor" class="admin-structure-grid"></div><div class="panel glass structure-save-panel"><div class="schedule-actions"><button class="btn" id="saveStructure"> Simpan Struktur</button><span id="structureMessage" class="schedule-message"></span></div></div></div></section>
 <section id="jadwal" class="section"><div class="container">
 <div class="head"><div><div class="kicker">PELAJARAN</div><h2>Kelola Jadwal Kelas</h2><p class="desc">Edit jam dan mata pelajaran di sini. Setelah disimpan, jadwal akan langsung tampil di halaman siswa.</p></div></div>
 <div class="panel glass">
@@ -631,7 +638,7 @@ h1,h2,h3{letter-spacing:-.025em}
 <section id="galeri" class="section v6-gallery"><div class="container"><div class="head v6-gallery-head"><div><div class="kicker">GALERI KELAS</div><h2>Kelola Galeri</h2><p class="desc">Tambahkan foto. Foto otomatis masuk ke folder penyimpanan Vercel Blob dan muncul di halaman siswa. Urutan bisa diubah dengan tombol naik/turun.</p></div></div><div class="panel glass"><div class="manager-form"><input id="galleryFile" type="file" accept="image/*" multiple class="manager-input"><button type="button" class="btn" id="uploadGallery">Tambah Foto</button></div><div id="galleryOnlineStatus" class="gallery-online-status"><span class="status-dot"></span><div><b>Penyimpanan Online</b><small id="galleryOnlineText">Memeriksa koneksi Vercel Blob...</small></div><span class="status-pill" id="galleryOnlinePill">Memeriksa</span></div><div id="galleryMessage" class="schedule-message" style="margin-top:10px"></div><div id="galleryManagerList" class="gallery-manager-list"></div></div></div></section>
 </main><div class="v7-lightbox" id="lightbox" aria-hidden="true"><button class="v7-close" id="lightboxClose" aria-label="Tutup">×</button><img id="lightboxImage" src="" alt="Foto diperbesar"></div>
 <footer class="footer">XII TKJ 3 · Admin</footer>
-<nav class="mobile-admin glass" aria-label="Navigasi Admin Mobile"><a href="#dashboard">⌂<br>Utama</a><a href="#data-absensi">▣<br>Absensi</a><a href="#siswa">♙<br>Siswa</a><a href="#guru">G<br>Guru</a><a href="#struktur">♙<br>Struktur</a><a href="#jadwal">▦<br>Jadwal</a><a href="#galeri">▣<br>Galeri</a></nav>
+<nav class="mobile-admin glass" aria-label="Navigasi Admin Mobile"><a href="#dashboard">⌂<br>Utama</a><a href="#data-absensi">▣<br>Absensi</a><a href="#siswa"><br>Siswa</a><a href="#guru">G<br>Guru</a><a href="#struktur"><br>Struktur</a><a href="#jadwal">▦<br>Jadwal</a><a href="#galeri">▣<br>Galeri</a></nav>
 <script>
 (()=>{
  const key='xii-tkj3-theme';
@@ -733,7 +740,7 @@ function doGateLogin(){
     sessionStorage.admin="1";
     document.body.className="admin-authenticated";
     openDashboard();
-  }else msg.textContent="❌ Username atau Password salah.";
+  }else msg.textContent=" Username atau Password salah.";
 }
 document.getElementById("gateLogin").onclick=doGateLogin;
 gatePassword.addEventListener("keydown",e=>{if(e.key==="Enter")doGateLogin()});
@@ -754,13 +761,13 @@ function selectedDateLabel(){
 }
 function updateDateLabels(){
  const label=selectedDateLabel();
- document.getElementById("selectedDateText").textContent="📅 "+label;
+ document.getElementById("selectedDateText").textContent=" "+label;
  ["dailyLabel","dailyLabel2","dailyLabel3","dailyLabel4"].forEach(id=>document.getElementById(id).textContent=label);
 }
 updateDateLabels();
 
 function showToast(title,detail){
- toast.innerHTML=`<b>🔔 ${safe(title)}</b><small>${safe(detail)}</small>`;
+ toast.innerHTML=`<b> ${safe(title)}</b><small>${safe(detail)}</small>`;
  toast.classList.add("show");
  clearTimeout(window.__toastTimer);
  window.__toastTimer=setTimeout(()=>toast.classList.remove("show"),5000);
@@ -778,13 +785,13 @@ onSnapshot(collection(db,"absensi"),snap=>{
    const changes=snap.docChanges().filter(c=>c.type==="added");
    if(changes.length){
      const x=changes[0].doc.data();
-     showToast("Ada yang baru absen!",`${x.nama||"Siswa"} • ${x.status||"HADIR"} • ${x.tanggal||"Hari ini"} ${x.waktu||""}`); document.title="🔔 Absen baru • Admin XII TKJ 3"; setTimeout(()=>{document.title="Admin • XII TKJ 3"},5000); if("Notification" in window && Notification.permission==="granted"){new Notification("Absensi baru - XII TKJ 3",{body:`${x.nama||"Siswa"} baru saja mengirim absensi.`});}
+     showToast("Ada yang baru absen!",`${x.nama||"Siswa"} • ${x.status||"HADIR"} • ${x.tanggal||"Hari ini"} ${x.waktu||""}`); document.title=" Absen baru • Admin XII TKJ 3"; setTimeout(()=>{document.title="Admin • XII TKJ 3"},5000); if("Notification" in window && Notification.permission==="granted"){new Notification("Absensi baru - XII TKJ 3",{body:`${x.nama||"Siswa"} baru saja mengirim absensi.`});}
    }
  }
  firstSnapshot=false;
 },err=>{
  console.error(err);
- box.innerHTML='<div class="empty">❌ Gagal membaca Firestore. Pastikan Firestore Rules mengizinkan pembacaan data.</div>';
+ box.innerHTML='<div class="empty"> Gagal membaca Firestore. Pastikan Firestore Rules mengizinkan pembacaan data.</div>';
 });
 
 function loadAttendance(){updateDateLabels();renderAttendance(window.__attendanceRows||[])}
@@ -915,11 +922,11 @@ async function loadSchedule(){
    const parsed=parseScheduleSnapshot(snap);
    scheduleData=parsed.loaded;
    renderScheduleEditor(scheduleData);
-   if(msg)msg.textContent=parsed.found?`✅ ${parsed.found} hari memiliki jadwal tersimpan. Jadwal siap diedit.` : "ℹ️ Belum ada jadwal tersimpan. Tambahkan jadwal di bawah.";
+   if(msg)msg.textContent=parsed.found?` ${parsed.found} hari memiliki jadwal tersimpan. Jadwal siap diedit.` : "ℹ️ Belum ada jadwal tersimpan. Tambahkan jadwal di bawah.";
  }catch(e){
    console.error("Schedule load:",e);
    // Keep the editor usable even when Firestore read fails.
-   if(msg)msg.textContent=e.message==="timeout"?"⚠️ Firestore belum merespons. Jadwal tetap bisa dibuat dan disimpan." : "⚠️ Jadwal belum bisa dibaca dari Firestore. Kamu tetap bisa membuat jadwal baru.";
+   if(msg)msg.textContent=e.message==="timeout"?"️ Firestore belum merespons. Jadwal tetap bisa dibuat dan disimpan." : "️ Jadwal belum bisa dibaca dari Firestore. Kamu tetap bisa membuat jadwal baru.";
  }
 }
 
@@ -933,11 +940,11 @@ document.getElementById("saveSchedule").onclick=async()=>{
      const entries=(scheduleData[day]||[]).map((x,i)=>({jam:String(x.jam||"").trim(),mapel:String(x.mapel||"").trim(),urutan:i+1})).filter(x=>x.jam||x.mapel);
      await setDoc(doc(db,"jadwal",dayIds[day]),{hari:day,entries,updatedAt:Date.now()});
    }
-   msg.textContent="✅ Semua jadwal Senin–Sabtu berhasil disimpan ke Firestore.";
+   msg.textContent=" Semua jadwal Senin–Sabtu berhasil disimpan ke Firestore.";
    showToast("Jadwal diperbarui","Jadwal Senin–Sabtu sudah tersimpan.");
  }catch(e){
    console.error("Schedule save:",e);
-   msg.textContent="❌ Gagal menyimpan jadwal. Cek Firestore Rules untuk collection jadwal.";
+   msg.textContent=" Gagal menyimpan jadwal. Cek Firestore Rules untuk collection jadwal.";
  }finally{
    btn.disabled=false;
  }
@@ -951,7 +958,7 @@ import{getFirestore,collection,getDocs,getDoc,doc,setDoc,updateDoc,deleteDoc,onS
 const managerApp=initializeApp({apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"},"adminManager");
 const managerDb=getFirestore(managerApp);
 function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
-function showManagerToast(title,detail){const t=document.getElementById("adminToast");t.innerHTML=`<b>🔔 ${safe(title)}</b><small>${safe(detail)}</small>`;t.classList.add("show");clearTimeout(window.__managerToast);window.__managerToast=setTimeout(()=>t.classList.remove("show"),4500)}
+function showManagerToast(title,detail){const t=document.getElementById("adminToast");t.innerHTML=`<b> ${safe(title)}</b><small>${safe(detail)}</small>`;t.classList.add("show");clearTimeout(window.__managerToast);window.__managerToast=setTimeout(()=>t.classList.remove("show"),4500)}
 /* ---------- Data Siswa ---------- */
 const defaultStudents=["AHID PUTRA ANANDA","ALVIN","ANANDA DANNI ALFIAN","ANGGUN KHOIRU SYIFA","ARIL NASTAIN","ATI' DINA MAULAYA","AVIDA AMELIA","CLARISSA DWI OKTAVIANA","ISNAENI AFIATUN NURUL ARIFIA","JUAN AKBARUDIN","M QYANO AVIANSYAH","MELI AFIKASARI","MUFIDA SYAFA ALYA","M KHOIRUL IQBAL","MUHAMMAD ADLI ALFIANSYAH","MUHAMMAD ADZKIYA MUMTAZ","MUHAMMAD HANIF","MUHAMMAD ILHAM","MUHAMMAD KHOIRUL ANAM","PUTRI AMANDA","RIMA TRI JUNITA","ROHMATUL KHASANAH","ROMADZON ANTA NUHRAFI","SANDI SETIAWAN","SISKA","SISKA AMELIA","STIFEN JODI PRATAMA","SUCI LISTIANA","SUPARLIYAH","SYAFA TASYA KAMILA","TIWIK OKTAVIANINGSIH","TRI YULIA NINGSIH","TUTUT JUANITA","VIRNAJI RIZKY RAMADHAN","YULIA ADISTYAR","ZAHRO LAZIMATUSYIFA","ZULFATUROHMI"];
 let studentData=[];
@@ -972,7 +979,7 @@ function renderStudentManager(){
  const el=document.getElementById("studentManager"),msg=document.getElementById("studentManagerMessage");
  if(!el)return;
  if(!studentData.length){el.innerHTML='<div class="empty">Belum ada data siswa.</div>'; if(msg)msg.textContent="0 siswa"; return;}
- el.innerHTML=studentData.map((x,i)=>`<div class="student-row"><div class="student-number">${i+1}</div><input class="student-name-input" data-student-id="${safe(x.id)}" value="${safe(x.nama||"")}" aria-label="Nama siswa ${i+1}"><div class="student-actions">${x.username?`<span class="student-account-badge" title="Sudah punya akun login sendiri">🔑 ${safe(x.username)}</span>`:`<button type="button" class="account-btn" data-student-account="${safe(x.id)}">Buat Akun</button>`}<button type="button" data-student-save="${safe(x.id)}">Simpan</button><button type="button" class="danger" data-student-delete="${safe(x.id)}">Hapus</button></div></div>`).join("");
+ el.innerHTML=studentData.map((x,i)=>`<div class="student-row"><div class="student-number">${i+1}</div><input class="student-name-input" data-student-id="${safe(x.id)}" value="${safe(x.nama||"")}" aria-label="Nama siswa ${i+1}"><div class="student-actions">${x.username?`<span class="student-account-badge" title="Sudah punya akun login sendiri"> ${safe(x.username)}</span>`:`<button type="button" class="account-btn" data-student-account="${safe(x.id)}">Buat Akun</button>`}<button type="button" data-student-save="${safe(x.id)}">Simpan</button><button type="button" class="danger" data-student-delete="${safe(x.id)}">Hapus</button></div></div>`).join("");
  if(msg)msg.textContent=`${studentData.length} siswa • ${studentData.filter(x=>x.username).length} sudah punya akun login sendiri.`;
  el.querySelectorAll("[data-student-save]").forEach(btn=>btn.onclick=()=>saveStudent(btn.dataset.studentSave));
  el.querySelectorAll("[data-student-delete]").forEach(btn=>btn.onclick=()=>deleteStudent(btn.dataset.studentDelete));
@@ -985,7 +992,7 @@ async function loadStudents(){
   const snap=await getDocs(collection(managerDb,"siswa"));
   studentData=snap.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x.nama).sort((a,b)=>(a.urutan||999)-(b.urutan||999)||String(a.nama).localeCompare(String(b.nama)));
   renderStudentManager();
- }catch(e){console.error("Students load",e); if(msg)msg.textContent="❌ Gagal membaca data siswa. Periksa Firestore Rules untuk collection siswa dan pengaturan."; renderStudentManager();}
+ }catch(e){console.error("Students load",e); if(msg)msg.textContent=" Gagal membaca data siswa. Periksa Firestore Rules untuk collection siswa dan pengaturan."; renderStudentManager();}
 }
 async function saveStudent(id){
  const input=document.querySelector(`[data-student-id="${CSS.escape(id)}"]`),name=input?.value.trim();
@@ -1119,9 +1126,9 @@ document.getElementById("saveStructure").onclick=async()=>{
  btn.disabled=true;msg.textContent="⏳ Menyimpan...";
  try{
   for(const input of inputs){const x=structureData.find(v=>v.id===input.dataset.id); if(x){x.name=input.value.trim(); await setDoc(doc(managerDb,"struktur",x.id),{role:x.role,name:x.name,urutan:x.urutan});}}
-  msg.textContent="✅ Struktur tersimpan. Halaman siswa akan berubah otomatis.";
+  msg.textContent=" Struktur tersimpan. Halaman siswa akan berubah otomatis.";
   showManagerToast("Struktur diperbarui","Nama pengurus sudah tersimpan.");
- }catch(e){console.error(e);msg.textContent="❌ Gagal menyimpan struktur. Periksa Firestore Rules.";}
+ }catch(e){console.error(e);msg.textContent=" Gagal menyimpan struktur. Periksa Firestore Rules.";}
  finally{btn.disabled=false}
 };
 
@@ -1202,8 +1209,8 @@ document.getElementById("uploadGallery").onclick=async()=>{
  const input=document.getElementById("galleryFile"),msg=document.getElementById("galleryMessage"),files=[...input.files||[]];
  if(!files.length){msg.textContent="Pilih minimal satu foto terlebih dahulu.";return;}
  const valid=files.filter(f=>f.type.startsWith("image/"));
- if(!valid.length){msg.textContent="❌ File yang dipilih bukan gambar.";return;}
- for(const file of valid){if(file.size>8*1024*1024){msg.textContent=`❌ ${file.name} lebih dari 8 MB.`;return;}}
+ if(!valid.length){msg.textContent=" File yang dipilih bukan gambar.";return;}
+ for(const file of valid){if(file.size>8*1024*1024){msg.textContent=` ${file.name} lebih dari 8 MB.`;return;}}
  const btn=document.getElementById("uploadGallery");btn.disabled=true;
  try{
   msg.textContent=`⏳ Mengunggah ${valid.length} foto ke Vercel Blob...`;
@@ -1223,8 +1230,8 @@ document.getElementById("uploadGallery").onclick=async()=>{
   }
   const complete=await galleryRequest("/api/gallery?action=complete",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({blobs:uploaded})});
   galleryData=(complete.gallery||[]).sort((a,b)=>(a.urutan||999)-(b.urutan||999));
-  renderGalleryManager();input.value="";msg.textContent="✅ Foto berhasil disimpan di Vercel Blob dan tampil di halaman siswa.";
- }catch(e){console.error("Gallery upload error:",e);msg.textContent=`❌ ${e.message||"Gagal mengunggah foto."}`;}
+  renderGalleryManager();input.value="";msg.textContent=" Foto berhasil disimpan di Vercel Blob dan tampil di halaman siswa.";
+ }catch(e){console.error("Gallery upload error:",e);msg.textContent=` ${e.message||"Gagal mengunggah foto."}`;}
  finally{btn.disabled=false}
 };
 
@@ -1261,13 +1268,13 @@ el('saveTeacher')?.addEventListener('click',async()=>{
   btn.disabled=true;
   try{
     const existing=await getDoc(doc(db2,'accounts',username));
-    if(existing.exists()){msg.textContent='❌ Username sudah dipakai, pilih username lain.';return}
+    if(existing.exists()){msg.textContent=' Username sudah dipakai, pilih username lain.';return}
     const passwordHash=await hashPw(password);
     await setDoc(doc(db2,'accounts',username),{username,passwordHash,role:'guru',nama:name,createdAt:Date.now(),updatedAt:Date.now()},{merge:false});
     await setDoc(doc(db2,'users',username),{role:'guru',nama:name,email,mataPelajaran:subs,updatedAt:Date.now()},{merge:true});
-    msg.textContent='✅ Akun guru dibuat. Guru bisa langsung login di Portal dengan username & password ini.';
+    msg.textContent=' Akun guru dibuat. Guru bisa langsung login di Portal dengan username & password ini.';
     ['teacherUsernameInput','teacherPasswordInput','teacherNameInput','teacherEmailInput','teacherSubjectsInput'].forEach(x=>el(x).value='');
-  }catch(e){console.error(e);msg.textContent='❌ '+(e.code==='permission-denied'?'PERMISSION DENIED: Rules Firestore yang aktif di Firebase Console belum mengizinkan accounts/users. Deploy firestore.rules dari paket ini.':('Gagal membuat akun guru: '+(e.message||e)));}
+  }catch(e){console.error(e);msg.textContent=' '+(e.code==='permission-denied'?'PERMISSION DENIED: Rules Firestore yang aktif di Firebase Console belum mengizinkan accounts/users. Deploy firestore.rules dari paket ini.':('Gagal membuat akun guru: '+(e.message||e)));}
   finally{btn.disabled=false;}
 });
 </script><script>if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script><style id="admin-page-nav-v65">.v65-admin-hidden{display:none!important}.v65-admin-nav{width:min(1050px,calc(100% - 28px));margin:10px auto 16px;display:flex;gap:8px;flex-wrap:wrap}.v65-admin-nav .btn.active{outline:2px solid currentColor;outline-offset:2px}@media(max-width:700px){.v65-admin-nav{overflow:auto;flex-wrap:nowrap}.v65-admin-nav .btn{white-space:nowrap}}</style><script>

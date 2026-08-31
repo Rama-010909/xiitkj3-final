@@ -5,3 +5,6 @@
 - Akun siswa/guru tetap dibaca dari Firestore collection accounts.
 - Tampilan diberi polish iOS/glassmorphism + animasi.
 - Firestore rules mencakup accounts dan users.
+
+
+v84: Login UI redesigned with clean iOS-style SVG icons, no emoji, stronger micro-interactions, and global motion polish. Visible emoji characters were removed from main pages.
