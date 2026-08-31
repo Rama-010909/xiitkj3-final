@@ -1,10 +1,6 @@
 
 const LOCAL_AUTH_KEY = "tkj3_session";
-const DEFAULT_ACCOUNTS = [
-  {username:"rama", password:"010909", role:"siswa", nama:"Rama"},
-  {username:"andi", password:"smknubandar", role:"guru", nama:"Andi"},
-  {username:"tkj3", password:"smknubandar", role:"admin", nama:"Admin XII TKJ 3"}
-];
+const DEFAULT_ACCOUNTS = [];
 
 async function hashPassword(password) {
   const data = new TextEncoder().encode(password);
@@ -30,7 +26,6 @@ async function loginPortal(username, password, role) {
   username = username.trim().toLowerCase();
   const hashed = await hashPassword(password);
 
-  // Default accounts are available immediately for first testing.
   const foundDefault = DEFAULT_ACCOUNTS.find(a =>
     a.username === username && a.password === password && a.role === role
   );

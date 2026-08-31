@@ -1,8 +1,7 @@
-# XII TKJ 3 v78
+# XII TKJ 3 v79
 
-Perbaikan: UI bergaya iOS dengan animasi, font SF-style, kartu glass, hover/press transition; siswa menampilkan nama akun otomatis dan absensi tidak meminta pilih nama.
-
-## Tentang PERMISSION_DENIED
-Jika browser menampilkan permission-denied saat membuat akun, berarti Rules yang AKTIF di Firebase Console berbeda/belum ter-deploy. File firestore.rules paket ini berisi allow read, write: if true; deploy/publish rules tersebut di Firebase Console > Firestore Database > Rules. Setelah Publish, Ctrl+F5.
-
-Akun Firestore: collection accounts, document ID=username.
+- Akun testing lokal `rama` dan `andi` dihapus dari kode login. Jika dokumen `accounts/rama` dan `accounts/andi` sudah ada di Firestore, hapus kedua dokumen tersebut sekali dari Firestore Console.
+- Pengumpulan tugas siswa sekarang bisa berupa jawaban, link, dan/atau foto (JPG/PNG/WebP maksimal 5 MB).
+- Foto disimpan ke Firebase Storage pada `pengumpulan_tugas/...` dan URL disimpan di Firestore `pengumpulan_tugas`.
+- Deploy `storage.rules` ke Firebase Storage sebelum tes upload foto.
+- Tampilan diberi motion layer bergaya iOS dan tetap menghormati prefers-reduced-motion.
