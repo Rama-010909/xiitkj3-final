@@ -567,7 +567,15 @@ input::placeholder,textarea::placeholder{color:var(--ui-muted)!important}
 [data-theme="dark"] .delete-btn,[data-theme="dark"] .small-btn.danger{background:#ef4444!important;color:#fff!important}
 .brand img{background:transparent!important}
 </style>
-</head><body class="admin-gate">
+<style id="tkj3-ios-overhaul">
+:root{--ios-bg:#f5f5f7;--ios-card:rgba(255,255,255,.72);--ios-text:#1d1d1f;--ios-muted:#6e6e73;--ios-border:rgba(0,0,0,.08);--ios-accent:#007aff;--ios-shadow:0 18px 55px rgba(0,0,0,.10)}
+:root[data-theme="dark"]{--ios-bg:#000;--ios-card:rgba(28,28,30,.78);--ios-text:#f5f5f7;--ios-muted:#98989f;--ios-border:rgba(255,255,255,.12);--ios-accent:#0a84ff;--ios-shadow:0 18px 55px rgba(0,0,0,.35)}
+html{scroll-behavior:smooth}body{background:var(--ios-bg)!important;color:var(--ios-text)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif!important;letter-spacing:-.01em}
+body:before,body:after{content:"";position:fixed;z-index:-2;width:420px;height:420px;border-radius:50%;filter:blur(100px);opacity:.18;pointer-events:none}body:before{background:#007aff;left:-170px;top:-120px}body:after{background:#af52de;right:-180px;bottom:-140px}
+.glass,.panel,.card,.stat,.person,.login-card,.nav{background:var(--ios-card)!important;border:1px solid var(--ios-border)!important;box-shadow:var(--ios-shadow)!important;backdrop-filter:blur(28px) saturate(150%)!important;-webkit-backdrop-filter:blur(28px) saturate(150%)!important}
+button,.btn,input,select,textarea{font-family:inherit!important}button,.btn{transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s ease,opacity .22s ease!important}button:hover,.btn:hover{transform:translateY(-2px)}button:active,.btn:active{transform:scale(.97)!important}.section,.card,.panel,.stat,.person{animation:iosIn .55s cubic-bezier(.2,.8,.2,1) both}@keyframes iosIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+input,select,textarea{background:rgba(120,120,128,.10)!important;color:var(--ios-text)!important;border:1px solid var(--ios-border)!important;border-radius:14px!important;outline:none!important;transition:.2s!important}input:focus,select:focus,textarea:focus{border-color:var(--ios-accent)!important;box-shadow:0 0 0 4px rgba(0,122,255,.13)!important}.desc,.muted,.empty{color:var(--ios-muted)!important}.primary{background:var(--ios-accent)!important;color:white!important;border:0!important}.danger{color:#ff3b30!important}
+</style></head><body class="admin-gate">
 <header class="nav glass"><a class="brand" href="index.html"><div style="display:flex;align-items:center;gap:6px"><img class="class-logo theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3" style="width:34px;height:34px;object-fit:contain;cursor:zoom-in"><img src="assets/galeri/logo-smk-transparent.png" alt="Logo SMK" data-lightbox="assets/galeri/logo-smk-transparent.png" style="width:34px;height:34px;object-fit:contain;cursor:zoom-in"></div>XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#guru">Data Guru</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><button class="logout" id="logout">Keluar</button></header>
 <section id="adminLoginGate" class="section admin-login-section" style="display:none"><div class="container"><div class="card glass">
 <div class="kicker">ADMINISTRATOR</div><h2>Login Admin</h2><p class="desc">Masukkan Username &amp; Password untuk membuka halaman Admin</p>
@@ -1000,7 +1008,7 @@ async function createStudentAccount(username,password,nama){
    return{ok:true};
  }catch(e){
    console.error("createStudentAccount",e);
-   return{ok:false,message:`${e.code||"firebase-error"}: ${e.message||e}`};
+   return{ok:false,message:(e.code==="permission-denied"?"PERMISSION DENIED: Firestore Rules yang aktif di Firebase Console belum mengizinkan penulisan ke accounts. Upload/deploy firestore.rules dari paket ini ke Firebase Console lalu coba lagi.":`${e.code||"firebase-error"}: ${e.message||e}`)};
  }
 }
 async function createAccountForStudent(id){
@@ -1240,7 +1248,7 @@ el('saveTeacher')?.addEventListener('click',async()=>{
     await setDoc(doc(db2,'users',username),{role:'guru',nama:name,email,mataPelajaran:subs,updatedAt:Date.now()},{merge:true});
     msg.textContent='✅ Akun guru dibuat. Guru bisa langsung login di Portal dengan username & password ini.';
     ['teacherUsernameInput','teacherPasswordInput','teacherNameInput','teacherEmailInput','teacherSubjectsInput'].forEach(x=>el(x).value='');
-  }catch(e){console.error(e);msg.textContent='❌ Gagal membuat akun guru: '+(e.message||e);}
+  }catch(e){console.error(e);msg.textContent='❌ '+(e.code==='permission-denied'?'PERMISSION DENIED: Rules Firestore yang aktif di Firebase Console belum mengizinkan accounts/users. Deploy firestore.rules dari paket ini.':('Gagal membuat akun guru: '+(e.message||e)));}
   finally{btn.disabled=false;}
 });
 </script><script>if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script><style id="admin-page-nav-v65">.v65-admin-hidden{display:none!important}.v65-admin-nav{width:min(1050px,calc(100% - 28px));margin:10px auto 16px;display:flex;gap:8px;flex-wrap:wrap}.v65-admin-nav .btn.active{outline:2px solid currentColor;outline-offset:2px}@media(max-width:700px){.v65-admin-nav{overflow:auto;flex-wrap:nowrap}.v65-admin-nav .btn{white-space:nowrap}}</style><script>
