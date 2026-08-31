@@ -917,7 +917,11 @@ modal.addEventListener('click', e => { if (e.target === modal) closeLogo(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLogo(); });
 
 /* Authentication & Smooth Slide Transitions */
-const accounts = {};
+const accounts = {
+  siswa:{label:"Siswa",color:"siswa",target:"siswa.html"},
+  guru:{label:"Guru",color:"guru",target:"guru.html"},
+  admin:{label:"Admin",color:"admin",target:"admin.html"}
+};
 let selectedRole = null;
 const $ = id => document.getElementById(id);
 
@@ -967,18 +971,19 @@ async function doLogin() {
 
   let nama = null;
 
-  // 1) Akun default bawaan (testing)
-  if (a && u === a.username && p === a.password) {
-    nama = (selectedRole === "admin" ? "Admin XII TKJ 3" : username);
-  }
+  // Semua akun login diambil dari Firestore. Tidak ada akun testing bawaan.
+  // Akun dibuat admin dan disimpan di collection accounts.
 
-  // 2) Akun tambahan yang dibuat admin lewat panel Admin (tersimpan di Firestore)
   if (!nama && window.checkFirestoreAccount) {
     $("submit").disabled = true;
     $("err").textContent = "";
     try {
       const found = await window.checkFirestoreAccount(u, p, selectedRole);
       if (found) nama = found.nama || u;
+      else $("err").textContent = "Akun tidak ditemukan, password salah, atau jenis akun tidak sesuai.";
+    } catch (e) {
+      console.error(e);
+      $("err").textContent = e?.code === "permission-denied" ? "Login ditolak Firestore. Publish Rules untuk accounts." : "Gagal memeriksa akun. Periksa koneksi Firebase.";
     } finally {
       $("submit").disabled = false;
     }
@@ -997,7 +1002,7 @@ async function doLogin() {
   if (selectedRole === "admin") {
     sessionStorage.setItem("admin", "1");
   }
-  location.href = a.target;
+  location.replace(accounts[selectedRole].target);
 }
 
 $("submit").addEventListener("click", doLogin);
