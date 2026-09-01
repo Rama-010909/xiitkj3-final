@@ -1,7 +1,8 @@
-# XII TKJ 3 v85
-
-- iOS-style page polish and smooth micro-animations.
-- Student features are separated into their own pages: absensi, tugas, materi, nilai, jadwal, struktur, galeri.
-- Teacher features are separated into their own pages: tugas, pengumuman, materi, absensi, nilai, pengumpulan.
-- Student and teacher pages retain the original full DOM behind the scenes so existing Firebase/Firestore logic continues to work.
-- Logo preview remains clickable where the existing lightbox is available.
+# XII TKJ 3 v86
+Major UI redesign:
+- Strong iOS-style glass interface and motion system across login, student, teacher, admin and feature pages.
+- Clickable class/SMK logos open a fullscreen preview modal.
+- Student and teacher home pages are dashboards; feature content is hidden from the home so each feature is opened on its own existing page.
+- Feature pages receive a floating back-to-home control.
+- Visible emoji characters removed from HTML.
+- Existing Firebase logic and feature pages retained rather than replaced.

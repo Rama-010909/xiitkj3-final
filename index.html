@@ -1,1 +1,55 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>location.replace("login.html")</script></head><body></body></html>
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>location.replace("login.html")</script>
+<style id="v86-ios-system">
+:root{--ios-bg:#f4f7fb;--ios-surface:rgba(255,255,255,.68);--ios-text:#172033;--ios-muted:#718096;--ios-line:rgba(20,32,50,.09);--ios-accent:#0a84ff;--ios-shadow:0 24px 70px rgba(30,55,90,.14)}
+:root[data-theme="dark"]{--ios-bg:#07111e;--ios-surface:rgba(22,32,48,.72);--ios-text:#f7f9ff;--ios-muted:#a9b5c6;--ios-line:rgba(255,255,255,.11);--ios-shadow:0 25px 80px rgba(0,0,0,.4)}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif!important}
+body{background:var(--ios-bg)!important;color:var(--ios-text)!important}
+body:before,body:after{content:"";position:fixed;z-index:-2;width:38vw;height:38vw;min-width:260px;min-height:260px;border-radius:50%;filter:blur(80px);opacity:.20;pointer-events:none;animation:v86float 11s ease-in-out infinite alternate}
+body:before{left:-10vw;top:5vh;background:#4b8dff}body:after{right:-10vw;bottom:-8vh;background:#9b6cff;animation-delay:-4s}
+@keyframes v86float{to{transform:translate(30px,-25px) scale(1.08)}}
+.glass,.card,.panel,.stat,.daily-card,.schedule-day-block,.admin-structure-card,.gallery-manager-item,.student-row,.login-card{background:var(--ios-surface)!important;border:1px solid var(--ios-line)!important;box-shadow:var(--ios-shadow)!important;backdrop-filter:blur(28px) saturate(140%)!important;-webkit-backdrop-filter:blur(28px) saturate(140%)!important}
+button,.btn,a.nav-item,.feature-card,.role{transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s,filter .24s!important}
+button:hover,.btn:hover,.feature-card:hover,a.nav-item:hover{transform:translateY(-3px)}
+button:active,.btn:active,.feature-card:active{transform:scale(.97)!important}
+input,select,textarea{border-color:var(--ios-line)!important;transition:.2s!important}
+input:focus,select:focus,textarea:focus{outline:none;transform:translateY(-1px);box-shadow:0 0 0 4px rgba(10,132,255,.13)!important;border-color:var(--ios-accent)!important}
+.v86-logo{cursor:zoom-in!important;transition:transform .3s,filter .3s!important}.v86-logo:hover{transform:scale(1.05)!important;filter:drop-shadow(0 10px 20px rgba(10,132,255,.2))}
+.v86-modal{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:rgba(0,0,0,.42);backdrop-filter:blur(18px);opacity:0;pointer-events:none;transition:.3s}.v86-modal.open{opacity:1;pointer-events:auto}.v86-modal-card{position:relative;width:min(88vw,520px);padding:28px;border-radius:34px;background:rgba(255,255,255,.88);box-shadow:0 30px 100px rgba(0,0,0,.3);transform:scale(.9) translateY(20px);transition:.4s cubic-bezier(.2,.8,.2,1);text-align:center}.v86-modal.open .v86-modal-card{transform:none}:root[data-theme="dark"] .v86-modal-card{background:rgba(20,30,46,.92);color:#fff}.v86-modal img{max-width:100%;max-height:58vh;object-fit:contain;border-radius:22px}.v86-close{position:absolute;right:15px;top:15px;width:38px;height:38px;border:0;border-radius:50%;background:rgba(127,127,127,.14);font-size:20px;cursor:pointer}
+.v86-feature-back{position:fixed;left:20px;bottom:20px;z-index:9000;border:1px solid var(--ios-line);background:var(--ios-surface);color:var(--ios-text);backdrop-filter:blur(20px);border-radius:18px;padding:11px 16px;font-weight:850;box-shadow:var(--ios-shadow);text-decoration:none}
+@media(max-width:700px){.v86-feature-back{left:14px;bottom:14px}.v86-modal-card{padding:20px;border-radius:26px}}
+</style>
+<script>
+(function(){
+function addLogoViewer(){
+ const imgs=[...document.querySelectorAll('img')].filter(i=>/logo-(kelas|smk)/i.test(i.src)||/Logo (Kelas|SMK)/i.test(i.alt));
+ imgs.forEach(img=>{
+   img.classList.add('v86-logo');
+   img.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openLogo(img.currentSrc||img.src,img.alt||'Logo');});
+ });
+}
+function openLogo(src,title){
+ let m=document.getElementById('v86LogoModal');
+ if(!m){m=document.createElement('div');m.id='v86LogoModal';m.className='v86-modal';m.innerHTML='<div class="v86-modal-card"><button class="v86-close" aria-label="Tutup">×</button><img id="v86LogoImage"><div id="v86LogoTitle" style="font-weight:850;margin-top:12px"></div></div>';document.body.appendChild(m);
+ m.addEventListener('click',e=>{if(e.target===m||e.target.closest('.v86-close'))m.classList.remove('open')});}
+ m.querySelector('#v86LogoImage').src=src;m.querySelector('#v86LogoTitle').textContent=title;m.classList.add('open');
+}
+function dashboardMode(){
+ const path=location.pathname.split('/').pop();
+ if(path==='siswa.html'){
+   ['absensi','tugas','materi','nilai','jadwal','struktur','galeri'].forEach(id=>{const x=document.getElementById(id);if(x)x.style.display='none'});
+   const home=document.getElementById('utama');if(home)home.style.display='';
+ }
+ if(path==='guru.html'){
+   const w=document.getElementById('workspace');if(w)w.style.display='none';
+ }
+}
+function featureBack(){
+ const path=location.pathname.split('/').pop();
+ if(/^(siswa|guru)-(absensi|tugas|materi|nilai|jadwal|struktur|galeri|pengumuman|pengumpulan)\.html$/i.test(path) && !document.querySelector('.v86-feature-back')){
+   const a=document.createElement('a');a.className='v86-feature-back';a.href=path.startsWith('siswa-')?'siswa.html':'guru.html';a.textContent='Kembali ke Beranda';document.body.appendChild(a);
+ }
+}
+document.addEventListener('DOMContentLoaded',()=>{addLogoViewer();dashboardMode();featureBack()});
+})();
+</script>
+</head><body></body></html>
