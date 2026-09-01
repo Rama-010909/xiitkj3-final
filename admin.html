@@ -601,6 +601,13 @@ button:hover,.btn:hover{transform:translateY(-2px)}button:active,.btn:active{tra
 input,select,textarea{transition:.2s!important}input:focus,select:focus,textarea:focus{transform:translateY(-1px)}
 .card,.panel,.stat,.daily-card,.schedule-day-block,.gallery-manager-item{animation:iosPageIn .55s cubic-bezier(.2,.8,.2,1) both}
 @keyframes iosPageIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+</style><style id="ios-v85-global">
+:root{--ios-ease:cubic-bezier(.16,1,.3,1)}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif!important}
+button,.btn,.logout,a,.card,.panel,.stat,.person,.gallery-item{transition:transform .28s var(--ios-ease),box-shadow .28s var(--ios-ease),filter .2s ease,border-color .2s ease!important}
+button:hover,.btn:hover,.person:hover,.gallery-item:hover{transform:translateY(-3px)}button:active,.btn:active{transform:scale(.97)!important}
+input,select,textarea{transition:box-shadow .22s var(--ios-ease),border-color .22s ease,transform .22s var(--ios-ease)!important}
+input:focus,select:focus,textarea:focus{transform:translateY(-1px)}
 </style></head><body class="admin-gate">
 <header class="nav glass"><a class="brand" href="index.html"><div style="display:flex;align-items:center;gap:6px"><img class="class-logo theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" data-lightbox="assets/galeri/logo-kelas-light.png" src="assets/galeri/logo-kelas-light.png" alt="Logo Kelas XII TKJ 3" style="width:34px;height:34px;object-fit:contain;cursor:zoom-in"><img src="assets/galeri/logo-smk-transparent.png" alt="Logo SMK" data-lightbox="assets/galeri/logo-smk-transparent.png" style="width:34px;height:34px;object-fit:contain;cursor:zoom-in"></div>XII TKJ 3</a><nav class="links"><a href="#dashboard">Utama</a><a href="#statistik">Jumlah Mapel</a><a href="#data-absensi">Data Absensi</a><a href="#siswa">Data Siswa</a><a href="#guru">Data Guru</a><a href="#struktur">Struktur</a><a href="#jadwal">Jadwal</a><a href="#galeri">Galeri</a></nav><div class="theme-control" title="Mode tampilan"><select id="themeSelect" aria-label="Mode tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></div><button class="logout" id="logout">Keluar</button></header>
 <section id="adminLoginGate" class="section admin-login-section" style="display:none"><div class="container"><div class="card glass">

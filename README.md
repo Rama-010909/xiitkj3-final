@@ -1,10 +1,7 @@
-# XII TKJ 3 v83
-- Login Siswa/Guru/Admin memakai satu form dinamis.
-- Login Admin master: tkj3 / smknubandar.
-- Firebase config dikembalikan ke config project yang benar dari paket v81.
-- Akun siswa/guru tetap dibaca dari Firestore collection accounts.
-- Tampilan diberi polish iOS/glassmorphism + animasi.
-- Firestore rules mencakup accounts dan users.
+# XII TKJ 3 v85
 
-
-v84: Login UI redesigned with clean iOS-style SVG icons, no emoji, stronger micro-interactions, and global motion polish. Visible emoji characters were removed from main pages.
+- iOS-style page polish and smooth micro-animations.
+- Student features are separated into their own pages: absensi, tugas, materi, nilai, jadwal, struktur, galeri.
+- Teacher features are separated into their own pages: tugas, pengumuman, materi, absensi, nilai, pengumpulan.
+- Student and teacher pages retain the original full DOM behind the scenes so existing Firebase/Firestore logic continues to work.
+- Logo preview remains clickable where the existing lightbox is available.

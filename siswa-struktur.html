@@ -787,6 +787,12 @@ button:hover,.btn:hover{transform:translateY(-2px)}button:active,.btn:active{tra
 input,select,textarea{transition:.2s!important}input:focus,select:focus,textarea:focus{transform:translateY(-1px)}
 .card,.panel,.stat,.daily-card,.schedule-day-block,.gallery-manager-item{animation:iosPageIn .55s cubic-bezier(.2,.8,.2,1) both}
 @keyframes iosPageIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+</style><style id="feature-page-struktur">
+body.feature-page .section:not(#struktur){display:none!important}
+body.feature-page #utama{display:none!important}
+body.feature-page .feature-only-hero{display:block!important}
+.feature-back{display:inline-flex!important;align-items:center;gap:7px;margin:0 0 16px;padding:9px 13px;border-radius:999px;background:var(--card-solid);color:var(--accent);font-weight:800;text-decoration:none;border:1px solid var(--card-border-subtle);box-shadow:var(--shadow-ios);transition:.25s var(--ease-spring)}
+.feature-back:hover{transform:translateY(-2px) scale(1.02)}
 </style><style id="ios-v85-global">
 :root{--ios-ease:cubic-bezier(.16,1,.3,1)}
 body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif!important}
@@ -794,9 +800,8 @@ button,.btn,.logout,a,.card,.panel,.stat,.person,.gallery-item{transition:transf
 button:hover,.btn:hover,.person:hover,.gallery-item:hover{transform:translateY(-3px)}button:active,.btn:active{transform:scale(.97)!important}
 input,select,textarea{transition:box-shadow .22s var(--ios-ease),border-color .22s ease,transform .22s var(--ios-ease)!important}
 input:focus,select:focus,textarea:focus{transform:translateY(-1px)}
-</style><style id="ios-home-v85">body.student-home .section{display:none!important}.feature-hub{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 70px}.feature-hub a{display:block;padding:20px;border-radius:24px;background:var(--card);border:1px solid var(--card-border);box-shadow:var(--shadow-ios);backdrop-filter:blur(25px);color:var(--text);text-decoration:none;transition:.3s var(--ease-spring);position:relative;overflow:hidden}.feature-hub a:hover{transform:translateY(-5px) scale(1.015);box-shadow:var(--shadow-ios-lg)}.feature-hub .icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--input-bg);color:var(--accent);margin-bottom:12px}.feature-hub svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.feature-hub strong{display:block;font-size:15px}.feature-hub small{display:block;color:var(--muted);margin-top:5px;line-height:1.45}@media(max-width:800px){.feature-hub{grid-template-columns:1fr 1fr}}@media(max-width:460px){.feature-hub{grid-template-columns:1fr}}
 </style></head>
-<body class="student-home">
+<body class="feature-page feature-struktur">
 
 <!-- Ambient Animated Glow -->
 <div class="ios-bg" aria-hidden="true">
@@ -842,7 +847,7 @@ input:focus,select:focus,textarea:focus{transform:translateY(-1px)}
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap"><a class="feature-back" href="siswa.html">← Kembali ke Utama</a>
   <!-- Hero -->
   <section id="utama" class="hero">
     <div class="ios-kicker">
@@ -872,15 +877,7 @@ input:focus,select:focus,textarea:focus{transform:translateY(-1px)}
         <span class="stat-label">Status Absen Anda</span>
       </div>
     </div>
-  </section><div class="feature-hub">
-<a href="siswa-absensi.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><strong>Absensi</strong><small>Kehadiran harian</small></a>
-<a href="siswa-tugas.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 3h12a2 2 0 0 1 2 2v16H4V5a2 2 0 0 1 2-2Z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><strong>Tugas</strong><small>Tugas dan pengumpulan</small></a>
-<a href="siswa-materi.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg></span><strong>Materi</strong><small>Pengumuman dan bahan ajar</small></a>
-<a href="siswa-nilai.html"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16"/><path d="m7 15 4-5 3 3 5-7"/></svg></span><strong>Nilai</strong><small>Hasil penilaian</small></a>
-<a href="siswa-jadwal.html"><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></span><strong>Jadwal</strong><small>Jadwal pelajaran</small></a>
-<a href="siswa-struktur.html"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M12 7.5V13M12 13H6M12 13h6M6 13v2.5M18 13v2.5"/></svg></span><strong>Struktur</strong><small>Struktur kelas</small></a>
-<a href="siswa-galeri.html"><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="8" cy="9" r="1.5"/><path d="m5 17 5-5 3 3 2-2 4 4"/></svg></span><strong>Galeri</strong><small>Dokumentasi kelas</small></a>
-</div>
+  </section>
 
   <!-- Absensi Harian -->
   <section id="absensi" class="section">
