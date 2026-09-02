@@ -31,7 +31,7 @@
     <div class="two-col">
       <div>
         <h3 style="margin:0 0 12px;font-size:16px;font-weight:800">Daftar Tugas Guru</h3>
-        <div id="taskList" class="card-list"><div class="empty">Memuat daftar tugas...</div></div>
+        <div id="taskList" class="card-list"><div class="empty">Belum ada tugas yang dimuat.</div></div>
       </div>
       <div>
         <h3 style="margin:0 0 12px;font-size:16px;font-weight:800">Kumpulkan Tugas</h3>
@@ -43,7 +43,7 @@
             </div>
             <div class="field-group">
               <label>Nama Siswa</label>
-              <div class="account-name-card"><span class="account-name-avatar"></span><span><small>Login sebagai</small><b id="submissionStudentName">Memuat nama...</b></span></div>
+              <div class="account-name-card"><span class="account-name-avatar"></span><span><small>Login sebagai</small><b id="submissionStudentName">Siswa</b></span></div>
             </div>
             <div class="field-group">
               <label for="subJawaban">Jawaban / Catatan</label>
@@ -119,11 +119,11 @@ onSnapshot(query(collection(db, "tugas"), orderBy("createdAt", "desc")), snap =>
       <div class="item-meta">
         <span>Deadline: <b>${esc(t.deadline ? new Date(t.deadline).toLocaleString('id-ID') : 'Tidak ditentukan')}</b></span>
         ${t.guru ? `<span>• Guru: ${esc(t.guru)}</span>` : ''}
-        ${t.fileUrl ? `<a href="${esc(t.fileUrl)}" target="_blank" rel="noopener" class="ios-btn" style="padding:4px 10px;font-size:11px;margin-left:auto">Unduh Lampiran</a>` : ''}
+        ${t.fileUrl ? `<a href="${esc(t.fileUrl)}" target="_blank" rel="noopener" class="ios-btn" style="padding:4px 10px;font-size:11px;margin-left:auto">Unduh Lampiran</a>` : ''}${t.attachmentUrl ? `<a href="${esc(t.attachmentUrl)}" target="_blank" rel="noopener" class="ios-btn" style="padding:4px 10px;font-size:11px">${t.attachmentName?'Buka '+esc(t.attachmentName):'Buka Lampiran'}</a>` : ''}
       </div>
     </article>
   `).join('');
-  subMapel.innerHTML = '<option value="">Pilih tugas / mata pelajaran...</option>' + activeTasks.map(t => `<option value="${esc(t.mapel)} — ${esc(t.judul)}">${esc(t.mapel)}: ${esc(t.judul)}</option>`).join('');
+  subMapel.innerHTML = '<option value="">Pilih tugas...</option>' + activeTasks.map(t => `<option value="${esc(t.id)}">${esc(t.mapel)}: ${esc(t.judul)}</option>`).join('');
 });
 
 q('subPhoto')?.addEventListener('change', e => {
@@ -133,13 +133,16 @@ q('subPhoto')?.addEventListener('change', e => {
   if(img && preview){ img.src=URL.createObjectURL(file); preview.style.display='block'; }
 });
 q('submitTaskBtn').addEventListener('click', async () => {
-  const mapel = q('subMapel').value;
+  const taskId = q('subMapel').value;
+  const task = activeTasks.find(t=>t.id===taskId);
+  const mapel = task?.mapel || '';
+  const judulTugas = task?.judul || '';
   const siswa = studentName;
   const jawaban = q('subJawaban').value.trim();
   const link = q('subLink').value.trim();
   const photo = q('subPhoto')?.files?.[0] || null;
   const toast = q('subToast');
-  if (!mapel) { toast.textContent = "Pilih tugas terlebih dahulu."; toast.className = "toast err"; return; }
+  if (!task) { toast.textContent = "Pilih tugas terlebih dahulu."; toast.className = "toast err"; return; }
   if (!jawaban && !link && !photo) { toast.textContent = "Isi jawaban, link, atau kirim foto tugas."; toast.className = "toast err"; return; }
   if (photo && photo.size > 5 * 1024 * 1024) { toast.textContent = "Foto maksimal 5 MB."; toast.className = "toast err"; return; }
   q('submitTaskBtn').disabled = true; toast.textContent = "Mengirim tugas..."; toast.className = "toast";
@@ -152,7 +155,7 @@ q('submitTaskBtn').addEventListener('click', async () => {
       await uploadBytes(storageRef, photo, { contentType: photo.type });
       photoUrl = await getDownloadURL(storageRef);
     }
-    await addDoc(collection(db, "pengumpulan_tugas"), { mapel, siswa, jawaban, link, photoUrl, updatedAt: Date.now() });
+    await addDoc(collection(db, "pengumpulan_tugas"), { taskId, judulTugas, mapel, siswa, username: session.username||studentName, jawaban, link, photoUrl, updatedAt: Date.now() });
     toast.textContent = "Tugas berhasil dikumpulkan."; toast.className = "toast";
     q('subJawaban').value=''; q('subLink').value=''; if(q('subPhoto')) q('subPhoto').value=''; if(q('photoPreview')) q('photoPreview').style.display='none';
   } catch (e) {

@@ -37,6 +37,7 @@
           <div class="field-group"><label>Deskripsi</label><textarea id="taskDesc" class="form-textarea"></textarea></div>
           <div class="two-col">
             <div class="field-group"><label>Deadline</label><input id="taskDeadline" type="datetime-local" class="form-input"></div>
+            <div class="field-group"><label>Foto / Lampiran Tugas</label><input id="taskPhoto" type="file" accept="image/*,.pdf" class="form-input"><small class="form-hint">Opsional. Foto/PDF akan tersimpan di Firebase Storage.</small></div>
             <div class="field-group"><label>Lampiran URL</label><input id="taskFile" class="form-input" placeholder="https://..."></div>
           </div>
           <button class="ios-btn primary" id="saveTask" type="button" style="padding:14px;justify-content:center">Terbitkan Tugas</button>
@@ -65,11 +66,13 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, where, orderBy, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-storage.js";
 
 const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 const q = id => document.getElementById(id);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
@@ -102,7 +105,7 @@ function loadTasks() {
         <h3 style="margin-top:8px">${esc(x.judul)}</h3>
         <p style="color:var(--muted-dark);font-size:13px;margin:0 0 8px">${esc(x.deskripsi)}</p>
         <div class="item-meta">Deadline: ${esc(x.deadline||'-')}</div>
-        ${x.fileUrl?`<p style="margin:8px 0 0"><a href="${esc(x.fileUrl)}" target="_blank" rel="noopener" class="ios-btn" style="font-size:11px;padding:5px 10px">Lampiran</a></p>`:''}
+        ${x.fileUrl?`<p style="margin:8px 0 0"><a href="${esc(x.fileUrl)}" target="_blank" rel="noopener" class="ios-btn" style="font-size:11px;padding:5px 10px">Lampiran URL</a></p>`:''}${x.attachmentUrl?`<p style="margin:8px 0 0"><a href="${esc(x.attachmentUrl)}" target="_blank" rel="noopener" class="ios-btn" style="font-size:11px;padding:5px 10px">${x.attachmentName?'Buka '+esc(x.attachmentName):'Buka lampiran'}</a></p>`:''}
         <div style="margin-top:10px"><button class="ios-btn danger" data-del="${d.id}" type="button">Hapus</button></div>
       </article>`;
     }).join('');
@@ -137,11 +140,24 @@ onAuthStateChanged(auth, async user => {
 
 q('saveTask').onclick = async () => {
   if (!current) return;
+  const title=q('taskTitle').value.trim(), desc=q('taskDesc').value.trim(), deadline=q('taskDeadline').value, fileUrl=q('taskFile').value.trim(), photo=q('taskPhoto')?.files?.[0]||null;
+  if(!title){ alert('Judul tugas wajib diisi.'); return; }
+  if(photo && photo.size>10*1024*1024){ alert('Foto/PDF maksimal 10 MB.'); return; }
   q('saveTask').disabled = true;
   try {
-    await addDoc(collection(db, 'tugas'), { judul: q('taskTitle').value.trim(), deskripsi: q('taskDesc').value.trim(), deadline: q('taskDeadline').value, fileUrl: q('taskFile').value.trim(), mapel: current, guruUid: uid, guru: teacher, createdAt: Date.now() });
-    ['taskTitle','taskDesc','taskDeadline','taskFile'].forEach(x => q(x).value = '');
-  } finally { q('saveTask').disabled = false; }
+    let attachmentUrl='';
+    let attachmentName='';
+    if(photo){
+      const safe=(teacher||uid||'guru').replace(/[^a-z0-9_-]/gi,'_');
+      const path=`tugas/${safe}/${Date.now()}_${photo.name.replace(/[^a-z0-9._-]/gi,'_')}`;
+      const storageRef=ref(storage,path);
+      await uploadBytes(storageRef,photo,{contentType:photo.type});
+      attachmentUrl=await getDownloadURL(storageRef); attachmentName=photo.name;
+    }
+    await addDoc(collection(db, 'tugas'), { judul:title, deskripsi:desc, deadline, fileUrl, attachmentUrl, attachmentName, mapel:current, guruUid:uid, guru:teacher, createdAt:Date.now() });
+    ['taskTitle','taskDesc','taskDeadline','taskFile','taskPhoto'].forEach(x => { if(q(x)) q(x).value=''; });
+  } catch(e){ alert('Tugas gagal diterbitkan: '+(e.message||e)); }
+  finally { q('saveTask').disabled = false; }
 };
 
 if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));

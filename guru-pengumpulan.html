@@ -85,7 +85,7 @@ function loadSub() {
         <div class="item-meta">Dikirim: ${x.updatedAt ? new Date(x.updatedAt).toLocaleString('id-ID') : '-'}</div>
         ${x.jawaban ? `<p style="font-size:13px;color:var(--muted-dark);margin:8px 0 0">${esc(x.jawaban)}</p>` : ''}
         ${x.link ? `<div style="margin-top:8px"><a href="${esc(x.link)}" target="_blank" rel="noopener" class="ios-btn" style="font-size:11px;padding:5px 10px">Buka link jawaban ↗</a></div>` : ''}
-        ${x.photoUrl ? `<div style="margin-top:8px"><a href="${esc(x.photoUrl)}" target="_blank" rel="noopener" class="ios-btn" style="font-size:11px;padding:5px 10px">Lihat foto tugas ↗</a></div>` : ''}
+        ${x.photoUrl ? `<div style="margin-top:10px"><img src="${esc(x.photoUrl)}" alt="Foto tugas ${esc(x.siswa||'siswa')}" style="width:100%;max-height:360px;object-fit:contain;border-radius:16px;background:var(--input-bg);border:1px solid var(--card-border-subtle)"></div><div style="margin-top:8px"><a href="${esc(x.photoUrl)}" target="_blank" rel="noopener" class="ios-btn" style="font-size:11px;padding:5px 10px">Buka foto penuh</a></div>` : ''}
       </article>`;
     }).join('');
   }, () => { q('submissionList').innerHTML = '<div class="empty">Gagal memuat pengumpulan.</div>'; });

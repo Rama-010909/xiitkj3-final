@@ -16,15 +16,15 @@
 <section class="hero" style="padding-top:8px"><div class="ios-kicker"><span class="kicker-dot"></span><span>Kehadiran</span></div><h1 style="font-size:clamp(26px,5vw,38px)">Absensi</h1><p>Pilih jenis absensi yang ingin kamu lakukan.</p></section>
 <section class="section" style="padding-top:0">
 <div class="att-choice-grid">
-  <article class="att-choice morning ios-glass" id="morningCard"><div class="att-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg></div><h2>Absen Pagi</h2><p>Absensi kehadiran sebelum pembelajaran dimulai.</p><div class="att-info"><span id="morningStatus">Memeriksa jam...</span><b>06.00 – 07.30 WIB</b></div><button id="openMorningForm" class="ios-btn primary att-action" type="button">Absen Pagi</button></article>
-  <article class="att-choice subject ios-glass" id="subjectCard"><div class="att-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z"/><path d="M4 5.5V19a3 3 0 0 1 3-3h13"/></svg></div><h2>Absensi Mapel</h2><p>Absensi hanya dibuka saat jam pelajaran sedang berlangsung.</p><div class="att-info"><span id="subjectStatus">Memeriksa jadwal...</span><b id="currentSubjectSmall">Memuat mapel...</b></div><button id="openSubject" class="ios-btn primary att-action" type="button">Absen Mapel</button></article>
+  <article class="att-choice morning ios-glass" id="morningCard"><div class="att-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg></div><h2>Absen Pagi</h2><p>Absensi kehadiran sebelum pembelajaran dimulai.</p><div class="att-info"><span id="morningStatus">Menunggu waktu</span><b>06.00 – 07.30 WIB</b></div><button id="openMorningForm" class="ios-btn primary att-action" type="button">Absen Pagi</button></article>
+  <article class="att-choice subject ios-glass" id="subjectCard"><div class="att-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z"/><path d="M4 5.5V19a3 3 0 0 1 3-3h13"/></svg></div><h2>Absensi Mapel</h2><p>Absensi hanya dibuka saat jam pelajaran sedang berlangsung.</p><div class="att-info"><span id="subjectStatus">Menunggu jadwal</span><b id="currentSubjectSmall">Belum tersedia</b></div><button id="openSubject" class="ios-btn primary att-action" type="button">Absen Mapel</button></article>
 </div>
-<div id="currentCard" class="current-card ios-glass"><div class="current-head"><span id="liveDot" class="live-dot"></span><span id="currentLabel">Jadwal sekarang</span></div><div class="current-main"><div><h3 id="currentSubject">Memuat...</h3><p id="currentTeacher">Membaca jadwal kelas XII TKJ 3...</p></div><div class="current-time" id="currentTime">--:--</div></div><div class="closed-note" id="closedNote"></div></div>
+<div id="currentCard" class="current-card ios-glass"><div class="current-head"><span id="liveDot" class="live-dot"></span><span id="currentLabel">Jadwal sekarang</span></div><div class="current-main"><div><h3 id="currentSubject">Menyiapkan status</h3><p id="currentTeacher">Status akan mengikuti jadwal hari ini.</p></div><div class="current-time" id="currentTime">--:--</div></div><div class="closed-note" id="closedNote"></div></div>
 <div id="notify" class="toast notify-box" role="status"></div>
 <div id="morningFormWrap" class="hidden-form">
   <h3 class="section-title">Form Absen Pagi</h3>
   <div class="ios-panel ios-glass">
-    <div class="account-name-card"><span class="account-name-avatar"></span><span><small>Login sebagai</small><b id="absenNamaText">Memuat nama...</b></span></div>
+    <div class="account-name-card"><span class="account-name-avatar"></span><span><small>Login sebagai</small><b id="absenNamaText">Siswa</b></span></div>
     <div class="form-grid" style="margin-top:14px">
       <div class="field-group"><label>Status Kehadiran</label><div class="status-radios"><label class="status-radio"><input type="radio" name="absenStatus" value="HADIR" checked><span class="status-btn">Hadir</span></label><label class="status-radio"><input type="radio" name="absenStatus" value="IZIN"><span class="status-btn">Izin</span></label><label class="status-radio"><input type="radio" name="absenStatus" value="SAKIT"><span class="status-btn">Sakit</span></label></div></div>
       <div class="field-group"><label for="absenKet">Keterangan (opsional)</label><input id="absenKet" class="form-input" placeholder="Contoh: Keperluan keluarga"></div>
@@ -33,7 +33,7 @@
     </div>
   </div>
 </div>
-<h3 class="section-title">Status Absen Saya Hari Ini</h3><div id="todayAbsenList" class="card-list"><div class="empty">Memuat status...</div></div>
+<h3 class="section-title">Status Absen Saya Hari Ini</h3><div id="todayAbsenList" class="card-list"><div class="empty">Belum ada data absensi hari ini.</div></div>
 </section></main>
 <nav class="ios-tab-bar" style="--tabs:6" aria-label="Navigasi Mobile Siswa"><a href="siswa.html">Utama</a><a href="siswa-absensi.html">Absen</a><a href="siswa-tugas.html">Tugas</a><a href="siswa-materi.html">Materi</a><a href="siswa-jadwal.html">Jadwal</a><a href="siswa-galeri.html">Galeri</a></nav><footer class="page-footer">XII TKJ 3 • SMK NU Bandar</footer>
 <script src="assets/js/ios-core.js"></script>
@@ -50,7 +50,60 @@ function parseRange(v){const m=String(v||'').match(/(\d{1,2}\s*[.:]\s*\d{2})\s*[
 function fmt(v){const n=Number(v);return String(Math.floor(n/60)).padStart(2,'0')+'.'+String(n%60).padStart(2,'0')}
 function isBreak(x){const s=String(x?.mapel||x?.mataPelajaran||'').toLowerCase();return s.includes('istirahat')||s.includes('break')}
 function getNowLesson(){const now=new Date();const day=dayNames[now.getDay()];const minute=now.getHours()*60+now.getMinutes();if(!dayOrder.includes(day))return null;return scheduleEntries.map(x=>({...x,range:parseRange(x.jam)})).find(x=>x.range&&minute>=x.range.start&&minute<x.range.end&&!isBreak(x))||null}
-function refreshCurrent(){const now=new Date();const minute=now.getHours()*60+now.getMinutes();const lesson=getNowLesson();currentLesson=lesson;q('currentTime').textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');const day=dayNames[now.getDay()];const rows=scheduleEntries.map(x=>({...x,range:parseRange(x.jam)})).filter(x=>x.range).sort((a,b)=>a.range.start-b.range.start);const lastEnd=rows.length?Math.max(...rows.map(x=>x.range.end)):null;const activeBreak=rows.find(x=>minute>=x.range.start&&minute<x.range.end&&isBreak(x));if(activeBreak){q('currentLabel').textContent='Sedang Istirahat';q('currentSubject').textContent='Waktu Istirahat';q('currentTeacher').textContent='Absensi mapel otomatis ditutup';q('currentSubjectSmall').textContent='Istirahat';q('subjectStatus').textContent='Absensi ditutup';q('openSubject').disabled=true;q('openSubject').textContent='Sedang Istirahat';q('closedNote').textContent='Absensi mapel mengikuti jam pada jadwal.'}else if(lesson){q('currentLabel').textContent='Mapel yang sedang berlangsung';q('currentSubject').textContent=lesson.mapel||lesson.mataPelajaran||'Mata Pelajaran';q('currentTeacher').textContent=(lesson.jam||'-')+' • Absensi mapel tersedia sekarang';q('currentSubjectSmall').textContent=lesson.mapel||lesson.mataPelajaran||'Mata Pelajaran';q('subjectStatus').textContent='Sedang berlangsung';q('openSubject').disabled=false;q('openSubject').textContent='Absen '+(lesson.mapel||lesson.mataPelajaran||'Mapel');q('closedNote').textContent='Absensi mapel mengikuti rentang waktu pada jadwal, tanpa perlu dibuka guru.'}else if(lastEnd!==null&&minute>=lastEnd){q('currentLabel').textContent='Sudah Pulang';q('currentSubject').textContent='Jam Pelajaran Selesai';q('currentTeacher').textContent='Semua jam pelajaran hari ini sudah selesai';q('currentSubjectSmall').textContent='Sudah pulang';q('subjectStatus').textContent='Absensi ditutup';q('openSubject').disabled=true;q('openSubject').textContent='Sudah Pulang';q('closedNote').textContent='Absensi mapel tidak tersedia setelah jam pelajaran selesai.'}else{q('currentLabel').textContent=day==='Minggu'?'Hari Minggu':'Tidak ada mapel berlangsung';q('currentSubject').textContent=day==='Minggu'?'Hari Minggu':'Belum Ada Pelajaran';q('currentTeacher').textContent=day==='Minggu'?'Tidak ada jadwal pelajaran hari ini':'Belum memasuki jam pelajaran';q('currentSubjectSmall').textContent='Belum ada mapel aktif';q('subjectStatus').textContent='Absensi ditutup';q('openSubject').disabled=true;q('openSubject').textContent='Belum Ada Mapel';q('closedNote').textContent='Absensi mapel hanya aktif mengikuti jam pelajaran pada jadwal.')}const morningOpen=minute>=360&&minute<450;q('morningStatus').textContent=morningOpen?'Absensi sedang dibuka':'Absensi sedang ditutup';q('openMorningForm').disabled=!morningOpen;q('openMorningForm').textContent=morningOpen?'Absen Pagi':(minute<360?'Dibuka pukul 06.00':'Ditutup pukul 07.30');}
+function refreshCurrent(){
+  const now=new Date();
+  const minute=now.getHours()*60+now.getMinutes();
+  const lesson=getNowLesson();
+  currentLesson=lesson;
+  q('currentTime').textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  const day=dayNames[now.getDay()];
+  const rows=scheduleEntries.map(x=>({...x,range:parseRange(x.jam)})).filter(x=>x.range).sort((a,b)=>a.range.start-b.range.start);
+  const lastEnd=rows.length?Math.max(...rows.map(x=>x.range.end)):null;
+  const activeBreak=rows.find(x=>minute>=x.range.start&&minute<x.range.end&&isBreak(x));
+  if(activeBreak){
+    q('currentLabel').textContent='Sedang Istirahat';
+    q('currentSubject').textContent='Waktu Istirahat';
+    q('currentTeacher').textContent='Absensi mapel otomatis ditutup';
+    q('currentSubjectSmall').textContent='Istirahat';
+    q('subjectStatus').textContent='Absensi ditutup';
+    q('openSubject').disabled=true;
+    q('openSubject').textContent='Sedang Istirahat';
+    q('closedNote').textContent='Absensi mapel mengikuti jam pada jadwal.';
+  }else if(lesson){
+    const mapel=lesson.mapel||lesson.mataPelajaran||'Mata Pelajaran';
+    q('currentLabel').textContent='Mapel yang sedang berlangsung';
+    q('currentSubject').textContent=mapel;
+    q('currentTeacher').textContent=(lesson.jam||'-')+' • Absensi mapel tersedia sekarang';
+    q('currentSubjectSmall').textContent=mapel;
+    q('subjectStatus').textContent='Sedang berlangsung';
+    q('openSubject').disabled=false;
+    q('openSubject').textContent='Absen '+mapel;
+    q('closedNote').textContent='Absensi mapel mengikuti rentang waktu pada jadwal, tanpa perlu dibuka guru.';
+  }else if(lastEnd!==null&&minute>=lastEnd){
+    q('currentLabel').textContent='Sudah Pulang';
+    q('currentSubject').textContent='Jam Pelajaran Selesai';
+    q('currentTeacher').textContent='Semua jam pelajaran hari ini sudah selesai';
+    q('currentSubjectSmall').textContent='Sudah pulang';
+    q('subjectStatus').textContent='Absensi ditutup';
+    q('openSubject').disabled=true;
+    q('openSubject').textContent='Sudah Pulang';
+    q('closedNote').textContent='Absensi mapel tidak tersedia setelah jam pelajaran selesai.';
+  }else{
+    q('currentLabel').textContent=day==='Minggu'?'Hari Minggu':'Belum Ada Pelajaran';
+    q('currentSubject').textContent=day==='Minggu'?'Hari Minggu':'Belum Ada Pelajaran';
+    q('currentTeacher').textContent=day==='Minggu'?'Tidak ada jadwal pelajaran hari ini':'Belum memasuki jam pelajaran';
+    q('currentSubjectSmall').textContent='Belum ada mapel aktif';
+    q('subjectStatus').textContent='Absensi ditutup';
+    q('openSubject').disabled=true;
+    q('openSubject').textContent='Belum Ada Mapel';
+    q('closedNote').textContent='Absensi mapel hanya aktif mengikuti jam pelajaran pada jadwal.';
+  }
+  const morningOpen=minute>=360&&minute<450;
+  q('morningStatus').textContent=morningOpen?'Absensi sedang dibuka':'Absensi sedang ditutup';
+  q('openMorningForm').disabled=!morningOpen;
+  q('openMorningForm').textContent=morningOpen?'Absen Pagi':(minute<360?'Dibuka pukul 06.00':'Ditutup pukul 07.30');
+}
+
 async function loadSchedule(){try{const snap=await getDocs(collection(db,'jadwal'));const day=dayNames[new Date().getDay()];scheduleEntries=[];snap.forEach(ds=>{const x=ds.data()||{};const d=String(x.hari||ds.id||'');if(d.toLowerCase()===day.toLowerCase()){scheduleEntries=Array.isArray(x.entries)?x.entries:(Array.isArray(x.jadwal)?x.jadwal:(x.mapel?[x]:[]))}});refreshCurrent()}catch(e){console.warn('Jadwal:',e);q('currentSubject').textContent='Jadwal belum tersedia';refreshCurrent()}}
 function notify(msg,err=false){q('notify').textContent=msg;q('notify').className='toast notify-box'+(err?' err':'');if(!err&&'Notification'in window&&Notification.permission==='granted')new Notification('XII TKJ 3 • Absensi',{body:msg});}
 q('openMorningForm').onclick=()=>{q('morningFormWrap').classList.add('show');q('morningFormWrap').scrollIntoView({behavior:'smooth',block:'start'});if('Notification'in window&&Notification.permission==='default')Notification.requestPermission().catch(()=>{})};
