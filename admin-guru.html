@@ -28,18 +28,11 @@
 <main class="wrap">
   <section class="hero" style="padding-top:8px">
     <div class="ios-kicker"><span class="kicker-dot"></span><span>Data Guru</span></div>
-    <h1 style="font-size:clamp(26px,5vw,38px)">Kelola Guru</h1>
-    <p>Tambah akun guru baru lengkap dengan username &amp; password untuk login di Portal, serta mata pelajaran yang diampu.</p>
+    <h1 style="font-size:clamp(26px,5vw,38px)">Kelola Guru</h1><p>Tambah dan kelola akun guru serta mata pelajaran yang diampu.</p>
+    
   </section>
 
   <section class="section" style="padding-top:0">
-    <div class="ios-panel ios-glass" style="margin-bottom:12px">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-        <div><b style="font-size:14px">Akun guru lama</b><div style="font-size:12px;color:var(--muted-dark);margin-top:3px">Hapus akun lama dengan username <b>andi</b> agar kamu bisa membuat akun guru manual yang baru.</div></div>
-        <button class="ios-btn danger" id="removeLegacyAndi" type="button">Hapus akun andi</button>
-      </div>
-      <div id="legacyMessage" class="toast"></div>
-    </div>
     <div class="ios-panel ios-glass">
       <div class="form-grid">
         <div class="two-col">
@@ -64,7 +57,7 @@
 <script src="assets/js/ios-core.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getFirestore, collection, onSnapshot, doc, getDoc, getDocs, query, where, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import { getFirestore, collection, onSnapshot, doc, getDoc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
 const db = getFirestore(initializeApp(firebaseConfig));
 const el = id => document.getElementById(id);
@@ -77,20 +70,6 @@ function renderTeachers(rows) {
   box.querySelectorAll('[data-del-guru]').forEach(b => b.onclick = async () => { if (confirm('Hapus akun guru ini? Guru tidak akan bisa login lagi.')) { await deleteDoc(doc(db, 'users', b.dataset.delGuru)); await deleteDoc(doc(db, 'accounts', b.dataset.delGuru)).catch(()=>{}); } });
   box.querySelectorAll('[data-edit-guru]').forEach(b => b.onclick = () => editTeacherAccount(b.dataset.editGuru));
 }
-async function removeLegacyAndi(){
-  const msg=el('legacyMessage'),btn=el('removeLegacyAndi');
-  if(!confirm('Hapus akun guru lama dengan username "andi"? Tindakan ini tidak bisa dibatalkan.')) return;
-  btn.disabled=true; msg.textContent='Menghapus akun andi...'; msg.className='toast';
-  try{
-    const snap=await getDocs(query(collection(db,'accounts'),where('username','==','andi')));
-    for(const d of snap.docs) await deleteDoc(d.ref);
-    await deleteDoc(doc(db,'users','andi'));
-    msg.textContent=snap.empty?'Akun andi tidak ditemukan.':'Akun andi berhasil dihapus.'; msg.className='toast';
-  }catch(e){console.error(e);msg.textContent='Gagal menghapus akun andi: '+(e.message||e);msg.className='toast err'}
-  finally{btn.disabled=false}
-}
-el('removeLegacyAndi').onclick=removeLegacyAndi;
-
 onSnapshot(collection(db, 'users'), snap => renderTeachers(snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(x => x.role === 'guru')));
 
 el('saveTeacher')?.addEventListener('click', async () => {

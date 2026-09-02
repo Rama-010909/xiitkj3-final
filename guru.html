@@ -135,7 +135,7 @@ async function setupTeacher(teacherName, teacherUid, teacherSubjects) {
   let teacher = teacherName || 'Guru';
   q('teacherName').textContent = teacher;
   try {
-    const uSnap = await getDoc(doc(db, 'users', teacherUid || ''));
+    const uSnap = await getDoc(doc(db, 'users', teacherUid || 'guru-andi'));
     if (uSnap.exists()) {
       const d = uSnap.data();
       if (d.nama) { teacher = d.nama; q('teacherName').textContent = teacher; }
@@ -149,7 +149,7 @@ const rawSession = sessionStorage.getItem("tkj3_session");
 if (rawSession) {
   try {
     const parsed = JSON.parse(rawSession);
-    if (parsed.role === 'guru') setupTeacher(parsed.nama || parsed.username || 'Guru', parsed.username || '', defaultGuruSubjects);
+    if (parsed.role === 'guru') setupTeacher(parsed.nama || parsed.username || 'Guru', parsed.username || 'guru-andi', defaultGuruSubjects);
   } catch (e) { console.error("Session parse:", e); }
 }
 

@@ -1,171 +1,64 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
-<meta name="theme-color" content="#f2f5f9">
-<title>Absensi • Ruang Siswa</title>
-<link rel="manifest" href="/manifest.webmanifest">
-<link rel="stylesheet" href="assets/css/ios-core.css">
-<script src="auth-guard.js"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#f2f5f9"><title>Absensi • Ruang Siswa</title>
+<link rel="manifest" href="/manifest.webmanifest"><link rel="stylesheet" href="assets/css/ios-core.css"><script src="auth-guard.js"></script>
+<style>
+.att-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.att-choice{position:relative;overflow:hidden;padding:20px;border-radius:24px;min-height:235px;border:1px solid var(--card-border);transition:.22s}.att-choice:hover{transform:translateY(-3px)}.att-choice.morning{background:linear-gradient(135deg,color-mix(in srgb,#16b8a5 18%,var(--card)),var(--card))}.att-choice.subject{background:linear-gradient(135deg,color-mix(in srgb,#9b62ff 18%,var(--card)),var(--card))}.att-icon{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;margin-bottom:16px}.morning .att-icon{background:#18b79f;color:#fff}.subject .att-icon{background:#8050df;color:#fff}.att-icon svg{width:29px;height:29px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.att-choice h2{margin:0;font-size:20px}.att-choice p{margin:7px 0 15px;color:var(--muted-dark);font-size:13px;line-height:1.45}.att-info{padding:11px 13px;border-radius:15px;background:var(--input-bg);border:1px solid var(--card-border);font-size:12px}.att-info b{display:block;color:var(--text);font-size:14px;margin-top:3px}.att-action{width:100%;margin-top:14px;justify-content:center}.att-choice.disabled{opacity:.72}.current-card{margin-top:14px;padding:17px 18px;border-radius:21px}.current-head{display:flex;align-items:center;gap:8px;color:var(--muted-dark);font-size:12px;font-weight:850;text-transform:uppercase;letter-spacing:.3px}.live-dot{width:9px;height:9px;border-radius:50%;background:#20c997;box-shadow:0 0 0 5px rgba(32,201,151,.12)}.current-main{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-top:13px}.current-main h3{margin:0;font-size:21px}.current-main p{margin:4px 0 0;color:var(--muted-dark);font-size:12px}.current-time{font-weight:900;color:var(--accent);font-size:15px;white-space:nowrap}.closed-note{margin-top:10px;color:var(--muted-dark);font-size:12px}.section-title{margin:22px 0 11px;font-size:16px;font-weight:900}.notify-box{margin-top:14px}.hidden-form{display:none}.hidden-form.show{display:block}.status-radios{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.status-radio input{position:absolute;opacity:0}.status-btn{display:block;text-align:center;padding:10px;border:1px solid var(--card-border);border-radius:13px;font-size:12px;font-weight:800;cursor:pointer}.status-radio input:checked+.status-btn{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+@media(max-width:680px){.att-choice-grid{grid-template-columns:1fr}.att-choice{min-height:0}.current-main{align-items:flex-start;flex-direction:column}.status-radios{grid-template-columns:repeat(3,1fr)}}
+</style>
 </head>
 <body>
 <div class="ios-bg" aria-hidden="true"><div class="mesh-orb orb-1"></div><div class="mesh-orb orb-2"></div></div>
-
-<header class="ios-navbar wrap ios-glass">
-  <a class="back-btn" href="siswa.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6"/></svg>Beranda</a>
-  <div class="nav-tools">
-    <div class="theme-segmented"><select data-theme-select aria-label="Mode Tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">Sistem</option></select></div>
-    <button class="ios-btn danger" data-logout type="button">Keluar</button>
-  </div>
-</header>
-
+<header class="ios-navbar wrap ios-glass"><a class="back-btn" href="siswa.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6"/></svg>Beranda</a><div class="nav-tools"><div class="theme-segmented"><select data-theme-select aria-label="Mode Tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">Sistem</option></select></div><button class="ios-btn danger" data-logout type="button">Keluar</button></div></header>
 <main class="wrap">
-  <section class="hero" style="padding-top:8px">
-    <div class="ios-kicker"><span class="kicker-dot"></span><span>Kehadiran</span></div>
-    <h1 style="font-size:clamp(26px,5vw,38px)">Absensi Harian</h1>
-    <p>Kirim kehadiran pagi hanya pada pukul <b>06.00</b> – <b>07.30</b>.</p>
-  </section>
-
-  <section class="section" style="padding-top:0">
-    <div class="two-col">
-      <div class="ios-panel ios-glass">
-        <div id="absenWindowBanner" class="item-card" style="padding:12px 16px;margin-bottom:14px;animation-delay:0s"><div class="empty" style="padding:0">Memeriksa jam absensi...</div></div>
-        <form id="absenForm" class="form-grid" onsubmit="return false;">
-          <div class="field-group">
-            <label>Nama Siswa</label>
-            <div class="account-name-card"><span class="account-name-avatar"></span><span><small>Login sebagai</small><b id="absenNamaText">Memuat nama...</b></span></div>
-          </div>
-          <div class="field-group">
-            <label>Status Kehadiran</label>
-            <div class="status-radios">
-              <label class="status-radio"><input type="radio" name="absenStatus" value="HADIR" checked><span class="status-btn">Hadir</span></label>
-              <label class="status-radio"><input type="radio" name="absenStatus" value="IZIN"><span class="status-btn">Izin</span></label>
-              <label class="status-radio"><input type="radio" name="absenStatus" value="SAKIT"><span class="status-btn">Sakit</span></label>
-              <label class="status-radio"><input type="radio" name="absenStatus" value="LIBUR"><span class="status-btn">Libur</span></label>
-            </div>
-          </div>
-          <div class="field-group">
-            <label for="absenKet">Keterangan (Opsional)</label>
-            <input id="absenKet" class="form-input" placeholder="Contoh: Sakit demam / Keperluan keluarga">
-          </div>
-          <button id="submitAbsen" class="ios-btn primary" type="submit" style="padding:14px;justify-content:center;font-size:14px">Kirim Absensi Sekarang</button>
-          <div id="absenToast" class="toast"></div>
-        </form>
-      </div>
-
-      <div class="ios-panel ios-glass">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <strong style="font-size:15px">Data Absensi Hari Ini</strong>
-          <span id="todayDateLabel" style="font-size:12px;color:var(--muted-dark)"></span>
-        </div>
-        <div id="todayAbsenList" class="card-list" style="max-height:420px;overflow-y:auto"><div class="empty">Memuat data absensi...</div></div>
-      </div>
+<section class="hero" style="padding-top:8px"><div class="ios-kicker"><span class="kicker-dot"></span><span>Kehadiran</span></div><h1 style="font-size:clamp(26px,5vw,38px)">Absensi</h1><p>Pilih jenis absensi yang ingin kamu lakukan.</p></section>
+<section class="section" style="padding-top:0">
+<div class="att-choice-grid">
+  <article class="att-choice morning ios-glass" id="morningCard"><div class="att-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg></div><h2>Absen Pagi</h2><p>Absensi kehadiran sebelum pembelajaran dimulai.</p><div class="att-info"><span id="morningStatus">Memeriksa jam...</span><b>06.00 – 07.30 WIB</b></div><button id="openMorningForm" class="ios-btn primary att-action" type="button">Absen Pagi</button></article>
+  <article class="att-choice subject ios-glass" id="subjectCard"><div class="att-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z"/><path d="M4 5.5V19a3 3 0 0 1 3-3h13"/></svg></div><h2>Absensi Mapel</h2><p>Absensi hanya dibuka saat jam pelajaran sedang berlangsung.</p><div class="att-info"><span id="subjectStatus">Memeriksa jadwal...</span><b id="currentSubjectSmall">Memuat mapel...</b></div><button id="openSubject" class="ios-btn primary att-action" type="button">Absen Mapel</button></article>
+</div>
+<div id="currentCard" class="current-card ios-glass"><div class="current-head"><span id="liveDot" class="live-dot"></span><span id="currentLabel">Jadwal sekarang</span></div><div class="current-main"><div><h3 id="currentSubject">Memuat...</h3><p id="currentTeacher">Membaca jadwal kelas XII TKJ 3...</p></div><div class="current-time" id="currentTime">--:--</div></div><div class="closed-note" id="closedNote"></div></div>
+<div id="notify" class="toast notify-box" role="status"></div>
+<div id="morningFormWrap" class="hidden-form">
+  <h3 class="section-title">Form Absen Pagi</h3>
+  <div class="ios-panel ios-glass">
+    <div class="account-name-card"><span class="account-name-avatar"></span><span><small>Login sebagai</small><b id="absenNamaText">Memuat nama...</b></span></div>
+    <div class="form-grid" style="margin-top:14px">
+      <div class="field-group"><label>Status Kehadiran</label><div class="status-radios"><label class="status-radio"><input type="radio" name="absenStatus" value="HADIR" checked><span class="status-btn">Hadir</span></label><label class="status-radio"><input type="radio" name="absenStatus" value="IZIN"><span class="status-btn">Izin</span></label><label class="status-radio"><input type="radio" name="absenStatus" value="SAKIT"><span class="status-btn">Sakit</span></label></div></div>
+      <div class="field-group"><label for="absenKet">Keterangan (opsional)</label><input id="absenKet" class="form-input" placeholder="Contoh: Keperluan keluarga"></div>
+      <button id="submitAbsen" class="ios-btn primary" type="button" style="padding:14px;justify-content:center">Kirim Absen Pagi</button>
+      <div id="absenToast" class="toast"></div>
     </div>
-  </section>
-</main>
-
-<nav class="ios-tab-bar" style="--tabs:6" aria-label="Navigasi Mobile Siswa">
-  <a href="siswa.html">Utama</a>
-  <a href="siswa-absensi.html">Absen</a>
-  <a href="siswa-tugas.html">Tugas</a>
-  <a href="siswa-materi.html">Materi</a>
-  <a href="siswa-jadwal.html">Jadwal</a>
-  <a href="siswa-galeri.html">Galeri</a>
-</nav>
-<footer class="page-footer">XII TKJ 3 • SMK NU Bandar</footer>
-
-<script src="assets/js/ios-core.js"></script><script src="assets/js/schedule-utils.js"></script>
+  </div>
+</div>
+<h3 class="section-title">Status Absen Saya Hari Ini</h3><div id="todayAbsenList" class="card-list"><div class="empty">Memuat status...</div></div>
+</section></main>
+<nav class="ios-tab-bar" style="--tabs:6" aria-label="Navigasi Mobile Siswa"><a href="siswa.html">Utama</a><a href="siswa-absensi.html">Absen</a><a href="siswa-tugas.html">Tugas</a><a href="siswa-materi.html">Materi</a><a href="siswa-jadwal.html">Jadwal</a><a href="siswa-galeri.html">Galeri</a></nav><footer class="page-footer">XII TKJ 3 • SMK NU Bandar</footer>
+<script src="assets/js/ios-core.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, getDocs, query, where } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",
-  authDomain: "absensi-xii-tkj3.firebaseapp.com",
-  projectId: "absensi-xii-tkj3",
-  storageBucket: "absensi-xii-tkj3.firebasestorage.app",
-  messagingSenderId: "219267949077",
-  appId: "1:219267949077:web:8cf7d62f31ae1987a6641c"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const q = id => document.getElementById(id);
-const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-
-const rawSession = sessionStorage.getItem("tkj3_session");
-const userSession = rawSession ? JSON.parse(rawSession) : { nama: "Siswa", username: "siswa" };
-const studentName = userSession.nama || userSession.username || "Siswa";
-q('absenNamaText').textContent = studentName;
-
-const todayStr = (() => { const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); })();
-q('todayDateLabel').textContent = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-
-/* --- Jam buka absensi pagi: 06.00 - 07.30 --- */
-const ABSEN_OPEN_MIN = 6*60, ABSEN_CLOSE_MIN = 7*60+30;
-function isAbsenWindowOpen(d = new Date()) { const m=d.getHours()*60+d.getMinutes(); return m>=ABSEN_OPEN_MIN && m<ABSEN_CLOSE_MIN; }
-function refreshAbsenWindow() {
-  const now = new Date();
-  const open = isAbsenWindowOpen(now);
-  const banner = q('absenWindowBanner');
-  const btn = q('submitAbsen');
-  const jamNow = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-  if (open) {
-    banner.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span class="ios-pill">Absensi Dibuka</span><small style="color:var(--muted-dark)">Sekarang ${jamNow} • tutup 15.00</small></div>`;
-    btn.disabled = false;
-    btn.textContent = 'Kirim Absensi Sekarang';
-  } else {
-    const msg = (now.getHours()*60+now.getMinutes()) < ABSEN_OPEN_MIN ? `Absensi belum dibuka. Silakan kembali mulai pukul 06.00.` : `Absensi pagi hari ini sudah ditutup sejak pukul 07.30.`;
-    banner.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="ios-pill danger">Absensi Ditutup</span><small style="color:var(--muted-dark)">${msg}</small></div>`;
-    btn.disabled = true;
-    btn.textContent = 'Di Luar Jam Absensi (06.00–07.30)';
-  }
-}
-refreshAbsenWindow();
-setInterval(refreshAbsenWindow, 30000);
-
-onSnapshot(collection(db, "absensi"), snap => {
-  const rows = [];
-  snap.forEach(d => rows.push({ id: d.id, ...d.data() }));
-  const todayRows = rows.filter(r => r.tanggal === todayStr);
-  if (!todayRows.length) { q('todayAbsenList').innerHTML = '<div class="empty">Belum ada siswa yang absen hari ini.</div>'; return; }
-  todayRows.sort((a, b) => (b.waktu || "").localeCompare(a.waktu || ""));
-  q('todayAbsenList').innerHTML = todayRows.map(r => `
-    <div class="item-card" style="padding:12px 16px">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <b style="font-weight:750">${esc(r.nama)}</b>
-        <span class="ios-pill ${r.status==='HADIR'?'':'blue'}">${esc(r.status)}</span>
-      </div>
-      <div class="item-meta" style="margin-top:4px"><span>Waktu: ${esc(r.waktu || '-')}</span>${r.keterangan ? `<span>• ${esc(r.keterangan)}</span>` : ''}</div>
-    </div>
-  `).join('');
-});
-
-q('submitAbsen').addEventListener('click', async () => {
-  const nama = String(studentName || '').trim();
-  const statusEl = document.querySelector('input[name="absenStatus"]:checked');
-  const status = statusEl ? statusEl.value : 'HADIR';
-  const keterangan = q('absenKet').value.trim();
-  const toast = q('absenToast');
-  if (!isAbsenWindowOpen()) { refreshAbsenWindow(); toast.textContent = "Absensi pagi hanya bisa dikirim pukul 06.00–07.30."; toast.className = "toast err"; return; }
-  if (!nama) { toast.textContent = "Nama akun belum tersedia. Silakan login ulang."; toast.className = "toast err"; return; }
-  const now = new Date();
-  const waktu = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-  q('submitAbsen').disabled = true; toast.textContent = "Mengirim absensi..."; toast.className = "toast";
-  try {
-    const username = String(userSession.username || nama).trim().toLowerCase();
-    const existingSnap = await getDocs(query(collection(db,"absensi"), where("tanggal","==",todayStr), where("username","==",username)));
-    if(!existingSnap.empty){ toast.textContent = "Kamu sudah mengisi absensi pagi hari ini."; toast.className = "toast err"; return; }
-    await addDoc(collection(db, "absensi"), { nama, username, status, keterangan, tanggal: todayStr, waktu, timestamp: Date.now() });
-    toast.textContent = `Absensi ${nama} (${status}) berhasil terkirim.`; toast.className = "toast";
-    q('absenKet').value = '';
-  } catch (e) {
-    console.error("Absen submit:", e);
-    toast.textContent = "Gagal mengirim absensi: " + (e.message || e); toast.className = "toast err";
-  } finally { q('submitAbsen').disabled = false; }
-});
-
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+import { getFirestore, collection, addDoc, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
+const db=getFirestore(initializeApp(firebaseConfig));const q=id=>document.getElementById(id);const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+const raw=sessionStorage.getItem('tkj3_session');const session=raw?JSON.parse(raw):{};const studentName=session.nama||session.username||'Siswa';const username=session.username||studentName;q('absenNamaText').textContent=studentName;
+const dayNames=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];const dayOrder=['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];let scheduleEntries=[];let currentLesson=null;
+const todayISO=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+function parseTime(v){const m=String(v||'').trim().match(/(\d{1,2})\s*[.:]\s*(\d{2})/);return m?Number(m[1])*60+Number(m[2]):null}
+function parseRange(v){const m=String(v||'').match(/(\d{1,2}\s*[.:]\s*\d{2})\s*[-–—]\s*(\d{1,2}\s*[.:]\s*\d{2})/);return m?{start:parseTime(m[1]),end:parseTime(m[2])}:null}
+function fmt(v){const n=Number(v);return String(Math.floor(n/60)).padStart(2,'0')+'.'+String(n%60).padStart(2,'0')}
+function isBreak(x){const s=String(x?.mapel||x?.mataPelajaran||'').toLowerCase();return s.includes('istirahat')||s.includes('break')}
+function getNowLesson(){const now=new Date();const day=dayNames[now.getDay()];const minute=now.getHours()*60+now.getMinutes();if(!dayOrder.includes(day))return null;return scheduleEntries.map(x=>({...x,range:parseRange(x.jam)})).find(x=>x.range&&minute>=x.range.start&&minute<x.range.end&&!isBreak(x))||null}
+function refreshCurrent(){const now=new Date();const minute=now.getHours()*60+now.getMinutes();const lesson=getNowLesson();currentLesson=lesson;q('currentTime').textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');if(lesson){q('currentLabel').textContent='Mapel yang sedang berlangsung';q('currentSubject').textContent=lesson.mapel||lesson.mataPelajaran||'Mata Pelajaran';q('currentTeacher').textContent=(lesson.jam||'-')+' • Absensi mapel tersedia sekarang';q('currentSubjectSmall').textContent=lesson.mapel||lesson.mataPelajaran||'Mata Pelajaran';q('subjectStatus').textContent='Sedang berlangsung';q('openSubject').disabled=false;q('openSubject').textContent='Absen '+(lesson.mapel||'Mapel');q('closedNote').textContent='Absensi mapel hanya aktif selama rentang waktu pada jadwal.'}else{q('currentLabel').textContent='Tidak ada mapel berlangsung';q('currentSubject').textContent=dayNames[now.getDay()]==='Minggu'?'Hari Minggu':'Saat ini bukan jam pelajaran';q('currentTeacher').textContent='Jika sedang istirahat, absensi mapel otomatis ditutup.';q('currentSubjectSmall').textContent='Belum ada mapel aktif';q('subjectStatus').textContent='Absensi ditutup';q('openSubject').disabled=true;q('openSubject').textContent='Belum Ada Mapel';q('closedNote').textContent='Jadwal istirahat dan di luar jam pelajaran tidak dapat digunakan untuk absensi mapel.')}
+const morningOpen=minute>=360&&minute<450;q('morningStatus').textContent=morningOpen?'Absensi sedang dibuka':'Absensi sedang ditutup';q('openMorningForm').disabled=!morningOpen;q('openMorningForm').textContent=morningOpen?'Absen Pagi':(minute<360?'Dibuka pukul 06.00':'Ditutup pukul 07.30');}
+async function loadSchedule(){try{const snap=await getDocs(collection(db,'jadwal'));const day=dayNames[new Date().getDay()];scheduleEntries=[];snap.forEach(ds=>{const x=ds.data()||{};const d=String(x.hari||ds.id||'');if(d.toLowerCase()===day.toLowerCase()){scheduleEntries=Array.isArray(x.entries)?x.entries:(Array.isArray(x.jadwal)?x.jadwal:(x.mapel?[x]:[]))}});refreshCurrent()}catch(e){console.warn('Jadwal:',e);q('currentSubject').textContent='Jadwal belum tersedia';refreshCurrent()}}
+function notify(msg,err=false){q('notify').textContent=msg;q('notify').className='toast notify-box'+(err?' err':'');if(!err&&'Notification'in window&&Notification.permission==='granted')new Notification('XII TKJ 3 • Absensi',{body:msg});}
+q('openMorningForm').onclick=()=>{q('morningFormWrap').classList.add('show');q('morningFormWrap').scrollIntoView({behavior:'smooth',block:'start'});if('Notification'in window&&Notification.permission==='default')Notification.requestPermission().catch(()=>{})};
+q('openSubject').onclick=()=>{if(currentLesson)location.href='siswa-absensi-mapel.html?mapel='+encodeURIComponent(currentLesson.mapel||currentLesson.mataPelajaran||'')};
+q('submitAbsen').onclick=async()=>{const now=new Date();const minute=now.getHours()*60+now.getMinutes();const toast=q('absenToast');if(minute<360||minute>=450){toast.textContent='Absen pagi hanya dibuka pukul 06.00–07.30 WIB.';toast.className='toast err';refreshCurrent();return}const status=document.querySelector('input[name="absenStatus"]:checked')?.value||'HADIR';const keterangan=q('absenKet').value.trim();const date=todayISO();q('submitAbsen').disabled=true;toast.textContent='Mengirim absensi...';toast.className='toast';try{const old=await getDocs(query(collection(db,'absensi'),where('tanggal','==',date),where('username','==',username)));if(!old.empty){toast.textContent='Kamu sudah melakukan absen pagi hari ini.';toast.className='toast err';q('submitAbsen').disabled=false;loadOwn();return}const waktu=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');await addDoc(collection(db,'absensi'),{nama:studentName,username,status,keterangan,tanggal:date,waktu,timestamp:Date.now(),jenis:'pagi'});toast.textContent='Absensi pagi berhasil dikirim.';toast.className='toast';notify('Absensi pagi berhasil dikirim.',false);q('absenKet').value='';loadOwn()}catch(e){console.error(e);toast.textContent='Gagal mengirim absensi: '+(e.message||e);toast.className='toast err'}finally{q('submitAbsen').disabled=false}};
+async function loadOwn(){try{const snap=await getDocs(query(collection(db,'absensi'),where('tanggal','==',todayISO()),where('username','==',username)));const rows=snap.docs.map(d=>d.data()).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));q('todayAbsenList').innerHTML=rows.length?rows.map(r=>`<div class="item-card" style="padding:12px 16px"><div style="display:flex;justify-content:space-between;gap:8px"><b>Absen Pagi</b><span class="ios-pill">${esc(r.status||'-')}</span></div><div class="item-meta" style="margin-top:4px">${esc(r.tanggal||'-')} • ${esc(r.waktu||'-')}${r.keterangan?' • '+esc(r.keterangan):''}</div></div>`).join(''):'<div class="empty">Kamu belum melakukan absen pagi hari ini.</div>'}catch(e){q('todayAbsenList').innerHTML='<div class="empty">Status absensi belum dapat dimuat.</div>'}}
+loadSchedule();setInterval(refreshCurrent,30000);loadOwn();
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
 </script>
-</body>
-</html>
+</body></html>
