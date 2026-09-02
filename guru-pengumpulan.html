@@ -93,14 +93,14 @@ function loadSub() {
 
 async function loadTeacherSubjects(teacherUid, teacherSubjects) {
   try {
-    const uSnap = await getDoc(doc(db, 'users', teacherUid || 'guru-andi'));
+    const uSnap = await getDoc(doc(db, 'users', teacherUid || ''));
     if (uSnap.exists()) { const d = uSnap.data(); if (Array.isArray(d.mataPelajaran) && d.mataPelajaran.length) teacherSubjects = d.mataPelajaran; }
   } catch (e) { console.warn(e); }
   renderSubjects((teacherSubjects && teacherSubjects.length) ? teacherSubjects : defaultGuruSubjects);
 }
 
 const rawSession = sessionStorage.getItem("tkj3_session");
-if (rawSession) { try { const parsed = JSON.parse(rawSession); if (parsed.role === 'guru') loadTeacherSubjects(parsed.username || 'guru-andi', defaultGuruSubjects); } catch (e) { console.error(e); } }
+if (rawSession) { try { const parsed = JSON.parse(rawSession); if (parsed.role === 'guru') loadTeacherSubjects(parsed.username || '', defaultGuruSubjects); } catch (e) { console.error(e); } }
 onAuthStateChanged(auth, async user => {
   if (user) {
     try { const u = await getDoc(doc(db, 'users', user.uid)); if (u.exists() && u.data().role === 'guru') { const d = u.data(); loadTeacherSubjects(user.uid, d.mataPelajaran || d.subjects || defaultGuruSubjects); } } catch (e) { console.warn(e); }

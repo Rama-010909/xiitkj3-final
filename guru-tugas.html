@@ -112,7 +112,7 @@ function loadTasks() {
 
 async function loadTeacherSubjects(teacherUid, teacherSubjects) {
   try {
-    const uSnap = await getDoc(doc(db, 'users', teacherUid || 'guru-andi'));
+    const uSnap = await getDoc(doc(db, 'users', teacherUid || ''));
     if (uSnap.exists()) {
       const d = uSnap.data();
       if (d.nama) teacher = d.nama;
@@ -126,7 +126,7 @@ const rawSession = sessionStorage.getItem("tkj3_session");
 if (rawSession) {
   try {
     const parsed = JSON.parse(rawSession);
-    if (parsed.role === 'guru') { uid = parsed.username || 'guru-andi'; teacher = parsed.nama || parsed.username || 'Guru'; loadTeacherSubjects(uid, defaultGuruSubjects); }
+    if (parsed.role === 'guru') { uid = parsed.username || ''; teacher = parsed.nama || parsed.username || 'Guru'; loadTeacherSubjects(uid, defaultGuruSubjects); }
   } catch (e) { console.error(e); }
 }
 onAuthStateChanged(auth, async user => {

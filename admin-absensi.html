@@ -127,6 +127,14 @@ async function removeAttendance(id) {
   try { await deleteDoc(doc(db, "absensi", id)); showToast("Data dihapus", `${row.nama||"Siswa"} pada ${row.tanggal||"-"} berhasil dihapus.`); }
   catch (e) { console.error(e); showToast("Gagal menghapus", "Periksa Firestore Rules untuk izin delete."); }
 }
+let firstSubjectSnapshot=true;
+onSnapshot(collection(db,"kehadiran_pelajaran"), snap=>{
+  if(firstSubjectSnapshot){firstSubjectSnapshot=false;return;}
+  const added=snap.docChanges().filter(c=>c.type==='added');
+  if(added.length){const x=added[added.length-1].doc.data()||{};showToast("Ada siswa yang absen mapel",`${x.nama||"Siswa"} • ${x.mapel||"-"} • ${x.status||"HADIR"} • ${x.waktu||""}`);if('Notification'in window&&Notification.permission==='granted')new Notification('Ada siswa yang absen mapel',{body:`${x.nama||'Siswa'} • ${x.mapel||'-'} • ${x.status||'HADIR'}`});}
+},err=>console.warn('Mapel attendance listener:',err));
+if('Notification'in window)Notification.requestPermission().catch(()=>{});
+
 document.getElementById("refresh").onclick = () => renderAttendance(window.__attendanceRows||[]);
 filterDate.onchange = () => renderAttendance(window.__attendanceRows||[]);
 document.getElementById("todayDate").onclick = () => { filterDate.value = todayISO(); renderAttendance(window.__attendanceRows||[]); };

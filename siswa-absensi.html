@@ -24,7 +24,7 @@
   <section class="hero" style="padding-top:8px">
     <div class="ios-kicker"><span class="kicker-dot"></span><span>Kehadiran</span></div>
     <h1 style="font-size:clamp(26px,5vw,38px)">Absensi Harian</h1>
-    <p>Kirim kehadiran Anda setiap hari selama jam absensi dibuka, pukul <b>06.00</b> – <b>15.00</b>.</p>
+    <p>Kirim kehadiran pagi hanya pada pukul <b>06.00</b> – <b>07.30</b>.</p>
   </section>
 
   <section class="section" style="padding-top:0">
@@ -75,10 +75,10 @@
 </nav>
 <footer class="page-footer">XII TKJ 3 • SMK NU Bandar</footer>
 
-<script src="assets/js/ios-core.js"></script>
+<script src="assets/js/ios-core.js"></script><script src="assets/js/schedule-utils.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, getDocs, query, where } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",
@@ -98,15 +98,12 @@ const userSession = rawSession ? JSON.parse(rawSession) : { nama: "Siswa", usern
 const studentName = userSession.nama || userSession.username || "Siswa";
 q('absenNamaText').textContent = studentName;
 
-const todayStr = new Date().toISOString().slice(0, 10);
+const todayStr = (() => { const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); })();
 q('todayDateLabel').textContent = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
-/* --- Jam buka absensi: 06.00 - 15.00 --- */
-const ABSEN_OPEN_HOUR = 6, ABSEN_CLOSE_HOUR = 15;
-function isAbsenWindowOpen(d = new Date()) {
-  const hours = d.getHours() + d.getMinutes() / 60;
-  return hours >= ABSEN_OPEN_HOUR && hours < ABSEN_CLOSE_HOUR;
-}
+/* --- Jam buka absensi pagi: 06.00 - 07.30 --- */
+const ABSEN_OPEN_MIN = 6*60, ABSEN_CLOSE_MIN = 7*60+30;
+function isAbsenWindowOpen(d = new Date()) { const m=d.getHours()*60+d.getMinutes(); return m>=ABSEN_OPEN_MIN && m<ABSEN_CLOSE_MIN; }
 function refreshAbsenWindow() {
   const now = new Date();
   const open = isAbsenWindowOpen(now);
@@ -118,10 +115,10 @@ function refreshAbsenWindow() {
     btn.disabled = false;
     btn.textContent = 'Kirim Absensi Sekarang';
   } else {
-    const msg = now.getHours() < ABSEN_OPEN_HOUR ? `Absensi belum dibuka. Silakan kembali mulai pukul 06.00.` : `Absensi hari ini sudah ditutup sejak pukul 15.00.`;
+    const msg = (now.getHours()*60+now.getMinutes()) < ABSEN_OPEN_MIN ? `Absensi belum dibuka. Silakan kembali mulai pukul 06.00.` : `Absensi pagi hari ini sudah ditutup sejak pukul 07.30.`;
     banner.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="ios-pill danger">Absensi Ditutup</span><small style="color:var(--muted-dark)">${msg}</small></div>`;
     btn.disabled = true;
-    btn.textContent = 'Di Luar Jam Absensi (06.00–15.00)';
+    btn.textContent = 'Di Luar Jam Absensi (06.00–07.30)';
   }
 }
 refreshAbsenWindow();
@@ -150,13 +147,16 @@ q('submitAbsen').addEventListener('click', async () => {
   const status = statusEl ? statusEl.value : 'HADIR';
   const keterangan = q('absenKet').value.trim();
   const toast = q('absenToast');
-  if (!isAbsenWindowOpen()) { refreshAbsenWindow(); toast.textContent = "Absensi hanya bisa dikirim pukul 06.00–15.00."; toast.className = "toast err"; return; }
+  if (!isAbsenWindowOpen()) { refreshAbsenWindow(); toast.textContent = "Absensi pagi hanya bisa dikirim pukul 06.00–07.30."; toast.className = "toast err"; return; }
   if (!nama) { toast.textContent = "Nama akun belum tersedia. Silakan login ulang."; toast.className = "toast err"; return; }
   const now = new Date();
   const waktu = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
   q('submitAbsen').disabled = true; toast.textContent = "Mengirim absensi..."; toast.className = "toast";
   try {
-    await addDoc(collection(db, "absensi"), { nama, status, keterangan, tanggal: todayStr, waktu, timestamp: Date.now() });
+    const username = String(userSession.username || nama).trim().toLowerCase();
+    const existingSnap = await getDocs(query(collection(db,"absensi"), where("tanggal","==",todayStr), where("username","==",username)));
+    if(!existingSnap.empty){ toast.textContent = "Kamu sudah mengisi absensi pagi hari ini."; toast.className = "toast err"; return; }
+    await addDoc(collection(db, "absensi"), { nama, username, status, keterangan, tanggal: todayStr, waktu, timestamp: Date.now() });
     toast.textContent = `Absensi ${nama} (${status}) berhasil terkirim.`; toast.className = "toast";
     q('absenKet').value = '';
   } catch (e) {
