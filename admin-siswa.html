@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#f2f5f9">
+<title>Data Siswa • Admin</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="assets/css/ios-core.css">
+<script src="auth-guard.js"></script>
+<style>
+.manager-list{display:grid;gap:10px;margin-top:14px}
+.manager-row{display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;padding:12px 14px;border-radius:18px;background:var(--card);border:1px solid var(--card-border)}
+.manager-num{font-weight:900;color:var(--accent);text-align:center}
+.manager-row input{width:100%;padding:11px 13px;border:1px solid var(--input-border);border-radius:13px;background:var(--input-bg);color:var(--text);font:inherit;outline:none}
+.manager-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.manager-actions button{border:0;border-radius:12px;padding:9px 11px;cursor:pointer;font-weight:800;font-size:12px;background:var(--text-h);color:var(--bg)}
+.manager-actions button.danger{background:var(--danger-soft);color:var(--danger)}
+.manager-actions .badge-acc{font-size:11px;font-weight:850;color:var(--accent);background:rgba(5,150,105,.12);padding:8px 11px;border-radius:12px;white-space:nowrap}
+@media(max-width:600px){.manager-row{grid-template-columns:28px 1fr}.manager-actions{grid-column:2}}
+.admin-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);z-index:500;background:var(--card);border:1px solid var(--card-border);border-radius:20px;padding:14px 20px;box-shadow:var(--shadow-ios-lg);backdrop-filter:blur(26px);transition:transform .35s var(--ease-spring);max-width:min(92vw,380px)}
+.admin-toast.show{transform:translate(-50%,0)}
+.admin-toast b{display:block;font-size:13px;margin-bottom:2px}
+.admin-toast small{color:var(--muted-dark);font-size:12px}
+</style>
+</head>
+<body>
+<div class="ios-bg" aria-hidden="true"><div class="mesh-orb orb-1"></div><div class="mesh-orb orb-2"></div></div>
+
+<header class="ios-navbar wrap ios-glass">
+  <a class="back-btn" href="admin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6"/></svg>Beranda</a>
+  <div class="nav-tools">
+    <div class="theme-segmented"><select data-theme-select aria-label="Mode Tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">Sistem</option></select></div>
+    <button class="ios-btn danger" data-logout type="button">Keluar</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" style="padding-top:8px">
+    <div class="ios-kicker"><span class="kicker-dot"></span><span>Data Siswa</span></div>
+    <h1 style="font-size:clamp(26px,5vw,38px)">Kelola Data Siswa</h1>
+    <p>Tambah siswa baru lengkap dengan akun login. Untuk siswa lama, tombol <b>Buat Akun</b> menyimpan username dan password ke Firestore collection <code>accounts</code>.</p>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="ios-panel ios-glass">
+      <div class="two-col">
+        <div class="field-group"><label>Nama siswa baru</label><input id="newStudentName" class="form-input"></div>
+        <div class="field-group"><label>Username login</label><input id="newStudentUsername" class="form-input"></div>
+      </div>
+      <div class="two-col" style="margin-top:12px;align-items:end">
+        <div class="field-group"><label>Password login</label><input id="newStudentPassword" type="password" class="form-input" autocomplete="new-password"></div>
+        <button class="ios-btn primary" id="addStudent" type="button" style="padding:14px;justify-content:center">Tambah Siswa</button>
+      </div>
+      <div id="studentManager" class="manager-list"><div class="empty">Memuat data siswa...</div></div>
+      <div class="toast" id="studentManagerMessage"></div>
+    </div>
+  </section>
+</main>
+
+<div id="adminToast" class="admin-toast" role="status"></div>
+<footer class="page-footer">XII TKJ 3 • Admin</footer>
+
+<script src="assets/js/ios-core.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import { getFirestore, collection, getDocs, getDoc, doc, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
+const db = getFirestore(initializeApp(firebaseConfig));
+const safe = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+const toast = document.getElementById("adminToast");
+function showToast(title, detail) { toast.innerHTML = `<b>${safe(title)}</b><small>${safe(detail)}</small>`; toast.classList.add("show"); clearTimeout(window.__t); window.__t = setTimeout(() => toast.classList.remove("show"), 4500); }
+
+const defaultStudents = ["AHID PUTRA ANANDA","ALVIN","ANANDA DANNI ALFIAN","ANGGUN KHOIRU SYIFA","ARIL NASTAIN","ATI' DINA MAULAYA","AVIDA AMELIA","CLARISSA DWI OKTAVIANA","ISNAENI AFIATUN NURUL ARIFIA","JUAN AKBARUDIN","M QYANO AVIANSYAH","MELI AFIKASARI","MUFIDA SYAFA ALYA","M KHOIRUL IQBAL","MUHAMMAD ADLI ALFIANSYAH","MUHAMMAD ADZKIYA MUMTAZ","MUHAMMAD HANIF","MUHAMMAD ILHAM","MUHAMMAD KHOIRUL ANAM","PUTRI AMANDA","RIMA TRI JUNITA","ROHMATUL KHASANAH","ROMADZON ANTA NUHRAFI","SANDI SETIAWAN","SISKA","SISKA AMELIA","STIFEN JODI PRATAMA","SUCI LISTIANA","SUPARLIYAH","SYAFA TASYA KAMILA","TIWIK OKTAVIANINGSIH","TRI YULIA NINGSIH","TUTUT JUANITA","VIRNAJI RIZKY RAMADHAN","YULIA ADISTYAR","ZAHRO LAZIMATUSYIFA","ZULFATUROHMI"];
+let studentData = [];
+
+async function ensureStudentsSeeded() {
+  const seedRef = doc(db, "pengaturan", "siswaSeed");
+  const seedSnap = await getDoc(seedRef);
+  if (seedSnap.exists() && seedSnap.data()?.seeded) return;
+  const snap = await getDocs(collection(db, "siswa"));
+  if (snap.empty) { for (let i = 0; i < defaultStudents.length; i++) { const id = `siswa-${String(i+1).padStart(3,"0")}`; await setDoc(doc(db, "siswa", id), { nama: defaultStudents[i], urutan: i+1 }); } }
+  await setDoc(seedRef, { seeded: true, updatedAt: Date.now() }, { merge: true });
+}
+function renderStudentManager() {
+  const el = document.getElementById("studentManager"), msg = document.getElementById("studentManagerMessage");
+  if (!studentData.length) { el.innerHTML = '<div class="empty">Belum ada data siswa.</div>'; msg.textContent = "0 siswa"; return; }
+  el.innerHTML = studentData.map((x, i) => `<div class="manager-row"><div class="manager-num">${i+1}</div><input data-student-id="${safe(x.id)}" value="${safe(x.nama||"")}" aria-label="Nama siswa ${i+1}"><div class="manager-actions">${x.username?`<span class="badge-acc" title="Sudah punya akun login sendiri">${safe(x.username)}</span><button type="button" data-student-edit-account="${safe(x.id)}">Edit Akun</button>`:`<button type="button" data-student-account="${safe(x.id)}">Buat Akun</button>`}<button type="button" data-student-save="${safe(x.id)}">Simpan</button><button type="button" class="danger" data-student-delete="${safe(x.id)}">Hapus</button></div></div>`).join("");
+  msg.textContent = `${studentData.length} siswa • ${studentData.filter(x=>x.username).length} sudah punya akun login sendiri.`;
+  el.querySelectorAll("[data-student-save]").forEach(btn => btn.onclick = () => saveStudent(btn.dataset.studentSave));
+  el.querySelectorAll("[data-student-delete]").forEach(btn => btn.onclick = () => deleteStudent(btn.dataset.studentDelete));
+  el.querySelectorAll("[data-student-account]").forEach(btn => btn.onclick = () => createAccountForStudent(btn.dataset.studentAccount));
+  el.querySelectorAll("[data-student-edit-account]").forEach(btn => btn.onclick = () => editStudentAccount(btn.dataset.studentEditAccount));
+}
+async function loadStudents() {
+  const msg = document.getElementById("studentManagerMessage");
+  try {
+    await ensureStudentsSeeded();
+    const snap = await getDocs(collection(db, "siswa"));
+    studentData = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(x => x.nama).sort((a,b) => (a.urutan||999)-(b.urutan||999) || String(a.nama).localeCompare(String(b.nama)));
+    renderStudentManager();
+  } catch (e) { console.error(e); msg.textContent = "Gagal membaca data siswa. Periksa Firestore Rules."; renderStudentManager(); }
+}
+async function saveStudent(id) {
+  const input = document.querySelector(`[data-student-id="${CSS.escape(id)}"]`), name = input?.value.trim();
+  if (!name) { showToast("Nama belum diisi", "Masukkan nama siswa terlebih dahulu."); return; }
+  try { await updateDoc(doc(db, "siswa", id), { nama: name, updatedAt: Date.now() }); showToast("Nama diperbarui", `${name} sudah tersimpan.`); }
+  catch (e) { console.error(e); showToast("Gagal menyimpan", "Periksa Firestore Rules untuk collection siswa."); }
+}
+async function deleteStudent(id) {
+  const row = studentData.find(x => x.id === id); if (!row) return;
+  if (!confirm(`Hapus siswa "${row.nama}"? Data absensi lama siswa ini tidak ikut dihapus.`)) return;
+  try {
+    await deleteDoc(doc(db, "siswa", id));
+    if (row.username) await deleteDoc(doc(db, "accounts", row.username)).catch(()=>{});
+    studentData = studentData.filter(x => x.id !== id); renderStudentManager();
+    showToast("Siswa dihapus", `${row.nama} sudah dihapus dari daftar siswa.`);
+  } catch (e) { console.error(e); showToast("Gagal menghapus", "Periksa Firestore Rules untuk collection siswa."); }
+}
+async function hashPw(pw) { const data = new TextEncoder().encode(pw); const h = await crypto.subtle.digest("SHA-256", data); return [...new Uint8Array(h)].map(b => b.toString(16).padStart(2,"0")).join(""); }
+async function createStudentAccount(username, password, nama) {
+  username = String(username||"").trim().toLowerCase();
+  if (!username) return { ok: false, message: "Username wajib diisi." };
+  if (!/^[a-z0-9._-]{3,40}$/.test(username)) return { ok: false, message: "Username hanya boleh berisi huruf kecil, angka, titik, garis bawah, atau tanda minus (3–40 karakter)." };
+  if (!password || password.length < 4) return { ok: false, message: "Password minimal 4 karakter." };
+  if (!nama) return { ok: false, message: "Nama siswa belum tersedia." };
+  try {
+    const ref = doc(db, "accounts", username);
+    const existing = await getDoc(ref);
+    if (existing.exists()) return { ok: false, message: `Username "${username}" sudah dipakai, pilih username lain.` };
+    const passwordHash = await hashPw(password);
+    await setDoc(ref, { username, passwordHash, role: "siswa", nama, createdAt: Date.now(), updatedAt: Date.now() });
+    return { ok: true };
+  } catch (e) { console.error(e); return { ok: false, message: (e.code === "permission-denied" ? "PERMISSION DENIED: Firestore Rules belum mengizinkan penulisan ke accounts." : `${e.code||"firebase-error"}: ${e.message||e}`) }; }
+}
+async function createAccountForStudent(id) {
+  const row = studentData.find(x => x.id === id); if (!row) return;
+  const username = (prompt(`Username login untuk ${row.nama}:`)||"").trim();
+  if (!username) return;
+  const password = prompt(`Password login untuk ${row.nama} (minimal 4 karakter):`)||"";
+  const result = await createStudentAccount(username, password, row.nama);
+  if (!result.ok) { showToast("Gagal membuat akun", result.message); return; }
+  await updateDoc(doc(db, "siswa", id), { username: username.toLowerCase() });
+  showToast("Akun dibuat", `${row.nama} sekarang bisa login sendiri dengan username "${username.toLowerCase()}".`);
+  await loadStudents();
+}
+async function editStudentAccount(id) {
+  const row = studentData.find(x => x.id === id); if (!row || !row.username) return;
+  const oldUsername = row.username;
+  const newUsernameRaw = prompt(`Username baru untuk ${row.nama} (kosongkan untuk batal):`, oldUsername);
+  if (newUsernameRaw === null) return;
+  const newUsername = newUsernameRaw.trim().toLowerCase();
+  if (!newUsername) { showToast("Dibatalkan", "Username tidak boleh kosong."); return; }
+  const newPassword = prompt(`Password baru untuk ${row.nama} (kosongkan agar password tidak berubah):`) || "";
+  if (newPassword && newPassword.length < 4) { showToast("Gagal memperbarui", "Password minimal 4 karakter."); return; }
+  if (!/^[a-z0-9._-]{3,40}$/.test(newUsername)) { showToast("Gagal memperbarui", "Username hanya boleh huruf kecil, angka, titik, garis bawah, atau minus (3–40 karakter)."); return; }
+  try {
+    if (newUsername !== oldUsername) {
+      const existing = await getDoc(doc(db, "accounts", newUsername));
+      if (existing.exists()) { showToast("Gagal memperbarui", `Username "${newUsername}" sudah dipakai, pilih username lain.`); return; }
+    }
+    const accSnap = await getDoc(doc(db, "accounts", oldUsername));
+    const accData = accSnap.exists() ? accSnap.data() : {};
+    const passwordHash = newPassword ? await hashPw(newPassword) : accData.passwordHash;
+    await setDoc(doc(db, "accounts", newUsername), { username: newUsername, passwordHash, role: "siswa", nama: row.nama, createdAt: accData.createdAt || Date.now(), updatedAt: Date.now() });
+    if (newUsername !== oldUsername) {
+      await deleteDoc(doc(db, "accounts", oldUsername));
+      await updateDoc(doc(db, "siswa", id), { username: newUsername });
+    }
+    showToast("Akun diperbarui", newPassword ? `Username & password ${row.nama} sudah diperbarui.` : `Username ${row.nama} sudah diperbarui.`);
+    await loadStudents();
+  } catch (e) { console.error(e); showToast("Gagal memperbarui", e.code === "permission-denied" ? "PERMISSION DENIED: periksa Firestore Rules untuk accounts." : (e.message || e)); }
+}
+async function addStudent() {
+  const nameInput = document.getElementById("newStudentName"), userInput = document.getElementById("newStudentUsername"), passInput = document.getElementById("newStudentPassword"), btn = document.getElementById("addStudent");
+  const name = nameInput?.value.trim(), username = userInput?.value.trim(), password = passInput?.value||"";
+  if (!name) { showToast("Nama belum diisi", "Masukkan nama siswa yang ingin ditambahkan."); return; }
+  if (!username || !password) { showToast("Akun belum diisi", "Isi username & password (minimal 4 karakter)."); return; }
+  btn.disabled = true;
+  try {
+    const result = await createStudentAccount(username, password, name);
+    if (!result.ok) { showToast("Gagal membuat akun", result.message); return; }
+    const nextUrutan = studentData.reduce((max,x) => Math.max(max, Number(x.urutan)||0), 0) + 1;
+    const id = `siswa-${String(Date.now()).slice(-6)}`;
+    await setDoc(doc(db, "siswa", id), { nama: name, urutan: nextUrutan, username: username.trim().toLowerCase(), createdAt: Date.now() });
+    nameInput.value=""; userInput.value=""; passInput.value="";
+    await loadStudents();
+    showToast("Siswa ditambahkan", `${name} sudah bisa login sendiri dengan username "${username.trim().toLowerCase()}".`);
+  } catch (e) { console.error(e); showToast("Gagal menambah", `${e.code||"firebase-error"}: ${e.message||e}`); }
+  finally { btn.disabled = false; }
+}
+document.getElementById("addStudent").onclick = addStudent;
+[document.getElementById("newStudentName"),document.getElementById("newStudentUsername"),document.getElementById("newStudentPassword")].forEach(inp => inp?.addEventListener("keydown", e => { if (e.key === "Enter") addStudent(); }));
+loadStudents();
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+</script>
+</body>
+</html>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
 <meta name="theme-color" content="#f2f5f9">
-<title>Struktur Kelas • Ruang Siswa</title>
+<title>Pengumuman • Ruang Siswa</title>
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="stylesheet" href="assets/css/ios-core.css">
 <script src="auth-guard.js"></script>
@@ -22,12 +22,12 @@
 
 <main class="wrap">
   <section class="hero" style="padding-top:8px">
-    <div class="ios-kicker"><span class="kicker-dot"></span><span>Organisasi</span></div>
-    <h1 style="font-size:clamp(26px,5vw,38px)">Struktur Organisasi Kelas</h1>
-    <p>Pengurus dan wali kelas XII TKJ 3 SMK NU Bandar.</p>
+    <div class="ios-kicker"><span class="kicker-dot"></span><span>Informasi</span></div>
+    <h1 style="font-size:clamp(26px,5vw,38px)">Pengumuman Kelas</h1>
+    <p>Info dan pengumuman terbaru dari wali kelas maupun guru mata pelajaran.</p>
   </section>
   <section class="section" style="padding-top:0">
-    <div id="structureContainer" class="structure-grid"><div class="empty">Memuat struktur kelas...</div></div>
+    <div id="annList" class="card-list"><div class="empty">Memuat pengumuman...</div></div>
   </section>
 </main>
 
@@ -44,32 +44,24 @@
 <script src="assets/js/ios-core.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
 const db = getFirestore(initializeApp(firebaseConfig));
 const q = id => document.getElementById(id);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
-const structureDefaults = [
-  { id: "wali", role: "Wali Kelas", name: "Andi Prasetyo, S.Kom." },
-  { id: "ketua", role: "Ketua Kelas", name: "Virnaji Rizky Ramadhan" },
-  { id: "wakil", role: "Wakil Ketua", name: "Alvin" },
-  { id: "sekretaris", role: "Sekretaris", name: "Anggun Khoiru Syifa" },
-  { id: "bendahara", role: "Bendahara", name: "Suci Listiana" }
-];
-onSnapshot(collection(db, "struktur"), snap => {
-  const container = q('structureContainer');
-  let data = structureDefaults.slice();
-  if (!snap.empty) {
-    const map = new Map(snap.docs.map(d => [d.id, d.data()]));
-    data = structureDefaults.map(def => ({ ...def, ...(map.get(def.id) || {}) }));
-  }
-  container.innerHTML = data.map(s => `
-    <div class="structure-card ios-glass">
-      <div class="structure-avatar">${esc((s.name || '?').charAt(0).toUpperCase())}</div>
-      <div><span class="ios-pill" style="font-size:10.5px">${esc(s.role)}</span><h4 style="margin:4px 0 0;font-size:15px;font-weight:750;color:var(--text-h)">${esc(s.name)}</h4><small style="color:var(--muted-dark)">Pengurus XII TKJ 3</small></div>
-    </div>
-  `).join('');
+onSnapshot(query(collection(db, "pengumuman"), orderBy("createdAt", "desc")), snap => {
+  const box = q('annList');
+  if (snap.empty) { box.innerHTML = '<div class="empty">Belum ada pengumuman kelas.</div>'; return; }
+  box.innerHTML = snap.docs.map(d => {
+    const x = d.data();
+    return `<article class="item-card">
+      <span class="ios-pill purple">${esc(x.mapel || 'Pengumuman')}</span>
+      <h3 style="margin-top:6px">${esc(x.judul)}</h3>
+      <p style="color:var(--muted-dark);font-size:13.5px;margin:0;line-height:1.5">${esc(x.isi)}</p>
+      <div class="item-meta"><small>${x.createdAt ? new Date(x.createdAt).toLocaleDateString('id-ID') : '-'}</small>${x.guru ? `<small>• ${esc(x.guru)}</small>` : ''}</div>
+    </article>`;
+  }).join('');
 });
 if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
 </script>

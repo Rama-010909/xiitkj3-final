@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#f2f5f9">
+<title>Jadwal Kelas • Admin</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="assets/css/ios-core.css">
+<script src="auth-guard.js"></script>
+<style>
+.sched-day{padding:18px;border-radius:22px;margin-bottom:14px}
+.sched-day-title{display:flex;justify-content:space-between;align-items:center;font-weight:850;font-size:15px;margin-bottom:12px}
+.sched-row{display:grid;grid-template-columns:1fr 1fr 36px;gap:8px;margin-bottom:8px}
+.sched-row input{padding:11px 12px;border:1px solid var(--input-border);border-radius:13px;background:var(--input-bg);color:var(--text);font:inherit;outline:none}
+.sched-remove{border:0;background:var(--danger-soft);color:var(--danger);border-radius:12px;cursor:pointer;font-weight:800}
+.sched-add{margin-top:4px;border:1px dashed var(--card-border);background:transparent;color:var(--accent);padding:10px;border-radius:14px;font-weight:800;cursor:pointer;width:100%}
+@media(max-width:520px){.sched-row{grid-template-columns:1fr 1fr 30px}}
+</style>
+</head>
+<body>
+<div class="ios-bg" aria-hidden="true"><div class="mesh-orb orb-1"></div><div class="mesh-orb orb-2"></div></div>
+
+<header class="ios-navbar wrap ios-glass">
+  <a class="back-btn" href="admin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6"/></svg>Beranda</a>
+  <div class="nav-tools">
+    <div class="theme-segmented"><select data-theme-select aria-label="Mode Tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">Sistem</option></select></div>
+    <button class="ios-btn danger" data-logout type="button">Keluar</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" style="padding-top:8px">
+    <div class="ios-kicker"><span class="kicker-dot"></span><span>Pelajaran</span></div>
+    <h1 style="font-size:clamp(26px,5vw,38px)">Kelola Jadwal Kelas</h1>
+    <p>Edit jam dan mata pelajaran di sini. Setelah disimpan, jadwal akan langsung tampil di halaman siswa.</p>
+  </section>
+  <section class="section" style="padding-top:0">
+    <div id="scheduleEditor"></div>
+    <div class="ios-panel ios-glass" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <button class="ios-btn primary" id="saveSchedule" type="button">Simpan Semua Jadwal</button>
+      <span id="scheduleMessage" class="toast" style="margin:0"></span>
+    </div>
+  </section>
+</main>
+
+<footer class="page-footer">XII TKJ 3 • Admin</footer>
+
+<script src="assets/js/ios-core.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
+const db = getFirestore(initializeApp(firebaseConfig));
+const safe = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+
+const dayOrder = ["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+const dayIds = { Senin:"senin", Selasa:"selasa", Rabu:"rabu", Kamis:"kamis", Jumat:"jumat", Sabtu:"sabtu" };
+const emptySchedule = () => Object.fromEntries(dayOrder.map(day => [day, []]));
+let scheduleData = {};
+
+function renderScheduleEditor(data) {
+  const editor = document.getElementById("scheduleEditor");
+  editor.innerHTML = dayOrder.map(day => {
+    const items = Array.isArray(data[day]) ? data[day] : [];
+    return `<div class="sched-day ios-glass">
+      <div class="sched-day-title"><span>${day}</span><small style="color:var(--muted-dark);font-weight:600">${items.length} jam</small></div>
+      <div class="sched-items" data-items="${day}">
+        ${items.map((x,i) => `<div class="sched-row" data-index="${i}">
+          <input class="sched-time" value="${safe(x.jam||"")}" placeholder="Contoh: 07.00-08.45">
+          <input class="sched-subject" value="${safe(x.mapel||"")}" placeholder="Contoh: Bahasa Indonesia">
+          <button type="button" class="sched-remove" title="Hapus jadwal" data-day="${day}" data-index="${i}">×</button>
+        </div>`).join("")}
+      </div>
+      <button type="button" class="sched-add" data-add-day="${day}">＋ Tambah Jam Pelajaran</button>
+    </div>`;
+  }).join("");
+  editor.querySelectorAll("[data-add-day]").forEach(btn => btn.addEventListener("click", () => {
+    readScheduleEditor();
+    const day = btn.dataset.addDay;
+    scheduleData[day].push({ jam: "", mapel: "" });
+    renderScheduleEditor(scheduleData);
+    const rows = editor.querySelectorAll(`[data-items="${day}"] .sched-row`);
+    rows[rows.length-1]?.querySelector(".sched-time")?.focus();
+  }));
+  editor.querySelectorAll(".sched-remove").forEach(btn => btn.addEventListener("click", () => {
+    readScheduleEditor();
+    const day = btn.dataset.day;
+    scheduleData[day].splice(Number(btn.dataset.index), 1);
+    renderScheduleEditor(scheduleData);
+  }));
+}
+function readScheduleEditor() {
+  const next = {};
+  dayOrder.forEach(day => {
+    next[day] = [...document.querySelectorAll(`[data-items="${day}"] .sched-row`)].map(row => ({
+      jam: row.querySelector(".sched-time")?.value.trim()||"",
+      mapel: row.querySelector(".sched-subject")?.value.trim()||""
+    })).filter(x => x.jam || x.mapel);
+  });
+  scheduleData = next;
+}
+function normalizeScheduleDay(value) { const key = String(value??"").trim().toLowerCase(); return dayOrder.find(day => day.toLowerCase()===key || dayIds[day]===key) || null; }
+function normalizeScheduleEntry(v) { return { jam: String(v?.jam??v?.time??v?.waktu??"").trim(), mapel: String(v?.mapel??v?.mataPelajaran??v?.pelajaran??v?.subject??"").trim() }; }
+function cleanScheduleEntries(arr) { return Array.isArray(arr) ? arr.map(normalizeScheduleEntry).filter(x => x.jam || x.mapel) : []; }
+function parseScheduleSnapshot(snap) {
+  const loaded = emptySchedule(); let found = 0;
+  snap.forEach(ds => {
+    const x = ds.data()||{};
+    const day = normalizeScheduleDay(ds.id) || normalizeScheduleDay(x.hari??x.day);
+    if (day) {
+      let entries = [];
+      if (Array.isArray(x.entries)) entries = x.entries;
+      else if (Array.isArray(x.jadwal)) entries = x.jadwal;
+      else if (x.jam||x.mapel) entries = [x];
+      loaded[day] = cleanScheduleEntries(entries);
+      if (loaded[day].length) found++;
+    }
+  });
+  return { loaded, found };
+}
+async function loadSchedule() {
+  const msg = document.getElementById("scheduleMessage");
+  scheduleData = emptySchedule();
+  renderScheduleEditor(scheduleData);
+  msg.textContent = "Mengecek jadwal Senin–Sabtu di Firestore...";
+  try {
+    const snap = await getDocs(collection(db, "jadwal"));
+    const parsed = parseScheduleSnapshot(snap);
+    scheduleData = parsed.loaded;
+    renderScheduleEditor(scheduleData);
+    msg.textContent = parsed.found ? `${parsed.found} hari memiliki jadwal tersimpan. Jadwal siap diedit.` : "Belum ada jadwal tersimpan. Tambahkan jadwal di bawah.";
+  } catch (e) { console.error(e); msg.textContent = "Jadwal belum bisa dibaca dari Firestore. Kamu tetap bisa membuat jadwal baru."; }
+}
+document.getElementById("saveSchedule").onclick = async () => {
+  const btn = document.getElementById("saveSchedule"), msg = document.getElementById("scheduleMessage");
+  readScheduleEditor();
+  btn.disabled = true; msg.textContent = "Menyimpan jadwal Senin–Sabtu..."; msg.className = "toast";
+  try {
+    for (const day of dayOrder) {
+      const entries = (scheduleData[day]||[]).map((x,i) => ({ jam: String(x.jam||"").trim(), mapel: String(x.mapel||"").trim(), urutan: i+1 })).filter(x => x.jam||x.mapel);
+      await setDoc(doc(db, "jadwal", dayIds[day]), { hari: day, entries, updatedAt: Date.now() });
+    }
+    msg.textContent = "Semua jadwal Senin–Sabtu berhasil disimpan ke Firestore.";
+  } catch (e) { console.error(e); msg.textContent = "Gagal menyimpan jadwal. Cek Firestore Rules untuk collection jadwal."; msg.className = "toast err"; }
+  finally { btn.disabled = false; }
+};
+loadSchedule();
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+</script>
+</body>
+</html>

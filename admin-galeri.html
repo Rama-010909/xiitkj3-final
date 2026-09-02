@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#f2f5f9">
+<title>Galeri • Admin</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="assets/css/ios-core.css">
+<script src="auth-guard.js"></script>
+<style>
+.gallery-manager-list{display:grid;gap:10px;margin-top:14px}
+.gallery-manager-item{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:10px;border-radius:18px;background:var(--card);border:1px solid var(--card-border)}
+.gallery-manager-thumb{width:64px;height:64px;border-radius:14px;overflow:hidden;background:var(--input-bg);flex:none}
+.gallery-manager-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-manager-name{font-weight:800;font-size:13.5px}
+.gallery-manager-meta{font-size:11.5px;color:var(--muted-dark);margin-top:2px}
+.gallery-manager-buttons{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.small-btn{border:0;border-radius:11px;padding:8px 10px;cursor:pointer;font-weight:800;font-size:12px;background:var(--text-h);color:var(--bg)}
+.small-btn.danger{background:var(--danger-soft);color:var(--danger)}
+.gallery-local-note{font-size:11px;font-weight:800;color:var(--muted-dark);background:var(--input-bg);padding:8px 10px;border-radius:10px}
+.gallery-online-status{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;background:var(--input-bg);margin-top:12px}
+.status-dot{width:10px;height:10px;border-radius:50%;background:var(--danger);flex:none}
+.status-dot.ok{background:var(--accent)}
+.status-pill{margin-left:auto;font-size:11px;font-weight:850;padding:6px 10px;border-radius:999px;background:var(--card-solid)}
+.status-pill.online{color:var(--accent)}
+.status-pill.offline{color:var(--danger)}
+@media(max-width:600px){.gallery-manager-item{grid-template-columns:48px 1fr}.gallery-manager-buttons{grid-column:1/-1;justify-content:flex-start}}
+.admin-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);z-index:500;background:var(--card);border:1px solid var(--card-border);border-radius:20px;padding:14px 20px;box-shadow:var(--shadow-ios-lg);backdrop-filter:blur(26px);transition:transform .35s var(--ease-spring);max-width:min(92vw,380px)}
+.admin-toast.show{transform:translate(-50%,0)}
+.admin-toast b{display:block;font-size:13px;margin-bottom:2px}
+.admin-toast small{color:var(--muted-dark);font-size:12px}
+</style>
+</head>
+<body>
+<div class="ios-bg" aria-hidden="true"><div class="mesh-orb orb-1"></div><div class="mesh-orb orb-2"></div></div>
+
+<header class="ios-navbar wrap ios-glass">
+  <a class="back-btn" href="admin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6"/></svg>Beranda</a>
+  <div class="nav-tools">
+    <div class="theme-segmented"><select data-theme-select aria-label="Mode Tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">Sistem</option></select></div>
+    <button class="ios-btn danger" data-logout type="button">Keluar</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" style="padding-top:8px">
+    <div class="ios-kicker"><span class="kicker-dot"></span><span>Galeri Kelas</span></div>
+    <h1 style="font-size:clamp(26px,5vw,38px)">Kelola Galeri</h1>
+    <p>Tambahkan foto. Foto otomatis masuk ke penyimpanan Vercel Blob dan muncul di halaman siswa. Urutan bisa diubah dengan tombol naik/turun.</p>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="ios-panel ios-glass">
+      <div class="two-col" style="align-items:end">
+        <div class="field-group"><label>Pilih Foto</label><input id="galleryFile" type="file" accept="image/*" multiple class="form-input"></div>
+        <button type="button" class="ios-btn primary" id="uploadGallery" style="padding:14px;justify-content:center">Tambah Foto</button>
+      </div>
+      <div id="galleryOnlineStatus" class="gallery-online-status">
+        <span class="status-dot"></span>
+        <div><b style="font-size:13px">Penyimpanan Online</b><br><small id="galleryOnlineText" style="color:var(--muted-dark)">Memeriksa koneksi Vercel Blob...</small></div>
+        <span class="status-pill" id="galleryOnlinePill">Memeriksa</span>
+      </div>
+      <div id="galleryMessage" class="toast"></div>
+      <div id="galleryManagerList" class="gallery-manager-list"><div class="empty">Memuat galeri...</div></div>
+    </div>
+  </section>
+</main>
+
+<div id="adminToast" class="admin-toast" role="status"></div>
+<footer class="page-footer">XII TKJ 3 • Admin</footer>
+
+<script src="assets/js/ios-core.js"></script>
+<script type="module">
+const GALLERY_API = "/api/gallery";
+const safe = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+const toast = document.getElementById("adminToast");
+function showManagerToast(title, detail) { toast.innerHTML = `<b>${safe(title)}</b><small>${safe(detail)}</small>`; toast.classList.add("show"); clearTimeout(window.__t); window.__t = setTimeout(() => toast.classList.remove("show"), 4500); }
+
+const galleryLocalFallback = [1,2,3,4,5,6,7].map(n => ({ id: `local-${n}`, src: `assets/galeri/momen-${n}.jpg`, name: `Momen ${n}`, urutan: n, local: true }));
+let galleryData = [];
+
+async function galleryRequest(url, options = {}) {
+  const res = await fetch(url, options);
+  let data = {};
+  try { data = await res.json(); } catch (_) {}
+  if (!res.ok || data.ok === false) throw new Error(data.error || `Server galeri error (${res.status})`);
+  return data;
+}
+
+async function loadGallery() {
+  const msg = document.getElementById("galleryMessage");
+  try {
+    const data = await galleryRequest(GALLERY_API);
+    const remote = (data.items || []).sort((a, b) => (a.urutan || 999) - (b.urutan || 999));
+    galleryData = remote.length ? remote : galleryLocalFallback.slice();
+    renderGalleryManager();
+    if (msg) msg.textContent = remote.length ? "" : "Foto bawaan ditampilkan. Tambahkan foto untuk menyimpannya online.";
+  } catch (e) {
+    console.error("Gallery load:", e);
+    galleryData = galleryLocalFallback.slice();
+    renderGalleryManager();
+    if (msg) { msg.textContent = "Foto bawaan tetap ditampilkan. Penyimpanan online perlu dihubungkan ke Vercel Blob."; msg.className = "toast err"; }
+  }
+}
+
+function renderGalleryManager() {
+  const el = document.getElementById("galleryManagerList");
+  if (!galleryData.length) { el.innerHTML = '<div class="empty">Belum ada foto di galeri.</div>'; return; }
+  el.innerHTML = galleryData.map((x, i) => {
+    const local = !!x.local;
+    return `<div class="gallery-manager-item">
+      <div class="gallery-manager-thumb"><img src="${safe(x.src)}" alt="${safe(x.name || 'Foto')}"></div>
+      <div><div class="gallery-manager-name">${safe(x.name || 'Foto')}</div><div class="gallery-manager-meta">Urutan ${i+1}${local ? ' • Foto bawaan' : ' • Foto Vercel Blob'}</div></div>
+      <div class="gallery-manager-buttons">${local ? '<span class="gallery-local-note">Bawaan</span>' : `<button class="small-btn" data-up="${safe(x.id)}" ${i===0?'disabled':''}>↑</button><button class="small-btn" data-down="${safe(x.id)}" ${i===galleryData.length-1?'disabled':''}>↓</button><button class="small-btn danger" data-gallery-delete="${safe(x.id)}">Hapus</button>`}</div>
+    </div>`;
+  }).join('');
+  el.querySelectorAll("[data-up]").forEach(b => b.onclick = () => moveGallery(b.dataset.up, -1));
+  el.querySelectorAll("[data-down]").forEach(b => b.onclick = () => moveGallery(b.dataset.down, 1));
+  el.querySelectorAll("[data-gallery-delete]").forEach(b => b.onclick = () => removeGallery(b.dataset.galleryDelete));
+}
+
+async function moveGallery(id, dir) {
+  const i = galleryData.findIndex(x => x.id === id), j = i + dir;
+  if (i < 0 || j < 0 || j >= galleryData.length) return;
+  [galleryData[i], galleryData[j]] = [galleryData[j], galleryData[i]];
+  renderGalleryManager();
+  try {
+    await galleryRequest("/api/gallery?action=reorder", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ids: galleryData.map(x => x.id) }) });
+    showManagerToast("Urutan galeri diperbarui", "Urutan disimpan di Vercel Blob.");
+  } catch (e) { console.error(e); showManagerToast("Gagal mengubah urutan", e.message || "Periksa koneksi Vercel Blob."); loadGallery(); }
+}
+
+async function removeGallery(id) {
+  const x = galleryData.find(v => v.id === id); if (!x) return;
+  if (!confirm(`Hapus foto "${x.name || 'Foto'}" dari galeri?`)) return;
+  try {
+    await galleryRequest(`/api/gallery?action=delete&id=${encodeURIComponent(id)}`, { method: "DELETE" });
+    await loadGallery();
+    showManagerToast("Foto dihapus", "File foto sudah dihapus dari folder Vercel Blob.");
+  } catch (e) { console.error(e); showManagerToast("Gagal menghapus foto", e.message || "Periksa koneksi Vercel Blob."); }
+}
+
+document.getElementById("uploadGallery").onclick = async () => {
+  const input = document.getElementById("galleryFile"), msg = document.getElementById("galleryMessage"), files = [...(input.files || [])];
+  if (!files.length) { msg.textContent = "Pilih minimal satu foto terlebih dahulu."; msg.className = "toast err"; return; }
+  const valid = files.filter(f => f.type.startsWith("image/"));
+  if (!valid.length) { msg.textContent = "File yang dipilih bukan gambar."; msg.className = "toast err"; return; }
+  for (const file of valid) { if (file.size > 8 * 1024 * 1024) { msg.textContent = `${file.name} lebih dari 8 MB.`; msg.className = "toast err"; return; } }
+  const btn = document.getElementById("uploadGallery"); btn.disabled = true;
+  try {
+    msg.className = "toast"; msg.textContent = `Mengunggah ${valid.length} foto ke Vercel Blob...`;
+    const { upload } = await import("https://esm.sh/@vercel/blob@2.6.1/client");
+    const uploaded = [];
+    for (let i = 0; i < valid.length; i++) {
+      const file = valid[i];
+      msg.textContent = `Mengunggah ${i+1}/${valid.length}: ${file.name}`;
+      const uniqueName = (globalThis.crypto?.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+      const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const blob = await upload(`gallery/${uniqueName}-${safeFileName}`, file, { access: "public", handleUploadUrl: "/api/gallery-upload", multipart: true });
+      uploaded.push(blob);
+    }
+    const complete = await galleryRequest("/api/gallery?action=complete", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ blobs: uploaded }) });
+    galleryData = (complete.gallery || []).sort((a, b) => (a.urutan || 999) - (b.urutan || 999));
+    renderGalleryManager(); input.value = ""; msg.textContent = "Foto berhasil disimpan di Vercel Blob dan tampil di halaman siswa.";
+  } catch (e) { console.error("Gallery upload error:", e); msg.className = "toast err"; msg.textContent = e.message || "Gagal mengunggah foto."; }
+  finally { btn.disabled = false; }
+};
+
+async function checkGalleryOnline() {
+  const dot = document.querySelector("#galleryOnlineStatus .status-dot"), text = document.getElementById("galleryOnlineText"), pill = document.getElementById("galleryOnlinePill");
+  try {
+    const data = await galleryRequest(GALLERY_API);
+    if (dot) dot.classList.add("ok");
+    if (pill) { pill.textContent = "Online"; pill.className = "status-pill online"; }
+    if (text) text.textContent = (data.items || []).filter(x => !x.local).length + " foto tersimpan dan bisa diakses dari semua perangkat.";
+  } catch (e) {
+    if (pill) { pill.textContent = "Belum aktif"; pill.className = "status-pill offline"; }
+    if (text) text.textContent = "Hubungkan Vercel Blob ke project agar Tambah Foto dapat menyimpan online.";
+  }
+}
+checkGalleryOnline();
+loadGallery();
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+</script>
+</body>
+</html>

@@ -1,286 +1,113 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ruang Guru • XII TKJ 3</title><style>
-:root{--bg:#edf3f8;--text:#101827;--muted:#687386;--surface:rgba(255,255,255,.76);--border:rgba(255,255,255,.82);--accent:#16a35a;--line:rgba(16,24,39,.09);--danger:#dc4c4c}:root[data-theme="dark"]{--bg:#0b1220;--text:#f5f7ff;--muted:#aeb8ca;--surface:rgba(20,28,45,.9);--border:rgba(255,255,255,.13);--accent:#68e39c;--line:rgba(255,255,255,.1);--danger:#ff8b8b;color-scheme:dark}*{box-sizing:border-box}body{margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;background:var(--bg);min-height:100vh}body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(80px);opacity:.55}body:before{width:420px;height:420px;left:-150px;top:80px;background:#74e4a6}body:after{width:480px;height:480px;right:-180px;bottom:-100px;background:linear-gradient(135deg,#244b91,#613b86,#743d59)}.wrap{width:min(1120px,calc(100% - 28px));margin:auto}.nav{margin:14px auto;padding:11px 14px;border:1px solid var(--border);border-radius:24px;background:var(--surface);backdrop-filter:blur(24px);display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{display:flex;align-items:center;gap:10px;font-weight:900}.brand img{width:44px;height:44px;object-fit:contain;border-radius:13px}.tools{display:flex;gap:8px;align-items:center}.theme,.input,select,textarea{border:1px solid var(--border);border-radius:14px;padding:10px;background:var(--surface);color:var(--text)}.btn{border:1px solid var(--border);background:var(--surface);color:var(--text);padding:11px 14px;border-radius:15px;font-weight:850;cursor:pointer}.primary{background:#111827;color:#fff}.danger{background:rgba(220,76,76,.12);color:var(--danger)}.hero{padding:55px 0 25px}.kicker{font-size:11px;letter-spacing:.15em;color:var(--accent);font-weight:950}.hero h1{font-size:clamp(42px,7vw,70px);line-height:.95;letter-spacing:-.06em;margin:10px 0}.gradient{background:linear-gradient(110deg,var(--text),var(--accent),#719dff,#b38cff);-webkit-background-clip:text;background-clip:text;color:transparent}.desc{color:var(--muted);line-height:1.65}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{padding:20px;border-radius:26px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(22px);box-shadow:0 18px 45px rgba(0,0,0,.08)}.section{padding:25px 0}.section h2{margin:0 0 6px;font-size:30px}.form{display:grid;gap:12px}.form label{font-size:12px;font-weight:900}.form input,.form textarea,.form select{width:100%;padding:13px}.form textarea{min-height:90px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.list{display:grid;gap:10px;margin-top:14px}.item{padding:16px;border:1px solid var(--line);border-radius:19px;background:rgba(255,255,255,.18)}.item h3{margin:0 0 5px}.meta{font-size:12px;color:var(--muted)}.item-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.pill{display:inline-block;padding:5px 9px;border-radius:99px;background:rgba(104,227,156,.12);color:var(--accent);font-size:11px;font-weight:900}.empty{color:var(--muted);padding:15px}.toast{min-height:20px;color:var(--muted);font-size:13px}@media(max-width:780px){.grid{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr}}@media(max-width:520px){.grid{grid-template-columns:1fr}.nav .brand span{display:none}.tools{flex-wrap:wrap;justify-content:flex-end}}
-</style><style>.submission-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.linkbox{word-break:break-all}</style><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0b1220">  
-
-<style id="tkj3-mobile-minimal">
-/* XII TKJ 3 — mobile minimal layer */
-*{box-sizing:border-box}
-img{max-width:100%;height:auto}
-button,input,select,textarea{font:inherit}
-@media (max-width: 700px){
-  body{
-    width:100%;
-    min-width:0!important;
-    overflow-x:hidden!important;
-    -webkit-text-size-adjust:100%;
-  }
-  header,nav,.navbar,.topbar,.header,.container,.content,.main,.dashboard,.page{
-    max-width:100%!important;
-  }
-  header,nav,.navbar,.topbar{
-    padding-left:14px!important;
-    padding-right:14px!important;
-  }
-  .container,.content,.main,.dashboard,.page{
-    width:100%!important;
-    margin-left:auto!important;
-    margin-right:auto!important;
-    padding-left:14px!important;
-    padding-right:14px!important;
-  }
-  h1{font-size:clamp(22px,7vw,30px)!important;line-height:1.15}
-  h2{font-size:20px!important}
-  h3{font-size:17px!important}
-  p{line-height:1.55}
-  .card,.panel,.feature-card,.menu-card,.item,.box{
-    border-radius:18px!important;
-    box-shadow:0 6px 22px rgba(0,0,0,.08)!important;
-  }
-  .grid,.cards,.features,.menu-grid,.dashboard-grid,.gallery-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    gap:10px!important;
-  }
-  .grid-3,.three-columns{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .gallery-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:15px}
-  table{display:block;width:100%;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
-  th,td{padding:9px 10px!important}
-  form{width:100%;max-width:100%!important}
-  input,select,textarea{max-width:100%!important}
-  .btn,button,.button{min-height:42px}
-  .modal,.dialog{width:calc(100% - 24px)!important;max-width:none!important}
-}
-@media (max-width:420px){
-  .grid,.cards,.features,.menu-grid,.dashboard-grid,.gallery-grid{
-    grid-template-columns:1fr 1fr!important;
-    gap:8px!important;
-  }
-  .container,.content,.main,.dashboard,.page{padding-left:11px!important;padding-right:11px!important}
-  .card,.panel,.feature-card,.menu-card,.item,.box{padding:14px!important}
-}
-@media (max-width:360px){
-  .grid,.cards,.features,.menu-grid,.dashboard-grid,.gallery-grid{
-    grid-template-columns:1fr!important;
-  }
-}
-@media (prefers-reduced-motion:no-preference){
-  button,.btn,.button,a,.card,.panel,.feature-card,.menu-card,.item{
-    transition:transform .18s ease,opacity .18s ease,box-shadow .18s ease;
-  }
-  button:active,.btn:active,.button:active{transform:scale(.98)}
-}
-</style>
-
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#f2f5f9">
+<title>Pengumpulan Tugas • Ruang Guru</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="assets/css/ios-core.css">
 <script src="auth-guard.js"></script>
-<style id="tkj3-ios-overhaul">
-:root{--ios-bg:#f5f5f7;--ios-card:rgba(255,255,255,.72);--ios-text:#1d1d1f;--ios-muted:#6e6e73;--ios-border:rgba(0,0,0,.08);--ios-accent:#007aff;--ios-shadow:0 18px 55px rgba(0,0,0,.10)}
-:root[data-theme="dark"]{--ios-bg:#000;--ios-card:rgba(28,28,30,.78);--ios-text:#f5f5f7;--ios-muted:#98989f;--ios-border:rgba(255,255,255,.12);--ios-accent:#0a84ff;--ios-shadow:0 18px 55px rgba(0,0,0,.35)}
-html{scroll-behavior:smooth}body{background:var(--ios-bg)!important;color:var(--ios-text)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif!important;letter-spacing:-.01em}
-body:before,body:after{content:"";position:fixed;z-index:-2;width:420px;height:420px;border-radius:50%;filter:blur(100px);opacity:.18;pointer-events:none}body:before{background:#007aff;left:-170px;top:-120px}body:after{background:#af52de;right:-180px;bottom:-140px}
-.glass,.panel,.card,.stat,.person,.login-card,.nav{background:var(--ios-card)!important;border:1px solid var(--ios-border)!important;box-shadow:var(--ios-shadow)!important;backdrop-filter:blur(28px) saturate(150%)!important;-webkit-backdrop-filter:blur(28px) saturate(150%)!important}
-button,.btn,input,select,textarea{font-family:inherit!important}button,.btn{transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s ease,opacity .22s ease!important}button:hover,.btn:hover{transform:translateY(-2px)}button:active,.btn:active{transform:scale(.97)!important}.section,.card,.panel,.stat,.person{animation:iosIn .55s cubic-bezier(.2,.8,.2,1) both}@keyframes iosIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
-input,select,textarea{background:rgba(120,120,128,.10)!important;color:var(--ios-text)!important;border:1px solid var(--ios-border)!important;border-radius:14px!important;outline:none!important;transition:.2s!important}input:focus,select:focus,textarea:focus{border-color:var(--ios-accent)!important;box-shadow:0 0 0 4px rgba(0,122,255,.13)!important}.desc,.muted,.empty{color:var(--ios-muted)!important}.primary{background:var(--ios-accent)!important;color:white!important;border:0!important}.danger{color:#ff3b30!important}
-</style><style id="ios-motion-v79">
-html{scroll-behavior:smooth}body{animation:iosPageIn .55s cubic-bezier(.16,1,.3,1)}.card,.ios-panel,.ios-glass,.panel,.stat-card,.item-card,.item,.section{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s,border-color .35s,background .35s}.card:hover,.ios-panel:hover,.ios-glass:hover,.panel:hover,.stat-card:hover,.item-card:hover,.item:hover{transform:translateY(-3px);box-shadow:0 20px 55px rgba(0,0,0,.10)}button,.btn,.ios-btn,select,input,textarea{transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .25s,opacity .2s}button:hover,.btn:hover,.ios-btn:hover{transform:translateY(-2px)}button:active,.btn:active,.ios-btn:active{transform:scale(.97)}@keyframes iosPageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-</style>
-<style id="ios-polish-v83">
-:root{--ios-ease:cubic-bezier(.2,.8,.2,1)}
-body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif!important}
-body:after{animation:iosFloat 10s ease-in-out infinite alternate!important}
-@keyframes iosFloat{to{transform:translate(28px,-24px) scale(1.07)}}
-.glass,.panel,.card,.stat,.daily-card,.schedule-day-block,.admin-structure-card,.gallery-manager-item,.student-row,.nav,.mobile-admin{backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);transition:transform .28s var(--ios-ease),box-shadow .28s var(--ios-ease),border-color .28s ease,background .28s ease}
-.card:hover,.stat:hover,.daily-card:hover,.schedule-day-block:hover,.admin-structure-card:hover,.gallery-manager-item:hover,.student-row:hover{transform:translateY(-3px)}
-button,.btn,.logout,a{transition:transform .2s var(--ios-ease),filter .2s ease,box-shadow .2s ease!important}
-button:hover,.btn:hover{transform:translateY(-2px)}
-button:active,.btn:active{transform:scale(.97)!important}
-input,select,textarea{transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease!important}
-input:focus,select:focus,textarea:focus{transform:translateY(-1px)}
-section,.panel,.card{animation:iosEnter .55s var(--ios-ease) both}
-@keyframes iosEnter{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
-h1,h2,h3{letter-spacing:-.025em}
-</style>
-<style id="ios-v84-global">
-*{scroll-behavior:smooth}body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif!important}
-button,.btn,.nav a,.card,.panel,.stat,.daily-card,.student-row,.schedule-day-block,.gallery-manager-item{transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s,border-color .2s,filter .2s!important}
-button:hover,.btn:hover{transform:translateY(-2px)}button:active,.btn:active{transform:scale(.97)!important}
-input,select,textarea{transition:.2s!important}input:focus,select:focus,textarea:focus{transform:translateY(-1px)}
-.card,.panel,.stat,.daily-card,.schedule-day-block,.gallery-manager-item{animation:iosPageIn .55s cubic-bezier(.2,.8,.2,1) both}
-@keyframes iosPageIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
-</style><style id="ios-v85-global">
-:root{--ios-ease:cubic-bezier(.16,1,.3,1)}
-body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif!important}
-button,.btn,.logout,a,.card,.panel,.stat,.person,.gallery-item{transition:transform .28s var(--ios-ease),box-shadow .28s var(--ios-ease),filter .2s ease,border-color .2s ease!important}
-button:hover,.btn:hover,.person:hover,.gallery-item:hover{transform:translateY(-3px)}button:active,.btn:active{transform:scale(.97)!important}
-input,select,textarea{transition:box-shadow .22s var(--ios-ease),border-color .22s ease,transform .22s var(--ios-ease)!important}
-input:focus,select:focus,textarea:focus{transform:translateY(-1px)}
-</style>
-<style id="v86-ios-system">
-:root{--ios-bg:#f4f7fb;--ios-surface:rgba(255,255,255,.68);--ios-text:#172033;--ios-muted:#718096;--ios-line:rgba(20,32,50,.09);--ios-accent:#0a84ff;--ios-shadow:0 24px 70px rgba(30,55,90,.14)}
-:root[data-theme="dark"]{--ios-bg:#07111e;--ios-surface:rgba(22,32,48,.72);--ios-text:#f7f9ff;--ios-muted:#a9b5c6;--ios-line:rgba(255,255,255,.11);--ios-shadow:0 25px 80px rgba(0,0,0,.4)}
-html,body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif!important}
-body{background:var(--ios-bg)!important;color:var(--ios-text)!important}
-body:before,body:after{content:"";position:fixed;z-index:-2;width:38vw;height:38vw;min-width:260px;min-height:260px;border-radius:50%;filter:blur(80px);opacity:.20;pointer-events:none;animation:v86float 11s ease-in-out infinite alternate}
-body:before{left:-10vw;top:5vh;background:#4b8dff}body:after{right:-10vw;bottom:-8vh;background:#9b6cff;animation-delay:-4s}
-@keyframes v86float{to{transform:translate(30px,-25px) scale(1.08)}}
-.glass,.card,.panel,.stat,.daily-card,.schedule-day-block,.admin-structure-card,.gallery-manager-item,.student-row,.login-card{background:var(--ios-surface)!important;border:1px solid var(--ios-line)!important;box-shadow:var(--ios-shadow)!important;backdrop-filter:blur(28px) saturate(140%)!important;-webkit-backdrop-filter:blur(28px) saturate(140%)!important}
-button,.btn,a.nav-item,.feature-card,.role{transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s,filter .24s!important}
-button:hover,.btn:hover,.feature-card:hover,a.nav-item:hover{transform:translateY(-3px)}
-button:active,.btn:active,.feature-card:active{transform:scale(.97)!important}
-input,select,textarea{border-color:var(--ios-line)!important;transition:.2s!important}
-input:focus,select:focus,textarea:focus{outline:none;transform:translateY(-1px);box-shadow:0 0 0 4px rgba(10,132,255,.13)!important;border-color:var(--ios-accent)!important}
-.v86-logo{cursor:zoom-in!important;transition:transform .3s,filter .3s!important}.v86-logo:hover{transform:scale(1.05)!important;filter:drop-shadow(0 10px 20px rgba(10,132,255,.2))}
-.v86-modal{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:rgba(0,0,0,.42);backdrop-filter:blur(18px);opacity:0;pointer-events:none;transition:.3s}.v86-modal.open{opacity:1;pointer-events:auto}.v86-modal-card{position:relative;width:min(88vw,520px);padding:28px;border-radius:34px;background:rgba(255,255,255,.88);box-shadow:0 30px 100px rgba(0,0,0,.3);transform:scale(.9) translateY(20px);transition:.4s cubic-bezier(.2,.8,.2,1);text-align:center}.v86-modal.open .v86-modal-card{transform:none}:root[data-theme="dark"] .v86-modal-card{background:rgba(20,30,46,.92);color:#fff}.v86-modal img{max-width:100%;max-height:58vh;object-fit:contain;border-radius:22px}.v86-close{position:absolute;right:15px;top:15px;width:38px;height:38px;border:0;border-radius:50%;background:rgba(127,127,127,.14);font-size:20px;cursor:pointer}
-.v86-feature-back{position:fixed;left:20px;bottom:20px;z-index:9000;border:1px solid var(--ios-line);background:var(--ios-surface);color:var(--ios-text);backdrop-filter:blur(20px);border-radius:18px;padding:11px 16px;font-weight:850;box-shadow:var(--ios-shadow);text-decoration:none}
-@media(max-width:700px){.v86-feature-back{left:14px;bottom:14px}.v86-modal-card{padding:20px;border-radius:26px}}
-</style>
-<script>
-(function(){
-function addLogoViewer(){
- const imgs=[...document.querySelectorAll('img')].filter(i=>/logo-(kelas|smk)/i.test(i.src)||/Logo (Kelas|SMK)/i.test(i.alt));
- imgs.forEach(img=>{
-   img.classList.add('v86-logo');
-   img.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openLogo(img.currentSrc||img.src,img.alt||'Logo');});
- });
-}
-function openLogo(src,title){
- let m=document.getElementById('v86LogoModal');
- if(!m){m=document.createElement('div');m.id='v86LogoModal';m.className='v86-modal';m.innerHTML='<div class="v86-modal-card"><button class="v86-close" aria-label="Tutup">×</button><img id="v86LogoImage"><div id="v86LogoTitle" style="font-weight:850;margin-top:12px"></div></div>';document.body.appendChild(m);
- m.addEventListener('click',e=>{if(e.target===m||e.target.closest('.v86-close'))m.classList.remove('open')});}
- m.querySelector('#v86LogoImage').src=src;m.querySelector('#v86LogoTitle').textContent=title;m.classList.add('open');
-}
-function dashboardMode(){
- const path=location.pathname.split('/').pop();
- if(path==='siswa.html'){
-   ['absensi','tugas','materi','nilai','jadwal','struktur','galeri'].forEach(id=>{const x=document.getElementById(id);if(x)x.style.display='none'});
-   const home=document.getElementById('utama');if(home)home.style.display='';
- }
- if(path==='guru.html'){
-   const w=document.getElementById('workspace');if(w)w.style.display='none';
- }
-}
-function featureBack(){
- const path=location.pathname.split('/').pop();
- if(/^(siswa|guru)-(absensi|tugas|materi|nilai|jadwal|struktur|galeri|pengumuman|pengumpulan)\.html$/i.test(path) && !document.querySelector('.v86-feature-back')){
-   const a=document.createElement('a');a.className='v86-feature-back';a.href=path.startsWith('siswa-')?'siswa.html':'guru.html';a.textContent='Kembali ke Beranda';document.body.appendChild(a);
- }
-}
-document.addEventListener('DOMContentLoaded',()=>{addLogoViewer();dashboardMode();featureBack()});
-})();
-</script>
-</head><body><header class="nav wrap"><a class="brand" href="index.html"><div style="display:flex;align-items:center;gap:6px"><button type="button" class="btn" style="padding:0;background:transparent;border:0;cursor:zoom-in" id="guruLogoKelas" title="Lihat Logo Kelas"><img class="theme-logo" data-light-src="assets/galeri/logo-kelas-light.png" data-dark-src="assets/galeri/logo-kelas-dark.png" src="assets/galeri/logo-kelas-light.png" style="width:34px;height:34px;object-fit:contain" alt="Logo Kelas"></button><button type="button" class="btn" style="padding:0;background:transparent;border:0;cursor:zoom-in" id="guruLogoSmk" title="Lihat Logo SMK"><img src="assets/galeri/logo-smk-transparent.png" alt="Logo SMK" style="width:34px;height:34px;object-fit:contain"></button></div><span>XII TKJ 3 · Guru</span></a><div class="tools"><select class="theme" id="theme"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select><button class="btn" id="logout">Keluar</button></div></header><div class="guru-feature-nav wrap" aria-label="Navigasi Guru"><a href="guru.html">Utama</a><a href="guru-tugas.html">Tugas</a><a href="guru-pengumuman.html">Pengumuman</a><a href="guru-materi.html">Materi</a><a href="guru-absensi.html">Absensi</a><a href="guru-nilai.html">Nilai</a><a href="guru-pengumpulan.html">Pengumpulan</a></div><main class="wrap"><section class="hero"><div class="kicker">RUANG GURU</div><h1>Halo, <span class="gradient" id="teacherName">Guru</span></h1><p class="desc">Kelola tugas, materi, pengumuman, absensi, dan nilai untuk mata pelajaran yang kamu ampu.</p><div id="subjects" class="grid"></div></section><section class="section" id="workspace"><div class="card"><h2 id="selectedSubject">Pilih mata pelajaran</h2><p class="desc">Ruang ini hanya untuk mata pelajaran yang terhubung ke akun guru.</p><div class="grid"><div><h3>Tugas</h3><div class="form"><label>Judul<input id="taskTitle"></label><label>Deskripsi<textarea id="taskDesc"></textarea></label><div class="row"><label>Deadline<input id="taskDeadline" type="datetime-local"></label><label>Lampiran URL<input id="taskFile" placeholder="https://..."></label></div><button class="btn primary" id="saveTask">Terbitkan Tugas</button></div><div id="taskList" class="list"></div></div><div><h3>Pengumuman</h3><div class="form"><label>Judul<input id="annTitle"></label><label>Isi<textarea id="annBody"></textarea></label><button class="btn primary" id="saveAnn">Terbitkan</button></div><div id="annList" class="list"></div></div><div><h3>Materi</h3><div class="form"><label>Judul<input id="matTitle"></label><label>Link materi<input id="matUrl" placeholder="URL PDF/Drive/dll."></label><button class="btn primary" id="saveMat">Simpan Materi</button></div><div id="matList" class="list"></div></div></div><hr style="border:0;border-top:1px solid var(--line);margin:24px 0"><h3>Absensi Pelajaran</h3><div class="row"><label>Durasi buka (menit)<input id="attMinutes" type="number" min="5" value="45"></label><div style="display:flex;align-items:end"><button class="btn primary" id="openAtt">Buka Absensi Sekarang</button></div></div><div id="attStatus" class="toast"></div><div id="attList" class="list"></div><hr style="border:0;border-top:1px solid var(--line);margin:24px 0"><h3>Nilai</h3><div class="row"><label>Nama siswa<select id="gradeStudent"></select></label><label>Nilai<input id="gradeValue" type="number" min="0" max="100"></label></div><div class="row"><label>Judul penilaian<input id="gradeTitle" placeholder="Tugas 1"></label><div style="display:flex;align-items:end"><button class="btn primary" id="saveGrade">Simpan Nilai</button></div></div><div id="gradeList" class="list"></div><hr style="border:0;border-top:1px solid var(--line);margin:24px 0"><h3>Pengumpulan Tugas</h3><p class="desc">Lihat jawaban siswa untuk tugas pada mata pelajaran yang dipilih.</p><div id="submissionList" class="list"><div class="empty">Pilih mata pelajaran.</div></div></div></section></main><div id="logoModalGuru" class="lightbox" style="position:fixed;inset:0;z-index:9999;background:rgba(5,10,16,.88);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;padding:20px" aria-hidden="true"><div style="background:var(--surface);border:1px solid var(--border);border-radius:26px;padding:24px;text-align:center;max-width:min(90vw,360px)"><img id="logoModalGuruImg" src="" alt="Pratinjau Logo" style="max-width:220px;max-height:220px;object-fit:contain;display:block;margin:0 auto 12px"><h3 id="logoModalGuruTitle" style="margin:0 0 4px;font-size:17px">Logo</h3><p id="logoModalGuruSub" style="margin:0 0 14px;font-size:13px;color:var(--muted)">Identitas Resmi</p><button type="button" class="btn primary" id="logoModalGuruClose">Tutup</button></div></div><script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";import{getAuth,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";import{getFirestore,collection,addDoc,onSnapshot,query,where,orderBy,doc,setDoc,getDocs,deleteDoc}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-const firebaseConfig={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),root=document.documentElement,key='xii-tkj3-theme',media=matchMedia('(prefers-color-scheme: dark)');function applyTheme(v){const a=v==='system'?(media.matches?'dark':'light'):v;root.dataset.theme=a;document.querySelectorAll('.theme-logo').forEach(i=>{i.src=a==='dark'?i.dataset.darkSrc:i.dataset.lightSrc});document.getElementById('theme').value=v;}
-applyTheme(localStorage.getItem(key)||'system');
-document.getElementById('theme').onchange=e=>{localStorage.setItem(key,e.target.value);applyTheme(e.target.value);};
-if(media.addEventListener){media.addEventListener('change',()=>{if((localStorage.getItem(key)||'system')==='system')applyTheme('system');});}
+</head>
+<body>
+<div class="ios-bg" aria-hidden="true"><div class="mesh-orb orb-1"></div><div class="mesh-orb orb-2"></div></div>
 
-let uid='',teacher='',subjects=[],current='';const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));const q=(id)=>document.getElementById(id);
-function selected(){return current||subjects[0]||''}function setSubject(x){current=x;q('selectedSubject').textContent=x||'Pilih mata pelajaran';loadAll()}
-async function loadAll(){if(!uid||!selected())return;const sub=selected();q('taskList').innerHTML='<div class="empty">Memuat...</div>';q('annList').innerHTML='<div class="empty">Memuat...</div>';q('matList').innerHTML='<div class="empty">Memuat...</div>';q('gradeList').innerHTML='<div class="empty">Memuat...</div>';q('submissionList').innerHTML='<div class="empty">Memuat...</div>';const base=(c)=>query(collection(db,c),where('mapel','==',sub),orderBy('createdAt','desc'));try{onSnapshot(base('tugas'),snap=>{q('taskList').innerHTML=snap.empty?'<div class="empty">Belum ada tugas.</div>':snap.docs.map(d=>{const x=d.data();return `<article class="item"><span class="pill">${esc(x.mapel)}</span><h3>${esc(x.judul)}</h3><div>${esc(x.deskripsi)}</div><div class="meta">Deadline: ${esc(x.deadline||'-')}</div>${x.fileUrl?`<p><a href="${esc(x.fileUrl)}" target="_blank" rel="noopener"> Lampiran</a></p>`:''}<div class="item-actions"><button class="btn danger" data-del-task="${d.id}">Hapus</button></div></article>`}).join('');q('taskList').querySelectorAll('[data-del-task]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus tugas ini?'))await deleteDoc(doc(db,'tugas',b.dataset.delTask))})},e=>q('taskList').innerHTML='<div class="empty">Gagal memuat tugas.</div>');onSnapshot(base('pengumuman'),snap=>{q('annList').innerHTML=snap.empty?'<div class="empty">Belum ada pengumuman.</div>':snap.docs.map(d=>`<article class="item"><h3>${esc(d.data().judul)}</h3><div>${esc(d.data().isi)}</div><div class="item-actions"><button class="btn danger" data-del-ann="${d.id}">Hapus</button></div></article>`).join('');q('annList').querySelectorAll('[data-del-ann]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus pengumuman?'))await deleteDoc(doc(db,'pengumuman',b.dataset.delAnn))})});onSnapshot(base('materi'),snap=>{q('matList').innerHTML=snap.empty?'<div class="empty">Belum ada materi.</div>':snap.docs.map(d=>`<article class="item"><h3>${esc(d.data().judul)}</h3><div class="meta"><a href="${esc(d.data().url)}" target="_blank" rel="noopener">Buka materi</a></div><div class="item-actions"><button class="btn danger" data-del-mat="${d.id}">Hapus</button></div></article>`).join('');q('matList').querySelectorAll('[data-del-mat]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus materi?'))await deleteDoc(doc(db,'materi',b.dataset.delMat))})});onSnapshot(base('nilai'),snap=>{q('gradeList').innerHTML=snap.empty?'<div class="empty">Belum ada nilai.</div>':snap.docs.map(d=>{const x=d.data();return `<article class="item"><b>${esc(x.nama)}</b> · ${esc(x.judul)}: <strong>${esc(x.nilai)}</strong></article>`}).join('')});onSnapshot(query(collection(db,'pengumpulan_tugas'),where('mapel','==',sub),orderBy('updatedAt','desc')),snap=>{q('submissionList').innerHTML=snap.empty?'<div class="empty">Belum ada pengumpulan.</div>':snap.docs.map(d=>{const x=d.data();return `<article class="item"><b>${esc(x.siswa||x.siswaUid||'Siswa')}</b><div class="meta">Dikirim: ${esc(x.updatedAt?new Date(x.updatedAt).toLocaleString('id-ID'):'-')}</div>${x.jawaban?`<p>${esc(x.jawaban)}</p>`:''}${x.link?`<div class="linkbox"><a href="${esc(x.link)}" target="_blank" rel="noopener">Buka link jawaban →</a></div>`:''}</article>`}).join('')},e=>q('submissionList').innerHTML='<div class="empty">Gagal memuat pengumpulan.</div>')}catch(e){console.error(e)}}
-async function loadStudents(){const snap=await getDocs(collection(db,'siswa'));q('gradeStudent').innerHTML='<option value="">Pilih siswa...</option>'+snap.docs.map(d=>`<option>${esc(d.data().nama)}</option>`).join('')};
-q('saveTask').onclick=async()=>{if(!selected())return;q('saveTask').disabled=true;try{await addDoc(collection(db,'tugas'),{judul:q('taskTitle').value.trim(),deskripsi:q('taskDesc').value.trim(),deadline:q('taskDeadline').value, fileUrl:q('taskFile').value.trim(),mapel:selected(),guruUid:uid,guru:teacher,createdAt:Date.now()});['taskTitle','taskDesc','taskDeadline','taskFile'].forEach(x=>q(x).value='')}finally{q('saveTask').disabled=false}};
-q('saveAnn').onclick=async()=>{if(!selected())return;await addDoc(collection(db,'pengumuman'),{judul:q('annTitle').value.trim(),isi:q('annBody').value.trim(),mapel:selected(),guruUid:uid,guru:teacher,createdAt:Date.now()});q('annTitle').value='';q('annBody').value=''};
-q('saveMat').onclick=async()=>{if(!selected())return;await addDoc(collection(db,'materi'),{judul:q('matTitle').value.trim(),url:q('matUrl').value.trim(),mapel:selected(),guruUid:uid,guru:teacher,createdAt:Date.now()});q('matTitle').value='';q('matUrl').value=''};
-q('openAtt').onclick=async()=>{if(!selected())return;const minutes=Math.max(5,Number(q('attMinutes').value)||45),now=Date.now();await addDoc(collection(db,'absensi_pelajaran'),{mapel:selected(),guruUid:uid,guru:teacher,tanggal:new Date().toISOString().slice(0,10),dibukaAt:now,tutupAt:now+minutes*60000,status:'open',createdAt:now});q('attStatus').textContent='Absensi '+selected()+' dibuka selama '+minutes+' menit.'};
-q('saveGrade').onclick=async()=>{const nama=q('gradeStudent').value;if(!nama||!q('gradeValue').value||!selected())return;await addDoc(collection(db,'nilai'),{nama,nilai:Number(q('gradeValue').value),judul:q('gradeTitle').value.trim()||'Penilaian',mapel:selected(),guruUid:uid,createdAt:Date.now()});q('gradeValue').value='';q('gradeTitle').value=''};
-q('logout').onclick=async()=>{sessionStorage.clear();try{await signOut(auth);}catch(_){}location.href='index.html'};
+<header class="ios-navbar wrap ios-glass">
+  <a class="back-btn" href="guru.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6"/></svg>Beranda</a>
+  <div class="nav-tools">
+    <div class="theme-segmented"><select data-theme-select aria-label="Mode Tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">Sistem</option></select></div>
+    <button class="ios-btn danger" data-logout type="button">Keluar</button>
+  </div>
+</header>
 
-const defaultGuruSubjects=["Administrasi Infrastruktur Jaringan","Administrasi Server","Teknologi Layanan Jaringan","Teknologi Jaringan Berbasis Luas (WAN)","Komputer dan Jaringan Dasar"];
+<main class="wrap">
+  <section class="hero" style="padding-top:8px">
+    <div class="ios-kicker"><span class="kicker-dot"></span><span>Pengumpulan</span></div>
+    <h1 style="font-size:clamp(26px,5vw,38px)">Pengumpulan Tugas Siswa</h1>
+    <p>Lihat jawaban siswa untuk mata pelajaran yang sedang dipilih.</p>
+  </section>
 
-async function setupTeacher(teacherName,teacherUid,teacherSubjects){
-  uid=teacherUid||'guru-andi';
-  teacher=teacherName||'Andi';
-  q('teacherName').textContent=teacher;
-  try{
-    const uSnap=await(await import('https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js')).getDoc(doc(db,'users',uid));
-    if(uSnap.exists()){
-      const d=uSnap.data();
-      if(d.nama)teacher=d.nama;
-      if(Array.isArray(d.mataPelajaran)&&d.mataPelajaran.length)teacherSubjects=d.mataPelajaran;
-      q('teacherName').textContent=teacher;
-    }
-  }catch(e){console.warn("Teacher profile lookup:",e);}
-  subjects=(teacherSubjects&&teacherSubjects.length)?teacherSubjects:defaultGuruSubjects;
-  q('subjects').innerHTML=subjects.map(x=>`<button class="card btn" data-sub="${esc(x)}"><b>${esc(x)}</b><small style="display:block;color:var(--muted);margin-top:6px">Buka ruang pelajaran</small></button>`).join('');
-  q('subjects').querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>setSubject(b.dataset.sub));
-  if(subjects[0])setSubject(subjects[0]);
-  await loadStudents();
+  <section class="section" style="padding-top:0">
+    <div id="subjects" class="subject-row"><div class="empty">Memuat mata pelajaran...</div></div>
+    <div id="submissionList" class="card-list" style="margin-top:6px"><div class="empty">Pilih mata pelajaran.</div></div>
+  </section>
+</main>
+
+<nav class="ios-tab-bar" style="--tabs:6" aria-label="Navigasi Mobile Guru">
+  <a href="guru.html">Utama</a>
+  <a href="guru-tugas.html">Tugas</a>
+  <a href="guru-pengumuman.html">Info</a>
+  <a href="guru-materi.html">Materi</a>
+  <a href="guru-absensi.html">Absen</a>
+  <a href="guru-nilai.html">Nilai</a>
+</nav>
+<footer class="page-footer">XII TKJ 3 • SMK NU Bandar</footer>
+
+<script src="assets/js/ios-core.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+import { getFirestore, collection, onSnapshot, query, where, orderBy, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const q = id => document.getElementById(id);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+
+const SUBJ_KEY = 'tkj3_guru_subject';
+const defaultGuruSubjects = ["Administrasi Infrastruktur Jaringan","Administrasi Server","Teknologi Layanan Jaringan","Teknologi Jaringan Berbasis Luas (WAN)","Komputer dan Jaringan Dasar"];
+let current = '', unsub = null;
+
+function renderSubjects(subjects) {
+  const stored = localStorage.getItem(SUBJ_KEY);
+  current = (stored && subjects.includes(stored)) ? stored : subjects[0];
+  q('subjects').innerHTML = subjects.map(s => `<button type="button" class="subject-chip ${s===current?'active':''}" data-sub="${esc(s)}">${esc(s)}</button>`).join('');
+  q('subjects').querySelectorAll('[data-sub]').forEach(b => b.onclick = () => {
+    current = b.dataset.sub; localStorage.setItem(SUBJ_KEY, current);
+    q('subjects').querySelectorAll('.subject-chip').forEach(c => c.classList.toggle('active', c === b));
+    loadSub();
+  });
+  if (current) localStorage.setItem(SUBJ_KEY, current);
+  loadSub();
 }
 
-const rawSession=sessionStorage.getItem("tkj3_session");
-if(rawSession){
-  try{
-    const parsed=JSON.parse(rawSession);
-    if(parsed.role==='guru'){
-      setupTeacher(parsed.nama||parsed.username||'Andi',parsed.username||'guru-andi',defaultGuruSubjects);
-    }
-  }catch(e){console.error("Session parse:",e);}
+function loadSub() {
+  if (unsub) unsub();
+  if (!current) return;
+  q('submissionList').innerHTML = '<div class="empty">Memuat...</div>';
+  unsub = onSnapshot(query(collection(db, 'pengumpulan_tugas'), where('mapel', '==', current), orderBy('updatedAt', 'desc')), snap => {
+    q('submissionList').innerHTML = snap.empty ? '<div class="empty">Belum ada pengumpulan.</div>' : snap.docs.map(d => {
+      const x = d.data();
+      return `<article class="item-card">
+        <b>${esc(x.siswa || 'Siswa')}</b>
+        <div class="item-meta">Dikirim: ${x.updatedAt ? new Date(x.updatedAt).toLocaleString('id-ID') : '-'}</div>
+        ${x.jawaban ? `<p style="font-size:13px;color:var(--muted-dark);margin:8px 0 0">${esc(x.jawaban)}</p>` : ''}
+        ${x.link ? `<div style="margin-top:8px"><a href="${esc(x.link)}" target="_blank" rel="noopener" class="ios-btn" style="font-size:11px;padding:5px 10px">Buka link jawaban ↗</a></div>` : ''}
+        ${x.photoUrl ? `<div style="margin-top:8px"><a href="${esc(x.photoUrl)}" target="_blank" rel="noopener" class="ios-btn" style="font-size:11px;padding:5px 10px">Lihat foto tugas ↗</a></div>` : ''}
+      </article>`;
+    }).join('');
+  }, () => { q('submissionList').innerHTML = '<div class="empty">Gagal memuat pengumpulan.</div>'; });
 }
 
-onAuthStateChanged(auth,async user=>{
-  if(user){
-    uid=user.uid;
-    try{
-      const u=await(await import('https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js')).getDoc(doc(db,'users',uid));
-      if(u.exists()&&u.data().role==='guru'){
-        const d=u.data();
-        setupTeacher(d.nama||user.email,uid,d.mataPelajaran||d.subjects||defaultGuruSubjects);
-      }
-    }catch(e){console.warn("Auth state teacher:",e);}
+async function loadTeacherSubjects(teacherUid, teacherSubjects) {
+  try {
+    const uSnap = await getDoc(doc(db, 'users', teacherUid || 'guru-andi'));
+    if (uSnap.exists()) { const d = uSnap.data(); if (Array.isArray(d.mataPelajaran) && d.mataPelajaran.length) teacherSubjects = d.mataPelajaran; }
+  } catch (e) { console.warn(e); }
+  renderSubjects((teacherSubjects && teacherSubjects.length) ? teacherSubjects : defaultGuruSubjects);
+}
+
+const rawSession = sessionStorage.getItem("tkj3_session");
+if (rawSession) { try { const parsed = JSON.parse(rawSession); if (parsed.role === 'guru') loadTeacherSubjects(parsed.username || 'guru-andi', defaultGuruSubjects); } catch (e) { console.error(e); } }
+onAuthStateChanged(auth, async user => {
+  if (user) {
+    try { const u = await getDoc(doc(db, 'users', user.uid)); if (u.exists() && u.data().role === 'guru') { const d = u.data(); loadTeacherSubjects(user.uid, d.mataPelajaran || d.subjects || defaultGuruSubjects); } } catch (e) { console.warn(e); }
   }
 });
 
-const gm=q('logoModalGuru'),gmImg=q('logoModalGuruImg'),gmTitle=q('logoModalGuruTitle'),gmSub=q('logoModalGuruSub'),gmClose=q('logoModalGuruClose');
-function openGuruLogo(src,title,sub){gmImg.src=src;gmTitle.textContent=title;gmSub.textContent=sub;gm.style.display='flex';gm.setAttribute('aria-hidden','false')}
-function closeGuruLogo(){gm.style.display='none';gm.setAttribute('aria-hidden','true')}
-q('guruLogoKelas')?.addEventListener('click',()=>{
-  const isDark=document.documentElement.dataset.theme==='dark';
-  openGuruLogo(isDark?'assets/galeri/logo-kelas-dark.png':'assets/galeri/logo-kelas-light.png','Logo Kelas XII TKJ 3','Jurusan Teknik Komputer & Jaringan');
-});
-q('guruLogoSmk')?.addEventListener('click',()=>openGuruLogo('assets/galeri/logo-smk-transparent.png','Logo SMK NU Bandar','SMK Nahdlatul Ulama Bandar'));
-gmClose?.addEventListener('click',closeGuruLogo);
-gm?.addEventListener('click',e=>{if(e.target===gm)closeGuruLogo()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeGuruLogo()});
-</script><script>if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script><style id="guru-feature-nav-v65">.v65-guru-hidden{display:none!important}.v65-guru-nav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.v65-guru-nav .btn.active{outline:2px solid currentColor;outline-offset:2px}.v65-guru-section{margin-top:18px}@media(max-width:700px){.v65-guru-nav{overflow:auto;flex-wrap:nowrap}.v65-guru-nav .btn{white-space:nowrap}}</style><script>
-(()=>{const w=document.getElementById('workspace');if(!w)return;const card=w.querySelector('.card');if(!card)return;const grid=card.querySelector(':scope > .grid');const task=grid?.children[0],ann=grid?.children[1],mat=grid?.children[2];const hs=[...card.querySelectorAll(':scope > h3')];const attH=hs.find(x=>x.textContent.includes('Absensi'));const gradeH=hs.find(x=>x.textContent.includes('Nilai'));const subH=hs.find(x=>x.textContent.includes('Pengumpulan'));const hr=[...card.querySelectorAll(':scope > hr')];const attEls=attH?[attH,attH.nextElementSibling,attH.nextElementSibling?.nextElementSibling,attH.nextElementSibling?.nextElementSibling?.nextElementSibling].filter(Boolean):[];const gradeEls=gradeH?[gradeH,gradeH.nextElementSibling,gradeH.nextElementSibling?.nextElementSibling].filter(Boolean):[];const subEls=subH?[subH,subH.nextElementSibling,subH.nextElementSibling?.nextElementSibling].filter(Boolean):[];const groups={tugas:[task],pengumuman:[ann],materi:[mat],absensi:attEls,nilai:gradeEls,pengumpulan:subEls};const labels={tugas:'Tugas',pengumuman:'Pengumuman',materi:'Materi',absensi:'Absensi',nilai:'Nilai',pengumpulan:'Pengumpulan'};const els=[...new Set(Object.values(groups).flat().filter(Boolean))];els.forEach(e=>e.classList.add('v65-guru-section'));const nav=document.createElement('div');nav.className='v65-guru-nav';Object.entries(labels).forEach(([k,v])=>{const b=document.createElement('button');b.type='button';b.className='btn';b.textContent=v;b.dataset.k=k;nav.appendChild(b)});card.querySelector('h2')?.after(nav);function show(k){els.forEach(e=>e.classList.toggle('v65-guru-hidden',!groups[k]?.includes(e)));nav.querySelectorAll('[data-k]').forEach(b=>b.classList.toggle('active',b.dataset.k===k));}nav.addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(b)show(b.dataset.k)});show('tugas');})();
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
 </script>
-<script id="tkj3-mobile-helper">
-document.addEventListener("DOMContentLoaded",()=>{
-  if(window.innerWidth>700) return;
-  const nav=document.querySelector("nav,.navbar,.navigation,.top-nav");
-  if(!nav) return;
-  nav.classList.add("tkj3-mobile-nav");
-  const style=document.createElement("style");
-  style.textContent=`
-    @media(max-width:700px){
-      .tkj3-mobile-nav{display:flex!important;align-items:center!important;gap:7px!important;overflow-x:auto!important;white-space:nowrap!important;scrollbar-width:none!important;padding-top:8px!important;padding-bottom:8px!important}
-      .tkj3-mobile-nav::-webkit-scrollbar{display:none}
-      .tkj3-mobile-nav a,.tkj3-mobile-nav button{flex:0 0 auto!important;padding:9px 12px!important;border-radius:12px!important;font-size:13px!important}
-    }`;
-  document.head.appendChild(style);
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded',()=>{
- const card=document.querySelector('#workspace .card'); if(!card)return;
- const firstGrid=card.querySelector(':scope > .grid');
- const chunks=[]; if(firstGrid){
-   const cols=[...firstGrid.children]; cols.forEach((el,i)=>{el.dataset.featureGroup=['tugas','pengumuman','materi'][i]||''});
- }
- // Hide the three initial columns except selected feature.
- if(firstGrid) [...firstGrid.children].forEach(el=>el.style.display=(el.dataset.featureGroup==='pengumpulan'?'block':'none'));
- // The remaining areas are separated by HR elements.
- const children=[...card.children]; let groups=[], current=[];
- children.forEach(el=>{ if(el.tagName==='HR'){ if(current.length)groups.push(current); current=[]; } else if(el!==firstGrid) current.push(el); }); if(current.length)groups.push(current);
- const map={absensi:0,nilai:1,pengumpulan:2};
- if(['absensi','nilai','pengumpulan'].includes('pengumpulan')){
-   const idx=map['pengumpulan'];
-   groups.forEach((g,i)=>g.forEach(el=>el.style.display=(i===idx?'':'none')));
-   if(firstGrid) firstGrid.style.display='none';
- } else {
-   // Hide all post-grid sections on the three content pages.
-   groups.forEach(g=>g.forEach(el=>el.style.display='none'));
- }
-});
-</script></body></html>
+</body>
+</html>

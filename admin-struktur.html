@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#f2f5f9">
+<title>Struktur Kelas • Admin</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="assets/css/ios-core.css">
+<script src="auth-guard.js"></script>
+<style>
+.struct-edit-card{padding:18px;border-radius:22px}
+.struct-edit-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.struct-edit-avatar{width:42px;height:42px;border-radius:14px;background:var(--accent-gradient);color:#fff;font-weight:850;display:grid;place-items:center;flex:none}
+.struct-edit-role{font-weight:850;font-size:14px;color:var(--text-h)}
+</style>
+</head>
+<body>
+<div class="ios-bg" aria-hidden="true"><div class="mesh-orb orb-1"></div><div class="mesh-orb orb-2"></div></div>
+
+<header class="ios-navbar wrap ios-glass">
+  <a class="back-btn" href="admin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6"/></svg>Beranda</a>
+  <div class="nav-tools">
+    <div class="theme-segmented"><select data-theme-select aria-label="Mode Tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">Sistem</option></select></div>
+    <button class="ios-btn danger" data-logout type="button">Keluar</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" style="padding-top:8px">
+    <div class="ios-kicker"><span class="kicker-dot"></span><span>Kelas</span></div>
+    <h1 style="font-size:clamp(26px,5vw,38px)">Struktur Kelas</h1>
+    <p>Ganti nama setiap posisi langsung dari kartu di bawah, lalu simpan.</p>
+  </section>
+  <section class="section" style="padding-top:0">
+    <div id="structureEditor" class="structure-grid"></div>
+    <div class="ios-panel ios-glass" style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <button class="ios-btn primary" id="saveStructure" type="button">Simpan Struktur</button>
+      <span id="structureMessage" class="toast" style="margin:0"></span>
+    </div>
+  </section>
+</main>
+
+<footer class="page-footer">XII TKJ 3 • Admin</footer>
+
+<script src="assets/js/ios-core.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
+const db = getFirestore(initializeApp(firebaseConfig));
+const safe = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+
+const structureDefaults = [
+  { id: "wali", role: "Wali Kelas", name: "Andi Prasetyo, S.Kom.", urutan: 1 },
+  { id: "ketua", role: "Ketua Kelas", name: "Virnaji Rizky Ramadhan", urutan: 2 },
+  { id: "wakil", role: "Wakil Ketua", name: "Alvin", urutan: 3 },
+  { id: "sekretaris", role: "Sekretaris", name: "Anggun Khoiru Syifa", urutan: 4 },
+  { id: "bendahara", role: "Bendahara", name: "Suci Listiana", urutan: 5 }
+];
+let structureData = structureDefaults.map(x => ({ ...x }));
+
+async function loadStructure() {
+  try {
+    const snap = await getDocs(collection(db, "struktur"));
+    const existing = new Map(snap.docs.map(d => [d.id, { id: d.id, ...d.data() }]));
+    for (const x of structureDefaults) { if (!existing.has(x.id)) { await setDoc(doc(db, "struktur", x.id), x); existing.set(x.id, { ...x }); } }
+    structureData = structureDefaults.map(def => ({ ...def, ...(existing.get(def.id)||{}) })).sort((a,b) => (a.urutan||99)-(b.urutan||99));
+  } catch (e) { console.error(e); structureData = structureDefaults.map(x => ({ ...x })); }
+  renderStructureEditor();
+}
+function renderStructureEditor() {
+  const el = document.getElementById("structureEditor");
+  el.innerHTML = structureData.map(x => {
+    const initial = safe(String(x.name||x.role||"?").trim().charAt(0).toUpperCase());
+    return `<div class="struct-edit-card ios-glass">
+      <div class="struct-edit-top"><div class="struct-edit-avatar">${initial}</div><div><div class="struct-edit-role">${safe(x.role)}</div><div style="font-size:11.5px;color:var(--muted-dark);margin-top:2px">Pengurus kelas</div></div></div>
+      <label style="display:block;font-size:11px;font-weight:750;color:var(--muted-dark);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px" for="structure-${safe(x.id)}">Nama</label>
+      <input id="structure-${safe(x.id)}" class="form-input structure-name" data-id="${safe(x.id)}" value="${safe(x.name||"")}" placeholder="Masukkan nama orang">
+    </div>`;
+  }).join("");
+}
+loadStructure();
+
+document.getElementById("saveStructure").onclick = async () => {
+  const btn = document.getElementById("saveStructure"), msg = document.getElementById("structureMessage");
+  const inputs = [...document.querySelectorAll(".structure-name")];
+  btn.disabled = true; msg.textContent = "Menyimpan..."; msg.className = "toast";
+  try {
+    for (const input of inputs) { const x = structureData.find(v => v.id === input.dataset.id); if (x) { x.name = input.value.trim(); await setDoc(doc(db, "struktur", x.id), { role: x.role, name: x.name, urutan: x.urutan }); } }
+    msg.textContent = "Struktur tersimpan. Halaman siswa akan berubah otomatis.";
+  } catch (e) { console.error(e); msg.textContent = "Gagal menyimpan struktur. Periksa Firestore Rules."; msg.className = "toast err"; }
+  finally { btn.disabled = false; }
+};
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+</script>
+</body>
+</html>

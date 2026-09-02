@@ -4,6 +4,8 @@ service cloud.firestore {
     match /accounts/{document=**} { allow read, write: if true; }
     match /users/{document=**} { allow read, write: if true; }
     match /absensi/{document=**} { allow read, write: if true; }
+    match /absensi_pelajaran/{document=**} { allow read, write: if true; }
+    match /kehadiran_pelajaran/{document=**} { allow read, write: if true; }
     match /jadwal/{document=**} { allow read, write: if true; }
     match /siswa/{document=**} { allow read, write: if true; }
     match /struktur/{document=**} { allow read, write: if true; }

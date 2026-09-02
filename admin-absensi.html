@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#f2f5f9">
+<title>Data Absensi • Admin</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="assets/css/ios-core.css">
+<script src="auth-guard.js"></script>
+<style>
+.table-wrap{overflow:auto;border-radius:20px;border:1px solid var(--card-border-subtle)}
+.admin-table{width:100%;min-width:640px;border-collapse:collapse;background:transparent}
+.admin-table th,.admin-table td{padding:13px 14px;text-align:left;border-bottom:1px solid var(--card-border-subtle);font-size:13px}
+.admin-table th{background:rgba(5,150,105,.08);font-weight:800;color:var(--text-h)}
+.admin-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);z-index:500;background:var(--card);border:1px solid var(--card-border);border-radius:20px;padding:14px 20px;box-shadow:var(--shadow-ios-lg);backdrop-filter:blur(26px);transition:transform .35s var(--ease-spring);max-width:min(92vw,380px)}
+.admin-toast.show{transform:translate(-50%,0)}
+.admin-toast b{display:block;font-size:13px;margin-bottom:2px}
+.admin-toast small{color:var(--muted-dark);font-size:12px}
+</style>
+</head>
+<body>
+<div class="ios-bg" aria-hidden="true"><div class="mesh-orb orb-1"></div><div class="mesh-orb orb-2"></div></div>
+
+<header class="ios-navbar wrap ios-glass">
+  <a class="back-btn" href="admin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6"/></svg>Beranda</a>
+  <div class="nav-tools">
+    <div class="theme-segmented"><select data-theme-select aria-label="Mode Tampilan"><option value="light">Light</option><option value="dark">Dark</option><option value="system">Sistem</option></select></div>
+    <button class="ios-btn danger" data-logout type="button">Keluar</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" style="padding-top:8px">
+    <div class="ios-kicker"><span class="kicker-dot"></span><span>Kehadiran</span></div>
+    <h1 style="font-size:clamp(26px,5vw,38px)">Data Absensi Siswa</h1>
+    <p>Data diperbarui otomatis saat ada siswa yang absen.</p>
+    <div class="stats-grid">
+      <div class="stat-card ios-glass"><span class="stat-val" id="hadir">0</span><span class="stat-label">Hadir</span></div>
+      <div class="stat-card ios-glass"><span class="stat-val" id="izin">0</span><span class="stat-label">Izin</span></div>
+      <div class="stat-card ios-glass"><span class="stat-val" id="sakit">0</span><span class="stat-label">Sakit</span></div>
+      <div class="stat-card ios-glass"><span class="stat-val" id="libur">0</span><span class="stat-label">Libur</span></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="ios-panel ios-glass">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+        <strong style="font-size:15px" id="selectedDateText"></strong>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input class="form-input" type="date" id="filterDate" style="padding:9px 12px">
+          <button class="ios-btn" id="todayDate" type="button">Hari Ini</button>
+          <button class="ios-btn" id="refresh" type="button">↻ Refresh</button>
+        </div>
+      </div>
+      <div id="tableBox"><div class="empty">Memuat data absensi...</div></div>
+    </div>
+  </section>
+</main>
+
+<div id="adminToast" class="admin-toast" role="status"></div>
+<footer class="page-footer">XII TKJ 3 • Admin</footer>
+
+<script src="assets/js/ios-core.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import { getFirestore, collection, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
+const db = getFirestore(initializeApp(firebaseConfig));
+const safe = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+
+const filterDate = document.getElementById("filterDate");
+const box = document.getElementById("tableBox");
+const toast = document.getElementById("adminToast");
+
+function todayISO() { const d = new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+filterDate.value = todayISO();
+
+function updateDateLabel() {
+  const v = filterDate.value;
+  document.getElementById("selectedDateText").textContent = v ? (() => { const [y,m,d]=v.split("-"); return `${d}/${m}/${y}`; })() : "SEMUA TANGGAL";
+}
+updateDateLabel();
+
+function showToast(title, detail) {
+  toast.innerHTML = `<b>${safe(title)}</b><small>${safe(detail)}</small>`;
+  toast.classList.add("show");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => toast.classList.remove("show"), 5000);
+}
+
+let firstSnapshot = true;
+onSnapshot(collection(db, "absensi"), snap => {
+  const rows = [];
+  snap.forEach(d => rows.push({ id: d.id, ...d.data() }));
+  rows.sort((a, b) => new Date(`${b.tanggal||""}T${b.waktu||"00:00"}`).getTime() - new Date(`${a.tanggal||""}T${a.waktu||"00:00"}`).getTime());
+  window.__attendanceRows = rows;
+  renderAttendance(rows);
+  if (!firstSnapshot) {
+    const changes = snap.docChanges().filter(c => c.type === "added");
+    if (changes.length) {
+      const x = changes[0].doc.data();
+      showToast("Ada yang baru absen!", `${x.nama||"Siswa"} • ${x.status||"HADIR"} • ${x.tanggal||"Hari ini"} ${x.waktu||""}`);
+    }
+  }
+  firstSnapshot = false;
+}, err => { console.error(err); box.innerHTML = '<div class="empty">Gagal membaca Firestore. Pastikan Firestore Rules mengizinkan pembacaan data.</div>'; });
+
+function renderAttendance(allRows) {
+  const filter = filterDate.value;
+  const rows = allRows.filter(x => !filter || x.tanggal === filter);
+  let h=0,i=0,s=0,l=0;
+  rows.forEach(x => { if(x.status==="HADIR")h++; if(x.status==="IZIN")i++; if(x.status==="SAKIT")s++; if(x.status==="LIBUR")l++; });
+  document.getElementById("hadir").textContent=h; document.getElementById("izin").textContent=i;
+  document.getElementById("sakit").textContent=s; document.getElementById("libur").textContent=l;
+  updateDateLabel();
+  if (!rows.length) { box.innerHTML = '<div class="empty">Belum ada data absensi untuk tanggal ini.</div>'; return; }
+  box.innerHTML = '<div class="table-wrap"><table class="admin-table"><thead><tr><th>Nama</th><th>Status</th><th>Keterangan</th><th>Tanggal</th><th>Waktu</th><th>Aksi</th></tr></thead><tbody>' +
+    rows.map(x => `<tr><td><b>${safe(x.nama)}</b></td><td><span class="ios-pill ${x.status==='HADIR'?'':'blue'}">${safe(x.status)}</span></td><td>${safe(x.keterangan||"-")}</td><td>${safe(x.tanggal||"-")}</td><td>${safe(x.waktu||"-")}</td><td><button class="ios-btn danger" data-delete="${safe(x.id)}" type="button" style="padding:6px 10px;font-size:11px">Hapus</button></td></tr>`).join("") +
+    '</tbody></table></div>';
+  box.querySelectorAll("[data-delete]").forEach(btn => btn.addEventListener("click", () => removeAttendance(btn.dataset.delete)));
+}
+async function removeAttendance(id) {
+  const row = (window.__attendanceRows||[]).find(x => x.id === id);
+  if (!row) return;
+  if (!confirm(`Hapus data absensi ${row.nama||"siswa"} pada ${row.tanggal||"-"}?`)) return;
+  try { await deleteDoc(doc(db, "absensi", id)); showToast("Data dihapus", `${row.nama||"Siswa"} pada ${row.tanggal||"-"} berhasil dihapus.`); }
+  catch (e) { console.error(e); showToast("Gagal menghapus", "Periksa Firestore Rules untuk izin delete."); }
+}
+document.getElementById("refresh").onclick = () => renderAttendance(window.__attendanceRows||[]);
+filterDate.onchange = () => renderAttendance(window.__attendanceRows||[]);
+document.getElementById("todayDate").onclick = () => { filterDate.value = todayISO(); renderAttendance(window.__attendanceRows||[]); };
+
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+</script>
+</body>
+</html>
