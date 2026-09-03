@@ -2,6 +2,10 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<meta name="theme-color" content="#0b1220">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="XII TKJ 3">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
 <meta name="theme-color" content="#f2f5f9">
 <title>Tugas • Ruang Guru</title>
@@ -37,7 +41,7 @@
           <div class="field-group"><label>Deskripsi</label><textarea id="taskDesc" class="form-textarea"></textarea></div>
           <div class="two-col">
             <div class="field-group"><label>Deadline</label><input id="taskDeadline" type="datetime-local" class="form-input"></div>
-            <div class="field-group"><label>Foto / Lampiran Tugas</label><input id="taskPhoto" type="file" accept="image/*,.pdf" class="form-input"><small class="form-hint">Opsional. Foto/PDF akan tersimpan di Firebase Storage.</small></div>
+            <div class="field-group"><label>Foto / Lampiran Tugas</label><input id="taskPhoto" type="file" accept="image/*,.pdf" class="form-input"><small class="form-hint">Opsional. Foto/PDF akan tersimpan di Vercel Blob.</small></div>
             <div class="field-group"><label>Lampiran URL</label><input id="taskFile" class="form-input" placeholder="https://..."></div>
           </div>
           <button class="ios-btn primary" id="saveTask" type="button" style="padding:14px;justify-content:center">Terbitkan Tugas</button>
@@ -66,15 +70,23 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, where, orderBy, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-storage.js";
 
 const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app);
 const q = id => document.getElementById(id);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+
+async function uploadBlob(path, file, onProgress){
+  const mod = await import('https://cdn.jsdelivr.net/npm/@vercel/blob@2.6.1/+esm');
+  return mod.upload(path, file, {
+    access:'public',
+    handleUploadUrl:'/api/task-upload',
+    multipart:file.size > 4*1024*1024,
+    onUploadProgress:e=>onProgress && onProgress(Math.round(e.percentage || 0))
+  });
+}
 
 const SUBJ_KEY = 'tkj3_guru_subject';
 const defaultGuruSubjects = ["Administrasi Infrastruktur Jaringan","Administrasi Server","Teknologi Layanan Jaringan","Teknologi Jaringan Berbasis Luas (WAN)","Komputer dan Jaringan Dasar"];
@@ -149,15 +161,17 @@ q('saveTask').onclick = async () => {
     let attachmentName='';
     if(photo){
       const safe=(teacher||uid||'guru').replace(/[^a-z0-9_-]/gi,'_');
-      const path=`tugas/${safe}/${Date.now()}_${photo.name.replace(/[^a-z0-9._-]/gi,'_')}`;
-      const storageRef=ref(storage,path);
-      await uploadBytes(storageRef,photo,{contentType:photo.type});
-      attachmentUrl=await getDownloadURL(storageRef); attachmentName=photo.name;
+      const filename=photo.name.replace(/[^a-z0-9._-]/gi,'_');
+      const path=`tugas/${safe}/${Date.now()}_${filename}`;
+      const blob=await uploadBlob(path, photo, (pct)=>{
+        q('saveTask').textContent = `Mengunggah ${pct}%...`;
+      });
+      attachmentUrl=blob.url; attachmentName=photo.name;
     }
     await addDoc(collection(db, 'tugas'), { judul:title, deskripsi:desc, deadline, fileUrl, attachmentUrl, attachmentName, mapel:current, guruUid:uid, guru:teacher, createdAt:Date.now() });
     ['taskTitle','taskDesc','taskDeadline','taskFile','taskPhoto'].forEach(x => { if(q(x)) q(x).value=''; });
   } catch(e){ alert('Tugas gagal diterbitkan: '+(e.message||e)); }
-  finally { q('saveTask').disabled = false; }
+  finally { q('saveTask').disabled = false; q('saveTask').textContent = 'Terbitkan Tugas'; }
 };
 
 if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));

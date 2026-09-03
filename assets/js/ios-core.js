@@ -42,7 +42,9 @@
       }
       function shut(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); }
       document.querySelectorAll('[data-logo-view]').forEach(function(btn){
-        btn.addEventListener('click', function(){
+        btn.addEventListener('click', function(e){
+          e.preventDefault();
+          e.stopPropagation();
           var isDark = root.getAttribute('data-theme') === 'dark';
           var light = btn.dataset.light, dark = btn.dataset.dark;
           var src = (isDark && dark) ? dark : (light || dark);
@@ -53,6 +55,30 @@
       modal.addEventListener('click', function(e){ if (e.target === modal) shut(); });
       document.addEventListener('keydown', function(e){ if (e.key === 'Escape') shut(); });
     }
+
+    /* ---- Installable PWA ---- */
+    var deferredInstallPrompt = null;
+    window.addEventListener('beforeinstallprompt', function(e){
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      var navTools = document.querySelector('.nav-tools');
+      if(navTools && !document.getElementById('installAppBtn')){
+        var b=document.createElement('button');
+        b.id='installAppBtn'; b.type='button'; b.className='ios-btn'; b.textContent='Pasang Aplikasi';
+        b.title='Pasang XII TKJ 3 sebagai aplikasi';
+        b.addEventListener('click', async function(){
+          if(!deferredInstallPrompt) return;
+          deferredInstallPrompt.prompt();
+          try{ await deferredInstallPrompt.userChoice; }catch(_){}
+          deferredInstallPrompt=null; b.remove();
+        });
+        navTools.insertBefore(b, navTools.firstChild);
+      }
+    });
+    window.addEventListener('appinstalled', function(){
+      deferredInstallPrompt=null;
+      var b=document.getElementById('installAppBtn'); if(b) b.remove();
+    });
 
     /* ---- Highlight active mobile tab / nav ---- */
     var here = location.pathname.split('/').pop() || 'index.html';

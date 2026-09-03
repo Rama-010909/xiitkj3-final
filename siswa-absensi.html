@@ -1,7 +1,11 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta charset="utf-8"><meta name="theme-color" content="#0b1220">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="XII TKJ 3">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
 <meta name="theme-color" content="#f2f5f9"><title>Absensi • Ruang Siswa</title>
 <link rel="manifest" href="/manifest.webmanifest"><link rel="stylesheet" href="assets/css/ios-core.css"><script src="auth-guard.js"></script>
 <style>
@@ -16,19 +20,19 @@
 <section class="hero" style="padding-top:8px"><div class="ios-kicker"><span class="kicker-dot"></span><span>Kehadiran</span></div><h1 style="font-size:clamp(26px,5vw,38px)">Absensi</h1><p>Pilih jenis absensi yang ingin kamu lakukan.</p></section>
 <section class="section" style="padding-top:0">
 <div class="att-choice-grid">
-  <article class="att-choice morning ios-glass" id="morningCard"><div class="att-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg></div><h2>Absen Pagi</h2><p>Absensi kehadiran sebelum pembelajaran dimulai.</p><div class="att-info"><span id="morningStatus">Menunggu waktu</span><b>06.00 – 07.30 WIB</b></div><button id="openMorningForm" class="ios-btn primary att-action" type="button">Absen Pagi</button></article>
-  <article class="att-choice subject ios-glass" id="subjectCard"><div class="att-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z"/><path d="M4 5.5V19a3 3 0 0 1 3-3h13"/></svg></div><h2>Absensi Mapel</h2><p>Absensi hanya dibuka saat jam pelajaran sedang berlangsung.</p><div class="att-info"><span id="subjectStatus">Menunggu jadwal</span><b id="currentSubjectSmall">Belum tersedia</b></div><button id="openSubject" class="ios-btn primary att-action" type="button">Absen Mapel</button></article>
+  <article class="att-choice morning ios-glass" id="morningCard"><div class="att-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg></div><h2>Absensi Harian</h2><p>Absensi kehadiran harian siswa.</p><div class="att-info"><span id="morningStatus">Menunggu waktu</span><b>06.00 – 07.30 WIB</b></div><button id="openMorningForm" class="ios-btn primary att-action" type="button">Isi Absensi</button></article>
+  <article class="att-choice subject ios-glass" id="subjectCard"><div class="att-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z"/><path d="M4 5.5V19a3 3 0 0 1 3-3h13"/></svg></div><h2>Kehadiran Kelas</h2><p>Kehadiran mengikuti jadwal pelajaran yang sedang berlangsung.</p><div class="att-info"><span id="subjectStatus">Menunggu jadwal</span><b id="currentSubjectSmall">Belum tersedia</b></div><button id="openSubject" class="ios-btn primary att-action" type="button">Isi Kehadiran</button></article>
 </div>
 <div id="currentCard" class="current-card ios-glass"><div class="current-head"><span id="liveDot" class="live-dot"></span><span id="currentLabel">Jadwal sekarang</span></div><div class="current-main"><div><h3 id="currentSubject">Menyiapkan status</h3><p id="currentTeacher">Status akan mengikuti jadwal hari ini.</p></div><div class="current-time" id="currentTime">--:--</div></div><div class="closed-note" id="closedNote"></div></div>
 <div id="notify" class="toast notify-box" role="status"></div>
 <div id="morningFormWrap" class="hidden-form">
-  <h3 class="section-title">Form Absen Pagi</h3>
+  <h3 class="section-title">Form Absensi Harian</h3>
   <div class="ios-panel ios-glass">
     <div class="account-name-card"><span class="account-name-avatar"></span><span><small>Login sebagai</small><b id="absenNamaText">Siswa</b></span></div>
     <div class="form-grid" style="margin-top:14px">
       <div class="field-group"><label>Status Kehadiran</label><div class="status-radios"><label class="status-radio"><input type="radio" name="absenStatus" value="HADIR" checked><span class="status-btn">Hadir</span></label><label class="status-radio"><input type="radio" name="absenStatus" value="IZIN"><span class="status-btn">Izin</span></label><label class="status-radio"><input type="radio" name="absenStatus" value="SAKIT"><span class="status-btn">Sakit</span></label></div></div>
       <div class="field-group"><label for="absenKet">Keterangan (opsional)</label><input id="absenKet" class="form-input" placeholder="Contoh: Keperluan keluarga"></div>
-      <button id="submitAbsen" class="ios-btn primary" type="button" style="padding:14px;justify-content:center">Kirim Absen Pagi</button>
+      <button id="submitAbsen" class="ios-btn primary" type="button" style="padding:14px;justify-content:center">Kirim Absensi Harian</button>
       <div id="absenToast" class="toast"></div>
     </div>
   </div>
@@ -101,7 +105,7 @@ function refreshCurrent(){
   const morningOpen=minute>=360&&minute<450;
   q('morningStatus').textContent=morningOpen?'Absensi sedang dibuka':'Absensi sedang ditutup';
   q('openMorningForm').disabled=!morningOpen;
-  q('openMorningForm').textContent=morningOpen?'Absen Pagi':(minute<360?'Dibuka pukul 06.00':'Ditutup pukul 07.30');
+  q('openMorningForm').textContent=morningOpen?'Absensi Harian':(minute<360?'Dibuka pukul 06.00':'Ditutup pukul 07.30');
 }
 
 async function loadSchedule(){try{const snap=await getDocs(collection(db,'jadwal'));const day=dayNames[new Date().getDay()];scheduleEntries=[];snap.forEach(ds=>{const x=ds.data()||{};const d=String(x.hari||ds.id||'');if(d.toLowerCase()===day.toLowerCase()){scheduleEntries=Array.isArray(x.entries)?x.entries:(Array.isArray(x.jadwal)?x.jadwal:(x.mapel?[x]:[]))}});refreshCurrent()}catch(e){console.warn('Jadwal:',e);q('currentSubject').textContent='Jadwal belum tersedia';refreshCurrent()}}
@@ -109,7 +113,7 @@ function notify(msg,err=false){q('notify').textContent=msg;q('notify').className
 q('openMorningForm').onclick=()=>{q('morningFormWrap').classList.add('show');q('morningFormWrap').scrollIntoView({behavior:'smooth',block:'start'});if('Notification'in window&&Notification.permission==='default')Notification.requestPermission().catch(()=>{})};
 q('openSubject').onclick=()=>{if(currentLesson)location.href='siswa-absensi-mapel.html?mapel='+encodeURIComponent(currentLesson.mapel||currentLesson.mataPelajaran||'')};
 q('submitAbsen').onclick=async()=>{const now=new Date();const minute=now.getHours()*60+now.getMinutes();const toast=q('absenToast');if(minute<360||minute>=450){toast.textContent='Absen pagi hanya dibuka pukul 06.00–07.30 WIB.';toast.className='toast err';refreshCurrent();return}const status=document.querySelector('input[name="absenStatus"]:checked')?.value||'HADIR';const keterangan=q('absenKet').value.trim();const date=todayISO();q('submitAbsen').disabled=true;toast.textContent='Mengirim absensi...';toast.className='toast';try{const old=await getDocs(query(collection(db,'absensi'),where('tanggal','==',date),where('username','==',username)));if(!old.empty){toast.textContent='Kamu sudah melakukan absen pagi hari ini.';toast.className='toast err';q('submitAbsen').disabled=false;loadOwn();return}const waktu=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');await addDoc(collection(db,'absensi'),{nama:studentName,username,status,keterangan,tanggal:date,waktu,timestamp:Date.now(),jenis:'pagi'});toast.textContent='Absensi pagi berhasil dikirim.';toast.className='toast';notify('Absensi pagi berhasil dikirim.',false);q('absenKet').value='';loadOwn()}catch(e){console.error(e);toast.textContent='Gagal mengirim absensi: '+(e.message||e);toast.className='toast err'}finally{q('submitAbsen').disabled=false}};
-async function loadOwn(){try{const snap=await getDocs(query(collection(db,'absensi'),where('tanggal','==',todayISO()),where('username','==',username)));const rows=snap.docs.map(d=>d.data()).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));q('todayAbsenList').innerHTML=rows.length?rows.map(r=>`<div class="item-card" style="padding:12px 16px"><div style="display:flex;justify-content:space-between;gap:8px"><b>Absen Pagi</b><span class="ios-pill">${esc(r.status||'-')}</span></div><div class="item-meta" style="margin-top:4px">${esc(r.tanggal||'-')} • ${esc(r.waktu||'-')}${r.keterangan?' • '+esc(r.keterangan):''}</div></div>`).join(''):'<div class="empty">Kamu belum melakukan absen pagi hari ini.</div>'}catch(e){q('todayAbsenList').innerHTML='<div class="empty">Status absensi belum dapat dimuat.</div>'}}
+async function loadOwn(){try{const snap=await getDocs(query(collection(db,'absensi'),where('tanggal','==',todayISO()),where('username','==',username)));const rows=snap.docs.map(d=>d.data()).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));q('todayAbsenList').innerHTML=rows.length?rows.map(r=>`<div class="item-card" style="padding:12px 16px"><div style="display:flex;justify-content:space-between;gap:8px"><b>Absensi Harian</b><span class="ios-pill">${esc(r.status||'-')}</span></div><div class="item-meta" style="margin-top:4px">${esc(r.tanggal||'-')} • ${esc(r.waktu||'-')}${r.keterangan?' • '+esc(r.keterangan):''}</div></div>`).join(''):'<div class="empty">Kamu belum melakukan absensi hari ini.</div>'}catch(e){q('todayAbsenList').innerHTML='<div class="empty">Status absensi belum dapat dimuat.</div>'}}
 loadSchedule();setInterval(refreshCurrent,30000);loadOwn();
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
 </script>
