@@ -42,8 +42,12 @@
         <div class="ios-panel ios-glass">
           <form id="submissionForm" class="form-grid" onsubmit="return false;">
             <div class="field-group">
-              <label for="subMapel">Mata Pelajaran / Tugas</label>
-              <select id="subMapel" class="form-select" required><option value="">Pilih tugas / mata pelajaran...</option></select>
+              <label for="subSubject">Mata Pelajaran</label>
+              <select id="subSubject" class="form-select" required><option value="">Pilih mata pelajaran...</option></select>
+            </div>
+            <div class="field-group">
+              <label for="subMapel">Tugas</label>
+              <select id="subMapel" class="form-select" required><option value="">Pilih tugas...</option></select>
             </div>
             <div class="field-group">
               <label>Nama Siswa</label>
@@ -91,15 +95,71 @@ const db=getFirestore(initializeApp(firebaseConfig)),q=id=>document.getElementBy
 async function uploadBlob(path,file,onProgress){const mod=await import('https://cdn.jsdelivr.net/npm/@vercel/blob@2.6.1/+esm');return mod.upload(path,file,{access:'public',handleUploadUrl:'/api/task-upload',multipart:file.size>4*1024*1024,onUploadProgress:e=>onProgress&&onProgress(Math.round(e.percentage||0))})}
 const raw=sessionStorage.getItem('tkj3_session'),session=raw?JSON.parse(raw):{nama:'Siswa',username:'siswa'},studentName=session.nama||session.username||'Siswa';q('submissionStudentName').textContent=studentName;
 let activeTasks=[],mySubs=[];
-function renderTasks(){const taskList=q('taskList'),sel=q('subMapel');if(!activeTasks.length){taskList.innerHTML='<div class="empty">Belum ada tugas dari guru.</div>';sel.innerHTML='<option value="">Tidak ada tugas aktif</option>';return}taskList.innerHTML=activeTasks.map(t=>`<article class="item-card"><div style="display:flex;justify-content:space-between;align-items:center"><span class="ios-pill blue">${esc(t.mapel||'Tugas')}</span><small>${t.createdAt?new Date(t.createdAt).toLocaleDateString('id-ID'):''}</small></div><h3 style="margin-top:8px">${esc(t.judul)}</h3><p style="color:var(--muted-dark);font-size:13.5px;margin:0 0 10px">${esc(t.deskripsi||'-')}</p><div class="item-meta">Deadline: <b>${esc(t.deadline?new Date(t.deadline).toLocaleString('id-ID'):'Tidak ditentukan')}</b>${t.guru?`<span>• Guru: ${esc(t.guru)}</span>`:''}</div>${t.fileUrl?`<p style="margin:8px 0 0"><a href="${esc(t.fileUrl)}" target="_blank" class="ios-btn">Buka lampiran</a></p>`:''}${t.attachmentUrl?`<p style="margin:8px 0 0"><a href="${esc(t.attachmentUrl)}" target="_blank" class="ios-btn">Buka ${esc(t.attachmentName||'lampiran')}</a></p>`:''}</article>`).join('');sel.innerHTML='<option value="">Pilih tugas...</option>'+activeTasks.map(t=>`<option value="${esc(t.id)}">${esc(t.mapel)} — ${esc(t.judul)}</option>`).join('');const selected=sel.value||activeTasks[0]?.id;if(selected){sel.value=selected;loadExisting(selected)}}
-function loadExisting(taskId){const sub=mySubs.find(x=>x.taskId===taskId);q('subJawaban').value=sub?.jawaban||'';q('subLink').value=sub?.link||'';q('photoPreview').style.display='none';q('deleteSubmissionBtn').style.display=sub?'inline-flex':'none';q('submitTaskBtn').textContent=sub?'Simpan Perubahan':'Kirim Pengumpulan Tugas';q('subToast').textContent=sub?'Pengumpulan sebelumnya dimuat.':'';}
-onSnapshot(collection(db,'tugas'),snap=>{activeTasks=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));renderTasks()},err=>q('taskList').innerHTML='<div class="empty">Gagal memuat tugas: '+esc(err?.message||err)+'</div>');
+let selectedSubject='';
+function subjectOptions(){return [...new Set(activeTasks.map(t=>String(t.mapel||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'id'));}
+function renderTaskCards(){const taskList=q('taskList');if(!activeTasks.length){taskList.innerHTML='<div class="empty">Belum ada tugas dari guru. Jika guru baru saja menerbitkan tugas, tunggu beberapa detik lalu muat ulang halaman.</div>';return}const shown=selectedSubject?activeTasks.filter(t=>String(t.mapel||'').trim()===selectedSubject):activeTasks;taskList.innerHTML=shown.length?shown.map(t=>`<article class="item-card"><div style="display:flex;justify-content:space-between;align-items:center"><span class="ios-pill blue">${esc(t.mapel||'Tugas')}</span><small>${t.createdAt?new Date(t.createdAt).toLocaleDateString('id-ID'):''}</small></div><h3 style="margin-top:8px">${esc(t.judul||'Tugas')}</h3><p style="color:var(--muted-dark);font-size:13.5px;margin:0 0 10px">${esc(t.deskripsi||'-')}</p><div class="item-meta">Deadline: <b>${esc(t.deadline?new Date(t.deadline).toLocaleString('id-ID'):'Tidak ditentukan')}</b>${t.guru?`<span>• Guru: ${esc(t.guru)}</span>`:''}</div>${t.fileUrl?`<p style="margin:8px 0 0"><a href="${esc(t.fileUrl)}" target="_blank" class="ios-btn">Buka lampiran</a></p>`:''}${t.attachmentUrl?`<p style="margin:8px 0 0"><a href="${esc(t.attachmentUrl)}" target="_blank" class="ios-btn">Buka ${esc(t.attachmentName||'lampiran')}</a></p>`:''}</article>`).join(''):'<div class="empty">Belum ada tugas untuk mata pelajaran ini.</div>';}
+function renderSelectors(){const subj=q('subSubject'),taskSel=q('subMapel');const subjects=subjectOptions();if(!subjects.length){subj.innerHTML='<option value="">Belum ada mata pelajaran</option>';taskSel.innerHTML='<option value="">Belum ada tugas</option>';q('subJawaban').value='';q('subLink').value='';q('deleteSubmissionBtn').style.display='none';return}if(!selectedSubject||!subjects.includes(selectedSubject))selectedSubject=subjects[0];subj.innerHTML='<option value="">Pilih mata pelajaran...</option>'+subjects.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');subj.value=selectedSubject;const tasks=activeTasks.filter(t=>String(t.mapel||'').trim()===selectedSubject);const old=taskSel.value;taskSel.innerHTML='<option value="">Pilih tugas...</option>'+tasks.map(t=>`<option value="${esc(t.id)}">${esc(t.judul||'Tugas')}</option>`).join('');if(tasks.some(t=>t.id===old))taskSel.value=old;else if(tasks[0])taskSel.value=tasks[0].id;loadExisting(taskSel.value||'');renderTaskCards();}
+function loadExisting(taskId){const sub=mySubs.find(x=>x.taskId===taskId);q('subJawaban').value=sub?.jawaban||'';q('subLink').value=sub?.link||'';q('photoPreview').style.display='none';q('deleteSubmissionBtn').style.display=sub?'inline-flex':'none';q('submitTaskBtn').textContent=sub?'Simpan Perubahan':'Kirim Pengumpulan Tugas';q('subToast').textContent=sub?'Pengumpulan sebelumnya dimuat.':'';q('subToast').className='toast';}
+onSnapshot(collection(db,'tugas'),snap=>{activeTasks=snap.docs.map(d=>({id:d.id,...d.data()})).filter(t=>t.mapel||t.judul).sort((a,b)=>Number(b.createdAt||b.updatedAt||0)-Number(a.createdAt||a.updatedAt||0));renderSelectors()},err=>{q('taskList').innerHTML='<div class="empty">Gagal menerima tugas dari guru: '+esc(err?.message||err)+'</div>';q('subToast').textContent='Gagal memuat daftar tugas: '+(err?.message||err);q('subToast').className='toast err'});
 const studentKey=session.username||studentName;
-onSnapshot(query(collection(db,'pengumpulan_tugas'),where('username','==',studentKey)),snap=>{mySubs=snap.docs.map(d=>({id:d.id,...d.data()}));if(q('subMapel').value)loadExisting(q('subMapel').value)},err=>console.warn(err));
+onSnapshot(query(collection(db,'pengumpulan_tugas'),where('username','==',studentKey)),snap=>{mySubs=snap.docs.map(d=>({id:d.id,...d.data()}));loadExisting(q('subMapel').value||'')},err=>{q('subToast').textContent='Gagal memuat pengumpulan: '+(err?.message||err);q('subToast').className='toast err'});
+q('subSubject').onchange=()=>{selectedSubject=q('subSubject').value;renderSelectors()};
 q('subMapel').onchange=()=>loadExisting(q('subMapel').value);
-q('submitTaskBtn').onclick=async()=>{const taskId=q('subMapel').value,task=activeTasks.find(t=>t.id===taskId);if(!task){q('subToast').textContent='Pilih tugas terlebih dahulu.';q('subToast').className='toast err';return}const jawaban=q('subJawaban').value.trim(),link=q('subLink').value.trim(),photo=q('subPhoto')?.files?.[0]||null;if(!jawaban&&!link&&!photo){q('subToast').textContent='Isi jawaban, link, atau kirim foto tugas.';q('subToast').className='toast err';return}if(photo&&photo.size>5*1024*1024){q('subToast').textContent='Foto maksimal 5 MB.';q('subToast').className='toast err';return}q('submitTaskBtn').disabled=true;try{let photoUrl='',photoType='',photoName='';if(photo){const safe=studentName.replace(/[^a-z0-9_-]/gi,'_'),filename=photo.name.replace(/[^a-z0-9._-]/gi,'_');const blob=await uploadBlob(`pengumpulan_tugas/${safe}/${Date.now()}_${filename}`,photo,pct=>q('submitTaskBtn').textContent=`Mengunggah ${pct}%...`);photoUrl=blob.url;photoType=photo.type;photoName=photo.name}const existing=mySubs.find(x=>x.taskId===taskId);const data={taskId,judulTugas:task.judul,mapel:task.mapel,siswa:studentName,username:studentKey,jawaban,link,photoUrl:photoUrl||(existing?.photoUrl||''),photoType:photoType||(existing?.photoType||''),photoName:photoName||(existing?.photoName||''),updatedAt:Date.now()};if(existing)await updateDoc(doc(db,'pengumpulan_tugas',existing.id),data);else await addDoc(collection(db,'pengumpulan_tugas'),data);q('subToast').textContent=existing?'Pengumpulan berhasil diperbarui.':'Tugas berhasil dikumpulkan.';q('subToast').className='toast';q('subPhoto').value='';loadExisting(taskId)}catch(e){q('subToast').textContent='Gagal mengirim tugas: '+(e.message||e);q('subToast').className='toast err')}finally{q('submitTaskBtn').disabled=false;}};
-q('deleteSubmissionBtn').onclick=async()=>{const taskId=q('subMapel').value,sub=mySubs.find(x=>x.taskId===taskId);if(!sub)return;if(confirm('Hapus pengumpulan tugas ini?'))try{await deleteDoc(doc(db,'pengumpulan_tugas',sub.id));q('subToast').textContent='Pengumpulan berhasil dihapus.';q('subToast').className='toast';loadExisting(taskId)}catch(e){q('subToast').textContent='Gagal menghapus: '+(e.message||e);q('subToast').className='toast err'}};
-q('subPhoto')?.addEventListener('change',()=>{const f=q('subPhoto').files?.[0];if(!f){q('photoPreview').style.display='none';return}const url=URL.createObjectURL(f);q('photoPreviewImg').src=url;q('photoPreview').style.display='block'});
+q('submitTaskBtn').onclick=async()=>{
+  const taskId=q('subMapel').value;
+  const task=activeTasks.find(t=>t.id===taskId);
+  if(!task){q('subToast').textContent='Pilih mata pelajaran dan tugas terlebih dahulu.';q('subToast').className='toast err';return}
+  const jawaban=q('subJawaban').value.trim();
+  const link=q('subLink').value.trim();
+  const photo=q('subPhoto')?.files?.[0]||null;
+  if(!jawaban&&!link&&!photo){q('subToast').textContent='Isi jawaban, link, atau kirim foto tugas.';q('subToast').className='toast err';return}
+  if(photo&&photo.size>5*1024*1024){q('subToast').textContent='Foto maksimal 5 MB.';q('subToast').className='toast err';return}
+  q('submitTaskBtn').disabled=true;
+  try{
+    let photoUrl='',photoType='',photoName='';
+    if(photo){
+      const safe=studentName.replace(/[^a-z0-9_-]/gi,'_');
+      const filename=photo.name.replace(/[^a-z0-9._-]/gi,'_');
+      const blob=await uploadBlob(`pengumpulan_tugas/${safe}/${Date.now()}_${filename}`,photo,pct=>q('submitTaskBtn').textContent=`Mengunggah ${pct}%...`);
+      photoUrl=blob.url;photoType=photo.type;photoName=photo.name;
+    }
+    const existing=mySubs.find(x=>x.taskId===taskId);
+    const data={taskId,judulTugas:task.judul,mapel:task.mapel,siswa:studentName,username:studentKey,jawaban,link,photoUrl:photoUrl||(existing?.photoUrl||''),photoType:photoType||(existing?.photoType||''),photoName:photoName||(existing?.photoName||''),updatedAt:Date.now()};
+    if(existing) await updateDoc(doc(db,'pengumpulan_tugas',existing.id),data);
+    else await addDoc(collection(db,'pengumpulan_tugas'),data);
+    q('subToast').textContent=existing?'Pengumpulan berhasil diperbarui.':'Tugas berhasil dikumpulkan.';
+    q('subToast').className='toast';
+    q('subPhoto').value='';
+    loadExisting(taskId);
+  }catch(e){
+    q('subToast').textContent='Gagal mengirim tugas: '+(e.message||e);
+    q('subToast').className='toast err';
+  }finally{
+    q('submitTaskBtn').disabled=false;
+  }
+};
+q('deleteSubmissionBtn').onclick=async()=>{
+  const taskId=q('subMapel').value;
+  const sub=mySubs.find(x=>x.taskId===taskId);
+  if(!sub){loadExisting(taskId);return}
+  if(!confirm(`Hapus pengumpulan tugas ${sub.judulTugas||''}?`))return;
+  q('deleteSubmissionBtn').disabled=true;
+  try{
+    await deleteDoc(doc(db,'pengumpulan_tugas',sub.id));
+    q('subToast').textContent='Pengumpulan tugas berhasil dihapus.';
+    q('subToast').className='toast';
+    q('subJawaban').value='';
+    q('subLink').value='';
+    q('subPhoto').value='';
+    q('deleteSubmissionBtn').style.display='none';
+    q('submitTaskBtn').textContent='Kirim Pengumpulan Tugas';
+  }catch(e){
+    q('subToast').textContent='Gagal menghapus pengumpulan: '+(e.message||e);
+    q('subToast').className='toast err';
+  }finally{
+    q('deleteSubmissionBtn').disabled=false;
+  }
+};
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
 </script>
 </body>
