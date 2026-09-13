@@ -51,7 +51,7 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
-import { getFirestore, collection, onSnapshot, query, where, orderBy, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import { getFirestore, collection, onSnapshot, query, where, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
 const app = initializeApp(firebaseConfig);
@@ -81,8 +81,8 @@ function loadSub() {
   if (unsub) unsub();
   if (!current) return;
   q('submissionList').innerHTML = '<div class="empty">Memuat...</div>';
-  unsub = onSnapshot(query(collection(db, 'pengumpulan_tugas'), where('mapel', '==', current), orderBy('updatedAt', 'desc')), snap => {
-    q('submissionList').innerHTML = snap.empty ? '<div class="empty">Belum ada pengumpulan.</div>' : snap.docs.map(d => {
+  unsub = onSnapshot(query(collection(db, 'pengumpulan_tugas'), where('mapel', '==', current)), snap => {
+    q('submissionList').innerHTML = snap.empty ? '<div class="empty">Belum ada pengumpulan.</div>' : [...snap.docs].sort((a,b) => Number(b.data().updatedAt||0) - Number(a.data().updatedAt||0)).map(d => {
       const x = d.data();
       return `<article class="item-card">
         <b>${esc(x.siswa || 'Siswa')}</b>

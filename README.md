@@ -14,3 +14,14 @@ Versi v94: PWA installable untuk HP/desktop, perbaikan klik logo, dan upload tug
 
 
 Versi v96: layanan halaman awal diperbarui menjadi Login Akun, Absensi Harian, dan Pengumuman. Nama Absen Pagi diubah menjadi Absensi Harian tanpa mengubah jadwal buka 06.00–07.30 WIB.
+
+
+## Penting: Firestore rules untuk Tugas
+Fitur Tugas menggunakan collection `tugas` dan `pengumpulan_tugas`. Pastikan rules Firestore di project Firebase `absensi-xii-tkj3` sudah mencakup kedua collection tersebut. Deploy website ke Vercel tidak otomatis menerapkan `firestore.rules` ke Firebase. Jika muncul `Missing or insufficient permissions`, buka Firebase Console → Firestore Database → Rules, tambahkan:
+
+```text
+match /tugas/{document=**} { allow read, write: if true; }
+match /pengumpulan_tugas/{document=**} { allow read, write: if true; }
+```
+
+Lalu klik Publish. Setelah itu tes kembali guru menerbitkan tugas.
