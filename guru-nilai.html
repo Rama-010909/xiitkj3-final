@@ -38,6 +38,7 @@
         <h3 style="margin:0 0 12px;font-size:16px;font-weight:800">Nilai Baru</h3>
         <div class="form-grid">
           <div class="field-group"><label>Nama siswa</label><select id="gradeStudent" class="form-select"></select></div>
+          <div class="field-group"><label>Tugas / Materi yang dinilai</label><select id="gradeSource" class="form-select"><option value="">Pilih tugas atau materi...</option></select></div>
           <div class="two-col">
             <div class="field-group"><label>Nilai</label><input id="gradeValue" type="number" min="0" max="100" class="form-input"></div>
             <div class="field-group"><label>Judul penilaian</label><input id="gradeTitle" class="form-input" placeholder="Tugas 1"></div>
@@ -65,76 +66,14 @@
 
 <script src="assets/js/ios-core.js"></script>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, where, orderBy, doc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";import {getFirestore,collection,addDoc,onSnapshot,query,where,doc,getDoc,getDocs,deleteDoc,updateDoc} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const q = id => document.getElementById(id);
-const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-
-const SUBJ_KEY = 'tkj3_guru_subject';
-const defaultGuruSubjects = ["Administrasi Infrastruktur Jaringan","Administrasi Server","Teknologi Layanan Jaringan","Teknologi Jaringan Berbasis Luas (WAN)","Komputer dan Jaringan Dasar"];
-let uid = '', teacher = '', current = '', unsub = null;
-
-async function loadStudents() {
-  const snap = await getDocs(collection(db, 'siswa'));
-  q('gradeStudent').innerHTML = '<option value="">Pilih siswa...</option>' + snap.docs.map(d => `<option>${esc(d.data().nama)}</option>`).join('');
-}
-
-function renderSubjects(subjects) {
-  const stored = localStorage.getItem(SUBJ_KEY);
-  current = (stored && subjects.includes(stored)) ? stored : subjects[0];
-  q('subjects').innerHTML = subjects.map(s => `<button type="button" class="subject-chip ${s===current?'active':''}" data-sub="${esc(s)}">${esc(s)}</button>`).join('');
-  q('subjects').querySelectorAll('[data-sub]').forEach(b => b.onclick = () => {
-    current = b.dataset.sub; localStorage.setItem(SUBJ_KEY, current);
-    q('subjects').querySelectorAll('.subject-chip').forEach(c => c.classList.toggle('active', c === b));
-    loadGrades();
-  });
-  if (current) localStorage.setItem(SUBJ_KEY, current);
-  loadGrades();
-}
-
-function loadGrades() {
-  if (unsub) unsub();
-  if (!current) return;
-  q('gradeList').innerHTML = '<div class="empty">Memuat...</div>';
-  unsub = onSnapshot(query(collection(db, 'nilai'), where('mapel', '==', current), orderBy('createdAt', 'desc')), snap => {
-    q('gradeList').innerHTML = snap.empty ? '<div class="empty">Belum ada nilai.</div>' : snap.docs.map(d => {
-      const x = d.data();
-      return `<article class="item-card"><div style="display:flex;justify-content:space-between;align-items:center"><b>${esc(x.nama)}</b><strong style="color:var(--accent);font-size:18px">${esc(x.nilai)}</strong></div><small style="color:var(--muted-dark)">${esc(x.judul)}</small></article>`;
-    }).join('');
-  });
-}
-
-async function loadTeacherSubjects(teacherUid, teacherSubjects) {
-  try {
-    const uSnap = await getDoc(doc(db, 'users', teacherUid || 'guru-andi'));
-    if (uSnap.exists()) { const d = uSnap.data(); if (d.nama) teacher = d.nama; if (Array.isArray(d.mataPelajaran) && d.mataPelajaran.length) teacherSubjects = d.mataPelajaran; }
-  } catch (e) { console.warn(e); }
-  renderSubjects((teacherSubjects && teacherSubjects.length) ? teacherSubjects : defaultGuruSubjects);
-}
-
-const rawSession = sessionStorage.getItem("tkj3_session");
-if (rawSession) { try { const parsed = JSON.parse(rawSession); if (parsed.role === 'guru') { uid = parsed.username || 'guru-andi'; teacher = parsed.nama || parsed.username || 'Guru'; loadTeacherSubjects(uid, defaultGuruSubjects); } } catch (e) { console.error(e); } }
-onAuthStateChanged(auth, async user => {
-  if (user) { uid = user.uid;
-    try { const u = await getDoc(doc(db, 'users', uid)); if (u.exists() && u.data().role === 'guru') { const d = u.data(); teacher = d.nama || user.email; loadTeacherSubjects(uid, d.mataPelajaran || d.subjects || defaultGuruSubjects); } } catch (e) { console.warn(e); }
-  }
-});
-loadStudents();
-
-q('saveGrade').onclick = async () => {
-  const nama = q('gradeStudent').value;
-  if (!nama || !q('gradeValue').value || !current) return;
-  await addDoc(collection(db, 'nilai'), { nama, nilai: Number(q('gradeValue').value), judul: q('gradeTitle').value.trim() || 'Penilaian', mapel: current, guruUid: uid, createdAt: Date.now() });
-  q('gradeValue').value = ''; q('gradeTitle').value = '';
-};
-
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),q=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));const KEY='tkj3_guru_subject',defs=["Administrasi Infrastruktur Jaringan","Administrasi Server","Teknologi Layanan Jaringan","Teknologi Jaringan Berbasis Luas (WAN)","Komputer dan Jaringan Dasar"];let uid='',teacher='',current='',unsub=null,editing='';
+async function loadStudents(){const s=await getDocs(collection(db,'siswa'));q('gradeStudent').innerHTML='<option value="">Pilih siswa...</option>'+s.docs.map(d=>`<option value="${esc(d.data().nama)}">${esc(d.data().nama)}</option>`).join('')}
+async function loadSources(){if(!current)return;const [ts,ms]=await Promise.all([getDocs(query(collection(db,'tugas'),where('mapel','==',current))),getDocs(query(collection(db,'materi'),where('mapel','==',current)))]);const arr=[...ts.docs.map(d=>({id:d.id,type:'Tugas',title:d.data().judul})),...ms.docs.map(d=>({id:d.id,type:'Materi',title:d.data().judul}))];q('gradeSource').innerHTML='<option value="">Pilih tugas atau materi...</option>'+arr.map(x=>`<option value="${esc(x.type+'|'+x.id)}">${esc(x.type)} — ${esc(x.title)}</option>`).join('');}
+function subs(a){const st=localStorage.getItem(KEY);current=st&&a.includes(st)?st:a[0];q('subjects').innerHTML=a.map(s=>`<button type="button" class="subject-chip ${s===current?'active':''}" data-sub="${esc(s)}">${esc(s)}</button>`).join('');q('subjects').querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>{current=b.dataset.sub;loadSources();loadGrades()});loadSources();loadGrades()}
+function loadGrades(){if(unsub)unsub();q('gradeList').innerHTML='<div class="empty">Memuat...</div>';unsub=onSnapshot(query(collection(db,'nilai'),where('mapel','==',current)),snap=>{const ds=[...snap.docs].sort((a,b)=>Number(b.data().createdAt||0)-Number(a.data().createdAt||0));q('gradeList').innerHTML=snap.empty?'<div class="empty">Belum ada nilai.</div>':ds.map(d=>{const x=d.data();return `<article class="item-card"><div style="display:flex;justify-content:space-between"><b>${esc(x.nama)}</b><strong style="color:var(--accent);font-size:18px">${esc(x.nilai)}</strong></div><small>${esc(x.judul||'Penilaian')} • ${esc(x.referensiTipe||'')} </small><div style="margin-top:10px;display:flex;gap:8px"><button class="ios-btn" data-edit="${d.id}">Edit</button><button class="ios-btn danger" data-del="${d.id}">Hapus</button></div></article>`}).join('');q('gradeList').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const d=snap.docs.find(z=>z.id===b.dataset.edit),x=d.data();editing=d.id;q('gradeStudent').value=x.nama||'';q('gradeValue').value=x.nilai??'';q('gradeTitle').value=x.judul||'';q('gradeSource').value=x.referensiTipe&&x.referensiId?x.referensiTipe+'|'+x.referensiId:'';q('saveGrade').textContent='Simpan Perubahan';window.scrollTo({top:0,behavior:'smooth'})});q('gradeList').querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus nilai ini?'))await deleteDoc(doc(db,'nilai',b.dataset.del))})})}
+async function init(id,a){try{const u=await getDoc(doc(db,'users',id||'guru-andi'));if(u.exists()){const d=u.data();teacher=d.nama||teacher;if(Array.isArray(d.mataPelajaran)&&d.mataPelajaran.length)a=d.mataPelajaran}}catch(e){}subs(a?.length?a:defs)}try{const p=JSON.parse(sessionStorage.getItem('tkj3_session')||'null');if(p?.role==='guru'){uid=p.username||'guru-andi';teacher=p.nama||uid;init(uid,defs)}}catch(e){}onAuthStateChanged(auth,async u=>{if(u){uid=u.uid;try{const s=await getDoc(doc(db,'users',uid));if(s.exists()&&s.data().role==='guru'){const d=s.data();teacher=d.nama||u.email;init(uid,d.mataPelajaran||d.subjects||defs)}}catch(e){}}});loadStudents();q('saveGrade').onclick=async()=>{const nama=q('gradeStudent').value,nilai=q('gradeValue').value,source=q('gradeSource').value;if(!nama||nilai===''||!current){alert('Lengkapi siswa, nilai, dan tugas/materi.');return}const [referensiTipe,referensiId]=source?source.split('|'):['',''];const opt=q('gradeSource').selectedOptions[0];const judul=q('gradeTitle').value.trim()||opt?.textContent?.replace(/^Tugas — |^Materi — /,'')||'Penilaian';try{const data={nama,nilai:Number(nilai),judul,mapel:current,guruUid:uid,referensiTipe,referensiId,updatedAt:Date.now()};if(editing){await updateDoc(doc(db,'nilai',editing),data);alert('Nilai berhasil diperbarui.');editing='';q('saveGrade').textContent='Simpan Nilai'}else{await addDoc(collection(db,'nilai'),{...data,createdAt:Date.now()});alert('Nilai berhasil disimpan.')}q('gradeValue').value='';q('gradeTitle').value='';q('gradeSource').value=''}catch(e){alert('Nilai gagal disimpan: '+(e.message||e))}};
 </script>
 </body>
 </html>

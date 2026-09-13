@@ -63,7 +63,7 @@
               <small style="display:block;color:var(--muted-dark);margin-top:6px">JPG, PNG, atau WebP • maksimal 5 MB</small>
               <div id="photoPreview" style="display:none;margin-top:10px"><img id="photoPreviewImg" alt="Pratinjau foto tugas" style="width:100%;max-height:220px;object-fit:contain;border-radius:16px;background:var(--input-bg)"></div>
             </div>
-            <button id="submitTaskBtn" class="ios-btn primary" type="submit" style="padding:14px;justify-content:center;font-size:14px">Kirim Pengumpulan Tugas</button>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><button id="submitTaskBtn" class="ios-btn primary" type="submit" style="padding:14px;justify-content:center;font-size:14px">Kirim Pengumpulan Tugas</button><button id="deleteSubmissionBtn" class="ios-btn danger" type="button" style="display:none">Hapus Pengumpulan</button></div>
             <div id="subToast" class="toast"></div>
           </form>
         </div>
@@ -85,102 +85,22 @@
 <script src="assets/js/ios-core.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",
-  authDomain: "absensi-xii-tkj3.firebaseapp.com",
-  projectId: "absensi-xii-tkj3",
-  storageBucket: "absensi-xii-tkj3.firebasestorage.app",
-  messagingSenderId: "219267949077",
-  appId: "1:219267949077:web:8cf7d62f31ae1987a6641c"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const q = id => document.getElementById(id);
-const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-
-async function uploadBlob(path, file, onProgress){
-  const mod = await import('https://cdn.jsdelivr.net/npm/@vercel/blob@2.6.1/+esm');
-  return mod.upload(path, file, {
-    access:'public',
-    handleUploadUrl:'/api/task-upload',
-    multipart:file.size > 4*1024*1024,
-    onUploadProgress:e=>onProgress && onProgress(Math.round(e.percentage || 0))
-  });
-}
-
-const rawSession = sessionStorage.getItem("tkj3_session");
-const userSession = rawSession ? JSON.parse(rawSession) : { nama: "Siswa", username: "siswa" };
-const session = userSession;
-const studentName = userSession.nama || userSession.username || "Siswa";
-q('submissionStudentName').textContent = studentName;
-
-let activeTasks = [];
-onSnapshot(query(collection(db, "tugas")), snap => {
-  activeTasks = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => Number(b.createdAt||0) - Number(a.createdAt||0));
-  const taskList = q('taskList'), subMapel = q('subMapel');
-  if (!activeTasks.length) { taskList.innerHTML = '<div class="empty">Belum ada tugas dari guru.</div>'; subMapel.innerHTML = '<option value="">Tidak ada tugas aktif</option>'; return; }
-  taskList.innerHTML = activeTasks.map(t => `
-    <article class="item-card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <span class="ios-pill blue">${esc(t.mapel || 'Tugas')}</span>
-        <small style="color:var(--muted-dark)">${t.createdAt ? new Date(t.createdAt).toLocaleDateString('id-ID') : ''}</small>
-      </div>
-      <h3 style="margin-top:8px">${esc(t.judul)}</h3>
-      <p style="color:var(--muted-dark);font-size:13.5px;margin:0 0 10px;line-height:1.5">${esc(t.deskripsi || '-')}</p>
-      <div class="item-meta">
-        <span>Deadline: <b>${esc(t.deadline ? new Date(t.deadline).toLocaleString('id-ID') : 'Tidak ditentukan')}</b></span>
-        ${t.guru ? `<span>• Guru: ${esc(t.guru)}</span>` : ''}
-        ${t.fileUrl ? `<a href="${esc(t.fileUrl)}" target="_blank" rel="noopener" class="ios-btn" style="padding:4px 10px;font-size:11px;margin-left:auto">Unduh Lampiran</a>` : ''}${t.attachmentUrl ? `<a href="${esc(t.attachmentUrl)}" target="_blank" rel="noopener" class="ios-btn" style="padding:4px 10px;font-size:11px">${t.attachmentName?'Buka '+esc(t.attachmentName):'Buka Lampiran'}</a>` : ''}
-      </div>
-    </article>
-  `).join('');
-  subMapel.innerHTML = '<option value="">Pilih tugas...</option>' + activeTasks.map(t => `<option value="${esc(t.id)}">${esc(t.mapel)}: ${esc(t.judul)}</option>`).join('');
-});
-
-q('subPhoto')?.addEventListener('change', e => {
-  const file = e.target.files?.[0], preview = q('photoPreview'), img = q('photoPreviewImg');
-  if (!file) { if(preview) preview.style.display='none'; return; }
-  if (file.size > 5 * 1024 * 1024) { e.target.value=''; if(preview) preview.style.display='none'; q('subToast').textContent='Foto maksimal 5 MB.'; q('subToast').className='toast err'; return; }
-  if(img && preview){ img.src=URL.createObjectURL(file); preview.style.display='block'; }
-});
-q('submitTaskBtn').addEventListener('click', async () => {
-  const taskId = q('subMapel').value;
-  const task = activeTasks.find(t=>t.id===taskId);
-  const mapel = task?.mapel || '';
-  const judulTugas = task?.judul || '';
-  const siswa = studentName;
-  const jawaban = q('subJawaban').value.trim();
-  const link = q('subLink').value.trim();
-  const photo = q('subPhoto')?.files?.[0] || null;
-  const toast = q('subToast');
-  if (!task) { toast.textContent = "Pilih tugas terlebih dahulu."; toast.className = "toast err"; return; }
-  if (!jawaban && !link && !photo) { toast.textContent = "Isi jawaban, link, atau kirim foto tugas."; toast.className = "toast err"; return; }
-  if (photo && photo.size > 5 * 1024 * 1024) { toast.textContent = "Foto maksimal 5 MB."; toast.className = "toast err"; return; }
-  q('submitTaskBtn').disabled = true; toast.textContent = "Mengirim tugas..."; toast.className = "toast";
-  try {
-    let photoUrl = '';
-    if (photo) {
-      const safe = (studentName||'siswa').replace(/[^a-z0-9_-]/gi,'_');
-      const filename = photo.name.replace(/[^a-z0-9._-]/gi,'_');
-      const path = `pengumpulan_tugas/${safe}/${Date.now()}_${filename}`;
-      const blob = await uploadBlob(path, photo, (pct)=>{
-        q('submitTaskBtn').textContent = `Mengunggah ${pct}%...`;
-      });
-      photoUrl = blob.url;
-    }
-    await addDoc(collection(db, "pengumpulan_tugas"), { taskId, judulTugas, mapel, siswa, username: session.username||studentName, jawaban, link, photoUrl, photoType: photo?.type || '', photoName: photo?.name || '', updatedAt: Date.now() });
-    toast.textContent = "Tugas berhasil dikumpulkan."; toast.className = "toast";
-    q('subJawaban').value=''; q('subLink').value=''; if(q('subPhoto')) q('subPhoto').value=''; if(q('photoPreview')) q('photoPreview').style.display='none';
-  } catch (e) {
-    console.error("Submit task:", e);
-    const msg = e?.message || e;
-    toast.textContent = "Gagal mengirim tugas: " + msg; toast.className = "toast err";
-  } finally { q('submitTaskBtn').disabled=false; q('submitTaskBtn').textContent='Kirim Tugas'; }
-});
-
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+import { getFirestore, collection, addDoc, onSnapshot, query, where, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
+const db=getFirestore(initializeApp(firebaseConfig)),q=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+async function uploadBlob(path,file,onProgress){const mod=await import('https://cdn.jsdelivr.net/npm/@vercel/blob@2.6.1/+esm');return mod.upload(path,file,{access:'public',handleUploadUrl:'/api/task-upload',multipart:file.size>4*1024*1024,onUploadProgress:e=>onProgress&&onProgress(Math.round(e.percentage||0))})}
+const raw=sessionStorage.getItem('tkj3_session'),session=raw?JSON.parse(raw):{nama:'Siswa',username:'siswa'},studentName=session.nama||session.username||'Siswa';q('submissionStudentName').textContent=studentName;
+let activeTasks=[],mySubs=[];
+function renderTasks(){const taskList=q('taskList'),sel=q('subMapel');if(!activeTasks.length){taskList.innerHTML='<div class="empty">Belum ada tugas dari guru.</div>';sel.innerHTML='<option value="">Tidak ada tugas aktif</option>';return}taskList.innerHTML=activeTasks.map(t=>`<article class="item-card"><div style="display:flex;justify-content:space-between;align-items:center"><span class="ios-pill blue">${esc(t.mapel||'Tugas')}</span><small>${t.createdAt?new Date(t.createdAt).toLocaleDateString('id-ID'):''}</small></div><h3 style="margin-top:8px">${esc(t.judul)}</h3><p style="color:var(--muted-dark);font-size:13.5px;margin:0 0 10px">${esc(t.deskripsi||'-')}</p><div class="item-meta">Deadline: <b>${esc(t.deadline?new Date(t.deadline).toLocaleString('id-ID'):'Tidak ditentukan')}</b>${t.guru?`<span>• Guru: ${esc(t.guru)}</span>`:''}</div>${t.fileUrl?`<p style="margin:8px 0 0"><a href="${esc(t.fileUrl)}" target="_blank" class="ios-btn">Buka lampiran</a></p>`:''}${t.attachmentUrl?`<p style="margin:8px 0 0"><a href="${esc(t.attachmentUrl)}" target="_blank" class="ios-btn">Buka ${esc(t.attachmentName||'lampiran')}</a></p>`:''}</article>`).join('');sel.innerHTML='<option value="">Pilih tugas...</option>'+activeTasks.map(t=>`<option value="${esc(t.id)}">${esc(t.mapel)} — ${esc(t.judul)}</option>`).join('');const selected=sel.value||activeTasks[0]?.id;if(selected){sel.value=selected;loadExisting(selected)}}
+function loadExisting(taskId){const sub=mySubs.find(x=>x.taskId===taskId);q('subJawaban').value=sub?.jawaban||'';q('subLink').value=sub?.link||'';q('photoPreview').style.display='none';q('deleteSubmissionBtn').style.display=sub?'inline-flex':'none';q('submitTaskBtn').textContent=sub?'Simpan Perubahan':'Kirim Pengumpulan Tugas';q('subToast').textContent=sub?'Pengumpulan sebelumnya dimuat.':'';}
+onSnapshot(collection(db,'tugas'),snap=>{activeTasks=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));renderTasks()},err=>q('taskList').innerHTML='<div class="empty">Gagal memuat tugas: '+esc(err?.message||err)+'</div>');
+const studentKey=session.username||studentName;
+onSnapshot(query(collection(db,'pengumpulan_tugas'),where('username','==',studentKey)),snap=>{mySubs=snap.docs.map(d=>({id:d.id,...d.data()}));if(q('subMapel').value)loadExisting(q('subMapel').value)},err=>console.warn(err));
+q('subMapel').onchange=()=>loadExisting(q('subMapel').value);
+q('submitTaskBtn').onclick=async()=>{const taskId=q('subMapel').value,task=activeTasks.find(t=>t.id===taskId);if(!task){q('subToast').textContent='Pilih tugas terlebih dahulu.';q('subToast').className='toast err';return}const jawaban=q('subJawaban').value.trim(),link=q('subLink').value.trim(),photo=q('subPhoto')?.files?.[0]||null;if(!jawaban&&!link&&!photo){q('subToast').textContent='Isi jawaban, link, atau kirim foto tugas.';q('subToast').className='toast err';return}if(photo&&photo.size>5*1024*1024){q('subToast').textContent='Foto maksimal 5 MB.';q('subToast').className='toast err';return}q('submitTaskBtn').disabled=true;try{let photoUrl='',photoType='',photoName='';if(photo){const safe=studentName.replace(/[^a-z0-9_-]/gi,'_'),filename=photo.name.replace(/[^a-z0-9._-]/gi,'_');const blob=await uploadBlob(`pengumpulan_tugas/${safe}/${Date.now()}_${filename}`,photo,pct=>q('submitTaskBtn').textContent=`Mengunggah ${pct}%...`);photoUrl=blob.url;photoType=photo.type;photoName=photo.name}const existing=mySubs.find(x=>x.taskId===taskId);const data={taskId,judulTugas:task.judul,mapel:task.mapel,siswa:studentName,username:studentKey,jawaban,link,photoUrl:photoUrl||(existing?.photoUrl||''),photoType:photoType||(existing?.photoType||''),photoName:photoName||(existing?.photoName||''),updatedAt:Date.now()};if(existing)await updateDoc(doc(db,'pengumpulan_tugas',existing.id),data);else await addDoc(collection(db,'pengumpulan_tugas'),data);q('subToast').textContent=existing?'Pengumpulan berhasil diperbarui.':'Tugas berhasil dikumpulkan.';q('subToast').className='toast';q('subPhoto').value='';loadExisting(taskId)}catch(e){q('subToast').textContent='Gagal mengirim tugas: '+(e.message||e);q('subToast').className='toast err')}finally{q('submitTaskBtn').disabled=false;}};
+q('deleteSubmissionBtn').onclick=async()=>{const taskId=q('subMapel').value,sub=mySubs.find(x=>x.taskId===taskId);if(!sub)return;if(confirm('Hapus pengumpulan tugas ini?'))try{await deleteDoc(doc(db,'pengumpulan_tugas',sub.id));q('subToast').textContent='Pengumpulan berhasil dihapus.';q('subToast').className='toast';loadExisting(taskId)}catch(e){q('subToast').textContent='Gagal menghapus: '+(e.message||e);q('subToast').className='toast err'}};
+q('subPhoto')?.addEventListener('change',()=>{const f=q('subPhoto').files?.[0];if(!f){q('photoPreview').style.display='none';return}const url=URL.createObjectURL(f);q('photoPreviewImg').src=url;q('photoPreview').style.display='block'});
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
 </script>
 </body>
 </html>

@@ -47,29 +47,9 @@
 
 <script src="assets/js/ios-core.js"></script>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";import {getFirestore,collection,onSnapshot} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
-const db = getFirestore(initializeApp(firebaseConfig));
-const q = id => document.getElementById(id);
-const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-
-onSnapshot(query(collection(db, "nilai"), orderBy("createdAt", "desc")), snap => {
-  const box = q('gradeList');
-  if (snap.empty) { box.innerHTML = '<div class="empty">Belum ada data nilai yang dipublikasikan.</div>'; return; }
-  box.innerHTML = snap.docs.map(d => {
-    const x = d.data();
-    return `<div class="item-card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <span class="ios-pill">${esc(x.mapel || 'Mapel')}</span>
-        <strong style="font-size:22px;color:var(--accent);font-weight:850">${esc(x.nilai)}</strong>
-      </div>
-      <h4 style="margin:8px 0 2px;font-size:15px;font-weight:750">${esc(x.nama)}</h4>
-      <small style="color:var(--muted-dark)">${esc(x.judul || 'Penilaian')}</small>
-    </div>`;
-  }).join('');
-});
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+const db=getFirestore(initializeApp(firebaseConfig)),q=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));const raw=sessionStorage.getItem('tkj3_session'),session=raw?JSON.parse(raw):{nama:'Siswa',username:'siswa'},student=session.nama||session.username||'';let grades=[];function render(){const sel=q('gradeSelect'),box=q('gradeList');const mine=grades.filter(x=>!student||x.nama===student);if(!mine.length){sel.innerHTML='<option value="all">Belum ada nilai</option>';box.innerHTML='<div class="empty">Belum ada nilai untuk akun ini.</div>';return}const opts=[...new Map(mine.map(x=>[(x.referensiTipe||'Penilaian')+'|'+(x.referensiId||x.judul),x])).values()];sel.innerHTML='<option value="all">Semua nilai</option>'+opts.map(x=>`<option value="${esc((x.referensiTipe||'Penilaian')+'|'+(x.referensiId||x.judul))}">${esc(x.referensiTipe||'Penilaian')} — ${esc(x.judul)}</option>`).join('');const chosen=sel.value||'all',shown=chosen==='all'?mine:mine.filter(x=>(x.referensiTipe||'Penilaian')+'|'+(x.referensiId||x.judul)===chosen);box.innerHTML=shown.map(x=>`<div class="item-card"><div style="display:flex;justify-content:space-between;align-items:center"><span class="ios-pill">${esc(x.mapel||'Mapel')}</span><strong style="font-size:22px;color:var(--accent)">${esc(x.nilai)}</strong></div><h4 style="margin:8px 0 2px;font-size:15px">${esc(x.judul||'Penilaian')}</h4><small>${esc(x.referensiTipe||'Penilaian')}</small></div>`).join('')}onSnapshot(collection(db,'nilai'),snap=>{grades=snap.docs.map(d=>d.data()).sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));render()},e=>q('gradeList').innerHTML='<div class="empty">Gagal memuat nilai: '+esc(e?.message||e)+'</div>');q('gradeSelect').onchange=render;
 </script>
 </body>
 </html>

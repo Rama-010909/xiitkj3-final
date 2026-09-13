@@ -12,5 +12,8 @@ service cloud.firestore {
     match /pengaturan/{document=**} { allow read, write: if true; }
     match /tugas/{document=**} { allow read, write: if true; }
     match /pengumpulan_tugas/{document=**} { allow read, write: if true; }
+    match /materi/{document=**} { allow read, write: if true; }
+    match /pengumuman/{document=**} { allow read, write: if true; }
+    match /nilai/{document=**} { allow read, write: if true; }
   }
 }

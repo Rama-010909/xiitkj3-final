@@ -62,70 +62,15 @@
 
 <script src="assets/js/ios-core.js"></script>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, where, orderBy, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js"; import { getAuth,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js"; import { getFirestore,collection,addDoc,onSnapshot,query,where,doc,getDoc,deleteDoc,updateDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const q = id => document.getElementById(id);
-const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-
-const SUBJ_KEY = 'tkj3_guru_subject';
-const defaultGuruSubjects = ["Administrasi Infrastruktur Jaringan","Administrasi Server","Teknologi Layanan Jaringan","Teknologi Jaringan Berbasis Luas (WAN)","Komputer dan Jaringan Dasar"];
-let uid = '', teacher = '', current = '', unsub = null;
-
-function renderSubjects(subjects) {
-  const stored = localStorage.getItem(SUBJ_KEY);
-  current = (stored && subjects.includes(stored)) ? stored : subjects[0];
-  q('subjects').innerHTML = subjects.map(s => `<button type="button" class="subject-chip ${s===current?'active':''}" data-sub="${esc(s)}">${esc(s)}</button>`).join('');
-  q('subjects').querySelectorAll('[data-sub]').forEach(b => b.onclick = () => {
-    current = b.dataset.sub; localStorage.setItem(SUBJ_KEY, current);
-    q('subjects').querySelectorAll('.subject-chip').forEach(c => c.classList.toggle('active', c === b));
-    loadMat();
-  });
-  if (current) localStorage.setItem(SUBJ_KEY, current);
-  loadMat();
-}
-
-function loadMat() {
-  if (unsub) unsub();
-  if (!current) return;
-  q('matList').innerHTML = '<div class="empty">Memuat...</div>';
-  unsub = onSnapshot(query(collection(db, 'materi'), where('mapel', '==', current), orderBy('createdAt', 'desc')), snap => {
-    q('matList').innerHTML = snap.empty ? '<div class="empty">Belum ada materi.</div>' : snap.docs.map(d => {
-      const x = d.data();
-      return `<article class="item-card"><h3>${esc(x.judul)}</h3><div class="item-meta"><a href="${esc(x.url)}" target="_blank" rel="noopener">Buka materi ↗</a></div><div style="margin-top:10px"><button class="ios-btn danger" data-del="${d.id}" type="button">Hapus</button></div></article>`;
-    }).join('');
-    q('matList').querySelectorAll('[data-del]').forEach(b => b.onclick = async () => { if (confirm('Hapus materi ini?')) await deleteDoc(doc(db, 'materi', b.dataset.del)); });
-  });
-}
-
-async function loadTeacherSubjects(teacherUid, teacherSubjects) {
-  try {
-    const uSnap = await getDoc(doc(db, 'users', teacherUid || 'guru-andi'));
-    if (uSnap.exists()) { const d = uSnap.data(); if (d.nama) teacher = d.nama; if (Array.isArray(d.mataPelajaran) && d.mataPelajaran.length) teacherSubjects = d.mataPelajaran; }
-  } catch (e) { console.warn(e); }
-  renderSubjects((teacherSubjects && teacherSubjects.length) ? teacherSubjects : defaultGuruSubjects);
-}
-
-const rawSession = sessionStorage.getItem("tkj3_session");
-if (rawSession) { try { const parsed = JSON.parse(rawSession); if (parsed.role === 'guru') { uid = parsed.username || 'guru-andi'; teacher = parsed.nama || parsed.username || 'Guru'; loadTeacherSubjects(uid, defaultGuruSubjects); } } catch (e) { console.error(e); } }
-onAuthStateChanged(auth, async user => {
-  if (user) { uid = user.uid;
-    try { const u = await getDoc(doc(db, 'users', uid)); if (u.exists() && u.data().role === 'guru') { const d = u.data(); teacher = d.nama || user.email; loadTeacherSubjects(uid, d.mataPelajaran || d.subjects || defaultGuruSubjects); } } catch (e) { console.warn(e); }
-  }
-});
-
-q('saveMat').onclick = async () => {
-  if (!current) return;
-  await addDoc(collection(db, 'materi'), { judul: q('matTitle').value.trim(), url: q('matUrl').value.trim(), mapel: current, guruUid: uid, guru: teacher, createdAt: Date.now() });
-  q('matTitle').value = ''; q('matUrl').value = '';
-};
-
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),q=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));const KEY='tkj3_guru_subject',defs=["Administrasi Infrastruktur Jaringan","Administrasi Server","Teknologi Layanan Jaringan","Teknologi Jaringan Berbasis Luas (WAN)","Komputer dan Jaringan Dasar"];let uid='',teacher='',current='',unsub=null,editing='';
+function subjects(a){const st=localStorage.getItem(KEY);current=st&&a.includes(st)?st:a[0];q('subjects').innerHTML=a.map(s=>`<button type="button" class="subject-chip ${s===current?'active':''}" data-sub="${esc(s)}">${esc(s)}</button>`).join('');q('subjects').querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>{current=b.dataset.sub;localStorage.setItem(KEY,current);load()});load()}
+function reset(){editing='';q('matTitle').value='';q('matUrl').value='';q('saveMat').textContent='Simpan Materi'}
+function load(){if(unsub)unsub();q('matList').innerHTML='<div class="empty">Memuat...</div>';unsub=onSnapshot(query(collection(db,'materi'),where('mapel','==',current)),snap=>{const ds=[...snap.docs].sort((a,b)=>Number(b.data().createdAt||0)-Number(a.data().createdAt||0));q('matList').innerHTML=snap.empty?'<div class="empty">Belum ada materi.</div>':ds.map(d=>{const x=d.data();return `<article class="item-card"><span class="ios-pill blue">${esc(x.mapel)}</span><h3 style="margin-top:6px">${esc(x.judul)}</h3><div class="item-meta"><a href="${esc(x.url)}" target="_blank" rel="noopener">Buka materi ↗</a></div><div style="margin-top:10px;display:flex;gap:8px"><button class="ios-btn" data-edit="${d.id}" type="button">Edit</button><button class="ios-btn danger" data-del="${d.id}" type="button">Hapus</button></div></article>`}).join('');q('matList').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const d=snap.docs.find(z=>z.id===b.dataset.edit),x=d.data();editing=d.id;q('matTitle').value=x.judul||'';q('matUrl').value=x.url||'';q('saveMat').textContent='Simpan Perubahan';window.scrollTo({top:0,behavior:'smooth'})});q('matList').querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus materi ini?'))await deleteDoc(doc(db,'materi',b.dataset.del))})} ,e=>q('matList').innerHTML='<div class="empty">Gagal memuat materi: '+esc(e?.message||e)+'</div>')}
+async function init(id,subs){try{const u=await getDoc(doc(db,'users',id||'guru-andi'));if(u.exists()){const d=u.data();teacher=d.nama||teacher;if(Array.isArray(d.mataPelajaran)&&d.mataPelajaran.length)subs=d.mataPelajaran}}catch(e){}subjects(subs?.length?subs:defs)}
+try{const p=JSON.parse(sessionStorage.getItem('tkj3_session')||'null');if(p?.role==='guru'){uid=p.username||'guru-andi';teacher=p.nama||uid;init(uid,defs)}}catch(e){}onAuthStateChanged(auth,async u=>{if(u){uid=u.uid;try{const s=await getDoc(doc(db,'users',uid));if(s.exists()&&s.data().role==='guru'){const d=s.data();teacher=d.nama||u.email;init(uid,d.mataPelajaran||d.subjects||defs)}}catch(e){}}});
+q('saveMat').onclick=async()=>{if(!current)return;const title=q('matTitle').value.trim(),url=q('matUrl').value.trim();if(!title||!url){alert('Judul dan link materi wajib diisi.');return}q('saveMat').disabled=true;try{const data={judul:title,url,mapel:current,guruUid:uid,guru:teacher,updatedAt:Date.now()};if(editing){await updateDoc(doc(db,'materi',editing),data);alert('Materi berhasil diperbarui.')}else{await addDoc(collection(db,'materi'),{...data,createdAt:Date.now()});alert('Materi berhasil dikirim.')}reset()}catch(e){alert('Materi gagal disimpan: '+(e.message||e))}finally{q('saveMat').disabled=false}};
 </script>
 </body>
 </html>

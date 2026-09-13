@@ -49,69 +49,10 @@
 
 <script src="assets/js/ios-core.js"></script>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
-import { getFirestore, collection, onSnapshot, query, where, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";import {getFirestore,collection,onSnapshot,query,where,doc,getDoc,deleteDoc,updateDoc} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const q = id => document.getElementById(id);
-const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-
-const SUBJ_KEY = 'tkj3_guru_subject';
-const defaultGuruSubjects = ["Administrasi Infrastruktur Jaringan","Administrasi Server","Teknologi Layanan Jaringan","Teknologi Jaringan Berbasis Luas (WAN)","Komputer dan Jaringan Dasar"];
-let current = '', unsub = null;
-
-function renderSubjects(subjects) {
-  const stored = localStorage.getItem(SUBJ_KEY);
-  current = (stored && subjects.includes(stored)) ? stored : subjects[0];
-  q('subjects').innerHTML = subjects.map(s => `<button type="button" class="subject-chip ${s===current?'active':''}" data-sub="${esc(s)}">${esc(s)}</button>`).join('');
-  q('subjects').querySelectorAll('[data-sub]').forEach(b => b.onclick = () => {
-    current = b.dataset.sub; localStorage.setItem(SUBJ_KEY, current);
-    q('subjects').querySelectorAll('.subject-chip').forEach(c => c.classList.toggle('active', c === b));
-    loadSub();
-  });
-  if (current) localStorage.setItem(SUBJ_KEY, current);
-  loadSub();
-}
-
-function loadSub() {
-  if (unsub) unsub();
-  if (!current) return;
-  q('submissionList').innerHTML = '<div class="empty">Memuat...</div>';
-  unsub = onSnapshot(query(collection(db, 'pengumpulan_tugas'), where('mapel', '==', current)), snap => {
-    q('submissionList').innerHTML = snap.empty ? '<div class="empty">Belum ada pengumpulan.</div>' : [...snap.docs].sort((a,b) => Number(b.data().updatedAt||0) - Number(a.data().updatedAt||0)).map(d => {
-      const x = d.data();
-      return `<article class="item-card">
-        <b>${esc(x.siswa || 'Siswa')}</b>
-        <div class="item-meta">Dikirim: ${x.updatedAt ? new Date(x.updatedAt).toLocaleString('id-ID') : '-'}</div>
-        ${x.jawaban ? `<p style="font-size:13px;color:var(--muted-dark);margin:8px 0 0">${esc(x.jawaban)}</p>` : ''}
-        ${x.link ? `<div style="margin-top:8px"><a href="${esc(x.link)}" target="_blank" rel="noopener" class="ios-btn" style="font-size:11px;padding:5px 10px">Buka link jawaban ↗</a></div>` : ''}
-        ${x.photoUrl ? (String(x.photoType||'').startsWith('image/') ? `<div style="margin-top:10px"><img src="${esc(x.photoUrl)}" alt="Foto tugas ${esc(x.siswa||'siswa')}" style="width:100%;max-height:360px;object-fit:contain;border-radius:16px;background:var(--input-bg);border:1px solid var(--card-border-subtle)"></div>` : '') + `<div style="margin-top:8px"><a href="${esc(x.photoUrl)}" target="_blank" rel="noopener" class="ios-btn" style="font-size:11px;padding:5px 10px">${String(x.photoType||'').includes('pdf')?'Buka PDF':'Buka file'}</a></div>` : ''}
-      </article>`;
-    }).join('');
-  }, () => { q('submissionList').innerHTML = '<div class="empty">Gagal memuat pengumpulan.</div>'; });
-}
-
-async function loadTeacherSubjects(teacherUid, teacherSubjects) {
-  try {
-    const uSnap = await getDoc(doc(db, 'users', teacherUid || 'guru-andi'));
-    if (uSnap.exists()) { const d = uSnap.data(); if (Array.isArray(d.mataPelajaran) && d.mataPelajaran.length) teacherSubjects = d.mataPelajaran; }
-  } catch (e) { console.warn(e); }
-  renderSubjects((teacherSubjects && teacherSubjects.length) ? teacherSubjects : defaultGuruSubjects);
-}
-
-const rawSession = sessionStorage.getItem("tkj3_session");
-if (rawSession) { try { const parsed = JSON.parse(rawSession); if (parsed.role === 'guru') loadTeacherSubjects(parsed.username || 'guru-andi', defaultGuruSubjects); } catch (e) { console.error(e); } }
-onAuthStateChanged(auth, async user => {
-  if (user) {
-    try { const u = await getDoc(doc(db, 'users', user.uid)); if (u.exists() && u.data().role === 'guru') { const d = u.data(); loadTeacherSubjects(user.uid, d.mataPelajaran || d.subjects || defaultGuruSubjects); } } catch (e) { console.warn(e); }
-  }
-});
-
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),q=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));const KEY='tkj3_guru_subject',defs=["Administrasi Infrastruktur Jaringan","Administrasi Server","Teknologi Layanan Jaringan","Teknologi Jaringan Berbasis Luas (WAN)","Komputer dan Jaringan Dasar"];let current='',unsub=null;
+function subs(a){const st=localStorage.getItem(KEY);current=st&&a.includes(st)?st:a[0];q('subjects').innerHTML=a.map(s=>`<button type="button" class="subject-chip ${s===current?'active':''}" data-sub="${esc(s)}">${esc(s)}</button>`).join('');q('subjects').querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>{current=b.dataset.sub;load()});load()}function load(){if(unsub)unsub();unsub=onSnapshot(query(collection(db,'pengumpulan_tugas'),where('mapel','==',current)),snap=>{const ds=[...snap.docs].sort((a,b)=>Number(b.data().updatedAt||0)-Number(a.data().updatedAt||0));q('submissionList').innerHTML=snap.empty?'<div class="empty">Belum ada pengumpulan.</div>':ds.map(d=>{const x=d.data();return `<article class="item-card"><b>${esc(x.siswa||'Siswa')}</b><div class="item-meta">Tugas: ${esc(x.judulTugas||'-')} • ${x.updatedAt?new Date(x.updatedAt).toLocaleString('id-ID'):'-'}</div>${x.jawaban?`<p style="font-size:13px;color:var(--muted-dark)">${esc(x.jawaban)}</p>`:''}${x.link?`<a href="${esc(x.link)}" target="_blank" class="ios-btn" style="font-size:11px;padding:5px 10px">Buka link ↗</a>`:''}${x.photoUrl?`<div style="margin-top:10px">${String(x.photoType||'').startsWith('image/')?`<img src="${esc(x.photoUrl)}" alt="Foto tugas" style="width:100%;max-height:360px;object-fit:contain;border-radius:16px">`:''}<a href="${esc(x.photoUrl)}" target="_blank" class="ios-btn" style="font-size:11px;padding:5px 10px">Buka file</a></div>`:''}<div style="margin-top:10px;display:flex;gap:8px"><button class="ios-btn" data-edit="${d.id}">Edit</button><button class="ios-btn danger" data-del="${d.id}">Hapus</button></div></article>`}).join('');q('submissionList').querySelectorAll('[data-edit]').forEach(b=>b.onclick=async()=>{const d=snap.docs.find(z=>z.id===b.dataset.edit);if(!d)return;const x=d.data(),jaw=prompt('Edit jawaban/catatan:',x.jawaban||'');if(jaw===null)return;try{await updateDoc(doc(db,'pengumpulan_tugas',d.id),{jawaban:jaw,updatedAt:Date.now(),editedBy:'guru'});}catch(e){alert('Gagal mengedit: '+(e.message||e))}});q('submissionList').querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus pengumpulan siswa ini?'))try{await deleteDoc(doc(db,'pengumpulan_tugas',b.dataset.del))}catch(e){alert('Gagal menghapus: '+(e.message||e))}})} ,e=>q('submissionList').innerHTML='<div class="empty">Gagal memuat pengumpulan: '+esc(e?.message||e)+'</div>')}async function init(id,a){try{const u=await getDoc(doc(db,'users',id||'guru-andi'));if(u.exists()&&Array.isArray(u.data().mataPelajaran)&&u.data().mataPelajaran.length)a=u.data().mataPelajaran}catch(e){}subs(a?.length?a:defs)}try{const p=JSON.parse(sessionStorage.getItem('tkj3_session')||'null');if(p?.role==='guru')init(p.username||'guru-andi',defs)}catch(e){}onAuthStateChanged(auth,async u=>{if(u){try{const s=await getDoc(doc(db,'users',u.uid));if(s.exists()&&s.data().role==='guru')init(u.uid,s.data().mataPelajaran||s.data().subjects||defs)}catch(e){}}});
 </script>
 </body>
 </html>

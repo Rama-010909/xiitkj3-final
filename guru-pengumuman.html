@@ -62,70 +62,10 @@
 
 <script src="assets/js/ios-core.js"></script>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, where, orderBy, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js"; import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js"; import {getFirestore,collection,addDoc,onSnapshot,query,where,doc,getDoc,deleteDoc,updateDoc} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const q = id => document.getElementById(id);
-const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-
-const SUBJ_KEY = 'tkj3_guru_subject';
-const defaultGuruSubjects = ["Administrasi Infrastruktur Jaringan","Administrasi Server","Teknologi Layanan Jaringan","Teknologi Jaringan Berbasis Luas (WAN)","Komputer dan Jaringan Dasar"];
-let uid = '', teacher = '', current = '', unsub = null;
-
-function renderSubjects(subjects) {
-  const stored = localStorage.getItem(SUBJ_KEY);
-  current = (stored && subjects.includes(stored)) ? stored : subjects[0];
-  q('subjects').innerHTML = subjects.map(s => `<button type="button" class="subject-chip ${s===current?'active':''}" data-sub="${esc(s)}">${esc(s)}</button>`).join('');
-  q('subjects').querySelectorAll('[data-sub]').forEach(b => b.onclick = () => {
-    current = b.dataset.sub; localStorage.setItem(SUBJ_KEY, current);
-    q('subjects').querySelectorAll('.subject-chip').forEach(c => c.classList.toggle('active', c === b));
-    loadAnn();
-  });
-  if (current) localStorage.setItem(SUBJ_KEY, current);
-  loadAnn();
-}
-
-function loadAnn() {
-  if (unsub) unsub();
-  if (!current) return;
-  q('annList').innerHTML = '<div class="empty">Memuat...</div>';
-  unsub = onSnapshot(query(collection(db, 'pengumuman'), where('mapel', '==', current), orderBy('createdAt', 'desc')), snap => {
-    q('annList').innerHTML = snap.empty ? '<div class="empty">Belum ada pengumuman.</div>' : snap.docs.map(d => {
-      const x = d.data();
-      return `<article class="item-card"><h3>${esc(x.judul)}</h3><p style="color:var(--muted-dark);font-size:13px;margin:0">${esc(x.isi)}</p><div style="margin-top:10px"><button class="ios-btn danger" data-del="${d.id}" type="button">Hapus</button></div></article>`;
-    }).join('');
-    q('annList').querySelectorAll('[data-del]').forEach(b => b.onclick = async () => { if (confirm('Hapus pengumuman ini?')) await deleteDoc(doc(db, 'pengumuman', b.dataset.del)); });
-  });
-}
-
-async function loadTeacherSubjects(teacherUid, teacherSubjects) {
-  try {
-    const uSnap = await getDoc(doc(db, 'users', teacherUid || 'guru-andi'));
-    if (uSnap.exists()) { const d = uSnap.data(); if (d.nama) teacher = d.nama; if (Array.isArray(d.mataPelajaran) && d.mataPelajaran.length) teacherSubjects = d.mataPelajaran; }
-  } catch (e) { console.warn(e); }
-  renderSubjects((teacherSubjects && teacherSubjects.length) ? teacherSubjects : defaultGuruSubjects);
-}
-
-const rawSession = sessionStorage.getItem("tkj3_session");
-if (rawSession) { try { const parsed = JSON.parse(rawSession); if (parsed.role === 'guru') { uid = parsed.username || 'guru-andi'; teacher = parsed.nama || parsed.username || 'Guru'; loadTeacherSubjects(uid, defaultGuruSubjects); } } catch (e) { console.error(e); } }
-onAuthStateChanged(auth, async user => {
-  if (user) { uid = user.uid;
-    try { const u = await getDoc(doc(db, 'users', uid)); if (u.exists() && u.data().role === 'guru') { const d = u.data(); teacher = d.nama || user.email; loadTeacherSubjects(uid, d.mataPelajaran || d.subjects || defaultGuruSubjects); } } catch (e) { console.warn(e); }
-  }
-});
-
-q('saveAnn').onclick = async () => {
-  if (!current) return;
-  await addDoc(collection(db, 'pengumuman'), { judul: q('annTitle').value.trim(), isi: q('annBody').value.trim(), mapel: current, guruUid: uid, guru: teacher, createdAt: Date.now() });
-  q('annTitle').value = ''; q('annBody').value = '';
-};
-
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),q=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));const KEY='tkj3_guru_subject',defs=["Administrasi Infrastruktur Jaringan","Administrasi Server","Teknologi Layanan Jaringan","Teknologi Jaringan Berbasis Luas (WAN)","Komputer dan Jaringan Dasar"];let uid='',teacher='',current='',unsub=null,editing='';
+function subs(a){const st=localStorage.getItem(KEY);current=st&&a.includes(st)?st:a[0];q('subjects').innerHTML=a.map(s=>`<button type="button" class="subject-chip ${s===current?'active':''}" data-sub="${esc(s)}">${esc(s)}</button>`).join('');q('subjects').querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>{current=b.dataset.sub;load()});load()}function reset(){editing='';q('annTitle').value='';q('annBody').value='';q('saveAnn').textContent='Terbitkan'}function load(){if(unsub)unsub();unsub=onSnapshot(query(collection(db,'pengumuman'),where('mapel','==',current)),snap=>{const ds=[...snap.docs].sort((a,b)=>Number(b.data().createdAt||0)-Number(a.data().createdAt||0));q('annList').innerHTML=snap.empty?'<div class="empty">Belum ada pengumuman.</div>':ds.map(d=>{const x=d.data();return `<article class="item-card"><h3>${esc(x.judul)}</h3><p style="color:var(--muted-dark);font-size:13px">${esc(x.isi)}</p><div style="margin-top:10px;display:flex;gap:8px"><button class="ios-btn" data-edit="${d.id}">Edit</button><button class="ios-btn danger" data-del="${d.id}">Hapus</button></div></article>`}).join('');q('annList').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const d=snap.docs.find(z=>z.id===b.dataset.edit),x=d.data();editing=d.id;q('annTitle').value=x.judul||'';q('annBody').value=x.isi||'';q('saveAnn').textContent='Simpan Perubahan';window.scrollTo({top:0,behavior:'smooth'})});q('annList').querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus pengumuman ini?'))await deleteDoc(doc(db,'pengumuman',b.dataset.del))})} ,e=>q('annList').innerHTML='<div class="empty">Gagal memuat pengumuman: '+esc(e?.message||e)+'</div>')}async function init(id,a){try{const u=await getDoc(doc(db,'users',id||'guru-andi'));if(u.exists()){const d=u.data();teacher=d.nama||teacher;if(Array.isArray(d.mataPelajaran)&&d.mataPelajaran.length)a=d.mataPelajaran}}catch(e){}subs(a?.length?a:defs)}try{const p=JSON.parse(sessionStorage.getItem('tkj3_session')||'null');if(p?.role==='guru'){uid=p.username||'guru-andi';teacher=p.nama||uid;init(uid,defs)}}catch(e){}onAuthStateChanged(auth,async u=>{if(u){uid=u.uid;try{const s=await getDoc(doc(db,'users',uid));if(s.exists()&&s.data().role==='guru'){const d=s.data();teacher=d.nama||u.email;init(uid,d.mataPelajaran||d.subjects||defs)}}catch(e){}}});q('saveAnn').onclick=async()=>{if(!current)return;const judul=q('annTitle').value.trim(),isi=q('annBody').value.trim();if(!judul||!isi){alert('Judul dan isi wajib diisi.');return}q('saveAnn').disabled=true;try{const data={judul,isi,mapel:current,guruUid:uid,guru:teacher,updatedAt:Date.now()};if(editing){await updateDoc(doc(db,'pengumuman',editing),data);alert('Pengumuman berhasil diperbarui.')}else{await addDoc(collection(db,'pengumuman'),{...data,createdAt:Date.now()});alert('Pengumuman berhasil diterbitkan.')}reset()}catch(e){alert('Pengumuman gagal disimpan: '+(e.message||e))}finally{q('saveAnn').disabled=false}};
 </script>
 </body>
 </html>

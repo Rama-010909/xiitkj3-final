@@ -31,6 +31,7 @@
     <p>Info dan pengumuman terbaru dari wali kelas maupun guru mata pelajaran.</p>
   </section>
   <section class="section" style="padding-top:0">
+    <div class="ios-panel ios-glass" style="margin-bottom:14px"><div class="field-group"><label for="announcementSelect">Pilih pengumuman</label><select id="announcementSelect" class="form-select"><option value="all">Memuat...</option></select></div></div>
     <div id="annList" class="card-list"><div class="empty">Memuat pengumuman...</div></div>
   </section>
 </main>
@@ -47,27 +48,9 @@
 
 <script src="assets/js/ios-core.js"></script>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";import {getFirestore,collection,onSnapshot} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
-const db = getFirestore(initializeApp(firebaseConfig));
-const q = id => document.getElementById(id);
-const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-
-onSnapshot(query(collection(db, "pengumuman"), orderBy("createdAt", "desc")), snap => {
-  const box = q('annList');
-  if (snap.empty) { box.innerHTML = '<div class="empty">Belum ada pengumuman kelas.</div>'; return; }
-  box.innerHTML = snap.docs.map(d => {
-    const x = d.data();
-    return `<article class="item-card">
-      <span class="ios-pill purple">${esc(x.mapel || 'Pengumuman')}</span>
-      <h3 style="margin-top:6px">${esc(x.judul)}</h3>
-      <p style="color:var(--muted-dark);font-size:13.5px;margin:0;line-height:1.5">${esc(x.isi)}</p>
-      <div class="item-meta"><small>${x.createdAt ? new Date(x.createdAt).toLocaleDateString('id-ID') : '-'}</small>${x.guru ? `<small>• ${esc(x.guru)}</small>` : ''}</div>
-    </article>`;
-  }).join('');
-});
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+const db=getFirestore(initializeApp(firebaseConfig)),q=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));let items=[];function render(){const sel=q('announcementSelect'),box=q('annList');if(!items.length){sel.innerHTML='<option value="">Belum ada pengumuman</option>';box.innerHTML='<div class="empty">Belum ada pengumuman kelas.</div>';return}sel.innerHTML='<option value="all">Semua pengumuman</option>'+items.map(x=>`<option value="${esc(x.id)}">${esc(x.judul)}</option>`).join('');const id=sel.value||'all',shown=id==='all'?items:items.filter(x=>x.id===id);box.innerHTML=shown.map(x=>`<article class="item-card"><span class="ios-pill purple">${esc(x.mapel||'Kelas')}</span><h3 style="margin-top:6px">${esc(x.judul)}</h3><p style="color:var(--muted-dark);font-size:13.5px;line-height:1.5">${esc(x.isi)}</p><div class="item-meta"><small>${x.createdAt?new Date(x.createdAt).toLocaleDateString('id-ID'):'-'}</small>${x.guru?`<small>• ${esc(x.guru)}</small>`:''}</div></article>`).join('')}onSnapshot(collection(db,'pengumuman'),snap=>{items=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));render()},e=>q('annList').innerHTML='<div class="empty">Gagal memuat pengumuman: '+esc(e?.message||e)+'</div>');q('announcementSelect').onchange=render;
 </script>
 </body>
 </html>
