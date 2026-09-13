@@ -31,7 +31,13 @@
     <p>Nilai tugas dan penilaian yang telah dipublikasikan oleh guru.</p>
   </section>
   <section class="section" style="padding-top:0">
-    <div class="ios-panel ios-glass"><div id="gradeList" class="three-col"><div class="empty">Memuat data nilai...</div></div></div>
+    <div class="ios-panel ios-glass">
+      <div class="form-grid" style="margin-bottom:16px">
+        <div class="field-group"><label>Mata Pelajaran</label><select id="gradeMapel" class="form-select"><option value="all">Semua mata pelajaran</option></select></div>
+        <div class="field-group"><label>Tugas / Materi</label><select id="gradeSelect" class="form-select"><option value="all">Semua tugas / materi</option></select></div>
+      </div>
+      <div id="gradeList" class="three-col"><div class="empty">Memuat data nilai...</div></div>
+    </div>
   </section>
 </main>
 
@@ -47,9 +53,36 @@
 
 <script src="assets/js/ios-core.js"></script>
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";import {getFirestore,collection,onSnapshot} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-const firebaseConfig = { apiKey: "AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw", authDomain: "absensi-xii-tkj3.firebaseapp.com", projectId: "absensi-xii-tkj3", storageBucket: "absensi-xii-tkj3.firebasestorage.app", messagingSenderId: "219267949077", appId: "1:219267949077:web:8cf7d62f31ae1987a6641c" };
-const db=getFirestore(initializeApp(firebaseConfig)),q=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));const raw=sessionStorage.getItem('tkj3_session'),session=raw?JSON.parse(raw):{nama:'Siswa',username:'siswa'},student=session.nama||session.username||'';let grades=[];function render(){const sel=q('gradeSelect'),box=q('gradeList');const mine=grades.filter(x=>!student||x.nama===student);if(!mine.length){sel.innerHTML='<option value="all">Belum ada nilai</option>';box.innerHTML='<div class="empty">Belum ada nilai untuk akun ini.</div>';return}const opts=[...new Map(mine.map(x=>[(x.referensiTipe||'Penilaian')+'|'+(x.referensiId||x.judul),x])).values()];sel.innerHTML='<option value="all">Semua nilai</option>'+opts.map(x=>`<option value="${esc((x.referensiTipe||'Penilaian')+'|'+(x.referensiId||x.judul))}">${esc(x.referensiTipe||'Penilaian')} — ${esc(x.judul)}</option>`).join('');const chosen=sel.value||'all',shown=chosen==='all'?mine:mine.filter(x=>(x.referensiTipe||'Penilaian')+'|'+(x.referensiId||x.judul)===chosen);box.innerHTML=shown.map(x=>`<div class="item-card"><div style="display:flex;justify-content:space-between;align-items:center"><span class="ios-pill">${esc(x.mapel||'Mapel')}</span><strong style="font-size:22px;color:var(--accent)">${esc(x.nilai)}</strong></div><h4 style="margin:8px 0 2px;font-size:15px">${esc(x.judul||'Penilaian')}</h4><small>${esc(x.referensiTipe||'Penilaian')}</small></div>`).join('')}onSnapshot(collection(db,'nilai'),snap=>{grades=snap.docs.map(d=>d.data()).sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));render()},e=>q('gradeList').innerHTML='<div class="empty">Gagal memuat nilai: '+esc(e?.message||e)+'</div>');q('gradeSelect').onchange=render;
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import {getFirestore,collection,onSnapshot} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyAv8Jm4XzYPh7xU-Pcy6QmAtbKiVLvuTnw",authDomain:"absensi-xii-tkj3.firebaseapp.com",projectId:"absensi-xii-tkj3",storageBucket:"absensi-xii-tkj3.firebasestorage.app",messagingSenderId:"219267949077",appId:"1:219267949077:web:8cf7d62f31ae1987a6641c"};
+const db=getFirestore(initializeApp(firebaseConfig));
+const q=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+const raw=sessionStorage.getItem('tkj3_session'),session=raw?JSON.parse(raw):{},studentName=session.nama||'',studentUsername=session.username||session.uid||'';
+let grades=[];
+function mine(x){
+  const n=String(x.nama??'').trim().toLowerCase(),u=String(x.username??'').trim().toLowerCase();
+  return (!studentName&&!studentUsername) || n===studentName.trim().toLowerCase() || (!!studentUsername&&u===studentUsername.trim().toLowerCase());
+}
+function render(){
+  const mapel=q('gradeMapel'),sel=q('gradeSelect'),box=q('gradeList');
+  const mineGrades=grades.filter(mine);
+  if(!mineGrades.length){mapel.innerHTML='<option value="all">Belum ada nilai</option>';sel.innerHTML='<option value="all">Belum ada nilai</option>';box.innerHTML='<div class="empty">Belum ada nilai untuk akun ini.</div>';return;}
+  const mapels=[...new Set(mineGrades.map(x=>String(x.mapel||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'id'));
+  const oldMap=mapel.value||'all';
+  mapel.innerHTML='<option value="all">Semua mata pelajaran</option>'+mapels.map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join('');
+  mapel.value=mapels.includes(oldMap)?oldMap:'all';
+  const byMap=mapel.value==='all'?mineGrades:mineGrades.filter(x=>String(x.mapel||'')===mapel.value);
+  const items=[...new Map(byMap.map(x=>{const key=(x.referensiTipe||'Penilaian')+'|'+(x.referensiId||x.judul||x.id);return [key,x]})).values()];
+  const oldSel=sel.value||'all';
+  sel.innerHTML='<option value="all">Semua tugas / materi</option>'+items.map(x=>{const key=(x.referensiTipe||'Penilaian')+'|'+(x.referensiId||x.judul||'');return `<option value="${esc(key)}">${esc(x.referensiTipe||'Penilaian')} — ${esc(x.judul||'Penilaian')}</option>`}).join('');
+  sel.value=[...sel.options].some(o=>o.value===oldSel)?oldSel:'all';
+  const chosen=sel.value;
+  const shown=chosen==='all'?byMap:byMap.filter(x=>(x.referensiTipe||'Penilaian')+'|'+(x.referensiId||x.judul||x.id)===chosen);
+  box.innerHTML=shown.length?shown.map(x=>`<div class="item-card"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span class="ios-pill">${esc(x.mapel||'Mapel')}</span><strong style="font-size:22px;color:var(--accent)">${esc(x.nilai)}</strong></div><h4 style="margin:8px 0 2px;font-size:15px">${esc(x.judul||'Penilaian')}</h4><small>${esc(x.referensiTipe||'Penilaian')}${x.guru?' • '+esc(x.guru):''}</small></div>`).join(''):'<div class="empty">Belum ada nilai untuk pilihan tersebut.</div>';
+}
+onSnapshot(collection(db,'nilai'),snap=>{grades=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>Number(b.updatedAt||b.createdAt||0)-Number(a.updatedAt||a.createdAt||0));render()},e=>{q('gradeList').innerHTML='<div class="empty">Gagal memuat nilai: '+esc(e?.message||e)+'</div>'});
+q('gradeMapel').onchange=()=>{q('gradeSelect').value='all';render()};q('gradeSelect').onchange=render;
 </script>
 </body>
 </html>
