@@ -117,8 +117,8 @@ const studentName = userSession.nama || userSession.username || "Siswa";
 q('submissionStudentName').textContent = studentName;
 
 let activeTasks = [];
-onSnapshot(query(collection(db, "tugas"), orderBy("createdAt", "desc")), snap => {
-  activeTasks = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+onSnapshot(query(collection(db, "tugas")), snap => {
+  activeTasks = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => Number(b.createdAt||0) - Number(a.createdAt||0));
   const taskList = q('taskList'), subMapel = q('subMapel');
   if (!activeTasks.length) { taskList.innerHTML = '<div class="empty">Belum ada tugas dari guru.</div>'; subMapel.innerHTML = '<option value="">Tidak ada tugas aktif</option>'; return; }
   taskList.innerHTML = activeTasks.map(t => `

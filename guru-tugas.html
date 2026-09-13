@@ -109,8 +109,9 @@ function loadTasks() {
   if (unsub) unsub();
   if (!current) return;
   q('taskList').innerHTML = '<div class="empty">Memuat...</div>';
-  unsub = onSnapshot(query(collection(db, 'tugas'), where('mapel', '==', current), orderBy('createdAt', 'desc')), snap => {
-    q('taskList').innerHTML = snap.empty ? '<div class="empty">Belum ada tugas.</div>' : snap.docs.map(d => {
+  unsub = onSnapshot(query(collection(db, 'tugas'), where('mapel', '==', current)), snap => {
+    const docs = [...snap.docs].sort((a,b) => Number(b.data().createdAt||0) - Number(a.data().createdAt||0));
+    q('taskList').innerHTML = snap.empty ? '<div class="empty">Belum ada tugas.</div>' : docs.map(d => {
       const x = d.data();
       return `<article class="item-card">
         <span class="ios-pill blue">${esc(x.mapel)}</span>
@@ -122,7 +123,7 @@ function loadTasks() {
       </article>`;
     }).join('');
     q('taskList').querySelectorAll('[data-del]').forEach(b => b.onclick = async () => { if (confirm('Hapus tugas ini?')) await deleteDoc(doc(db, 'tugas', b.dataset.del)); });
-  }, () => { q('taskList').innerHTML = '<div class="empty">Gagal memuat tugas.</div>'; });
+  }, err => { console.error('Load tugas:', err); q('taskList').innerHTML = '<div class="empty">Gagal memuat tugas: '+esc(err?.message||err)+'</div>'; });
 }
 
 async function loadTeacherSubjects(teacherUid, teacherSubjects) {
@@ -168,7 +169,9 @@ q('saveTask').onclick = async () => {
       });
       attachmentUrl=blob.url; attachmentName=photo.name;
     }
-    await addDoc(collection(db, 'tugas'), { judul:title, deskripsi:desc, deadline, fileUrl, attachmentUrl, attachmentName, mapel:current, guruUid:uid, guru:teacher, createdAt:Date.now() });
+    const ref = await addDoc(collection(db, 'tugas'), { judul:title, deskripsi:desc, deadline, fileUrl, attachmentUrl, attachmentName, mapel:current, guruUid:uid, guru:teacher, createdAt:Date.now() });
+    console.log('Tugas berhasil dibuat:', ref.id);
+    alert('Tugas berhasil diterbitkan dan akan muncul di akun siswa.');
     ['taskTitle','taskDesc','taskDeadline','taskFile','taskPhoto'].forEach(x => { if(q(x)) q(x).value=''; });
   } catch(e){ alert('Tugas gagal diterbitkan: '+(e.message||e)); }
   finally { q('saveTask').disabled = false; q('saveTask').textContent = 'Terbitkan Tugas'; }

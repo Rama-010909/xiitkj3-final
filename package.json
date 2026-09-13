@@ -1,6 +1,57 @@
 {
-  "name":"xii-tkj3-gallery-vercel",
-  "version":"1.0.0",
-  "private":true,
-  "dependencies":{"@vercel/blob":"2.6.1"}
+  "name": "xii-tkj3-app",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@vercel/blob": "2.6.1"
+  },
+  "scripts": {
+    "android:add": "npx cap add android",
+    "android:sync": "npx cap sync android",
+    "android:open": "npx cap open android",
+    "android:build:debug": "npx cap build android --androidreleasetype APK",
+    "build:windows": "electron-builder --win nsis",
+    "start:windows": "electron native/windows/main.cjs"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/android": "^8.0.0",
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.0"
+  },
+  "capacitor": {
+    "appId": "id.smknubandar.xiitkj3",
+    "appName": "XII TKJ 3"
+  },
+  "main": "native/windows/main.cjs",
+  "build": {
+    "appId": "id.smknubandar.xiitkj3.desktop",
+    "productName": "XII TKJ 3",
+    "files": [
+      "native/windows/**/*",
+      "assets/**/*",
+      "*.html",
+      "*.js",
+      "*.json",
+      "*.webmanifest",
+      "sw.js",
+      "api/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/pwa/icon-512.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
 }
